@@ -1,0 +1,1719 @@
+@extends('layouts.app')
+
+@section('title', 'Data Absensi Bawahan')
+
+@section('content')
+    <div class="atasan-attendance-page">
+
+        <header class="atasan-attendance-heading">
+            <div>
+                <h1>
+                    <span class="atasan-attendance-heading-icon"><i class="fa-solid fa-clipboard-check"></i></span>
+                    Data Absensi {{ $jenisPegawai }}
+                </h1>
+                <p>Pantau kehadiran {{ strtolower($jenisPegawai) }} yang berada di bawah tanggung jawab Anda.</p>
+            </div>
+        </header>
+
+
+
+
+        @php
+            $chartStats = [
+                ['label' => 'Hadir', 'count' => $ringkasan['hadir'], 'class' => 'chart-present'],
+                ['label' => 'Izin', 'count' => $ringkasan['izin'], 'class' => 'chart-permission'],
+                ['label' => 'Sakit', 'count' => $ringkasan['sakit'], 'class' => 'chart-sick'],
+                ['label' => 'Alpa', 'count' => $ringkasan['alpa'], 'class' => 'chart-absent'],
+                ['label' => 'Telat', 'count' => $ringkasan['telat'], 'class' => 'chart-late'],
+            ];
+            $chartMax = max(5, (int) (ceil(max(array_column($chartStats, 'count')) / 5) * 5));
+            $chartMid = (int) ceil($chartMax / 2);
+        @endphp
+        <section class="atasan-attendance-summary" aria-labelledby="attendance-summary-title">
+            <div class="atasan-attendance-summary-head">
+                <span id="attendance-summary-title"><i class="fa-solid fa-chart-simple"></i> RINGKASAN KEHADIRAN</span>
+                <span class="atasan-attendance-employee-count"><i class="fa-solid fa-users"></i>
+                    {{ $jumlahPegawai }} {{ $jenisPegawai }} Terdaftar</span>
+            </div>
+            <div class="atasan-attendance-summary-grid">
+                <div class="atasan-attendance-chart">
+                    <div class="atasan-attendance-chart-head">
+                        <strong><i class="fa-solid fa-circle"></i> Statistik Presensi</strong>
+                        <span>Total: {{ $hariKerja }} Hari Kerja</span>
+                    </div>
+                    <small class="atasan-attendance-chart-period">Periode
+                        {{ \Carbon\Carbon::create($tahun, $bulan, 1)->translatedFormat('F Y') }}</small>
+                    <div class="atasan-attendance-chart-body" role="img"
+                        aria-label="Grafik presensi: Hadir {{ $ringkasan['hadir'] }}, Izin {{ $ringkasan['izin'] }}, Sakit {{ $ringkasan['sakit'] }}, Alpa {{ $ringkasan['alpa'] }}, Telat {{ $ringkasan['telat'] }}">
+                        <div class="atasan-attendance-chart-axis" aria-hidden="true">
+                            <span>{{ $chartMax }}</span>
+                            <span>{{ $chartMid }}</span>
+                            <span>0</span>
+                        </div>
+                        <div class="atasan-attendance-chart-bars">
+                            <span class="chart-gridline chart-gridline-top" aria-hidden="true"></span>
+                            <span class="chart-gridline chart-gridline-middle" aria-hidden="true"></span>
+                            <span class="chart-gridline chart-gridline-bottom" aria-hidden="true"></span>
+                            @foreach ($chartStats as $stat)
+                                @php($barHeight = $stat['count'] > 0 ? ($stat['count'] / $chartMax) * 100 : 0)
+                                <div class="atasan-attendance-chart-column">
+                                    <div class="atasan-attendance-chart-bar-area">
+                                        <strong style="--bar-height: {{ $barHeight }}%">{{ $stat['count'] }}</strong>
+                                        <span class="atasan-attendance-chart-bar {{ $stat['class'] }}"
+                                            style="--bar-height: {{ $barHeight }}%"></span>
+                                    </div>
+                                    <span class="atasan-attendance-chart-label">{{ $stat['label'] }}</span>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                @foreach ($chartStats as $stat)
+                    <div class="atasan-attendance-summary-stat {{ $stat['class'] }}">
+                        <strong>{{ $stat['count'] }}</strong>
+                        <span>{{ $stat['label'] }}</span>
+                        <small>
+                            @switch($stat['label'])
+                                @case('Hadir')
+                                    <i class="fa-solid fa-circle-check"></i> Tepat Waktu
+                                @break
+
+                                @case('Izin')
+                                    <i class="fa-solid fa-file-circle-check"></i> Formulir Disetujui
+                                @break
+
+                                @case('Sakit')
+                                    <i class="fa-solid fa-file-medical"></i> Surat Dokter
+                                @break
+
+                                @case('Alpa')
+                                    <i class="fa-solid fa-circle-exclamation"></i> Tanpa Keterangan
+                                @break
+
+                                @case('Telat')
+                                    <i class="fa-regular fa-clock"></i> Lewat Batas Jam
+                                @break
+                            @endswitch
+                        </small>
+                    </div>
+                @endforeach
+            </div>
+        </section>
+
+        <aside class="atasan-attendance-reminder">
+            <span class="atasan-attendance-reminder-icon"><i class="fa-solid fa-bell"></i></span>
+            <div>
+                <strong>Pantau Kehadiran Pegawai</strong>
+                <p>Periksa jam masuk, jam pulang, dan lokasi presensi untuk periode yang dipilih.</p>
+            </div>
+            <span class="atasan-attendance-reminder-period">
+                {{ \Carbon\Carbon::create($tahun, $bulan, 1)->translatedFormat('F Y') }}
+            </span>
+        </aside>
+
+        <form class="atasan-attendance-filter" method="GET" action="{{ route($routePrefix . '.absensi.index') }}">
+            <label class="atasan-attendance-search">
+                <span>Pencarian Pegawai</span>
+                <div><i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="search" name="search" value="{{ $search }}"
+                        placeholder="Cari nama, NIK, atau jabatan...">
+                </div>
+            </label>
+            <div class="atasan-attendance-filter-row">
+                <label><span>Bulan</span><select name="bulan">
+                        @for ($month = 1; $month <= 12; $month++)
+                            <option value="{{ $month }}" @selected($bulan === $month)>
+                                {{ \Carbon\Carbon::create()->month($month)->translatedFormat('F') }}</option>
+                        @endfor
+                    </select></label>
+                <label><span>Tahun</span><select name="tahun">
+                        @for ($year = now()->year - 2; $year <= now()->year + 1; $year++)
+                            <option value="{{ $year }}" @selected($tahun === $year)>{{ $year }}</option>
+                        @endfor
+                    </select></label>
+                <label><span>Status</span><select name="status">
+                        <option value="">Semua</option>
+                        <option value="hadir" @selected($status === 'hadir')>Hadir</option>
+                        <option value="izin" @selected($status === 'izin')>Izin</option>
+                        <option value="sakit" @selected($status === 'sakit')>Sakit</option>
+                        <option value="alpa" @selected($status === 'alpa')>Alpa</option>
+                        <option value="tidak_hadir" @selected($status === 'tidak_hadir')>Tidak hadir</option>
+                        <option value="cuti" @selected($status === 'cuti')>Cuti</option>
+                        <option value="dinas_luar" @selected($status === 'dinas_luar')>Dinas luar</option>
+                    </select></label>
+                <button type="submit"><i class="fa-solid fa-filter"></i> Terapkan</button>
+                @if ($search || $status)
+                    <a class="atasan-attendance-filter-reset"
+                        href="{{ route($routePrefix . '.absensi.index', ['bulan' => $bulan, 'tahun' => $tahun]) }}"
+                        aria-label="Reset pencarian dan status"><i class="fa-solid fa-rotate-left"></i></a>
+                @endif
+            </div>
+        </form>
+
+        <div class="atasan-attendance-list-heading">
+            <div>
+                <h2>Rekap Presensi Harian Pegawai</h2>
+                <p>Daftar presensi {{ strtolower($jenisPegawai) }} terdaftar pada unit kerja Anda.</p>
+            </div>
+            <span>Menampilkan {{ $pegawais->firstItem() ?? 0 }}–{{ $pegawais->lastItem() ?? 0 }}
+                dari {{ $pegawais->total() }} pegawai</span>
+        </div>
+
+        <div class="atasan-attendance-list atasan-attendance-mobile-list">
+            @forelse ($pegawais as $pegawai)
+                @php($absensi = $pegawai->absensis->first())
+                @php($statusCounts = $pegawai->absensis->groupBy('status')->map->count())
+                @php(
+    $statusLabel = $absensi
+        ? match ($absensi->status) {
+            'hadir' => 'Hadir',
+            'izin' => 'Izin',
+            'cuti' => 'Cuti',
+            'sakit' => 'Sakit',
+            'dinas_luar' => 'Dinas Luar',
+            'alpa', 'tidak_hadir' => 'Tidak Hadir',
+            default => 'Tidak Hadir'
+        }
+        : 'Belum ada data'
+)
+                @php(
+    $statusClass = $absensi
+        ? match ($absensi->status) {
+            'hadir' => 'is-present',
+            'izin' => 'is-permission',
+            'cuti' => 'is-leave',
+            'sakit' => 'is-sick',
+            'dinas_luar' => 'is-duty',
+            default => 'is-absent'
+        }
+        : 'is-empty'
+)
+                <article class="atasan-attendance-card">
+                    <div class="atasan-attendance-employee">
+                        <span class="atasan-attendance-avatar">{{ strtoupper(substr($pegawai->nama, 0, 2)) }}</span>
+                        <div>
+                            <h3>{{ $pegawai->nama }}</h3>
+                            <p>{{ $pegawai->jabatan->nama_jabatan ?? 'Pegawai' }}</p>
+                        </div>
+                        <span class="atasan-attendance-status {{ $statusClass }}"><i class="fa-solid fa-circle"></i>
+                            {{ $statusLabel }}</span>
+                    </div>
+                    <div class="atasan-attendance-data">
+                        <div><span><i class="fa-regular fa-clock"></i> Jam
+                                masuk</span><strong>{{ $absensi?->jam_masuk ? \Carbon\Carbon::parse($absensi->jam_masuk)->format('H:i') : '-' }}</strong>
+                        </div>
+                        <div><span><i class="fa-solid fa-right-from-bracket"></i> Jam
+                                pulang</span><strong>{{ $absensi?->jam_pulang ? \Carbon\Carbon::parse($absensi->jam_pulang)->format('H:i') : '-' }}</strong>
+                        </div>
+                        <div><span><i class="fa-solid fa-location-dot"></i> Jarak
+                                GPS</span><strong>{{ $absensi?->jarak_lokasi !== null ? number_format($absensi->jarak_lokasi, 0, ',', '.') . ' m' : '-' }}</strong>
+                        </div>
+                    </div>
+                    @if ($absensi)
+                        <p class="atasan-attendance-location {{ $absensi->di_luar_kantor ? 'is-outside' : 'is-inside' }}">
+                            <i
+                                class="fa-solid {{ $absensi->di_luar_kantor ? 'fa-triangle-exclamation' : 'fa-circle-check' }}"></i>
+                            Lokasi terdeteksi {{ $absensi->di_luar_kantor ? 'di luar' : 'di dalam' }} area kantor
+                        </p>
+                    @endif
+                    <div class="atasan-attendance-statuses">
+                        <span class="atasan-attendance-statuses-label">Rekap status periode ini</span>
+                        <div class="atasan-attendance-statuses-list">
+                            @foreach ([
+            'hadir' => ['Hadir', 'is-present'],
+            'izin' => ['Izin', 'is-permission'],
+            'sakit' => ['Sakit', 'is-sick'],
+            'cuti' => ['Cuti', 'is-leave'],
+            'dinas_luar' => ['Dinas luar', 'is-duty'],
+            'alpa' => ['Alpa', 'is-absent'],
+            'tidak_hadir' => ['Tidak hadir', 'is-absent'],
+        ] as $statusKey => [$label, $class])
+                                @if (($statusCounts[$statusKey] ?? 0) > 0)
+                                    <span class="atasan-status-count {{ $class }}">{{ $label }}
+                                        <b>{{ $statusCounts[$statusKey] }}</b></span>
+                                @endif
+                            @endforeach
+                            @if ($statusCounts->isEmpty())
+                                <span class="atasan-status-none">Belum ada status absensi pada periode ini</span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="atasan-attendance-footer">
+                        <span><i class="fa-regular fa-calendar"></i>
+                            {{ $absensi?->tanggal?->translatedFormat('d F Y') ?? 'Belum melakukan absensi pada periode ini' }}</span>
+                    </div>
+                </article>
+            @empty
+                <div class="atasan-attendance-empty"><i class="fa-regular fa-calendar-xmark"></i><strong>Data pegawai
+                        tidak
+                        ditemukan</strong><span>Coba ubah kata kunci atau filter periode absensi.</span></div>
+            @endforelse
+        </div>
+
+        <div class="atasan-attendance-table-wrap">
+            <table class="atasan-attendance-table" id="attendanceTable">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>{{ $jenisPegawai }} &amp; Jabatan</th>
+                        <th>Tanggal</th>
+                        <th>Jam Masuk</th>
+                        <th>Jam Pulang</th>
+                        <th>Status Kehadiran</th>
+                        <th>Rekap Periode Ini</th>
+                        <th>Verifikasi</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @forelse ($pegawais as $pegawai)
+                        @php($absensi = $pegawai->absensis->first())
+                        @php($statusCounts = $pegawai->absensis->groupBy('status')->map->count())
+                        @php(
+    $statusLabel = $absensi
+        ? match ($absensi->status) {
+            'hadir' => 'Hadir',
+            'izin' => 'Izin',
+            'cuti' => 'Cuti',
+            'sakit' => 'Sakit',
+            'dinas_luar' => 'Dinas Luar',
+            'alpa', 'tidak_hadir' => 'Tidak Hadir',
+            default => 'Tidak Hadir'
+        }
+        : 'Belum ada data'
+)
+                        @php(
+    $statusClass = $absensi
+        ? match ($absensi->status) {
+            'hadir' => 'is-present',
+            'izin' => 'is-permission',
+            'cuti' => 'is-leave',
+            'sakit' => 'is-sick',
+            'dinas_luar' => 'is-duty',
+            default => 'is-absent'
+        }
+        : 'is-empty'
+)
+                        <tr>
+                            <td class="attendance-row-number">{{ ($pegawais->firstItem() ?? 1) + $loop->index }}</td>
+                            <td>
+                                <div class="attendance-table-employee">
+                                    <span
+                                        class="atasan-attendance-avatar">{{ strtoupper(substr($pegawai->nama, 0, 2)) }}</span>
+                                    <span><strong>{{ $pegawai->nama }}</strong><small>{{ $pegawai->jabatan->nama_jabatan ?? 'Pegawai' }}</small></span>
+                                </div>
+                            </td>
+                            <td>{{ $absensi?->tanggal?->translatedFormat('d M Y') ?? '-' }}</td>
+                            <td><span
+                                    class="attendance-time">{{ $absensi?->jam_masuk ? \Carbon\Carbon::parse($absensi->jam_masuk)->format('H:i') : '-' }}</span>
+                            </td>
+                            <td><span
+                                    class="attendance-time">{{ $absensi?->jam_pulang ? \Carbon\Carbon::parse($absensi->jam_pulang)->format('H:i') : '-' }}</span>
+                            </td>
+                            <td><span class="atasan-attendance-status {{ $statusClass }}"><i
+                                        class="fa-solid fa-circle"></i> {{ $statusLabel }}</span></td>
+                            <td>
+                                <div class="attendance-period-counts">
+                                    @foreach ([
+            'hadir' => ['Hadir', 'is-present'],
+            'izin' => ['Izin', 'is-permission'],
+            'sakit' => ['Sakit', 'is-sick'],
+            'cuti' => ['Cuti', 'is-leave'],
+            'dinas_luar' => ['Dinas luar', 'is-duty'],
+            'alpa' => ['Alpa', 'is-absent'],
+            'tidak_hadir' => ['Tidak hadir', 'is-absent'],
+        ] as $statusKey => [$label, $class])
+                                        @if (($statusCounts[$statusKey] ?? 0) > 0)
+                                            <span class="atasan-status-count {{ $class }}">{{ $label }}:
+                                                {{ $statusCounts[$statusKey] }}</span>
+                                        @endif
+                                    @endforeach
+                                    @if ($statusCounts->sum() === 0)
+                                        <span class="attendance-no-record">Belum ada data periode ini</span>
+                                    @endif
+                                </div>
+                            </td>
+                            <td>
+                                @php($verificationStatus = $absensi?->status_verifikasi)
+                                @if ($verificationStatus === 'terverifikasi')
+                                    <span class="attendance-verification-badge is-verified">Terverifikasi</span>
+                                @elseif ($verificationStatus === 'perlu_klarifikasi')
+                                    <span class="attendance-verification-badge is-clarification">Perlu klarifikasi</span>
+                                @else
+                                    <span class="attendance-verification-badge is-pending">Belum diverifikasi</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if ($absensi)
+                                    <a class="attendance-view-employee"
+                                        href="{{ route($routePrefix . '.absensi.show', $absensi) }}"
+                                        aria-label="Verifikasi absensi {{ $pegawai->nama }}"
+                                        title="Lihat detail absensi">
+                                        <i class="fa-regular fa-eye"></i>
+                                    </a>
+                                @else
+                                    <span class="attendance-view-employee is-disabled" title="Belum ada data absensi"
+                                        aria-label="Belum ada data absensi untuk {{ $pegawai->nama }}">
+                                        <i class="fa-regular fa-eye-slash"></i>
+                                    </span>
+                                @endif
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td class="attendance-table-empty" colspan="9">Tidak ada data pegawai yang cocok dengan
+                                filter.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
+        <div class="atasan-attendance-pagination">{{ $pegawais->links('pagination::bootstrap-5') }}</div>
+    </div>
+@endsection
+
+
+
+
+@push('styles')
+    <style>
+        body.role-atasan .atasan-attendance-page {
+            padding: 1rem;
+            color: #17213b
+        }
+
+        .atasan-attendance-breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            margin-bottom: 1rem;
+            color: #7b8ca6;
+            font-size: .72rem
+        }
+
+        .atasan-attendance-breadcrumb a {
+            color: #078ac8
+        }
+
+        .atasan-attendance-breadcrumb span,
+        .atasan-attendance-breadcrumb strong {
+            display: block
+        }
+
+        .atasan-attendance-breadcrumb strong {
+            margin-top: .1rem;
+            color: #243a58;
+            font-size: .78rem
+        }
+
+        .atasan-attendance-heading {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: .7rem;
+            margin-bottom: 1rem
+        }
+
+        .atasan-eyebrow {
+            color: #078ac8;
+            font-size: .61rem;
+            font-weight: 800;
+            letter-spacing: .05em
+        }
+
+        .atasan-eyebrow i {
+            color: #34d399;
+            font-size: .42rem
+        }
+
+        .atasan-attendance-heading h1 {
+            margin: .45rem 0 .3rem;
+            font-size: 1rem;
+            font-weight: 800
+        }
+
+        .atasan-attendance-heading p {
+            max-width: 290px;
+            margin: 0;
+            color: #7789a4;
+            font-size: .74rem;
+            line-height: 1.5
+        }
+
+        .atasan-attendance-period {
+            padding: .4rem .6rem;
+            color: #078ac8;
+            background: #eef9ff;
+            border: 1px solid #cbeeff;
+            border-radius: 10px;
+            font-size: .65rem;
+            font-weight: 700;
+            white-space: nowrap
+        }
+
+        .atasan-attendance-summary {
+            padding: .85rem;
+            color: #fff;
+            background: #0875ad;
+            border-radius: 16px;
+            box-shadow: 0 8px 18px #0c375f1c
+        }
+
+        .atasan-attendance-summary-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: .5rem;
+            padding-bottom: .65rem;
+            color: #e1f2fa;
+            border-bottom: 1px solid #ffffff20;
+            font-size: .72rem;
+            font-weight: 700
+        }
+
+        .atasan-attendance-summary-head i {
+            margin-right: .35rem;
+            color: #65e0bd
+        }
+
+        .atasan-attendance-employee-count {
+            padding: .25rem .55rem;
+            color: #fff;
+            background: #ffffff30;
+            border-radius: 999px;
+            font-size: .62rem;
+            white-space: nowrap
+        }
+
+        .atasan-attendance-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: .4rem;
+            margin-top: .65rem
+        }
+
+        .atasan-attendance-chart {
+            grid-column: 1 / -1;
+            min-width: 0;
+            padding: .7rem;
+            background: #ffffff12;
+            border: 1px solid #ffffff17;
+            border-radius: 12px
+        }
+
+        .atasan-attendance-chart-head {
+            display: flex;
+            justify-content: space-between;
+            gap: .5rem;
+            color: #c4e3f1;
+            font-size: .59rem
+        }
+
+        .atasan-attendance-chart-head strong {
+            color: #e5f4fb;
+            font-weight: 700
+        }
+
+        .atasan-attendance-chart-head span {
+            white-space: nowrap
+        }
+
+        .atasan-attendance-chart-body {
+            display: grid;
+            grid-template-columns: 1rem minmax(0, 1fr);
+            gap: .35rem;
+            margin-top: .45rem
+        }
+
+        .atasan-attendance-chart-axis {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-bottom: 1.05rem;
+            color: #a9cbdc;
+            font-size: .52rem;
+            text-align: right
+        }
+
+        .atasan-attendance-chart-bars {
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            height: 6.4rem;
+            border-bottom: 1px solid #ffffff30
+        }
+
+        .chart-gridline {
+            position: absolute;
+            right: 0;
+            left: 0;
+            border-top: 1px dashed #ffffff1c
+        }
+
+        .chart-gridline-top {
+            top: 0
+        }
+
+        .chart-gridline-middle {
+            top: calc((100% - 1.15rem) / 2)
+        }
+
+        .chart-gridline-bottom {
+            bottom: 1.15rem;
+            border-top-style: solid
+        }
+
+        .atasan-attendance-chart-column {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            min-width: 0;
+            flex-direction: column;
+            justify-content: flex-end;
+            text-align: center
+        }
+
+        .atasan-attendance-chart-bar-area {
+            position: relative;
+            height: 5.25rem
+        }
+
+        .atasan-attendance-chart-bar-area strong {
+            position: absolute;
+            bottom: calc(var(--bar-height) + .15rem);
+            left: 50%;
+            color: #c5e7f5;
+            font-size: .6rem;
+            transform: translateX(-50%)
+        }
+
+        .atasan-attendance-chart-bar {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: min(42%, 1rem);
+            height: var(--bar-height);
+            min-height: 0;
+            border-radius: 3px 3px 0 0;
+            transform: translateX(-50%)
+        }
+
+        .chart-present {
+            --stat-color: #30d0a0
+        }
+
+        .chart-permission {
+            --stat-color: #5cc5f0
+        }
+
+        .chart-sick {
+            --stat-color: #ffc235
+        }
+
+        .chart-absent {
+            --stat-color: #fa7189
+        }
+
+        .chart-late {
+            --stat-color: #ff9848
+        }
+
+        .atasan-attendance-chart-bar {
+            background: var(--stat-color)
+        }
+
+        .atasan-attendance-chart-column:nth-of-type(4) .atasan-attendance-chart-bar-area strong {
+            color: #fa8298
+        }
+
+        .atasan-attendance-chart-column:nth-of-type(5) .atasan-attendance-chart-bar-area strong {
+            color: #ffd062
+        }
+
+        .atasan-attendance-chart-label {
+            display: block;
+            overflow: hidden;
+            padding-top: .35rem;
+            color: #b9d9e8;
+            font-size: .55rem;
+            text-overflow: ellipsis;
+            white-space: nowrap
+        }
+
+        .atasan-attendance-summary-stat {
+            padding: .35rem .15rem;
+            color: var(--stat-color);
+            background: #ffffff17;
+            border: 1px solid #ffffff0d;
+            border-radius: 9px;
+            text-align: center
+        }
+
+        .atasan-attendance-summary-stat strong,
+        .atasan-attendance-summary-stat span {
+            display: block
+        }
+
+        .atasan-attendance-summary-stat strong {
+            font-size: 1rem;
+            line-height: 1.15
+        }
+
+        .atasan-attendance-summary-stat span {
+            margin-top: .15rem;
+            color: #d6ebf4;
+            font-size: .52rem
+        }
+
+        .atasan-attendance-filter {
+            margin: 1rem 0
+        }
+
+        .atasan-attendance-search {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: .3rem;
+            padding: .75rem .85rem;
+            background: #fff;
+            border: 1px solid #dfe7f0;
+            border-radius: 13px
+        }
+
+        .atasan-attendance-search>span {
+            color: #7b8ca6;
+            font-size: .61rem;
+            font-weight: 700
+        }
+
+        .atasan-attendance-search>div {
+            display: flex;
+            align-items: center;
+            gap: .55rem
+        }
+
+        .atasan-attendance-search i {
+            color: #8fa1b9
+        }
+
+        .atasan-attendance-search input {
+            width: 100%;
+            border: 0;
+            outline: 0;
+            font: inherit;
+            color: #27344c;
+            font-size: .75rem
+        }
+
+        .atasan-attendance-filter-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: .55rem;
+            margin-top: .6rem
+        }
+
+        .atasan-attendance-filter-row label {
+            display: flex;
+            flex-direction: column;
+            gap: .25rem
+        }
+
+        .atasan-attendance-filter-row label span {
+            color: #7b8ca6;
+            font-size: .61rem;
+            font-weight: 700
+        }
+
+        .atasan-attendance-filter-row select,
+        .atasan-attendance-filter-row button {
+            min-height: 2.25rem;
+            padding: .4rem .55rem;
+            border: 1px solid #dfe7f0;
+            border-radius: 10px;
+            background: #fff;
+            color: #34435b;
+            font: inherit;
+            font-size: .68rem
+        }
+
+        .atasan-attendance-filter-row button {
+            align-self: end;
+            border-color: #078ac8;
+            background: #078ac8;
+            color: #fff;
+            font-weight: 700
+        }
+
+        .atasan-attendance-list-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 1.1rem .1rem .65rem
+        }
+
+        .atasan-attendance-list-heading h2 {
+            margin: 0;
+            color: #667994;
+            font-size: .76rem;
+            text-transform: uppercase
+        }
+
+        .atasan-attendance-list-heading span {
+            color: #8a9ab4;
+            font-size: .65rem
+        }
+
+        .atasan-attendance-list {
+            display: grid;
+            gap: .7rem
+        }
+
+        .atasan-attendance-card {
+            overflow: hidden;
+            background: #fff;
+            border: 1px solid #dfe7f0;
+            border-radius: 17px;
+            box-shadow: 0 4px 12px #2434550b
+        }
+
+        .atasan-attendance-employee {
+            display: flex;
+            align-items: center;
+            gap: .65rem;
+            padding: .9rem
+        }
+
+        .atasan-attendance-avatar {
+            display: grid;
+            place-items: center;
+            width: 45px;
+            height: 45px;
+            flex: none;
+            color: #fff;
+            background: linear-gradient(145deg, #4f46e5, #0ea5e9);
+            border-radius: 13px;
+            font-size: .76rem;
+            font-weight: 800
+        }
+
+        .atasan-attendance-employee>div {
+            min-width: 0;
+            flex: 1
+        }
+
+        .atasan-attendance-employee h3 {
+            margin: 0;
+            overflow: hidden;
+            font-size: .8rem;
+            text-overflow: ellipsis;
+            white-space: nowrap
+        }
+
+        .atasan-attendance-employee p,
+        .atasan-attendance-employee small {
+            display: block;
+            margin: .15rem 0 0;
+            color: #078ac8;
+            font-size: .64rem
+        }
+
+        .atasan-attendance-employee small {
+            color: #8a9ab4
+        }
+
+        .atasan-attendance-status {
+            padding: .3rem .42rem;
+            border-radius: 8px;
+            font-size: .57rem;
+            font-weight: 700;
+            white-space: nowrap
+        }
+
+        .atasan-attendance-status i {
+            font-size: .4rem
+        }
+
+        .is-present {
+            color: #07966b;
+            background: #eafbf4
+        }
+
+        .is-permission {
+            color: #b77908;
+            background: #fff7dc
+        }
+
+        .is-sick {
+            color: #c47708;
+            background: #fff3d6
+        }
+
+        .is-leave {
+            color: #64748b;
+            background: #f1f5f9
+        }
+
+        .is-duty {
+            color: #2563eb;
+            background: #edf4ff
+        }
+
+        .is-absent {
+            color: #dc4969;
+            background: #fff0f3
+        }
+
+        .is-empty {
+            color: #8090a7;
+            background: #f2f5f8
+        }
+
+        .atasan-attendance-data {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            border-top: 1px solid #edf1f6;
+            border-bottom: 1px solid #edf1f6
+        }
+
+        .atasan-attendance-data div {
+            padding: .65rem .55rem;
+            border-right: 1px solid #edf1f6
+        }
+
+        .atasan-attendance-data div:last-child {
+            border-right: 0
+        }
+
+        .atasan-attendance-location {
+            margin: 0;
+            padding: .6rem .9rem;
+            font-size: .72rem;
+            font-weight: 700
+        }
+
+        .atasan-attendance-location.is-outside {
+            color: #a16207;
+            background: #fff7df
+        }
+
+        .atasan-attendance-location.is-inside {
+            color: #087f5b;
+            background: #eafbf4
+        }
+
+        .atasan-attendance-statuses {
+            padding: .65rem .9rem;
+            border-bottom: 1px solid #edf1f6
+        }
+
+        .atasan-attendance-statuses-label {
+            display: block;
+            margin-bottom: .4rem;
+            color: #93a3bb;
+            font-size: .58rem
+        }
+
+        .atasan-attendance-statuses-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .35rem
+        }
+
+        .atasan-status-count,
+        .atasan-status-none {
+            padding: .28rem .42rem;
+            border-radius: 7px;
+            font-size: .58rem;
+            font-weight: 700
+        }
+
+        .atasan-status-count b {
+            margin-left: .15rem;
+            font-size: .64rem
+        }
+
+        .atasan-status-none {
+            color: #8090a7;
+            background: #f2f5f8;
+            font-weight: 500
+        }
+
+        .atasan-attendance-data span,
+        .atasan-attendance-data strong {
+            display: block
+        }
+
+        .atasan-attendance-data span {
+            color: #93a3bb;
+            font-size: .58rem
+        }
+
+        .atasan-attendance-data span i {
+            margin-right: .15rem;
+            color: #078ac8
+        }
+
+        .atasan-attendance-data strong {
+            margin-top: .25rem;
+            color: #34435b;
+            font-size: .75rem
+        }
+
+        .atasan-attendance-footer {
+            display: flex;
+            justify-content: space-between;
+            gap: .5rem;
+            padding: .65rem .9rem;
+            color: #8a9ab4;
+            font-size: .6rem
+        }
+
+        .atasan-attendance-footer span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap
+        }
+
+        .atasan-attendance-footer a {
+            color: #078ac8;
+            text-decoration: none;
+            font-weight: 700;
+            white-space: nowrap
+        }
+
+        .atasan-attendance-empty {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: .35rem;
+            padding: 2rem 1rem;
+            color: #8a9ab4;
+            background: #fff;
+            border: 1px dashed #cbd8e6;
+            border-radius: 17px;
+            text-align: center
+        }
+
+        .atasan-attendance-empty i {
+            font-size: 1.7rem;
+            color: #9bb1c8
+        }
+
+        .atasan-attendance-empty strong {
+            color: #536682;
+            font-size: .78rem
+        }
+
+        .atasan-attendance-empty span {
+            font-size: .68rem
+        }
+
+        .atasan-attendance-pagination {
+            margin-top: 1rem
+        }
+
+        .atasan-attendance-heading-icon {
+            display: inline-grid;
+            place-items: center;
+            width: 1.8rem;
+            height: 1.8rem;
+            margin-right: .25rem;
+            color: #2563eb;
+            background: #eaf2ff;
+            border-radius: .6rem;
+            font-size: .9rem;
+            vertical-align: middle;
+        }
+
+        .atasan-attendance-heading-actions,
+        .atasan-attendance-table-wrap,
+        .atasan-attendance-reminder {
+            display: none;
+        }
+
+        .atasan-attendance-summary-stat small {
+            display: none;
+        }
+
+        @media(max-width:390px) {
+            .atasan-attendance-summary {
+                padding: .7rem
+            }
+
+            .atasan-attendance-chart {
+                padding: .55rem
+            }
+
+            .atasan-attendance-employee {
+                align-items: flex-start;
+                flex-wrap: wrap
+            }
+
+            .atasan-attendance-status {
+                margin-left: 3.1rem;
+                margin-top: -.3rem
+            }
+        }
+
+        @media (min-width: 992px) {
+            body.desktop-atasan-attendance.role-atasan .main-content>div.atasan-attendance-page {
+                max-width: 1600px;
+                margin: 0 auto;
+                padding: 1rem clamp(1.25rem, 1.8vw, 2rem) 2rem;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-heading {
+                align-items: center;
+                margin-bottom: 1rem;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-heading h1 {
+                display: flex;
+                align-items: center;
+                gap: .45rem;
+                margin: 0 0 .25rem;
+                color: #17213b;
+                font-size: 1.2rem;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-heading-icon {
+                flex: 0 0 1.8rem;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-heading-actions {
+                display: flex;
+                gap: .5rem;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-heading p {
+                max-width: none;
+                margin-left: 2.2rem;
+                font-size: .72rem;
+            }
+
+            body.desktop-atasan-attendance .attendance-export-button,
+            body.desktop-atasan-attendance .attendance-print-button {
+                display: inline-flex;
+                align-items: center;
+                gap: .4rem;
+                min-height: 2.1rem;
+                padding: .4rem .65rem;
+                color: #34435b;
+                background: #fff;
+                border: 1px solid #e1e8f0;
+                border-radius: 8px;
+                font: inherit;
+                font-size: .65rem;
+                font-weight: 600;
+            }
+
+            body.desktop-atasan-attendance .attendance-export-button i {
+                color: #10a36a;
+            }
+
+            body.desktop-atasan-attendance .attendance-print-button i {
+                color: #ef476f;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-summary {
+                padding: 0;
+                color: #17213b;
+                background: transparent;
+                border-radius: 0;
+                box-shadow: none;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-summary-head {
+                padding: 0 0 .55rem;
+                color: #243a58;
+                border: 0;
+                font-size: .65rem;
+                letter-spacing: .04em;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-summary-head i {
+                color: #2563eb;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-employee-count {
+                padding: .3rem .55rem;
+                color: #2563eb;
+                background: #eef4ff;
+                font-size: .61rem;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-summary-grid {
+                grid-template-columns: minmax(250px, .9fr) repeat(5, minmax(105px, 1fr));
+                gap: .65rem;
+                margin-top: 0;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-chart {
+                grid-column: auto;
+                padding: .8rem;
+                color: #17213b;
+                background: #fff;
+                border: 1px solid #e3eaf3;
+                border-radius: 11px;
+                box-shadow: 0 2px 8px #24345508;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-chart-head {
+                align-items: center;
+                color: #243a58;
+                font-size: .61rem;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-chart-head strong {
+                color: #243a58;
+                font-size: .65rem;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-chart-head strong i {
+                margin-right: .2rem;
+                color: #2563eb;
+                font-size: .5rem;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-chart-period {
+                display: block;
+                margin-top: .18rem;
+                color: #8090a7;
+                font-size: .55rem;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-chart-body {
+                grid-template-columns: .8rem minmax(0, 1fr);
+                gap: .35rem;
+                margin-top: .25rem;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-chart-axis {
+                padding-bottom: .95rem;
+                color: #8a9ab4;
+                font-size: .48rem;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-chart-bars {
+                height: 6rem;
+                border-color: #e5eaf1;
+            }
+
+            body.desktop-atasan-attendance .chart-gridline {
+                border-color: #e9edf3;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-chart-bar-area {
+                height: 4.9rem;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-chart-bar-area strong,
+            body.desktop-atasan-attendance .atasan-attendance-chart-label {
+                color: #65758d;
+                font-size: .5rem;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-summary-stat {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                min-width: 0;
+                min-height: 6.4rem;
+                padding: .65rem .6rem;
+                color: #17213b;
+                background: #fff;
+                border: 1px solid #e3eaf3;
+                border-top: 2px solid var(--stat-color);
+                border-radius: 9px;
+                box-shadow: 0 2px 8px #24345508;
+                text-align: left;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-summary-stat strong {
+                color: #14213d;
+                font-size: 1.2rem;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-summary-stat span {
+                margin-top: .2rem;
+                color: #54657f;
+                font-size: .58rem;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-summary-stat small {
+                display: block;
+                margin-top: auto;
+                padding-top: .5rem;
+                color: #8291a7;
+                font-size: .48rem;
+                line-height: 1.35;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-summary-stat small i {
+                color: var(--stat-color);
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-reminder {
+                display: flex;
+                align-items: center;
+                gap: .65rem;
+                margin-top: .65rem;
+                padding: .55rem .7rem;
+                color: #1d3768;
+                background: #eef4ff;
+                border: 1px solid #dfe9ff;
+                border-radius: 9px;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-reminder-icon {
+                display: grid;
+                place-items: center;
+                width: 1.8rem;
+                height: 1.8rem;
+                flex: 0 0 1.8rem;
+                color: #fff;
+                background: #2563eb;
+                border-radius: 7px;
+                font-size: .7rem;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-reminder div {
+                min-width: 0;
+                flex: 1;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-reminder strong {
+                display: block;
+                font-size: .65rem;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-reminder p {
+                margin: .1rem 0 0;
+                color: #7185ad;
+                font-size: .56rem;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-reminder-period {
+                color: #2563eb;
+                font-size: .58rem;
+                font-weight: 700;
+                white-space: nowrap;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-filter {
+                display: grid;
+                grid-template-columns: minmax(210px, 1.4fr) minmax(0, 2.6fr);
+                align-items: end;
+                gap: .65rem;
+                margin: .8rem 0;
+                padding: .65rem;
+                background: #fff;
+                border: 1px solid #e3eaf3;
+                border-radius: 11px;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-search {
+                display: flex;
+                flex-direction: column;
+                width: auto;
+                min-height: 0;
+                gap: .25rem;
+                padding: 0;
+                background: transparent;
+                border: 0;
+                border-radius: 0;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-search>span,
+            body.desktop-atasan-attendance .atasan-attendance-filter-row label>span {
+                color: #33435e;
+                font-size: .58rem;
+                font-weight: 700;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-search>div {
+                display: flex;
+                align-items: center;
+                gap: .4rem;
+                min-height: 2rem;
+                padding: 0 .55rem;
+                border: 1px solid #e0e7f0;
+                border-radius: 7px;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-search>div i {
+                color: #91a0b5;
+                font-size: .6rem;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-filter-row {
+                grid-template-columns: repeat(3, minmax(90px, 1fr)) auto auto;
+                gap: .5rem;
+                margin-top: 0;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-filter-row label span {
+                font-size: .58rem;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-filter-row select,
+            body.desktop-atasan-attendance .atasan-attendance-filter-row button {
+                min-height: 2rem;
+                padding: .3rem .45rem;
+                border-radius: 7px;
+                font-size: .6rem;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-filter-row button {
+                white-space: nowrap;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-filter-reset {
+                display: grid;
+                place-items: center;
+                align-self: end;
+                width: 2rem;
+                height: 2rem;
+                color: #64748b;
+                background: #fff;
+                border: 1px solid #dfe7f0;
+                border-radius: 7px;
+                text-decoration: none;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-list-heading {
+                margin: .9rem .1rem .55rem;
+                align-items: flex-end;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-list-heading h2 {
+                color: #243a58;
+                font-size: .82rem;
+                text-transform: none;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-list-heading p {
+                margin: .15rem 0 0;
+                color: #8090a7;
+                font-size: .58rem;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-list-heading span {
+                padding: .25rem .4rem;
+                color: #64748b;
+                background: #f1f5f9;
+                border-radius: 5px;
+                font-size: .55rem;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-mobile-list {
+                display: none;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-table-wrap {
+                display: block;
+                overflow-x: auto;
+                background: #fff;
+                border: 1px solid #e3eaf3;
+                border-radius: 11px;
+                box-shadow: 0 2px 8px #24345508;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-table {
+                width: 100%;
+                min-width: 1040px;
+                border-collapse: separate;
+                border-spacing: 0;
+                color: #24344e;
+                font-size: .58rem;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-table th {
+                padding: .6rem .45rem;
+                color: #65758d;
+                background: #f8fafc;
+                border-bottom: 1px solid #e7edf4;
+                font-size: .5rem;
+                font-weight: 700;
+                text-align: left;
+                text-transform: uppercase;
+                white-space: nowrap;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-table td {
+                padding: .55rem .45rem;
+                border-bottom: 1px solid #edf1f6;
+                vertical-align: middle;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-table tbody tr:last-child td {
+                border-bottom: 0;
+            }
+
+            body.desktop-atasan-attendance .attendance-row-number {
+                width: 34px;
+                color: #8a9ab4;
+                text-align: center;
+            }
+
+            body.desktop-atasan-attendance .attendance-table-employee {
+                display: flex;
+                align-items: center;
+                gap: .45rem;
+                min-width: 150px;
+            }
+
+            body.desktop-atasan-attendance .attendance-table-employee .atasan-attendance-avatar {
+                width: 1.65rem;
+                height: 1.65rem;
+                flex: 0 0 1.65rem;
+                border-radius: .45rem;
+                font-size: .53rem;
+            }
+
+            body.desktop-atasan-attendance .attendance-table-employee strong,
+            body.desktop-atasan-attendance .attendance-table-employee small {
+                display: block;
+                max-width: 145px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            body.desktop-atasan-attendance .attendance-table-employee strong {
+                color: #24344e;
+                font-size: .58rem;
+            }
+
+            body.desktop-atasan-attendance .attendance-table-employee small {
+                margin-top: .1rem;
+                color: #71839e;
+                font-size: .48rem;
+            }
+
+            body.desktop-atasan-attendance .attendance-time {
+                display: inline-block;
+                min-width: 2.5rem;
+                padding: .2rem .25rem;
+                color: #33435e;
+                background: #f1f5f9;
+                border-radius: 4px;
+                text-align: center;
+            }
+
+            body.desktop-atasan-attendance .attendance-location-cell>a,
+            body.desktop-atasan-attendance .attendance-location-cell>span {
+                display: block;
+                color: #526480;
+                text-decoration: none;
+                white-space: nowrap;
+            }
+
+            body.desktop-atasan-attendance .attendance-location-cell>a i,
+            body.desktop-atasan-attendance .attendance-location-cell>span i {
+                color: #2563eb;
+            }
+
+            body.desktop-atasan-attendance .attendance-location-cell small {
+                display: inline-block;
+                margin-top: .2rem;
+                padding: .18rem .25rem;
+                border-radius: 4px;
+                font-size: .46rem;
+            }
+
+            body.desktop-atasan-attendance .attendance-location-cell small.is-inside {
+                color: #078653;
+                background: #eafbf4;
+            }
+
+            body.desktop-atasan-attendance .attendance-location-cell small.is-outside {
+                color: #a16207;
+                background: #fff7df;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-table .atasan-attendance-status {
+                display: inline-block;
+                padding: .24rem .35rem;
+                font-size: .5rem;
+            }
+
+            body.desktop-atasan-attendance .attendance-period-counts {
+                display: flex;
+                flex-wrap: wrap;
+                gap: .2rem;
+                min-width: 74px;
+            }
+
+            body.desktop-atasan-attendance .attendance-period-counts .atasan-status-count {
+                padding: .18rem .25rem;
+                font-size: .46rem;
+            }
+
+            body.desktop-atasan-attendance .attendance-verification-badge {
+                display: inline-flex;
+                align-items: center;
+                padding: .2rem .3rem;
+                border-radius: 5px;
+                font-size: .48rem;
+                font-weight: 700;
+                white-space: nowrap;
+            }
+
+            body.desktop-atasan-attendance .attendance-verification-badge.is-verified {
+                color: #078653;
+                background: #eafbf4;
+            }
+
+            body.desktop-atasan-attendance .attendance-verification-badge.is-clarification {
+                color: #a16207;
+                background: #fff7df;
+            }
+
+            body.desktop-atasan-attendance .attendance-verification-badge.is-pending {
+                color: #64748b;
+                background: #f1f5f9;
+            }
+
+            body.desktop-atasan-attendance .attendance-no-record {
+                color: #8291a7;
+                font-size: .5rem;
+            }
+
+            body.desktop-atasan-attendance .attendance-view-employee {
+                display: grid;
+                place-items: center;
+                width: 1.6rem;
+                height: 1.6rem;
+                color: #64748b;
+                background: #f8fafc;
+                border: 1px solid #e4eaf2;
+                border-radius: 5px;
+                text-decoration: none;
+            }
+
+            body.desktop-atasan-attendance .attendance-table-empty {
+                padding: 2rem !important;
+                color: #8291a7;
+                text-align: center;
+            }
+        }
+
+        @media (min-width: 992px) and (max-width: 1199.98px) {
+            body.desktop-atasan-attendance .atasan-attendance-summary-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-chart {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (min-width: 1440px) {
+            body.desktop-atasan-attendance .atasan-attendance-summary-grid {
+                grid-template-columns: minmax(250px, .9fr) repeat(5, minmax(105px, 1fr));
+            }
+        }
+
+        @media print {
+            body.desktop-atasan-attendance {
+                background: #fff;
+            }
+
+            body.desktop-atasan-attendance .navbar-sikinerja,
+            body.desktop-atasan-attendance .sidebar,
+            body.desktop-atasan-attendance .mobile-bottom-nav,
+            body.desktop-atasan-attendance .footer-sikinerja,
+            body.desktop-atasan-attendance .atasan-attendance-heading-actions,
+            body.desktop-atasan-attendance .atasan-attendance-filter,
+            body.desktop-atasan-attendance .atasan-attendance-reminder,
+            body.desktop-atasan-attendance .atasan-attendance-pagination,
+            body.desktop-atasan-attendance .attendance-view-employee {
+                display: none !important;
+            }
+
+            body.desktop-atasan-attendance .main-content {
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-page {
+                max-width: none !important;
+                padding: 0 !important;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-summary {
+                display: none;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-mobile-list {
+                display: none !important;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-table-wrap {
+                display: block !important;
+                overflow: visible;
+                border: 0;
+                box-shadow: none;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-table {
+                min-width: 0;
+                font-size: 8pt;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-table th,
+            body.desktop-atasan-attendance .atasan-attendance-table td {
+                padding: 6px 4px;
+                color: #000;
+            }
+        }
+
+        @media (min-width: 992px) {
+            body.desktop-atasan-attendance .atasan-attendance-page {
+                font-size: 12px;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-page :where(p,
+                span,
+                strong,
+                small,
+                label,
+                button,
+                input,
+                select,
+                a,
+                th,
+                td) {
+                font-size: 12px;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-heading h1 {
+                font-size: 20px;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-list-heading h2 {
+                font-size: 14px;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-summary-stat strong {
+                font-size: 22px;
+            }
+
+            body.desktop-atasan-attendance .atasan-attendance-chart-label,
+            body.desktop-atasan-attendance .atasan-attendance-chart-axis,
+            body.desktop-atasan-attendance .atasan-attendance-table th {
+                font-size: 10px;
+            }
+        }
+
+        body.role-atasan .atasan-attendance-table th,
+        body.role-atasan .atasan-attendance-table td,
+        body.role-atasan .atasan-attendance-table th :not(i),
+        body.role-atasan .atasan-attendance-table td :not(i) {
+            font-size: 12px !important;
+        }
+    </style>
+@endpush

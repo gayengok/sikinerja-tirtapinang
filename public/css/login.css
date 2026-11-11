@@ -1,0 +1,39 @@
+/* LOGIN PAGE */
+.login-page {
+    background: linear-gradient(160deg, var(--sikinerja-primary) 0%, var(--sikinerja-sidebar-bg) 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+}
+
+.login-wrapper {
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-card {
+    background: #fff;
+    border-radius: 0.75rem;
+    padding: 2rem 1.75rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.login-brand {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.login-brand i {
+    font-size: 2rem;
+    color: var(--sikinerja-primary);
+}
+
+.login-page .text-muted.small {
+    color: rgba(255, 255, 255, 0.75) !important;
+}
+
+.login-card .text-muted.small {
+    color: var(--sikinerja-text-muted) !important;
+}

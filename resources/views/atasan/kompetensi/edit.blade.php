@@ -1,0 +1,1 @@
+@include('atasan.kompetensi.create')

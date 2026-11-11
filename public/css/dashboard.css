@@ -1,0 +1,120 @@
+/* ==========================================================
+   DASHBOARD MASTER SIKINERJA - Custom Styles
+   Style: corporate, modern, clean, whitespace cukup
+   ========================================================== */
+
+body {
+    background-color: #f5f6f8;
+}
+
+.page-header {
+    margin-bottom: 1.5rem;
+}
+
+/* ---------- Statistik Cards ---------- */
+.stat-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 1.1rem 1.25rem;
+    box-shadow: 0 2px 8px rgba(16, 24, 40, 0.06);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    height: 100%;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(16, 24, 40, 0.10);
+}
+
+.stat-icon {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+}
+
+.stat-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: #1d2939;
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    color: #667085;
+    margin-top: 2px;
+}
+
+/* ---------- Card umum ---------- */
+.card {
+    border-radius: 14px;
+}
+
+.card .card-title {
+    font-weight: 600;
+    color: #1d2939;
+}
+
+/* ---------- Aktivitas Terbaru ---------- */
+.activity-dot {
+    width: 9px;
+    height: 9px;
+    min-width: 9px;
+    border-radius: 50%;
+    background-color: #2563eb;
+    display: inline-block;
+}
+
+/* ---------- Quick Action ---------- */
+.quick-action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1.1rem 0.75rem;
+    background: #f9fafb;
+    border-radius: 12px;
+    text-decoration: none;
+    color: #344054;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-align: center;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.quick-action i {
+    font-size: 1.35rem;
+    color: #2563eb;
+}
+
+.quick-action:hover {
+    background: #eff4ff;
+    color: #2563eb;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 767.98px) {
+    .stat-value {
+        font-size: 1.3rem;
+    }
+
+    .stat-icon {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        font-size: 1rem;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+}

@@ -17,6 +17,7 @@ use App\Http\Controllers\KepalaBagian\DashboardKepalaBagianController;
 use App\Http\Controllers\KepalaBagian\KompetensiAtasanController;
 use App\Http\Controllers\KepalaBagian\PegawaiTimController;
 use App\Http\Controllers\KepalaBagian\PenilaianAtasanController;
+use App\Http\Controllers\KepalaBagian\RekapDataController;
 use App\Http\Controllers\Master\DashboardController;
 use App\Http\Controllers\Master\DivisiController;
 use App\Http\Controllers\Master\JabatanController;
@@ -156,6 +157,8 @@ Route::middleware(['auth', 'role:kepala_bagian'])
         Route::get('dashboard', [DashboardKepalaBagianController::class, 'index'])->name('dashboard');
         Route::get('pegawai', [PegawaiTimController::class, 'index'])->name('pegawai.index');
         Route::get('absensi', [AbsensiAtasanController::class, 'index'])->name('absensi.index');
+        Route::get('rekap-data/pdf', [RekapDataController::class, 'downloadPdf'])->name('rekap-data.pdf');
+        Route::get('rekap-data', [RekapDataController::class, 'index'])->name('rekap-data.index');
         Route::get('absensi/{absensi}/foto', [AbsensiAtasanController::class, 'foto'])->name('absensi.foto');
         Route::post('absensi/{absensi}/verifikasi', [AbsensiAtasanController::class, 'verifikasi'])->name('absensi.verifikasi');
         Route::get('absensi/{absensi}', [AbsensiAtasanController::class, 'show'])->name('absensi.show');

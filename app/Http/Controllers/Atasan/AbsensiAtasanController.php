@@ -26,7 +26,7 @@ class AbsensiAtasanController extends Controller
             ->with(['jabatan.divisi', 'absensis' => function ($absensiQuery) use ($bulan, $tahun, $status) {
                 $absensiQuery->whereMonth('tanggal', $bulan)
                     ->whereYear('tanggal', $tahun)
-                    ->when($status, fn ($query) => $query->where('status', $status))
+                    ->when($status, fn($query) => $query->where('status', $status))
                     ->latest('tanggal');
             }])
             ->when($status, function ($query) use ($bulan, $tahun, $status) {
@@ -49,7 +49,7 @@ class AbsensiAtasanController extends Controller
         $pegawaiRingkasan = Pegawai::whereIn('id', $pegawaiIds)
             ->with([
                 'jabatan.jamKerjas',
-                'absensis' => fn ($absensiQuery) => $absensiQuery
+                'absensis' => fn($absensiQuery) => $absensiQuery
                     ->whereMonth('tanggal', $bulan)
                     ->whereYear('tanggal', $tahun),
             ])
@@ -139,6 +139,7 @@ class AbsensiAtasanController extends Controller
         ]);
     }
 
+
     public function foto(Request $request, Absensi $absensi, TeamVisibilityService $teamVisibility)
     {
         $dataAbsensi = Absensi::query()
@@ -158,6 +159,8 @@ class AbsensiAtasanController extends Controller
             'Cache-Control' => 'private, max-age=300',
         ]);
     }
+
+
 
     public function verifikasi(Request $request, Absensi $absensi, TeamVisibilityService $teamVisibility)
     {
@@ -189,6 +192,6 @@ class AbsensiAtasanController extends Controller
             ? 'Data absensi berhasil diverifikasi.'
             : 'Data absensi ditandai perlu klarifikasi.';
 
-        return to_route($teamVisibility->routePrefix($request->user()).'.absensi.show', $dataAbsensi)->with('success', $pesan);
+        return to_route($teamVisibility->routePrefix($request->user()) . '.absensi.show', $dataAbsensi)->with('success', $pesan);
     }
 }

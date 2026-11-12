@@ -73,6 +73,10 @@
                 class="sidebar-link {{ request()->routeIs('kepala_bagian.penilaian-atasan.*') ? 'active' : '' }}">
                 <i class="fa-solid fa-chart-line"></i> <span>Penilaian Atasan</span>
             </a>
+            <a href="{{ route('kepala_bagian.rekap-data.index') }}" title="Rekap Data"
+                class="sidebar-link {{ request()->routeIs('kepala_bagian.rekap-data.*') ? 'active' : '' }}">
+                <i class="fa-solid fa-table-list"></i> <span>Rekap Data</span>
+            </a>
         @elseif ($role === 'atasan')
             <a href="{{ route('atasan.dashboard') }}"
                 title="Dashboard"

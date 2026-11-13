@@ -69,6 +69,28 @@
         </div>
     </div>
 
+    @elseif ($role === 'direktur')
+        <div class="mobile-bottom-nav" id="mobileBottomNav">
+            <div class="container-fluid px-2">
+                <ul class="nav nav-justified align-items-center">
+                    <li class="nav-item">
+                        <a href="{{ route('direktur.dashboard') }}"
+                            class="mobile-nav-link {{ request()->routeIs('direktur.dashboard') ? 'active' : '' }}">
+                            <div class="nav-icon-wrapper"><i class="fa-solid fa-house"></i></div>
+                            <span>Beranda</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('direktur.penilaian-kepala-bagian.index') }}"
+                            class="mobile-nav-link {{ request()->routeIs('direktur.penilaian-kepala-bagian.*') ? 'active' : '' }}">
+                            <div class="nav-icon-wrapper"><i class="fa-solid fa-chart-line"></i></div>
+                            <span>Penilaian</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
     {{-- BAGIAN NAV ATASAN --}}
 @elseif ($role === 'atasan')
     <div class="mobile-bottom-nav" id="mobileBottomNav">

@@ -23,6 +23,7 @@ class PegawaiController extends Controller
         $roleCounts = [
             'atasan' => Pegawai::whereHas('user', fn ($query) => $query->where('role', 'atasan'))->count(),
             'kepalaBagian' => Pegawai::whereHas('user', fn ($query) => $query->where('role', 'kepala_bagian'))->count(),
+            'direktur' => Pegawai::whereHas('user', fn ($query) => $query->where('role', 'direktur'))->count(),
             'pegawai' => Pegawai::whereHas('user', fn ($query) => $query->where('role', 'pegawai'))->count(),
         ];
 
@@ -153,7 +154,7 @@ class PegawaiController extends Controller
             'nama' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', $emailRule],
             'password' => [$pegawai ? 'nullable' : 'required', 'string', 'min:6'],
-            'role' => ['required', Rule::in(['pegawai', 'atasan', 'kepala_bagian'])],
+            'role' => ['required', Rule::in(['pegawai', 'atasan', 'kepala_bagian', 'direktur'])],
             'jabatan_id' => ['required', 'exists:jabatans,id'],
             'atasan_id' => [
                 in_array($request->input('role'), ['pegawai', 'atasan'], true) ? 'required' : 'nullable',
@@ -164,12 +165,13 @@ class PegawaiController extends Controller
                     $targetRole = match ($role) {
                         'pegawai' => 'atasan',
                         'atasan' => 'kepala_bagian',
+                        'kepala_bagian' => 'direktur',
                         default => null,
                     };
 
                     if (! $targetRole) {
                         if ($value) {
-                            $fail('Kepala Bagian tidak boleh memiliki atasan langsung.');
+                            $fail('Direktur tidak boleh memiliki atasan langsung.');
                         }
 
                         return;
@@ -196,7 +198,8 @@ class PegawaiController extends Controller
                         return;
                     }
 
-                    if (! $atasan->jabatan || $atasan->jabatan->divisi_id !== $jabatan->divisi_id) {
+                    if ($targetRole !== 'direktur'
+                        && (! $atasan->jabatan || $atasan->jabatan->divisi_id !== $jabatan->divisi_id)) {
                         $fail('Atasan langsung harus berasal dari divisi yang sama.');
                     }
                 },
@@ -212,6 +215,7 @@ class PegawaiController extends Controller
             'password.required' => 'Password wajib diisi.',
             'password.min' => 'Password minimal 6 karakter.',
             'role.required' => 'Role wajib dipilih.',
+            'role.in' => 'Role yang dipilih tidak valid.',
             'jabatan_id.required' => 'Jabatan wajib dipilih.',
             'jabatan_id.exists' => 'Jabatan yang dipilih tidak valid.',
             'atasan_id.exists' => 'Atasan yang dipilih tidak valid.',
@@ -224,14 +228,14 @@ class PegawaiController extends Controller
     }
 
     /**
-     * Daftar atasan dan kepala bagian aktif yang dapat dipilih sebagai atasan langsung.
+     * Daftar atasan aktif yang dapat dipilih sebagai atasan langsung.
      * Eager-load jabatan agar Blade dapat menampilkan
      * atribut data-divisi untuk cascading dropdown Divisi -> Jabatan -> Atasan.
      */
     private function daftarAtasan(?int $exceptPegawaiId = null)
     {
         $query = Pegawai::whereHas('user', function ($q) {
-            $q->whereIn('role', ['atasan', 'kepala_bagian']);
+            $q->whereIn('role', ['atasan', 'kepala_bagian', 'direktur']);
         })
             ->where('status', 'aktif')
             ->with(['user', 'jabatan']);

@@ -16,9 +16,13 @@ class DashboardAtasanController extends Controller
 
         abort_if(! $atasan, 403, 'Data pegawai untuk akun Anda tidak ditemukan.');
 
-        $absensiHariIni = Absensi::where('pegawai_id', $atasan->getKey())
+        $presensiAtasanHariIni = Absensi::where('pegawai_id', $atasan->getKey())
             ->whereDate('tanggal', now()->toDateString())
-            ->exists();
+            ->first();
+
+        $laporanAtasanHariIni = $atasan->laporanHarians()
+            ->whereDate('tanggal', now()->toDateString())
+            ->first();
 
         $bawahanIds = $atasan->bawahans()->pluck('id');
 
@@ -45,8 +49,9 @@ class DashboardAtasanController extends Controller
             'laporanMenunggu' => $laporanMenunggu,
             'laporanDisetujui' => $laporanDisetujui,
             'laporanDitolak' => $laporanDitolak,
+            'laporanAtasanHariIni' => $laporanAtasanHariIni,
             'periodeAktif' => $periodeAktif,
-            'absensiHariIni' => $absensiHariIni,
+            'presensiAtasanHariIni' => $presensiAtasanHariIni,
         ]);
     }
 }

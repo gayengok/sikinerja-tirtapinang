@@ -161,6 +161,10 @@ class LaporanHarianController extends Controller
     {
         $laporan = $this->cekMilikSendiri($request, $laporanHarian);
 
+        if ($request->user()->role === 'atasan') {
+            return redirect()->route('atasan.dashboard');
+        }
+
         $laporan->load(['details.templateLaporan', 'penyetuju']);
 
         return view('pegawai.laporan-harian.show', [

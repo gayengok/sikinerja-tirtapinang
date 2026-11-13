@@ -21,6 +21,15 @@ class UserSeeder extends Seeder
             ]
         );
 
+        User::updateOrCreate(
+            ['email' => 'direktur@sikinerja.test'],
+            [
+                'name' => 'Direktur Demo',
+                'password' => $password,
+                'role' => 'direktur',
+            ]
+        );
+
         $atasan = [
             ['name' => 'Kepala Atasan Hubungan Langganan', 'email' => 'atasan@sikinerja.test'],
             ['name' => 'Kepala Atasan Teknik', 'email' => 'atasan.teknik@sikinerja.test'],

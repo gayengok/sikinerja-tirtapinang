@@ -75,6 +75,7 @@ class AbsensiOutsideOfficeTest extends TestCase
                 ->assertDontSee('id="holidayDialog"', false)
                 ->assertDontSee('<fieldset class="manual-disabled"', false)
                 ->assertDontSee('class="manual-page manual-atasan-page"', false)
+                ->assertDontSee('manual-calendar-card', false)
                 ->assertSee('data-show-on-load="false"', false);
         } finally {
             Carbon::setTestNow();
@@ -141,9 +142,9 @@ class AbsensiOutsideOfficeTest extends TestCase
             $this->actingAs($user)
                 ->get(route('atasan.dashboard'))
                 ->assertOk()
-                ->assertSee('Absensi Atasan')
+                ->assertSee('Presensi Atasan')
                 ->assertSee(route('atasan.absensi-saya.index'), false)
-                ->assertSee('Buka Absensi');
+                ->assertSee('Isi Absensi');
 
             $this->actingAs($user)
                 ->get(route('atasan.absensi-saya.index'))
@@ -155,7 +156,10 @@ class AbsensiOutsideOfficeTest extends TestCase
                 ->assertSee('Waktu Sistem Server')
                 ->assertSee('Validasi Geolokasi GPS')
                 ->assertSee('Foto Absensi')
-                ->assertSee('manual-attendance-layout', false);
+                ->assertSee('manual-attendance-layout', false)
+                ->assertSee('Tanggal Absensi')
+                ->assertSee('manual-calendar-card', false)
+                ->assertSee('aria-current="date"', false);
 
             $this->actingAs($user)
                 ->post(route('atasan.absensi-saya.store'), $this->attendancePayload('masuk'))
@@ -165,8 +169,27 @@ class AbsensiOutsideOfficeTest extends TestCase
             $this->actingAs($user)
                 ->get(route('atasan.dashboard'))
                 ->assertOk()
+                ->assertSee('Isi Absensi Pulang')
+                ->assertSee(route('atasan.absensi-saya.index'), false)
+                ->assertDontSee('is-attendance-complete');
+
+            $this->actingAs($user)
+                ->post(route('atasan.absensi-saya.store'), $this->attendancePayload('pulang'))
+                ->assertRedirect(route('atasan.absensi-saya.index'))
+                ->assertSessionHas('success', 'Data absensi hari ini berhasil disimpan.');
+
+            $this->actingAs($user)
+                ->get(route('atasan.absensi-saya.index'))
+                ->assertOk()
+                ->assertSee('is-today is-complete', false);
+
+            $this->actingAs($user)
+                ->get(route('atasan.dashboard'))
+                ->assertOk()
                 ->assertSee('Sudah Absensi')
-                ->assertSee('class="is-attendance-done"', false);
+                ->assertSee('is-attendance-complete')
+                ->assertSee('Presensi masuk dan pulang hari ini sudah tercatat.')
+                ->assertSee(route('atasan.absensi-saya.index'), false);
 
             $absensi = $pegawai->absensis()->firstOrFail();
             $this->actingAs($user)

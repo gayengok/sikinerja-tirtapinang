@@ -4,6 +4,7 @@
     $labelRole = match ($role) {
         'master' => 'Admin',
         'kepala_bagian' => 'Kepala Bagian',
+        'direktur' => 'Direktur',
         'atasan' => 'Atasan',
         'pegawai' => 'Pegawai',
         default => '-',

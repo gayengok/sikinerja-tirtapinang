@@ -77,6 +77,7 @@ class AuthenticatedSessionController extends Controller
 
         $loginRoute = match ($role) {
             'master' => 'master.login',
+            'direktur' => 'direktur.login',
             'kepala_bagian' => 'kepala_bagian.login',
             'atasan' => 'atasan.login',
             default => 'login',
@@ -87,13 +88,13 @@ class AuthenticatedSessionController extends Controller
 
     /**
      * Redirect user ke dashboard sesuai role.
-     * Jika role tidak dikenali (bukan master/kepala_bagian/atasan/pegawai), paksa logout
-     * agar tidak ada user dengan role tidak valid yang bisa masuk ke dashboard manapun.
+     * Jika role tidak dikenali, paksa logout agar akun tidak masuk ke dashboard yang salah.
      */
     private function redirectByRole(User $user): RedirectResponse
     {
         return match ($user->role) {
             'master' => redirect()->intended(route('master.dashboard')),
+            'direktur' => redirect()->intended(route('direktur.dashboard')),
             'kepala_bagian' => redirect()->intended(route('kepala_bagian.dashboard')),
             'atasan' => redirect()->intended(route('atasan.dashboard')),
             'pegawai' => redirect()->intended(route('pegawai.dashboard')),

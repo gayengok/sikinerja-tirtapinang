@@ -21,7 +21,7 @@
     @stack('styles')
 </head>
 
-<body class="mobile-only-mode role-{{ auth()->user()->role ?? 'guest' }} {{ auth()->user()?->role === 'kepala_bagian' ? 'role-atasan' : '' }} {{ request()->routeIs('atasan.absensi.*', 'atasan.absensi-saya.*', 'kepala_bagian.absensi.*') ? 'desktop-atasan-attendance' : '' }}">
+<body class="mobile-only-mode role-{{ auth()->user()->role ?? 'guest' }} {{ in_array(auth()->user()?->role, ['kepala_bagian', 'direktur'], true) ? 'role-atasan' : '' }} {{ request()->routeIs('atasan.absensi.*', 'atasan.absensi-saya.*', 'kepala_bagian.absensi.*') ? 'desktop-atasan-attendance' : '' }}">
 
     <!-- SMARTPHONE / MOBILE APP CONTAINER -->
     <div class="mobile-app-shell">

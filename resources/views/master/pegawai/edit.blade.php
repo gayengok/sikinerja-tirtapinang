@@ -97,6 +97,7 @@
                             <option value="pegawai" {{ $currentRole === 'pegawai' ? 'selected' : '' }}>Pegawai</option>
                             <option value="atasan" {{ $currentRole === 'atasan' ? 'selected' : '' }}>Atasan</option>
                             <option value="kepala_bagian" {{ $currentRole === 'kepala_bagian' ? 'selected' : '' }}>Kepala Bagian</option>
+                            <option value="direktur" {{ $currentRole === 'direktur' ? 'selected' : '' }}>Direktur</option>
                         </select>
                         @error('role')
                             <small class="edit-error">{{ $message }}</small>
@@ -136,7 +137,7 @@
                             <small class="edit-error">{{ $message }}</small>
                         @enderror
                     </div>
-                    <div class="master-edit-field"><label for="atasan_id">Atasan Langsung <em>*</em><span>Wajib untuk pegawai dan atasan</span></label><select name="atasan_id" id="atasan_id"
+                    <div class="master-edit-field"><label for="atasan_id">Atasan Langsung <span>Wajib untuk Pegawai dan Atasan; opsional untuk Kepala Bagian</span></label><select name="atasan_id" id="atasan_id"
                             class="@error('atasan_id') invalid @enderror">
                             <option value="">-- Pilih atasan sesuai role dan divisi --</option>
                             @foreach ($atasans as $atasan)
@@ -148,7 +149,7 @@
                                 </option>
                             @endforeach
                         </select>
-                        <small class="edit-help">Pegawai memilih atasan; atasan memilih kepala bagian. Kepala bagian tidak memiliki atasan langsung.</small>
+                        <small class="edit-help">Pegawai memilih Atasan, Atasan memilih Kepala Bagian, dan Kepala Bagian dapat ditugaskan kepada Direktur. Direktur tidak memiliki atasan langsung.</small>
                         @error('atasan_id')
                             <small class="edit-error">{{ $message }}</small>
                         @enderror
@@ -820,12 +821,13 @@
 
             function applyFilter() {
                 const id = filter.value;
-                const supervisorRole = role.value === 'pegawai' ? 'atasan' : role.value === 'atasan' ? 'kepala_bagian' : null;
+                const supervisorRole = role.value === 'pegawai' ? 'atasan' : role.value === 'atasan' ? 'kepala_bagian' : role.value === 'kepala_bagian' ? 'direktur' : null;
                 Array.from(jabatan.options).forEach(function(option) {
                     if (option.value) option.hidden = !!id && option.dataset.divisi !== id;
                 });
                 Array.from(atasan.options).forEach(function(option) {
-                    option.hidden = !!option.value && (!supervisorRole || (!!id && option.dataset.divisi !== id) || option.dataset.role !== supervisorRole);
+                    const wrongDivision = supervisorRole !== 'direktur' && !!id && option.dataset.divisi !== id;
+                    option.hidden = !!option.value && (!supervisorRole || wrongDivision || option.dataset.role !== supervisorRole);
                 });
                 [jabatan, atasan].forEach(function(select) {
                     if (select.selectedOptions[0] && select.selectedOptions[0].hidden) select.value = '';

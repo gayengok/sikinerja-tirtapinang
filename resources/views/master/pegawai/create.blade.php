@@ -34,7 +34,7 @@
                         <div><small>Nama</small><strong>{{ old('nama') ?: 'Belum diisi' }}</strong></div>
                         <div><small>Email Akun</small><strong>{{ old('email') ?: 'Belum diisi' }}</strong></div>
                         <div><small>Role
-                                Awal</small><strong>{{ match (old('role', 'pegawai')) { 'atasan' => 'Atasan', 'kepala_bagian' => 'Kepala Bagian', default => 'Pegawai' } }}</strong>
+                                Awal</small><strong>{{ match (old('role', 'pegawai')) { 'direktur' => 'Direktur', 'atasan' => 'Atasan', 'kepala_bagian' => 'Kepala Bagian', default => 'Pegawai' } }}</strong>
                         </div>
                     </div>
                 </section>
@@ -101,6 +101,7 @@
                             <option value="pegawai" {{ old('role', 'pegawai') === 'pegawai' ? 'selected' : '' }}>Pegawai</option>
                             <option value="atasan" {{ old('role') === 'atasan' ? 'selected' : '' }}>Atasan</option>
                             <option value="kepala_bagian" {{ old('role') === 'kepala_bagian' ? 'selected' : '' }}>Kepala Bagian</option>
+                            <option value="direktur" {{ old('role') === 'direktur' ? 'selected' : '' }}>Direktur</option>
                         </select>
                         @error('role')
                             <small class="field-error">{{ $message }}</small>
@@ -140,7 +141,7 @@
                             <small class="field-error">{{ $message }}</small>
                         @enderror
                     </div>
-                    <div class="master-field"><label for="atasan_id">Atasan Langsung <em>*</em><span>Wajib untuk pegawai dan atasan</span></label><select name="atasan_id" id="atasan_id"
+                    <div class="master-field"><label for="atasan_id">Atasan Langsung <span>Wajib untuk Pegawai dan Atasan; opsional untuk Kepala Bagian</span></label><select name="atasan_id" id="atasan_id"
                             class="@error('atasan_id') invalid @enderror">
                             <option value="">-- Pilih atasan sesuai role dan divisi --</option>
                             @foreach ($atasans as $atasan)
@@ -152,7 +153,7 @@
                                 </option>
                             @endforeach
                         </select>
-                        <small class="field-help italic">Pegawai memilih atasan; atasan memilih kepala bagian. Kepala bagian tidak memiliki atasan langsung.</small>
+                        <small class="field-help italic">Pegawai memilih Atasan, Atasan memilih Kepala Bagian, dan Kepala Bagian dapat ditugaskan kepada Direktur. Direktur tidak memiliki atasan langsung.</small>
                         @error('atasan_id')
                             <small class="field-error">{{ $message }}</small>
                         @enderror
@@ -883,12 +884,13 @@
 
             function applyFilter() {
                 const id = filter.value;
-                const supervisorRole = role.value === 'pegawai' ? 'atasan' : role.value === 'atasan' ? 'kepala_bagian' : null;
+                const supervisorRole = role.value === 'pegawai' ? 'atasan' : role.value === 'atasan' ? 'kepala_bagian' : role.value === 'kepala_bagian' ? 'direktur' : null;
                 Array.from(jabatan.options).forEach(function(option) {
                     if (option.value) option.hidden = !!id && option.dataset.divisi !== id;
                 });
                 Array.from(atasan.options).forEach(function(option) {
-                    option.hidden = !!option.value && (!supervisorRole || (!!id && option.dataset.divisi !== id) || option.dataset.role !== supervisorRole);
+                    const wrongDivision = supervisorRole !== 'direktur' && !!id && option.dataset.divisi !== id;
+                    option.hidden = !!option.value && (!supervisorRole || wrongDivision || option.dataset.role !== supervisorRole);
                 });
                 [jabatan, atasan].forEach(function(select) {
                     if (select.selectedOptions[0] && select.selectedOptions[0].hidden) select.value = '';

@@ -5,8 +5,8 @@
 @section('content')
     @php
         $role = $pegawai->user->role ?? 'pegawai';
-        $isManager = in_array($role, ['atasan', 'kepala_bagian'], true);
-        $roleLabel = match ($role) { 'kepala_bagian' => 'Kepala Bagian', 'atasan' => 'Atasan', default => 'Pegawai' };
+        $isManager = in_array($role, ['atasan', 'kepala_bagian', 'direktur'], true);
+        $roleLabel = match ($role) { 'direktur' => 'Direktur', 'kepala_bagian' => 'Kepala Bagian', 'atasan' => 'Atasan', default => 'Pegawai' };
         $initials = collect(explode(' ', trim($pegawai->nama)))
             ->filter()
             ->map(fn($part) => strtoupper(substr($part, 0, 1)))

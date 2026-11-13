@@ -77,29 +77,33 @@
                 class="sidebar-link {{ request()->routeIs('kepala_bagian.rekap-data.*') ? 'active' : '' }}">
                 <i class="fa-solid fa-table-list"></i> <span>Rekap Data</span>
             </a>
+        @elseif ($role === 'direktur')
+            <a href="{{ route('direktur.dashboard') }}" title="Dashboard"
+                class="sidebar-link {{ request()->routeIs('direktur.dashboard') ? 'active' : '' }}">
+                <i class="fa-solid fa-gauge"></i> <span>Dashboard</span>
+            </a>
+            <a href="{{ route('direktur.penilaian-kepala-bagian.index') }}" title="Penilaian Kepala Bagian"
+                class="sidebar-link {{ request()->routeIs('direktur.penilaian-kepala-bagian.*') ? 'active' : '' }}">
+                <i class="fa-solid fa-chart-line"></i> <span>Penilaian Kepala Bagian</span>
+            </a>
         @elseif ($role === 'atasan')
-            <a href="{{ route('atasan.dashboard') }}"
-                title="Dashboard"
+            <a href="{{ route('atasan.dashboard') }}" title="Dashboard"
                 class="sidebar-link {{ request()->routeIs('atasan.dashboard') ? 'active' : '' }}">
                 <i class="fa-solid fa-gauge"></i> <span>Dashboard</span>
             </a>
-            <a href="{{ route('atasan.pegawai.index') }}"
-                title="Pegawai Bawahan"
+            <a href="{{ route('atasan.pegawai.index') }}" title="Pegawai Bawahan"
                 class="sidebar-link {{ request()->routeIs('atasan.pegawai.*') ? 'active' : '' }}">
-                <i class="fa-solid fa-users"></i> <span>Pegawai Bawahan</span>
+                <i class="fa-solid fa-users"></i> <span>Pegawai</span>
             </a>
-            <a href="{{ route('atasan.absensi.index') }}"
-                title="Data Absensi"
+            <a href="{{ route('atasan.absensi.index') }}" title="Data Absensi"
                 class="sidebar-link {{ request()->routeIs('atasan.absensi.*') ? 'active' : '' }}">
                 <i class="fa-solid fa-calendar-check"></i> <span>Data Absensi</span>
             </a>
-            <a href="{{ route('atasan.laporan.index') }}"
-                title="Approval Laporan"
+            <a href="{{ route('atasan.laporan.index') }}" title="Approval Laporan"
                 class="sidebar-link {{ request()->routeIs('atasan.laporan.*') ? 'active' : '' }}">
-                <i class="fa-solid fa-file-circle-check"></i> <span>Approval Laporan</span>
+                <i class="fa-solid fa-file-circle-check"></i> <span>Approval</span>
             </a>
-            <a href="{{ route('atasan.hasil-penilaian.index') }}"
-                title="Hasil Penilaian"
+            <a href="{{ route('atasan.hasil-penilaian.index') }}" title="Hasil Penilaian"
                 class="sidebar-link {{ request()->routeIs('atasan.hasil-penilaian.*') ? 'active' : '' }}">
                 <i class="fa-solid fa-chart-line"></i> <span>Hasil Penilaian</span>
             </a>

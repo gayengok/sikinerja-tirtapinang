@@ -29,7 +29,7 @@ class AtasanLaporanHarianTest extends TestCase
             ->get(route('atasan.dashboard'))
             ->assertOk()
             ->assertSee(route('atasan.laporan-harian.create'), false)
-            ->assertSee('Buat Laporan Harian')
+            ->assertSee('Laporan Harian ke Kepala Bagian')
             ->assertSee('Buat Laporan')
             ->assertDontSee('Input Laporan Saya')
             ->assertDontSee('Belum ada laporan pribadi');
@@ -73,10 +73,16 @@ class AtasanLaporanHarianTest extends TestCase
             ->assertSee('readonly', false)
             ->assertDontSee('Kirim Laporan Harian');
 
-        $this->get(route('atasan.laporan-harian.show', $laporan))
+        $this->get(route('atasan.dashboard'))
             ->assertOk()
-            ->assertSee('Menunggu Review')
-            ->assertSee('Menyelesaikan rekap pekerjaan tim.');
+            ->assertSee(route('atasan.laporan-harian.create'), false)
+            ->assertDontSee(route('atasan.laporan-harian.show', $laporan), false)
+            ->assertSee('is-completed', false)
+            ->assertSee('Sudah Isi Laporan')
+            ->assertDontSee('Buat Laporan');
+
+        $this->get(route('atasan.laporan-harian.show', $laporan))
+            ->assertRedirect(route('atasan.dashboard'));
     }
 
     public function test_atasan_report_menu_opens_the_form_instead_of_report_history(): void
@@ -98,6 +104,44 @@ class AtasanLaporanHarianTest extends TestCase
 
         $this->get(route('atasan.laporan-harian.index'))
             ->assertRedirect(route('atasan.laporan-harian.create'));
+    }
+
+    public function test_atasan_dashboard_shows_count_of_unconfirmed_subordinate_reports(): void
+    {
+        [$atasanUser, $jabatan] = $this->createAtasan();
+
+        $this->actingAs($atasanUser)
+            ->get(route('atasan.dashboard'))
+            ->assertOk()
+            ->assertDontSee('Menunggu Konfirmasi Laporan');
+
+        for ($index = 1; $index <= 3; $index++) {
+            $pegawaiUser = User::create([
+                'name' => "Pegawai {$index}",
+                'email' => "pegawai{$index}.pending@example.test",
+                'password' => bcrypt('password'),
+                'role' => 'pegawai',
+            ]);
+            $pegawai = Pegawai::create([
+                'user_id' => $pegawaiUser->id,
+                'nama' => "Pegawai {$index}",
+                'jabatan_id' => $jabatan->id,
+                'atasan_id' => $atasanUser->pegawai->id,
+                'status' => 'aktif',
+            ]);
+            LaporanHarian::create([
+                'pegawai_id' => $pegawai->id,
+                'tanggal' => now()->subDays($index)->toDateString(),
+                'catatan' => "Laporan {$index}",
+                'status' => 'diajukan',
+            ]);
+        }
+
+        $this->get(route('atasan.dashboard'))
+            ->assertOk()
+            ->assertSee('Menunggu Konfirmasi Laporan')
+            ->assertSee('3 laporan harian bawahan telah dikirim dan belum dikonfirmasi.')
+            ->assertSee(route('atasan.laporan.index', ['status' => 'diajukan']), false);
     }
 
     public function test_atasan_report_form_only_shows_templates_for_their_job(): void
@@ -184,6 +228,12 @@ class AtasanLaporanHarianTest extends TestCase
             'status' => 'disetujui',
             'disetujui_oleh' => $kepalaBagian->id,
         ]);
+
+        $this->actingAs($atasanUser)
+            ->get(route('atasan.laporan-harian.create'))
+            ->assertOk()
+            ->assertSee('Laporan sudah diverifikasi oleh Kepala Bagian.')
+            ->assertDontSee('Laporan sudah diverifikasi</button>', false);
     }
 
     public function test_existing_pegawai_report_form_keeps_its_original_routes(): void

@@ -50,6 +50,11 @@ class User extends Authenticatable
         return $this->role === 'kepala_bagian';
     }
 
+    public function isDirektur(): bool
+    {
+        return $this->role === 'direktur';
+    }
+
     public function isPegawai(): bool
     {
         return $this->role === 'pegawai';

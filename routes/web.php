@@ -10,6 +10,7 @@ use App\Http\Controllers\Atasan\PenilaianKpiController;
 use App\Http\Controllers\Auth\AtasanLoginController;
 use App\Http\Controllers\Auth\AtasanRegistrationController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\DirekturLoginController;
 use App\Http\Controllers\Auth\KepalaBagianLoginController;
 use App\Http\Controllers\Auth\MasterLoginController;
 use App\Http\Controllers\Auth\RegisteredUserController;
@@ -18,6 +19,8 @@ use App\Http\Controllers\KepalaBagian\KompetensiAtasanController;
 use App\Http\Controllers\KepalaBagian\PegawaiTimController;
 use App\Http\Controllers\KepalaBagian\PenilaianAtasanController;
 use App\Http\Controllers\KepalaBagian\RekapDataController;
+use App\Http\Controllers\Direktur\DashboardDirekturController;
+use App\Http\Controllers\Direktur\PenilaianKepalaBagianController;
 use App\Http\Controllers\Master\DashboardController;
 use App\Http\Controllers\Master\DivisiController;
 use App\Http\Controllers\Master\JabatanController;
@@ -59,6 +62,9 @@ Route::post('/atasan/login', [AtasanLoginController::class, 'store'])->name('ata
 
 Route::get('/kepala-bagian/login', [KepalaBagianLoginController::class, 'create'])->name('kepala_bagian.login');
 Route::post('/kepala-bagian/login', [KepalaBagianLoginController::class, 'store'])->name('kepala_bagian.login.store');
+
+Route::get('/direktur/login', [DirekturLoginController::class, 'create'])->name('direktur.login');
+Route::post('/direktur/login', [DirekturLoginController::class, 'store'])->name('direktur.login.store');
 
 Route::get('/master/login', [MasterLoginController::class, 'create'])->name('master.login');
 Route::post('/master/login', [MasterLoginController::class, 'store'])->name('master.login.store');
@@ -180,6 +186,24 @@ Route::middleware(['auth', 'role:kepala_bagian'])
             Route::post('/{pegawai}', [PenilaianAtasanController::class, 'store'])->name('store');
         });
     });
+
+Route::middleware(['auth', 'role:direktur'])
+    ->prefix('direktur')
+    ->name('direktur.')
+    ->group(function () {
+        Route::get('dashboard', [DashboardDirekturController::class, 'index'])->name('dashboard');
+
+        Route::prefix('penilaian-kepala-bagian')->name('penilaian-kepala-bagian.')->group(function () {
+            Route::get('/', [PenilaianKepalaBagianController::class, 'index'])->name('index');
+            Route::get('/{pegawai}/kompetensi/edit', [PenilaianKepalaBagianController::class, 'editKompetensi'])->name('kompetensi.edit');
+            Route::put('/{pegawai}/kompetensi', [PenilaianKepalaBagianController::class, 'updateKompetensi'])->name('kompetensi.update');
+            Route::get('/{pegawai}', [PenilaianKepalaBagianController::class, 'show'])->name('show');
+            Route::get('/{pegawai}/nilai', [PenilaianKepalaBagianController::class, 'create'])->name('create');
+            Route::post('/{pegawai}', [PenilaianKepalaBagianController::class, 'store'])->name('store');
+            Route::get('/{pegawai}/edit', [PenilaianKepalaBagianController::class, 'edit'])->name('edit');
+        });
+    });
+
 
 Route::middleware(['auth', 'role:pegawai'])
     ->prefix('pegawai')

@@ -1252,6 +1252,7 @@
                     Masuk sesuai peran:
                     <a href="{{ route('atasan.login') }}">Atasan</a> ·
                     <a href="{{ route('kepala_bagian.login') }}">Kepala Bagian</a> ·
+                    <a href="{{ route('direktur.login') }}">Direktur</a> ·
                     <a href="{{ route('master.login') }}">Admin</a>
                 </p>
 

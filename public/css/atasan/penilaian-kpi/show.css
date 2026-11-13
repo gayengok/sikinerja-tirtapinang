@@ -1,0 +1,340 @@
+body.role-atasan .kpi-detail-page {
+    padding: 1rem;
+    max-width: 560px;
+    margin: auto;
+    padding-bottom: calc(var(--bottom-nav-height) + 1.5rem)
+}
+
+body.role-atasan .navbar-sikinerja {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    width: min(560px, 100%);
+    margin: 0;
+    transform: translateX(-50%);
+    z-index: 1040;
+    background: #fff;
+}
+
+.kpi-detail-actions-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem;
+    margin-bottom: 1rem
+}
+
+.kpi-detail-actions-top h1 {
+    margin: 0;
+    font-size: 1rem
+}
+
+.kpi-detail-actions-top a {
+    padding: .55rem .7rem;
+    color: #526480;
+    background: #eef4fa;
+    border-radius: 9px;
+    text-decoration: none;
+    font-size: .7rem
+}
+
+.kpi-detail-actions-top a.edit {
+    color: #fff;
+    background: #078ac8
+}
+
+.kpi-detail-person {
+    display: flex;
+    align-items: flex-start;
+    gap: .7rem;
+    flex-wrap: wrap;
+    padding: 1rem;
+    background: #fff;
+    border: 1px solid #dfe7f0;
+    border-radius: 18px
+}
+
+.kpi-detail-person>div:not(.kpi-person-grid) {
+    min-width: 0;
+    flex: 1
+}
+
+.kpi-detail-person h2 {
+    margin: .3rem 0 0;
+    font-size: .95rem;
+    overflow-wrap: anywhere
+}
+
+.kpi-detail-person h2 i {
+    color: #0ab483;
+    font-size: .7rem
+}
+
+.kpi-detail-person p {
+    margin: .25rem 0;
+    color: #7789a4;
+    font-size: .7rem;
+    overflow-wrap: anywhere
+}
+
+.kpi-detail-person>b {
+    padding: .35rem .5rem;
+    color: #078653;
+    background: #eafbf4;
+    border-radius: 10px;
+    font-size: .62rem
+}
+
+.kpi-person-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: .8rem;
+    width: 100%;
+    padding-top: .8rem;
+    border-top: 1px solid #edf1f6
+}
+
+.kpi-person-grid small,
+.kpi-person-grid strong {
+    display: block
+}
+
+.kpi-person-grid small {
+    color: #91a1b8;
+    font-size: .62rem
+}
+
+.kpi-person-grid strong {
+    margin-top: .25rem;
+    font-size: .7rem;
+    overflow-wrap: anywhere
+}
+
+.kpi-result-card {
+    margin-top: 1rem;
+    padding: 1rem;
+    color: #fff;
+    background: linear-gradient(145deg, #121c32, #1c2b49);
+    border-radius: 19px
+}
+
+.kpi-result-card>span {
+    font-size: .7rem
+}
+
+.kpi-result-card>strong {
+    display: block;
+    margin: .65rem 0;
+    font-size: 1.8rem
+}
+
+.kpi-result-card>strong small {
+    font-size: .7rem;
+    font-weight: 400
+}
+
+.kpi-result-card>b {
+    float: right;
+    margin-top: -2.5rem;
+    padding: .45rem .6rem;
+    color: #5be0b3;
+    background: #124c4e;
+    border: 1px solid #159879;
+    border-radius: 9px;
+    font-size: .68rem
+}
+
+.kpi-result-card>div {
+    padding-top: .7rem;
+    border-top: 1px solid #ffffff33;
+    font-size: .68rem
+}
+
+.kpi-detail-heading {
+    display: flex;
+    justify-content: space-between;
+    gap: .5rem;
+    margin: 1.2rem .1rem .7rem
+}
+
+.kpi-detail-heading h2 {
+    margin: 0;
+    font-size: .85rem;
+    text-transform: uppercase
+}
+
+.kpi-detail-heading span {
+    color: #7789a4;
+    font-size: .65rem;
+    text-align: right
+}
+
+.kpi-detail-list {
+    display: grid;
+    gap: .7rem
+}
+
+.kpi-detail-list article {
+    padding: 1rem;
+    background: #fff;
+    border: 1px solid #dfe7f0;
+    border-radius: 17px
+}
+
+.kpi-detail-item-head {
+    display: flex;
+    align-items: center;
+    gap: .55rem
+}
+
+.kpi-detail-item-head>span {
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    flex: 0 0 24px;
+    color: #078ac8;
+    background: #eef8ff;
+    border-radius: 8px;
+    font-size: .7rem
+}
+
+.kpi-detail-item-head h3 {
+    min-width: 0;
+    flex: 1;
+    margin: 0;
+    font-size: .78rem;
+    overflow-wrap: anywhere
+}
+
+.kpi-detail-item-head b {
+    padding: .3rem .45rem;
+    color: #526480;
+    background: #f1f5f9;
+    border-radius: 6px;
+    font-size: .58rem;
+    white-space: nowrap
+}
+
+.kpi-detail-list p {
+    display: flex;
+    justify-content: space-between;
+    gap: .5rem;
+    margin: 1rem 0 .35rem;
+    color: #7789a4;
+    font-size: .68rem
+}
+
+.kpi-detail-list p strong {
+    color: #078ac8
+}
+
+.kpi-bar {
+    display: block;
+    height: 6px;
+    background: #edf1f6;
+    border-radius: 6px
+}
+
+.kpi-bar em {
+    display: block;
+    height: 100%;
+    background: #078ac8;
+    border-radius: 6px
+}
+
+.kpi-detail-values {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: .45rem;
+    margin-top: .8rem
+}
+
+.kpi-detail-values span {
+    padding: .55rem .3rem;
+    color: #91a1b8;
+    background: #f8fafc;
+    border-radius: 9px;
+    text-align: center;
+    font-size: .6rem;
+    overflow-wrap: anywhere
+}
+
+.kpi-detail-values strong {
+    display: block;
+    margin-top: .2rem;
+    color: #27344c;
+    font-size: .7rem
+}
+
+.kpi-detail-note {
+    display: block;
+    margin-top: .6rem;
+    color: #7789a4;
+    font-size: .65rem;
+    overflow-wrap: anywhere
+}
+
+.kpi-bottom-actions {
+    display: grid;
+    gap: .6rem;
+    margin-top: 1rem
+}
+
+.kpi-bottom-actions a {
+    padding: .75rem;
+    color: #fff;
+    background: #078ac8;
+    border-radius: 11px;
+    text-align: center;
+    text-decoration: none;
+    font-size: .72rem;
+    font-weight: 700
+}
+
+.kpi-bottom-actions a+a {
+    color: #526480;
+    background: #fff;
+    border: 1px solid #dfe7f0
+}
+
+.kpi-empty {
+    text-align: center;
+    color: #8293aa
+}
+
+@media(max-width:380px) {
+    body.role-atasan .kpi-detail-page {
+        padding: .75rem;
+        padding-bottom: calc(var(--bottom-nav-height) + 1rem)
+    }
+
+    .kpi-detail-actions-top h1 {
+        font-size: .85rem
+    }
+
+    .kpi-detail-actions-top a {
+        padding: .5rem;
+        font-size: .62rem
+    }
+
+    .kpi-detail-person {
+        padding: .8rem
+    }
+
+    .kpi-person-grid {
+        grid-template-columns: 1fr
+    }
+
+    .kpi-detail-values {
+        grid-template-columns: 1fr
+    }
+
+    .kpi-detail-item-head {
+        align-items: flex-start
+    }
+
+    .kpi-detail-item-head b {
+        margin-left: auto
+    }
+}

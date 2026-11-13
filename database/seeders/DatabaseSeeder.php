@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
             JabatanSeeder::class,
             PegawaiSeeder::class,
             KepalaBagianSeeder::class,
+            DirekturSeeder::class,
             PeriodePenilaianSeeder::class,
             MasterKpiSeeder::class,
             MasterKompetensiSeeder::class,

@@ -1,0 +1,784 @@
+body.role-atasan .daily-report-form-page {
+    display: grid;
+    gap: 14px;
+    width: min(1180px, 100%);
+    margin: 0 auto;
+    padding: 20px;
+    color: #17213b;
+}
+
+body.role-atasan .daily-report-banner {
+    position: relative;
+    overflow: hidden;
+    margin: 0;
+    padding: 22px 24px;
+    color: #17213b;
+    background: #fff;
+    border: 1px solid #e3eaf2;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(35, 52, 85, .025);
+}
+
+body.role-atasan .daily-report-banner > span {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 9px;
+    color: #41617d;
+    background: #f1f6fa;
+    border-radius: 999px;
+    font-size: .64rem;
+    font-weight: 700;
+    letter-spacing: .035em;
+}
+
+body.role-atasan .daily-report-banner > span > i {
+    color: #078ac8;
+    font-size: .38rem;
+}
+
+body.role-atasan .daily-report-banner > span > b {
+    color: #9aabba;
+    font-weight: 500;
+}
+
+body.role-atasan .daily-report-banner h1 {
+    position: relative;
+    z-index: 1;
+    margin: 8px 0 4px;
+    color: #17213b;
+    font-size: clamp(1.35rem, 3vw, 1.8rem);
+    font-weight: 800;
+}
+
+body.role-atasan .daily-report-banner p {
+    position: relative;
+    z-index: 1;
+    max-width: 560px;
+    margin: 0;
+    color: #71829c;
+    font-size: .78rem;
+    line-height: 1.6;
+}
+
+body.role-atasan .daily-report-banner-icon {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    display: grid;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    color: #078ac8;
+    background: #f2f8fc;
+    border-radius: 11px;
+    font-size: 1.1rem;
+    transform: translateY(-50%);
+}
+
+body.role-atasan .daily-report-form-page > form {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(280px, .95fr);
+    align-items: start;
+    gap: 16px;
+}
+
+body.role-atasan .daily-report-steps {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    background: #fff;
+    border: 1px solid #dfe7f0;
+    border-radius: 14px;
+}
+
+body.role-atasan .daily-report-steps a {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    min-width: 0;
+    color: #64748b;
+    text-decoration: none;
+}
+
+body.role-atasan .daily-report-steps a > span {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    flex: 0 0 30px;
+    color: #71829c;
+    background: #f1f5f9;
+    border-radius: 50%;
+    font-size: .68rem;
+    font-weight: 800;
+}
+
+body.role-atasan .daily-report-steps a strong {
+    font-size: .78rem;
+}
+
+body.role-atasan .daily-report-steps a.is-current {
+    color: #075985;
+}
+
+body.role-atasan .daily-report-steps a.is-current > span {
+    color: #fff;
+    background: #078ac8;
+    box-shadow: 0 0 0 4px #e8f6fc;
+}
+
+body.role-atasan .daily-report-steps > i {
+    color: #b3c0cf;
+    font-size: .72rem;
+}
+
+body.role-atasan .daily-report-form-card {
+    min-width: 0;
+    margin: 0;
+    padding: 18px;
+    background: #fff;
+    border: 1px solid #dfe7f0;
+    border-radius: 14px;
+    box-shadow: 0 3px 12px rgba(35, 52, 85, .035);
+}
+
+body.role-atasan .daily-report-card-title {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-height: 44px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #edf1f5;
+}
+
+body.role-atasan .daily-report-card-title > i {
+    display: grid;
+    flex: 0 0 38px;
+    width: 38px;
+    height: 38px;
+    place-items: center;
+    color: #078ac8;
+    background: #e8f6fc;
+    border-radius: 11px;
+}
+
+body.role-atasan .daily-report-card-title strong {
+    color: #17213b;
+    font-size: .95rem;
+}
+
+body.role-atasan .daily-report-card-title span {
+    margin-left: auto;
+    color: #71829c;
+    font-size: .75rem;
+    white-space: nowrap;
+}
+
+body.role-atasan #laporan-informasi {
+    display: block;
+}
+
+body.role-atasan #laporan-realisasi {
+    display: block;
+}
+
+body.role-atasan .daily-report-form-page > form > #laporan-informasi {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+body.role-atasan .daily-report-form-page > form > [data-report-fields] {
+    display: contents;
+}
+
+body.role-atasan .daily-report-form-page > form > [data-report-fields][hidden] {
+    display: none;
+}
+
+body.role-atasan .daily-report-form-page > form > [data-report-fields] > #laporan-realisasi {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+body.role-atasan .daily-report-form-page > form > .daily-report-holiday-notice {
+    grid-column: 1 / -1;
+}
+
+body.role-atasan .daily-report-form-page > form > [data-report-fields] > .daily-report-submit-bar {
+    grid-column: 1 / -1;
+}
+
+body.role-atasan .daily-report-field {
+    min-width: 0;
+    margin: 0;
+}
+
+body.role-atasan #laporan-informasi > .daily-report-field {
+    margin-top: 16px;
+}
+
+body.role-atasan .daily-report-field label {
+    display: block;
+    margin-bottom: 8px;
+    color: #26344d;
+    font-size: .82rem;
+    font-weight: 700;
+}
+
+body.role-atasan .daily-report-field label b {
+    color: #e33f56;
+}
+
+body.role-atasan .daily-report-field input:not([type="hidden"]),
+body.role-atasan .daily-report-field textarea,
+body.role-atasan .daily-report-indicator input:not([type="hidden"]),
+body.role-atasan .daily-report-indicator select {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    min-height: 44px;
+    padding: 10px 12px;
+    color: #27344c;
+    background: #f8fafc;
+    border: 1px solid #d5e0eb;
+    border-radius: 10px;
+    outline: 0;
+    font: inherit;
+    font-size: .84rem;
+}
+
+body.role-atasan .daily-report-field textarea {
+    min-height: 128px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+body.role-atasan .daily-report-field input:focus,
+body.role-atasan .daily-report-field textarea:focus,
+body.role-atasan .daily-report-indicator input:focus,
+body.role-atasan .daily-report-indicator select:focus {
+    border-color: #42a8d1;
+    box-shadow: 0 0 0 3px rgba(8, 138, 200, .12);
+}
+
+body.role-atasan .daily-report-field input[type="file"] {
+    padding: 7px;
+    background: #fff;
+}
+
+body.role-atasan .daily-report-field input[type="file"]::file-selector-button {
+    margin-right: 10px;
+    padding: 7px 10px;
+    color: #075985;
+    background: #e8f6fc;
+    border: 0;
+    border-radius: 7px;
+    font-weight: 700;
+}
+
+body.role-atasan .daily-report-field small {
+    display: block;
+    margin-top: 7px;
+    color: #71829c;
+    font-size: .72rem;
+    line-height: 1.5;
+}
+
+body.role-atasan .daily-report-form-card .report-calendar {
+    width: 100%;
+    border-radius: 12px;
+}
+
+body.role-atasan .daily-report-form-card .report-calendar-day {
+    min-height: 34px;
+    padding: .3rem .2rem .2rem;
+    font-size: .72rem;
+}
+
+body.role-atasan .daily-report-hint {
+    margin: 14px 0 16px;
+    padding: 11px 13px;
+    color: #64748b;
+    background: #f3f9fc;
+    border: 1px solid #e4f0f5;
+    border-radius: 10px;
+    font-size: .82rem;
+    line-height: 1.55;
+}
+
+body.role-atasan .daily-report-indicators {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 9px;
+}
+
+body.role-atasan .daily-report-indicator {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(130px, .7fr);
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+    padding: 11px;
+    background: #fff;
+    border: 1px solid #e1e9f1;
+    border-radius: 10px;
+}
+
+body.role-atasan .daily-report-indicator-label {
+    min-width: 0;
+}
+
+body.role-atasan .daily-report-indicator-label strong,
+body.role-atasan .daily-report-indicator-label span {
+    display: block;
+    overflow-wrap: anywhere;
+}
+
+body.role-atasan .daily-report-indicator-label strong {
+    color: #26344d;
+    font-size: .84rem;
+    line-height: 1.45;
+}
+
+body.role-atasan .daily-report-indicator-label span {
+    margin-top: 4px;
+    color: #71829c;
+    font-size: .72rem;
+}
+
+body.role-atasan .daily-report-submit-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    min-height: 52px;
+    margin-top: 0;
+    padding: 10px 0 0;
+    border-top: 1px solid #edf1f5;
+}
+
+body.role-atasan .daily-report-submit-bar a {
+    padding: 11px 16px;
+    color: #526480;
+    background: #f1f5f9;
+    border-radius: 9px;
+    font-size: .82rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+body.role-atasan .daily-report-submit-bar button {
+    min-height: 42px;
+    padding: 10px 18px;
+    color: #fff;
+    background: #078ac8;
+    border: 0;
+    border-radius: 9px;
+    font-size: .82rem;
+    font-weight: 700;
+}
+
+body.role-atasan .daily-report-submit-bar button:disabled {
+    background: #64748b;
+    cursor: not-allowed;
+    opacity: .9;
+}
+
+body.role-atasan .daily-report-status-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 11px 14px;
+    color: #07527c;
+    background: #eaf7ff;
+    border: 1px solid #c8eaff;
+    border-radius: 10px;
+    font-size: .82rem;
+    line-height: 1.5;
+}
+
+body.role-atasan .daily-report-status-notice > i {
+    margin-top: 2px;
+    color: #078ac8;
+}
+
+body.role-atasan .report-calendar-toolbar button:disabled {
+    cursor: not-allowed;
+    opacity: .45;
+}
+
+body.role-atasan .daily-report-alert,
+body.role-atasan .daily-report-holiday-notice {
+    margin: 0;
+}
+
+@media (min-width: 721px) and (max-width: 991.98px) {
+    body.role-atasan .daily-report-form-page > form {
+        grid-template-columns: minmax(0, 1.25fr) minmax(250px, .9fr);
+    }
+}
+
+@media (max-width: 720px) {
+    body.role-atasan .daily-report-form-page {
+        gap: 14px;
+        padding: 14px;
+    }
+
+    body.role-atasan .daily-report-banner {
+        padding: 18px;
+        border-radius: 14px;
+    }
+
+    body.role-atasan .daily-report-banner-icon {
+        top: 18px;
+        right: 16px;
+        width: 36px;
+        height: 36px;
+        font-size: .95rem;
+        transform: none;
+    }
+
+    body.role-atasan .daily-report-form-page > form {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 14px;
+    }
+
+    body.role-atasan .daily-report-form-page > form > #laporan-informasi,
+    body.role-atasan .daily-report-form-page > form > [data-report-fields] > #laporan-realisasi,
+    body.role-atasan .daily-report-form-page > form > .daily-report-holiday-notice,
+    body.role-atasan .daily-report-form-page > form > [data-report-fields] > .daily-report-submit-bar {
+        grid-column: 1;
+        grid-row: auto;
+    }
+
+    body.role-atasan .daily-report-steps {
+        justify-content: space-between;
+        gap: 8px;
+        padding: 11px 12px;
+    }
+
+    body.role-atasan .daily-report-steps a {
+        gap: 7px;
+    }
+
+    body.role-atasan .daily-report-steps a > span {
+        width: 27px;
+        height: 27px;
+        flex-basis: 27px;
+    }
+
+    body.role-atasan .daily-report-steps a strong {
+        font-size: .68rem;
+    }
+
+    body.role-atasan .daily-report-steps > i {
+        font-size: .6rem;
+    }
+
+    body.role-atasan .daily-report-form-card {
+        padding: 16px;
+        border-radius: 13px;
+    }
+
+    body.role-atasan .daily-report-indicator {
+        grid-template-columns: minmax(0, 1fr) minmax(100px, .7fr);
+        gap: 10px;
+        padding: 11px;
+    }
+
+    body.role-atasan .daily-report-form-card .report-calendar-day {
+        min-height: 38px;
+    }
+}
+
+.report-calendar {
+    overflow: hidden;
+    border: 1px solid #dce5ef;
+    border-radius: 15px;
+    background: #fff;
+}
+
+.daily-report-holiday-notice {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: .75rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border: 1px solid #dce5ef;
+    border-radius: 15px;
+    background: #fff;
+    color: #17345d;
+}
+
+.daily-report-holiday-icon {
+    display: grid;
+    width: 2.2rem;
+    height: 2.2rem;
+    flex: 0 0 auto;
+    place-items: center;
+    border-radius: 10px;
+    background: #eef1f5;
+    color: #59708d;
+}
+
+.daily-report-holiday-notice strong,
+.daily-report-holiday-notice span,
+.daily-report-holiday-notice p {
+    display: block;
+}
+
+.daily-report-holiday-notice strong {
+    padding-right: 5rem;
+    font-size: .9rem;
+}
+
+.daily-report-holiday-notice span:not(.daily-report-holiday-badge) {
+    margin-top: .3rem;
+    color: #607694;
+    font-size: .75rem;
+}
+
+.daily-report-holiday-notice p {
+    margin: .8rem 0 0;
+    color: #17345d;
+    font-size: .82rem;
+}
+
+.daily-report-holiday-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: .35rem .65rem;
+    border-radius: 999px;
+    background: #e9edf2;
+    color: #17345d;
+    font-size: .68rem;
+    font-weight: 800;
+}
+
+.report-calendar-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .75rem .9rem;
+    background: #f7fafd;
+    border-bottom: 1px solid #e4ebf3;
+    color: #17345d;
+}
+
+.report-calendar-toolbar strong {
+    font-size: .88rem;
+    text-transform: capitalize;
+}
+
+.report-calendar-toolbar button {
+    display: grid;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: #58708f;
+    cursor: pointer;
+}
+
+.report-calendar-toolbar button:hover {
+    background: #e8f2fb;
+    color: #168fd4;
+}
+
+.report-calendar-weekdays,
+.report-calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.report-calendar-weekdays {
+    padding: .7rem .35rem .45rem;
+    color: #607694;
+    font-size: .72rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.report-calendar-grid {
+    gap: 1px;
+    padding: 0 .35rem .35rem;
+    background: #e7edf4;
+}
+
+.report-calendar-day {
+    position: relative;
+    min-height: 3.35rem;
+    padding: .45rem .25rem .25rem;
+    border: 0;
+    background: #fff;
+    color: #526b8b;
+    font: inherit;
+    font-size: .78rem;
+    cursor: pointer;
+}
+
+.report-calendar-day.is-empty {
+    cursor: default;
+    background: #f8fafc;
+}
+
+.report-calendar-day.is-holiday {
+    background: #fff5f5;
+    color: #d95353;
+}
+
+.report-calendar-day.is-disabled {
+    cursor: not-allowed;
+}
+
+.report-calendar-lock {
+    position: absolute;
+    top: .25rem;
+    right: .3rem;
+    display: grid;
+    width: .85rem;
+    height: .85rem;
+    place-items: center;
+    border-radius: 50%;
+    background: #e7edf4;
+    color: #7b8da1;
+    font-size: .48rem;
+}
+
+.report-calendar-day.is-national-holiday {
+    background: #fff0f0;
+    color: #cf3f50;
+    font-weight: 700;
+}
+
+.report-calendar-day:not(.is-empty):hover {
+    background: #eef7ff;
+}
+
+.report-calendar-day.is-today::before {
+    position: absolute;
+    top: .25rem;
+    right: .3rem;
+    width: .32rem;
+    height: .32rem;
+    border-radius: 50%;
+    background: #168fd4;
+    content: "";
+}
+
+.report-calendar-day.is-selected {
+    outline: 2px solid #75b9f5;
+    outline-offset: -2px;
+    background: #edf6ff;
+    color: #0e87d2;
+    font-weight: 700;
+}
+
+.report-calendar-day.is-selected .report-calendar-number {
+    display: inline-grid;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+    border-radius: 50%;
+    background: #2297e2;
+    color: #fff;
+}
+
+.report-calendar-mark {
+    display: grid;
+    width: .42rem;
+    height: .42rem;
+    margin: .2rem auto 0;
+    border-radius: 50%;
+    place-items: center;
+}
+
+.report-calendar-mark.is-draft {
+    background: #ef5350;
+}
+
+.report-calendar-mark.is-approved {
+    width: .85rem;
+    height: .85rem;
+    border-radius: 50%;
+    background: #25a66f;
+    color: #fff;
+    font-size: .55rem;
+    line-height: 1;
+}
+
+.report-calendar-mark.is-permission {
+    width: .85rem;
+    height: .85rem;
+    border-radius: 50%;
+    background: #25a66f;
+    color: #fff;
+    font-size: .55rem;
+    line-height: 1;
+}
+
+.report-calendar-mark.is-absent,
+.report-calendar-mark.is-rejected {
+    background: #ef5350;
+    color: #fff;
+    font-size: .45rem;
+}
+
+.report-calendar-mark.is-rejected {
+    width: .85rem;
+    height: .85rem;
+    font-size: .55rem;
+}
+
+.report-calendar-mark.is-missing {
+    background: #2f8fe5;
+}
+
+.report-calendar-legend {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .45rem .8rem;
+    margin-top: .7rem;
+    padding: .55rem .1rem .1rem;
+    color: #17345d;
+    font-size: .67rem;
+    font-weight: 700;
+}
+
+.report-calendar-legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: .25rem;
+    white-space: nowrap;
+}
+
+.report-calendar-legend-item i {
+    display: inline-grid;
+    width: .9rem;
+    height: .9rem;
+    place-items: center;
+    font-size: .72rem;
+}
+
+.report-calendar-legend-item.is-approved i {
+    color: #25a66f;
+}
+
+.report-calendar-legend-item.is-not-approved i {
+    color: #d92f4b;
+    font-size: .58rem;
+}
+
+.report-calendar-legend-item.is-missing i {
+    color: #2f8fe5;
+    font-size: .58rem;
+}

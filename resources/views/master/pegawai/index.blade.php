@@ -4,6 +4,7 @@
     @php
         $atasanCount = $roleCounts['atasan'];
         $kepalaBagianCount = $roleCounts['kepalaBagian'];
+        $direkturCount = $roleCounts['direktur'];
         $pegawaiCount = $roleCounts['pegawai'];
     @endphp
     <div class="master-pegawai-page">
@@ -15,7 +16,7 @@
                         <i class="fa-solid fa-users-gear"></i>
                         Data Pegawai
                     </h1>
-                    <p>Kelola akun Pegawai, Atasan, dan Kepala Bagian. Akun Admin dikelola terpisah.</p>
+                    <p>Kelola akun Pegawai, Atasan, Kepala Bagian, dan Direktur. Akun Admin dikelola terpisah.</p>
                 </div>
             </div>
 
@@ -32,12 +33,13 @@
                     Terdaftar</span></div>
             <div><small>ATASAN</small><strong>{{ $atasanCount }}</strong><span>Menilai Pegawai</span></div>
             <div><small>KEPALA BAGIAN</small><strong>{{ $kepalaBagianCount }}</strong><span>Menilai Atasan</span></div>
+            <div><small>DIREKTUR</small><strong>{{ $direkturCount }}</strong><span>Menilai Kepala Bagian</span></div>
             <div><small>PEGAWAI</small><strong>{{ $pegawaiCount }}</strong><span>Dinilai oleh Atasan</span></div>
         </div>
         <div class="master-pegawai-search"><i class="fa-solid fa-magnifying-glass"></i><input type="search"
                 placeholder="Cari nama, email, jabatan..."></div>
         <div class="master-pegawai-tabs"><span class="active">Semua ({{ $pegawais->total() }})</span><span>Atasan
-                ({{ $atasanCount }})</span><span>Kepala Bagian ({{ $kepalaBagianCount }})</span><span>Pegawai ({{ $pegawaiCount }})</span></div>
+                ({{ $atasanCount }})</span><span>Kepala Bagian ({{ $kepalaBagianCount }})</span><span>Direktur ({{ $direkturCount }})</span><span>Pegawai ({{ $pegawaiCount }})</span></div>
         <div class="master-pegawai-list-head"><span>Menampilkan <b>{{ $pegawais->count() }}</b> dari
                 {{ $pegawais->total() }} pegawai</span><a href="#"><i class="fa-solid fa-arrow-down-wide-short"></i>
                 Urutkan</a></div>
@@ -58,8 +60,8 @@
                     @forelse($pegawais as $pegawai)
                         @php
                             $role = $pegawai->user->role ?? 'pegawai';
-                            $isManager = in_array($role, ['atasan', 'kepala_bagian'], true);
-                            $roleLabel = match ($role) { 'kepala_bagian' => 'Kepala Bagian', 'atasan' => 'Atasan', default => 'Pegawai' };
+                            $isManager = in_array($role, ['atasan', 'kepala_bagian', 'direktur'], true);
+                            $roleLabel = match ($role) { 'direktur' => 'Direktur', 'kepala_bagian' => 'Kepala Bagian', 'atasan' => 'Atasan', default => 'Pegawai' };
                         @endphp
                         <tr>
                             <td>
@@ -109,8 +111,8 @@
             @forelse($pegawais as $pegawai)
                 @php
                     $role = $pegawai->user->role ?? 'pegawai';
-                    $isManager = in_array($role, ['atasan', 'kepala_bagian'], true);
-                    $roleLabel = match ($role) { 'kepala_bagian' => 'Kepala Bagian', 'atasan' => 'Atasan', default => 'Pegawai' };
+                    $isManager = in_array($role, ['atasan', 'kepala_bagian', 'direktur'], true);
+                    $roleLabel = match ($role) { 'direktur' => 'Direktur', 'kepala_bagian' => 'Kepala Bagian', 'atasan' => 'Atasan', default => 'Pegawai' };
                 @endphp
                 <article class="master-pegawai-card {{ $isManager ? 'atasan' : 'staff' }}">
                     <div class="master-pegawai-card-top"><span
@@ -519,7 +521,7 @@
 
         @media (min-width: 768px) {
             .master-pegawai-summary {
-                grid-template-columns: repeat(4, minmax(0, 1fr));
+                grid-template-columns: repeat(5, minmax(0, 1fr));
                 gap: .75rem;
                 margin: .25rem 0 1rem;
             }

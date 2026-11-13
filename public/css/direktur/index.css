@@ -1,0 +1,444 @@
+body.role-direktur {
+    background: #f5f8fc;
+}
+
+body.role-direktur .direktur-dashboard {
+    display: grid;
+    gap: 12px;
+    width: min(1280px, 100%);
+    margin: 0 auto;
+    padding: 16px 20px 24px;
+    color: #17213b;
+}
+
+body.role-direktur .direktur-dashboard-hero,
+body.role-direktur .direktur-dashboard-progress,
+body.role-direktur .direktur-dashboard-action {
+    padding: 22px;
+    background: #fff;
+    border: 1px solid #dfe7f0;
+    border-radius: 16px;
+}
+
+body.role-direktur .direktur-dashboard-hero {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    min-height: 104px;
+    padding: 20px 22px;
+    color: #fff;
+    background: linear-gradient(110deg, #0784c4 0%, #078dc3 55%, #149fae 100%);
+    border: 0;
+    border-radius: 12px;
+    box-shadow: 0 7px 16px rgba(7, 124, 177, .12);
+}
+
+body.role-direktur .direktur-dashboard-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 9px;
+    color: #e2f5fc;
+    background: rgba(255, 255, 255, .16);
+    border: 1px solid rgba(255, 255, 255, .13);
+    border-radius: 999px;
+    font-size: .64rem;
+    font-weight: 700;
+    letter-spacing: .035em;
+}
+
+body.role-direktur .direktur-dashboard-eyebrow i {
+    color: #4be0b1;
+    font-size: .4rem;
+}
+
+body.role-direktur .direktur-dashboard-hero h1 {
+    margin: 7px 0 4px;
+    font-size: clamp(1.2rem, 2.4vw, 1.65rem);
+    font-weight: 800;
+    letter-spacing: -.025em;
+}
+
+body.role-direktur .direktur-dashboard-hero p {
+    margin: 0;
+    color: #e0f2fe;
+    font-size: .72rem;
+    line-height: 1.5;
+}
+
+body.role-direktur .direktur-dashboard-period {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    min-width: 174px;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, .16);
+    border: 1px solid rgba(255, 255, 255, .13);
+    border-radius: 10px;
+}
+
+body.role-direktur .direktur-dashboard-period > i {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    flex: 0 0 30px;
+    color: #e8f7fd;
+    background: rgba(255, 255, 255, .18);
+    border-radius: 8px;
+    font-size: .8rem;
+}
+
+body.role-direktur .direktur-dashboard-period small,
+body.role-direktur .direktur-dashboard-period strong {
+    display: block;
+}
+
+body.role-direktur .direktur-dashboard-period small {
+    margin-bottom: 2px;
+    color: #d6effb;
+    font-size: .55rem;
+    font-weight: 700;
+}
+
+body.role-direktur .direktur-dashboard-period strong {
+    color: #fff;
+    font-size: .68rem;
+}
+
+body.role-direktur .direktur-dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+body.role-direktur .direktur-dashboard-stats article {
+    display: grid;
+    gap: 4px;
+    min-width: 0;
+    padding: 12px;
+    background: #fff;
+    border: 1px solid #dfe7f0;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(35, 52, 85, .025);
+}
+
+body.role-direktur .direktur-dashboard-stats article > span {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    color: #078ac8;
+    background: #e8f6fc;
+    border-radius: 9px;
+    font-size: .78rem;
+}
+
+body.role-direktur .direktur-dashboard-stats strong {
+    color: #111827;
+    font-size: 1.3rem;
+    line-height: 1.1;
+}
+
+body.role-direktur .direktur-dashboard-stats b {
+    color: #17213b;
+    font-size: .72rem;
+}
+
+body.role-direktur .direktur-dashboard-stats small,
+body.role-direktur .direktur-dashboard-progress small {
+    color: #71829c;
+    font-size: .62rem;
+    line-height: 1.4;
+}
+
+body.role-direktur .direktur-dashboard-stats .is-complete > span {
+    color: #2563eb;
+    background: #edf4ff;
+}
+
+body.role-direktur .direktur-dashboard-stats .is-pending > span {
+    color: #d97706;
+    background: #fff4ca;
+}
+
+body.role-direktur .direktur-dashboard-progress {
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(35, 52, 85, .025);
+}
+
+body.role-direktur .direktur-dashboard-progress > div:first-child {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+    color: #17213b;
+    font-size: .7rem;
+    font-weight: 700;
+}
+
+body.role-direktur .direktur-dashboard-progress > div:first-child strong {
+    padding: 4px 8px;
+    color: #075985;
+    background: #edf7fc;
+    border: 1px solid #d5edf7;
+    border-radius: 999px;
+    font-size: .58rem;
+    font-weight: 700;
+}
+
+body.role-direktur .direktur-dashboard-progress-track {
+    height: 7px;
+    margin-bottom: 7px;
+    overflow: hidden;
+    background: #e8eef5;
+    border-radius: 99px;
+}
+
+body.role-direktur .direktur-dashboard-progress-track span {
+    display: block;
+    height: 100%;
+    background: #0bb887;
+    border-radius: inherit;
+}
+
+body.role-direktur .direktur-dashboard-team {
+    display: grid;
+    gap: 10px;
+}
+
+body.role-direktur .direktur-dashboard-section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+body.role-direktur .direktur-dashboard-section-heading h2 {
+    margin: 0;
+    color: #17213b;
+    font-size: .78rem;
+    font-weight: 800;
+}
+
+body.role-direktur .direktur-dashboard-section-heading p {
+    margin: 3px 0 0;
+    color: #71829c;
+    font-size: .62rem;
+}
+
+body.role-direktur .direktur-dashboard-section-heading > span {
+    padding: 4px 8px;
+    color: #075985;
+    background: #edf7fc;
+    border: 1px solid #d5edf7;
+    border-radius: 999px;
+    font-size: .58rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+body.role-direktur .direktur-dashboard-team-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+body.role-direktur .direktur-dashboard-person {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    padding: 12px;
+    color: #17213b;
+    background: #fff;
+    border: 1px solid #dfe7f0;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: border-color .2s, transform .2s;
+}
+
+body.role-direktur .direktur-dashboard-person:hover {
+    color: #17213b;
+    border-color: #078ac8;
+    transform: translateY(-2px);
+}
+
+body.role-direktur .direktur-dashboard-avatar {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    flex: 0 0 30px;
+    color: #078ac8;
+    background: #edf7fc;
+    border-radius: 9px;
+    font-size: .65rem;
+    font-weight: 800;
+}
+
+body.role-direktur .direktur-dashboard-person-info {
+    display: grid;
+    min-width: 0;
+    flex: 1;
+    gap: 3px;
+}
+
+body.role-direktur .direktur-dashboard-person-info strong {
+    overflow: hidden;
+    font-size: .7rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+body.role-direktur .direktur-dashboard-person-info small {
+    overflow: hidden;
+    color: #64748b;
+    font-size: .59rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+body.role-direktur .direktur-dashboard-status {
+    padding: 4px 7px;
+    border-radius: 999px;
+    font-size: .55rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+body.role-direktur .direktur-dashboard-status.is-complete {
+    color: #16834e;
+    background: #e9f8ef;
+}
+
+body.role-direktur .direktur-dashboard-status.is-pending {
+    color: #a45b0a;
+    background: #fff4e5;
+}
+
+body.role-direktur .direktur-dashboard-person > i {
+    color: #078ac8;
+    font-size: .7rem;
+}
+
+body.role-direktur .direktur-dashboard-empty {
+    display: grid;
+    justify-items: center;
+    grid-column: 1 / -1;
+    gap: 5px;
+    padding: 24px 12px;
+    color: #71829c;
+    background: #fff;
+    border: 1px dashed #cbd5e1;
+    border-radius: 12px;
+    text-align: center;
+}
+
+body.role-direktur .direktur-dashboard-empty > i {
+    margin-bottom: 4px;
+    color: #9aacc0;
+    font-size: 1.3rem;
+}
+
+body.role-direktur .direktur-dashboard-empty strong {
+    color: #334155;
+    font-size: .75rem;
+}
+
+body.role-direktur .direktur-dashboard-empty span {
+    font-size: .62rem;
+    line-height: 1.5;
+}
+
+body.role-direktur .direktur-dashboard-action {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(35, 52, 85, .025);
+}
+
+body.role-direktur .direktur-dashboard-action-icon {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    color: #078ac8;
+    background: #e8f6fc;
+    border-radius: 9px;
+    font-size: .85rem;
+}
+
+body.role-direktur .direktur-dashboard-action h2 {
+    margin: 0 0 3px;
+    font-size: .75rem;
+}
+
+body.role-direktur .direktur-dashboard-action p {
+    margin: 0;
+    color: #71829c;
+    font-size: .62rem;
+    line-height: 1.4;
+}
+
+body.role-direktur .direktur-dashboard-action a {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-left: auto;
+    padding: 8px 11px;
+    color: #fff;
+    background: #078ac8;
+    border-radius: 9px;
+    font-size: .64rem;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: 0 3px 8px rgba(7, 138, 200, .15);
+}
+
+@media (max-width: 767.98px) {
+    body.role-direktur .direktur-dashboard {
+        gap: 10px;
+        padding: 14px;
+    }
+
+    body.role-direktur .direktur-dashboard-hero {
+        align-items: stretch;
+        flex-direction: column;
+        padding: 18px;
+    }
+
+    body.role-direktur .direktur-dashboard-period {
+        min-width: 0;
+    }
+
+    body.role-direktur .direktur-dashboard-stats {
+        grid-template-columns: 1fr;
+    }
+
+    body.role-direktur .direktur-dashboard-team-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    body.role-direktur .direktur-dashboard-action {
+        align-items: flex-start;
+        flex-wrap: wrap;
+        padding: 16px;
+    }
+
+    body.role-direktur .direktur-dashboard-action a {
+        width: 100%;
+        justify-content: center;
+        margin-left: 0;
+    }
+}

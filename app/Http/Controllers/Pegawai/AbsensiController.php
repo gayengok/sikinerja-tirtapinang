@@ -51,6 +51,16 @@ class AbsensiController extends Controller
             ->whereDate('tanggal', now()->toDateString())
             ->first();
         $hariLiburHariIni = HariLibur::detail(now()->toDateString());
+        $attendanceCalendarMonth = now()->copy()->startOfMonth();
+        $attendanceCalendar = $request->user()->role === 'atasan'
+            ? $pegawai->absensis()
+                ->whereBetween('tanggal', [
+                    $attendanceCalendarMonth->toDateString(),
+                    $attendanceCalendarMonth->copy()->endOfMonth()->toDateString(),
+                ])
+                ->get(['tanggal', 'jam_masuk', 'jam_pulang'])
+                ->keyBy(fn (Absensi $absensi) => (int) $absensi->tanggal->day)
+            : collect();
 
         return view('pegawai.absensi.index', [
             'pegawai' => $pegawai,
@@ -62,6 +72,8 @@ class AbsensiController extends Controller
             'hariLiburHariIni' => $hariLiburHariIni,
             'absensiMasukHariIni' => filled($absensiHariIni?->jam_masuk),
             'absensiPulangHariIni' => filled($absensiHariIni?->jam_pulang),
+            'attendanceCalendarMonth' => $attendanceCalendarMonth,
+            'attendanceCalendar' => $attendanceCalendar,
             'attendanceRoute' => $this->attendanceRoute($request),
             'dashboardRoute' => $request->user()->role === 'atasan' ? 'atasan.dashboard' : 'pegawai.dashboard',
         ]);

@@ -58,29 +58,17 @@
             <small>{{ $sudahDinilai }} dari {{ $totalKepalaBagian }} Kepala Bagian telah dinilai.</small>
         </section>
 
-        <section class="direktur-dashboard-team" aria-label="Daftar Kepala Bagian yang dinilai">
-            <div class="direktur-dashboard-section-heading">
-                <div>
-                    <h2>Daftar Kepala Bagian</h2>
-                    <p>Penilaian menggunakan KPI sesuai jabatan masing-masing.</p>
-                </div>
-                <span>{{ $totalKepalaBagian }} orang</span>
-            </div>
-
-            <div class="direktur-dashboard-team-grid">
+        <section class="direktur-dashboard-tools" aria-label="Daftar Kepala Bagian yang dinilai">
             @forelse ($kepalaBagians as $kepalaBagian)
                 @php $hasRating = $sudahDinilaiIds->contains($kepalaBagian->id); @endphp
                 <a class="direktur-dashboard-person" href="{{ $periodeAktif
                     ? route('direktur.penilaian-kepala-bagian.' . ($hasRating ? 'show' : 'create'), ['pegawai' => $kepalaBagian, 'periode_id' => $periodeAktif->id])
                     : route('direktur.penilaian-kepala-bagian.index') }}">
-                    <span class="direktur-dashboard-avatar">{{ strtoupper(substr($kepalaBagian->nama, 0, 2)) }}</span>
+                    <i class="fa-solid fa-user-tie"></i>
                     <div class="direktur-dashboard-person-info">
                         <strong>{{ $kepalaBagian->nama }}</strong>
-                        <small>{{ $kepalaBagian->jabatan->nama_jabatan ?? 'Jabatan belum diatur' }} · {{ $kepalaBagian->jabatan->divisi->nama_divisi ?? 'Unit belum diatur' }}</small>
+                        <small>{{ $kepalaBagian->jabatan->nama_jabatan ?? 'Jabatan belum diatur' }} · {{ $hasRating ? 'Sudah dinilai' : 'Belum dinilai' }}</small>
                     </div>
-                    <span class="direktur-dashboard-status {{ $hasRating ? 'is-complete' : 'is-pending' }}">
-                        {{ $hasRating ? 'Sudah dinilai' : 'Belum dinilai' }}
-                    </span>
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>
             @empty
@@ -90,7 +78,6 @@
                     <span>Master dapat menghubungkan Kepala Bagian dengan akun Direktur melalui Data Pegawai.</span>
                 </div>
             @endforelse
-            </div>
         </section>
 
         <section class="direktur-dashboard-action">
@@ -100,6 +87,15 @@
                 <p>Tinjau dan berikan nilai KPI kepada Kepala Bagian yang menjadi tanggung jawab Anda.</p>
             </div>
             <a href="{{ route('direktur.penilaian-kepala-bagian.index') }}">Buka Penilaian <i class="fa-solid fa-arrow-right"></i></a>
+        </section>
+
+        <section class="direktur-dashboard-action">
+            <div class="direktur-dashboard-action-icon"><i class="fa-solid fa-table-list"></i></div>
+            <div>
+                <h2>Rekap Data Kehadiran dan Tunjangan</h2>
+                <p>Lihat rekap bulanan seluruh pegawai di semua divisi.</p>
+            </div>
+            <a href="{{ route('direktur.rekap-data.index') }}">Buka Rekap Data <i class="fa-solid fa-arrow-right"></i></a>
         </section>
     </main>
 @endsection

@@ -1,4 +1,4 @@
-body.role-kepala_bagian .kepala-rekap {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap {
     display: grid;
     gap: 16px;
     width: min(1280px, 100%);
@@ -7,7 +7,7 @@ body.role-kepala_bagian .kepala-rekap {
     color: #17213b;
 }
 
-body.role-kepala_bagian .kepala-rekap-heading {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-heading {
     display: flex;
     align-items: end;
     justify-content: space-between;
@@ -18,7 +18,7 @@ body.role-kepala_bagian .kepala-rekap-heading {
     border-radius: 14px;
 }
 
-body.role-kepala_bagian .kepala-rekap-eyebrow {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-eyebrow {
     display: inline-flex;
     align-items: center;
     gap: 7px;
@@ -28,25 +28,25 @@ body.role-kepala_bagian .kepala-rekap-eyebrow {
     letter-spacing: .08em;
 }
 
-body.role-kepala_bagian .kepala-rekap-heading h1 {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-heading h1 {
     margin: 7px 0 4px;
     font-size: clamp(1.25rem, 2.4vw, 1.7rem);
     font-weight: 800;
 }
 
-body.role-kepala_bagian .kepala-rekap-heading p {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-heading p {
     margin: 0;
     color: #64748b;
     font-size: .82rem;
 }
 
-body.role-kepala_bagian .kepala-rekap-filter {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter {
     display: flex;
     align-items: end;
     gap: 9px;
 }
 
-body.role-kepala_bagian .kepala-rekap-filter label {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter label {
     display: grid;
     gap: 4px;
     color: #64748b;
@@ -54,8 +54,8 @@ body.role-kepala_bagian .kepala-rekap-filter label {
     font-weight: 700;
 }
 
-body.role-kepala_bagian .kepala-rekap-filter select,
-body.role-kepala_bagian .kepala-rekap-filter input {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter select,
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter input {
     min-height: 38px;
     padding: 0 10px;
     color: #17213b;
@@ -65,16 +65,16 @@ body.role-kepala_bagian .kepala-rekap-filter input {
     font: inherit;
 }
 
-body.role-kepala_bagian .kepala-rekap-filter select {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter select {
     min-width: 126px;
 }
 
-body.role-kepala_bagian .kepala-rekap-filter input {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter input {
     width: 92px;
 }
 
-body.role-kepala_bagian .kepala-rekap-filter button,
-body.role-kepala_bagian .kepala-rekap-filter .kepala-rekap-print {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter button,
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter .kepala-rekap-print {
     min-height: 38px;
     padding: 0 13px;
     color: #fff;
@@ -85,7 +85,7 @@ body.role-kepala_bagian .kepala-rekap-filter .kepala-rekap-print {
     font-weight: 700;
 }
 
-body.role-kepala_bagian .kepala-rekap-filter .kepala-rekap-print {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter .kepala-rekap-print {
     display: grid;
     width: 38px;
     place-items: center;
@@ -95,23 +95,23 @@ body.role-kepala_bagian .kepala-rekap-filter .kepala-rekap-print {
     border: 1px solid #d7e0ea;
 }
 
-body.role-kepala_bagian .kepala-rekap-filter button,
-body.role-kepala_bagian .kepala-rekap-filter .kepala-rekap-print {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter button,
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter .kepala-rekap-print {
     cursor: pointer;
     transition: background-color .18s ease, border-color .18s ease;
 }
 
-body.role-kepala_bagian .kepala-rekap-filter button:hover {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter button:hover {
     background-color: #0876ad;
 }
 
-body.role-kepala_bagian .kepala-rekap-filter .kepala-rekap-print:hover {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter .kepala-rekap-print:hover {
     color: #0784c4;
     background: #f0f9ff;
     border-color: #9bd5f1;
 }
 
-body.role-kepala_bagian .kepala-rekap-notice {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-notice {
     display: flex;
     align-items: center;
     gap: 9px;
@@ -123,15 +123,15 @@ body.role-kepala_bagian .kepala-rekap-notice {
     font-size: .78rem;
 }
 
-body.role-kepala_bagian .kepala-rekap-card {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card {
     overflow: hidden;
     background: #fff;
     border: 1px solid #dfe7f0;
     border-radius: 14px;
 }
 
-body.role-kepala_bagian .kepala-rekap-card-heading,
-body.role-kepala_bagian .kepala-rekap-card-footer {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-heading,
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -139,11 +139,11 @@ body.role-kepala_bagian .kepala-rekap-card-footer {
     padding: 13px 16px;
 }
 
-body.role-kepala_bagian .kepala-rekap-card-heading {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-heading {
     min-height: 48px;
 }
 
-body.role-kepala_bagian .kepala-rekap-card-heading h2 {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-heading h2 {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -152,7 +152,7 @@ body.role-kepala_bagian .kepala-rekap-card-heading h2 {
     font-weight: 800;
 }
 
-body.role-kepala_bagian .kepala-rekap-card-heading h2 span {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-heading h2 span {
     padding: 3px 7px;
     color: #285077;
     background: #eff6ff;
@@ -161,22 +161,22 @@ body.role-kepala_bagian .kepala-rekap-card-heading h2 span {
     font-weight: 700;
 }
 
-body.role-kepala_bagian .kepala-rekap-card-heading p {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-heading p {
     margin: 0;
     color: #64748b;
     font-size: .68rem;
 }
 
-body.role-kepala_bagian .kepala-rekap-card-heading p i {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-heading p i {
     margin-right: 4px;
     color: #94a3b8;
 }
 
-body.role-kepala_bagian .kepala-rekap-table-wrap {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table-wrap {
     overflow-x: auto;
 }
 
-body.role-kepala_bagian .kepala-rekap-table {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table {
     width: 100%;
     min-width: 1100px;
     table-layout: fixed;
@@ -184,43 +184,43 @@ body.role-kepala_bagian .kepala-rekap-table {
     font-size: .84rem;
 }
 
-body.role-kepala_bagian .kepala-rekap-col-number {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-col-number {
     width: 5%;
 }
 
-body.role-kepala_bagian .kepala-rekap-col-name {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-col-name {
     width: 20%;
 }
 
-body.role-kepala_bagian .kepala-rekap-col-position {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-col-position {
     width: 17%;
 }
 
-body.role-kepala_bagian .kepala-rekap-col-division {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-col-division {
     width: 16%;
 }
 
-body.role-kepala_bagian .kepala-rekap-col-date {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-col-date {
     width: 21%;
 }
 
-body.role-kepala_bagian .kepala-rekap-col-attendance {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-col-attendance {
     width: 11%;
 }
 
-body.role-kepala_bagian .kepala-rekap-col-tukin {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-col-tukin {
     width: 10%;
 }
 
-body.role-kepala_bagian .kepala-rekap-table th,
-body.role-kepala_bagian .kepala-rekap-table td {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table th,
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table td {
     padding: 12px 14px;
     vertical-align: middle;
     text-align: left;
     border-bottom: 1px solid #e8edf3;
 }
 
-body.role-kepala_bagian .kepala-rekap-table thead th {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table thead th {
     color: #526174;
     background: #f7f9fc;
     font-size: .7rem;
@@ -229,35 +229,35 @@ body.role-kepala_bagian .kepala-rekap-table thead th {
     white-space: nowrap;
 }
 
-body.role-kepala_bagian .kepala-rekap-table th:first-child,
-body.role-kepala_bagian .kepala-rekap-table td:first-child,
-body.role-kepala_bagian .kepala-rekap-table th:nth-child(6),
-body.role-kepala_bagian .kepala-rekap-table td:nth-child(6) {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table th:first-child,
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table td:first-child,
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table th:nth-child(6),
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table td:nth-child(6) {
     text-align: center;
 }
 
-body.role-kepala_bagian .kepala-rekap-table th:nth-child(5),
-body.role-kepala_bagian .kepala-rekap-table td:nth-child(5) {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table th:nth-child(5),
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table td:nth-child(5) {
     text-align: center;
 }
 
-body.role-kepala_bagian .kepala-rekap-table th:nth-child(7),
-body.role-kepala_bagian .kepala-rekap-table td:nth-child(7) {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table th:nth-child(7),
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table td:nth-child(7) {
     text-align: right;
 }
 
-body.role-kepala_bagian .kepala-rekap-table tbody tr:last-child td {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table tbody tr:last-child td {
     border-bottom: 0;
 }
 
-body.role-kepala_bagian .kepala-rekap-person {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-person {
     display: flex;
     align-items: center;
     gap: 9px;
     min-width: 0;
 }
 
-body.role-kepala_bagian .kepala-rekap-avatar {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-avatar {
     display: grid;
     flex: 0 0 30px;
     width: 30px;
@@ -270,37 +270,37 @@ body.role-kepala_bagian .kepala-rekap-avatar {
     font-weight: 800;
 }
 
-body.role-kepala_bagian .kepala-rekap-person-copy {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-person-copy {
     display: grid;
     gap: 2px;
     min-width: 0;
 }
 
-body.role-kepala_bagian .kepala-rekap-person-copy strong {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-person-copy strong {
     overflow-wrap: anywhere;
     color: #17213b;
     font-size: .78rem;
     font-weight: 750;
 }
 
-body.role-kepala_bagian .kepala-rekap-person-copy small {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-person-copy small {
     color: #94a3b8;
     font-size: .64rem;
 }
 
-body.role-kepala_bagian .kepala-rekap-table .kepala-rekap-date {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table .kepala-rekap-date {
     color: #526174;
     font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
     font-size: .69rem;
     white-space: nowrap;
 }
 
-body.role-kepala_bagian .kepala-rekap-table .kepala-rekap-money {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table .kepala-rekap-money {
     font-weight: 700;
 }
 
-body.role-kepala_bagian .kepala-rekap-attendance,
-body.role-kepala_bagian .kepala-rekap-tukin {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-attendance,
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-tukin {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -314,42 +314,42 @@ body.role-kepala_bagian .kepala-rekap-tukin {
     white-space: nowrap;
 }
 
-body.role-kepala_bagian .kepala-rekap-attendance.is-present {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-attendance.is-present {
     color: #047857;
     background: #ecfdf5;
     border-color: #bbf7d0;
 }
 
-body.role-kepala_bagian .kepala-rekap-tukin {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-tukin {
     color: #a16207;
     background: #fffbeb;
     border-color: #fde68a;
 }
 
-body.role-kepala_bagian .kepala-rekap-tukin.is-calculated {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-tukin.is-calculated {
     color: #166534;
     background: #f0fdf4;
     border-color: #bbf7d0;
 }
 
-body.role-kepala_bagian .kepala-rekap-table tfoot th {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table tfoot th {
     background: #f7f9fc;
     border-top: 1px solid #dfe7f0;
     border-bottom: 0;
     font-weight: 800;
 }
 
-body.role-kepala_bagian .kepala-rekap-table tfoot th[colspan="5"] {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table tfoot th[colspan="5"] {
     text-align: left;
 }
 
-body.role-kepala_bagian .kepala-rekap-table .kepala-rekap-empty {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table .kepala-rekap-empty {
     padding: 36px 16px;
     color: #64748b;
     text-align: center;
 }
 
-body.role-kepala_bagian .kepala-rekap-card-footer {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-footer {
     padding-top: 10px;
     padding-bottom: 10px;
     color: #94a3b8;
@@ -357,87 +357,87 @@ body.role-kepala_bagian .kepala-rekap-card-footer {
     font-size: .65rem;
 }
 
-body.role-kepala_bagian .kepala-rekap-card-footer strong {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-footer strong {
     margin-left: 4px;
     color: #64748b;
     font-weight: 700;
 }
 
-body.role-kepala_bagian .kepala-rekap-card-footer strong i {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-footer strong i {
     margin-right: 3px;
     font-size: .48rem;
 }
 
-body.role-kepala_bagian .kepala-rekap-card-footer strong.is-available i {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-footer strong.is-available i {
     color: #16a34a;
 }
 
-body.role-kepala_bagian .kepala-rekap-card-footer strong.is-pending i {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-footer strong.is-pending i {
     color: #94a3b8;
 }
 
 @media (max-width: 720px) {
-    body.role-kepala_bagian .kepala-rekap {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap {
         padding: 12px 12px 22px;
     }
 
-    body.role-kepala_bagian .kepala-rekap-heading {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-heading {
         align-items: stretch;
         flex-direction: column;
         padding: 18px;
     }
 
-    body.role-kepala_bagian .kepala-rekap-filter {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter {
         display: grid;
         grid-template-columns: minmax(0, 1fr) minmax(78px, .55fr) auto 38px;
     }
 
-    body.role-kepala_bagian .kepala-rekap-filter select,
-    body.role-kepala_bagian .kepala-rekap-filter input {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter select,
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter input {
         width: 100%;
         min-width: 0;
     }
 
-    body.role-kepala_bagian .kepala-rekap-card-heading,
-    body.role-kepala_bagian .kepala-rekap-card-footer {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-heading,
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-footer {
         align-items: flex-start;
         flex-direction: column;
     }
 
-    body.role-kepala_bagian .kepala-rekap-card-heading p {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-heading p {
         font-size: .64rem;
     }
 }
 
 @media print {
-    body.role-kepala_bagian .kepala-rekap {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap {
         width: 100%;
         padding: 0;
     }
 
-    body.role-kepala_bagian .kepala-rekap-filter,
-    body.role-kepala_bagian .kepala-rekap-notice {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter,
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-notice {
         display: none;
     }
 
-    body.role-kepala_bagian .kepala-rekap-card {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card {
         break-inside: avoid;
         border-color: #cbd5e1;
         box-shadow: none;
     }
 
-    body.role-kepala_bagian .kepala-rekap-table {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table {
         min-width: 0;
         font-size: 9pt;
     }
 
-    body.role-kepala_bagian .kepala-rekap-table th,
-    body.role-kepala_bagian .kepala-rekap-table td {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table th,
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table td {
         padding: 8px;
         white-space: normal;
     }
 
-    body.role-kepala_bagian .kepala-rekap-table .kepala-rekap-date {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table .kepala-rekap-date {
         white-space: normal;
     }
 }

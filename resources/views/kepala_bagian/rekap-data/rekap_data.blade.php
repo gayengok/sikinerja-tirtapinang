@@ -4,6 +4,7 @@
 
 @section('content')
     @php
+        $routePrefix = auth()->user()->role === 'direktur' ? 'direktur' : 'kepala_bagian';
         $namaBulan = [
             1 => 'Januari',
             2 => 'Februari',
@@ -28,7 +29,7 @@
                 <p>Ringkasan kehadiran dan tunjangan pegawai dalam tim Anda.</p>
             </div>
 
-            <form method="GET" action="{{ route('kepala_bagian.rekap-data.index') }}" class="kepala-rekap-filter">
+            <form method="GET" action="{{ route($routePrefix . '.rekap-data.index') }}" class="kepala-rekap-filter">
                 <label>
                     <span>Bulan</span>
                     <select name="bulan" aria-label="Pilih bulan">
@@ -46,7 +47,7 @@
                 </label>
                 <button type="submit"><i class="fa-solid fa-filter"></i> Terapkan</button>
                 <a class="kepala-rekap-print"
-                    href="{{ route('kepala_bagian.rekap-data.pdf', request()->query()) }}"
+                    href="{{ route($routePrefix . '.rekap-data.pdf', request()->query()) }}"
                     aria-label="Unduh rekap PDF" title="Unduh rekap PDF">
                     <i class="fa-solid fa-download" aria-hidden="true"></i>
                 </a>

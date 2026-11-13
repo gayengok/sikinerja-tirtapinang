@@ -192,6 +192,8 @@ Route::middleware(['auth', 'role:direktur'])
     ->name('direktur.')
     ->group(function () {
         Route::get('dashboard', [DashboardDirekturController::class, 'index'])->name('dashboard');
+        Route::get('rekap-data/pdf', [RekapDataController::class, 'downloadPdf'])->name('rekap-data.pdf');
+        Route::get('rekap-data', [RekapDataController::class, 'index'])->name('rekap-data.index');
 
         Route::prefix('penilaian-kepala-bagian')->name('penilaian-kepala-bagian.')->group(function () {
             Route::get('/', [PenilaianKepalaBagianController::class, 'index'])->name('index');

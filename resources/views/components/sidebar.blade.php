@@ -16,7 +16,7 @@
             </div>
         </div>
         <button type="button" class="btn-close btn-close-white btn-sm" id="sidebarCloseBtn"
-            aria-label="Close"></button>
+            aria-label="Tutup navigasi"></button>
     </div>
 
     <nav class="sidebar-nav">
@@ -85,6 +85,10 @@
             <a href="{{ route('direktur.penilaian-kepala-bagian.index') }}" title="Penilaian Kepala Bagian"
                 class="sidebar-link {{ request()->routeIs('direktur.penilaian-kepala-bagian.*') ? 'active' : '' }}">
                 <i class="fa-solid fa-chart-line"></i> <span>Penilaian Kepala Bagian</span>
+            </a>
+            <a href="{{ route('direktur.rekap-data.index') }}" title="Rekap Data"
+                class="sidebar-link {{ request()->routeIs('direktur.rekap-data.*') ? 'active' : '' }}">
+                <i class="fa-solid fa-table-list"></i> <span>Rekap Data</span>
             </a>
         @elseif ($role === 'atasan')
             <a href="{{ route('atasan.dashboard') }}" title="Dashboard"

@@ -17,7 +17,7 @@
 
 @endphp
 
-<nav class="navbar navbar-sikinerja navbar-expand {{ request()->routeIs('atasan.absensi.*', 'atasan.absensi-saya.*', 'kepala_bagian.absensi.*') ? 'attendance-wide-navbar' : '' }}">
+<nav class="navbar navbar-sikinerja navbar-expand">
     <div class="navbar-start">
         <!-- Brand Logo & Title -->
         <a href="#" class="navbar-brand">
@@ -29,9 +29,13 @@
                 <span class="brand-caption-subtitle">TIRTA PINANG</span>
             </div>
         </a>
-        @if ($role === 'master' || $role === 'atasan' || $role === 'kepala_bagian')
-            <button type="button" class="sidebar-toggle-button" id="sidebarToggleDesktop" aria-label="Ciutkan navigasi"
-                aria-expanded="true" title="Ciutkan navigasi">
+        @if (in_array($role, ['master', 'atasan', 'kepala_bagian', 'direktur'], true))
+            <button type="button" class="sidebar-toggle-button sidebar-toggle-desktop" id="sidebarToggleDesktop"
+                aria-label="Ciutkan navigasi" aria-expanded="true" aria-controls="sidebar" title="Ciutkan navigasi">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <button type="button" class="sidebar-toggle-button sidebar-toggle-mobile" id="sidebarToggleMobile"
+                aria-label="Buka navigasi" aria-expanded="false" aria-controls="sidebar" title="Buka navigasi">
                 <i class="fa-solid fa-bars"></i>
             </button>
         @endif
@@ -106,7 +110,13 @@
         }
 
         @media (min-width: 768px) {
-            .sidebar-toggle-button {
+            .sidebar-toggle-desktop {
+                display: grid;
+            }
+        }
+
+        @media (max-width: 767.98px) {
+            .sidebar-toggle-mobile {
                 display: grid;
             }
         }
@@ -116,52 +126,6 @@
                 width: 100% !important;
                 max-width: none !important;
                 margin: 0 !important;
-            }
-
-            body.desktop-atasan-attendance.role-atasan .navbar-sikinerja.attendance-wide-navbar {
-                position: fixed !important;
-                top: 0 !important;
-                right: 0 !important;
-                left: 0 !important;
-                width: 100% !important;
-                max-width: none !important;
-                margin: 0 !important;
-                padding-right: clamp(1rem, 2vw, 2rem) !important;
-                padding-left: clamp(1rem, 2vw, 2rem) !important;
-                transform: none !important;
-                box-sizing: border-box !important;
-                justify-content: space-between !important;
-            }
-
-            body.desktop-atasan-attendance.role-atasan .attendance-wide-navbar .navbar-start {
-                flex: 0 0 auto !important;
-                justify-content: flex-start !important;
-                gap: 0.75rem !important;
-            }
-
-            body.desktop-atasan-attendance.role-atasan .attendance-wide-navbar .navbar-brand {
-                flex: 0 0 auto !important;
-                gap: 0.65rem !important;
-            }
-
-            body.desktop-atasan-attendance.role-atasan .attendance-wide-navbar .brand-badge-icon {
-                width: 100px !important;
-                height: 46px !important;
-                flex: 0 0 100px !important;
-                padding: 2px !important;
-                overflow: hidden;
-            }
-
-            body.desktop-atasan-attendance.role-atasan .attendance-wide-navbar .brand-caption {
-                width: auto !important;
-                max-width: 140px !important;
-                opacity: 1 !important;
-                transform: none !important;
-            }
-
-            body.desktop-atasan-attendance.role-atasan .attendance-wide-navbar .navbar-end {
-                flex: 0 0 auto !important;
-                margin-left: auto !important;
             }
         }
 

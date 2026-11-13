@@ -86,6 +86,23 @@ class DirekturAssessmentTest extends TestCase
             ->assertSee('Kepala Bagian Operasional');
     }
 
+    public function test_director_can_open_rekap_data_from_dashboard_and_sidebar(): void
+    {
+        [$direkturUser] = $this->createHierarchy();
+
+        $this->actingAs($direkturUser)
+            ->get(route('direktur.dashboard'))
+            ->assertOk()
+            ->assertSee('title="Rekap Data"', false)
+            ->assertSee(route('direktur.rekap-data.index'), false);
+
+        $this->get(route('direktur.rekap-data.index'))
+            ->assertOk()
+            ->assertSee('Rekap Data Kehadiran')
+            ->assertSee(route('direktur.rekap-data.index'), false)
+            ->assertSee(route('direktur.rekap-data.pdf'), false);
+    }
+
     public function test_director_can_assess_assigned_head_and_is_limited_to_reporting_line(): void
     {
         [$direkturUser, $kepalaBagian] = $this->createHierarchy();
@@ -133,6 +150,9 @@ class DirekturAssessmentTest extends TestCase
         $this->get(route('direktur.dashboard'))
             ->assertOk()
             ->assertSee('Dashboard Direktur')
+            ->assertSee('id="sidebarToggleDesktop"', false)
+            ->assertSee('id="sidebarToggleMobile"', false)
+            ->assertSee('title="Penilaian Kepala Bagian"', false)
             ->assertSee('Kepala Bagian Operasional')
             ->assertDontSee('Kepala Bagian Lain');
 

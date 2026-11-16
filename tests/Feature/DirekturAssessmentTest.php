@@ -318,7 +318,20 @@ class DirekturAssessmentTest extends TestCase
             ->assertSee('Kepala Bagian')
             ->assertSee('Rincian Hasil KPI')
             ->assertSee('Rincian Tunjangan Kinerja')
+            ->assertSee('Cetak PDF')
+            ->assertSee(route('direktur.penilaian-kepala-bagian.pdf', [
+                'pegawai' => $kepalaBagian,
+                'periode_id' => $periode->id,
+            ]), false)
             ->assertSee('TUKIN NETO DITERIMA');
+
+        $pdfResponse = $this->get(route('direktur.penilaian-kepala-bagian.pdf', [
+            'pegawai' => $kepalaBagian,
+            'periode_id' => $periode->id,
+        ]));
+        $pdfResponse->assertOk();
+        $this->assertSame('application/pdf', $pdfResponse->headers->get('content-type'));
+        $this->assertStringContainsString('.pdf', $pdfResponse->headers->get('content-disposition'));
 
         $this->get(route('direktur.penilaian-kepala-bagian.show', $kepalaBagianLain))
             ->assertForbidden();

@@ -5,7 +5,6 @@
         $assessmentRoutePrefix = $assessmentRoutePrefix ?? 'kepala_bagian.penilaian-atasan';
         $targetLabel = $targetLabel ?? 'Atasan';
         $periodeId = $periode?->id;
-        $tanggalPenilaian = $hasilDiperbaruiPada?->translatedFormat('d M Y, H:i');
         $statusTunjangan = $hasilTunjangan?->status === 'dikirim'
             ? 'Menunggu Verifikasi Final'
             : 'Draft / Meninjau Ulang';
@@ -130,17 +129,17 @@
             @endif
         </section>
 
-        <p class="kepala-kpi-result-timestamp">
-            <i class="fa-regular fa-clock"></i>
-            <span>Penilaian terakhir diperbarui
-                <strong>{{ $tanggalPenilaian ? $tanggalPenilaian . ' WIB' : '-' }}</strong>
-            </span>
-        </p>
-
         <div class="kepala-kpi-result-actions">
-            <button type="button" class="kepala-kpi-result-print" id="kepalaKpiResultPrint">
-                <i class="fa-solid fa-download" aria-hidden="true"></i> Cetak PDF
-            </button>
+            @if ($assessmentRoutePrefix === 'direktur.penilaian-kepala-bagian')
+                <a class="kepala-kpi-result-print"
+                    href="{{ route($assessmentRoutePrefix . '.pdf', ['pegawai' => $pegawai, 'periode_id' => $periodeId]) }}">
+                    <i class="fa-solid fa-download" aria-hidden="true"></i> Cetak PDF
+                </a>
+            @else
+                <button type="button" class="kepala-kpi-result-print" id="kepalaKpiResultPrint">
+                    <i class="fa-solid fa-download" aria-hidden="true"></i> Cetak PDF
+                </button>
+            @endif
             <a class="kepala-kpi-result-back"
                 href="{{ route($assessmentRoutePrefix . '.index', $periodeId ? ['periode_id' => $periodeId] : []) }}">
                 <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Kembali
@@ -154,7 +153,9 @@
 @endpush
 
 @push('scripts')
+    @if ($assessmentRoutePrefix !== 'direktur.penilaian-kepala-bagian')
     <script>
         document.getElementById('kepalaKpiResultPrint')?.addEventListener('click', () => window.print());
     </script>
+    @endif
 @endpush

@@ -305,22 +305,7 @@ body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-result-page {
     line-height: 1.5;
 }
 
-.kepala-kpi-result-timestamp {
-    display: flex;
-    align-items: center;
-    gap: .5rem;
-    margin: .8rem 0;
-    color: #708198;
-    font-size: .78rem;
-}
 
-.kepala-kpi-result-timestamp i {
-    color: #8293aa;
-}
-
-.kepala-kpi-result-timestamp strong {
-    color: #526480;
-}
 
 .kepala-kpi-result-actions {
     gap: .7rem;

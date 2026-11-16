@@ -54,6 +54,8 @@ use Illuminate\Support\Facades\Route;
 //     };
 // });
 
+
+// LOGIN PEGAWAI
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
 Route::post('/login', [AuthenticatedSessionController::class, 'store']);
 
@@ -79,6 +81,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
 
+
+// MASTER ATAU ADMIN
+
 Route::middleware(['auth', 'role:master'])
     ->prefix('master')
     ->name('master.')
@@ -96,6 +101,8 @@ Route::middleware(['auth', 'role:master'])
         Route::resource('jenis-potongan', JenisPotonganController::class)->parameters(['jenis-potongan' => 'jenisPotongan']);
     });
 
+
+// KEPALA DIREKSI
 Route::middleware(['auth', 'role:atasan'])
     ->prefix('atasan')
     ->name('atasan.')
@@ -156,6 +163,7 @@ Route::middleware(['auth', 'role:atasan'])
         });
     });
 
+// KEPALA KABAG
 Route::middleware(['auth', 'role:kepala_bagian'])
     ->prefix('kepala-bagian')
     ->name('kepala_bagian.')
@@ -187,6 +195,7 @@ Route::middleware(['auth', 'role:kepala_bagian'])
         });
     });
 
+// DIREKTUR
 Route::middleware(['auth', 'role:direktur'])
     ->prefix('direktur')
     ->name('direktur.')
@@ -206,6 +215,7 @@ Route::middleware(['auth', 'role:direktur'])
             Route::get('/', [PenilaianKepalaBagianController::class, 'index'])->name('index');
             Route::get('/{pegawai}/kompetensi/edit', [PenilaianKepalaBagianController::class, 'editKompetensi'])->name('kompetensi.edit');
             Route::put('/{pegawai}/kompetensi', [PenilaianKepalaBagianController::class, 'updateKompetensi'])->name('kompetensi.update');
+            Route::get('/{pegawai}/pdf', [PenilaianKepalaBagianController::class, 'downloadPdf'])->name('pdf');
             Route::get('/{pegawai}', [PenilaianKepalaBagianController::class, 'show'])->name('show');
             Route::get('/{pegawai}/nilai', [PenilaianKepalaBagianController::class, 'create'])->name('create');
             Route::post('/{pegawai}', [PenilaianKepalaBagianController::class, 'store'])->name('store');
@@ -213,7 +223,7 @@ Route::middleware(['auth', 'role:direktur'])
         });
     });
 
-
+// PEGAWAI
 Route::middleware(['auth', 'role:pegawai'])
     ->prefix('pegawai')
     ->name('pegawai.')

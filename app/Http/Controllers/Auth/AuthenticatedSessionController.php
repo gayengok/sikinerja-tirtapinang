@@ -23,9 +23,9 @@ class AuthenticatedSessionController extends Controller
         }
 
         return view('auth.login', [
-            'loginTitle' => 'Masuk Pegawai',
-            'loginDescription' => 'Gunakan kredensial akun Pegawai SIKINERJA.',
-            'loginButton' => 'Masuk ke Dashboard Pegawai',
+            'loginRoute' => 'login.store',
+            'loginTitle' => 'Masuk SIKINERJA',
+            'loginButton' => 'Masuk',
         ]);
     }
 
@@ -48,12 +48,9 @@ class AuthenticatedSessionController extends Controller
             'password.required' => 'Password wajib diisi.',
         ]);
 
-        if (! Auth::attempt(
-            array_merge($credentials, ['role' => 'pegawai']),
-            $request->boolean('remember')
-        )) {
+        if (! Auth::attempt($credentials, $request->boolean('remember'))) {
             throw ValidationException::withMessages([
-                'email' => 'Email atau password akun Pegawai yang Anda masukkan salah.',
+                'email' => 'Email atau password yang Anda masukkan salah.',
             ]);
         }
 
@@ -68,22 +65,12 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        $role = $request->user()?->role;
-
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        $loginRoute = match ($role) {
-            'master' => 'master.login',
-            'direktur' => 'direktur.login',
-            'kepala_bagian' => 'kepala_bagian.login',
-            'atasan' => 'atasan.login',
-            default => 'login',
-        };
-
-        return redirect()->route($loginRoute)->with('success', 'Anda berhasil logout.');
+        return redirect()->route('login')->with('success', 'Anda berhasil logout.');
     }
 
     /**

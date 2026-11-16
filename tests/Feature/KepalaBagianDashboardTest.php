@@ -25,7 +25,7 @@ class KepalaBagianDashboardTest extends TestCase
     {
         [$kepalaBagianUser, $atasan] = $this->createHierarchy();
 
-        $this->post(route('kepala_bagian.login.store'), [
+        $this->post(route('login.store'), [
             'email' => $kepalaBagianUser->email,
             'password' => 'password',
         ])->assertRedirect(route('kepala_bagian.dashboard'));
@@ -114,7 +114,7 @@ class KepalaBagianDashboardTest extends TestCase
             ->assertForbidden();
     }
 
-    public function test_non_kepala_bagian_cannot_use_kepala_bagian_login(): void
+    public function test_pegawai_uses_the_shared_login_and_gets_the_pegawai_dashboard(): void
     {
         $pegawaiUser = User::create([
             'name' => 'Pegawai',
@@ -123,15 +123,13 @@ class KepalaBagianDashboardTest extends TestCase
             'role' => 'pegawai',
         ]);
 
-        $this->from(route('kepala_bagian.login'))
-            ->post(route('kepala_bagian.login.store'), [
+        $this->post(route('login.store'), [
                 'email' => $pegawaiUser->email,
                 'password' => 'password',
             ])
-            ->assertRedirect(route('kepala_bagian.login'))
-            ->assertSessionHasErrors('email');
+            ->assertRedirect(route('pegawai.dashboard'));
 
-        $this->assertGuest();
+        $this->assertAuthenticatedAs($pegawaiUser);
     }
 
     public function test_master_can_create_a_kepala_bagian_and_assign_an_atasan_to_them(): void
@@ -328,23 +326,37 @@ class KepalaBagianDashboardTest extends TestCase
         $this->assertSame($divisi->id, $kepalaBagian->jabatan->divisi_id);
     }
 
-    public function test_login_pages_use_clear_names_for_each_role(): void
+    public function test_all_roles_use_the_same_login_page_and_endpoint(): void
     {
         $this->get(route('login'))
             ->assertOk()
-            ->assertSee('Masuk Pegawai');
+            ->assertSee('Masuk SIKINERJA')
+            ->assertDontSee('Gunakan email dan password yang diberikan oleh Administrator')
+            ->assertSee('Akun hanya dapat dibuat oleh Administrator');
 
-        $this->get(route('master.login'))
-            ->assertOk()
-            ->assertSee('Masuk Admin');
+        $roleDashboards = [
+            'master' => 'master.dashboard',
+            'direktur' => 'direktur.dashboard',
+            'kepala_bagian' => 'kepala_bagian.dashboard',
+            'atasan' => 'atasan.dashboard',
+            'pegawai' => 'pegawai.dashboard',
+        ];
 
-        $this->get(route('atasan.login'))
-            ->assertOk()
-            ->assertSee('Masuk Atasan');
+        foreach ($roleDashboards as $role => $dashboard) {
+            $user = User::create([
+                'name' => ucfirst($role),
+                'email' => $role . '@example.test',
+                'password' => bcrypt('password'),
+                'role' => $role,
+            ]);
 
-        $this->get(route('kepala_bagian.login'))
-            ->assertOk()
-            ->assertSee('Masuk Kepala Bagian');
+            $this->post(route('login.store'), [
+                'email' => $user->email,
+                'password' => 'password',
+            ])->assertRedirect(route($dashboard));
+
+            $this->post(route('logout'))->assertRedirect(route('login'));
+        }
     }
 
     public function test_employee_management_displays_separate_role_counts_and_hierarchy(): void

@@ -87,9 +87,9 @@
                     </div>
                     <div class="master-field"><label for="password">Password Awal <em>*</em></label>
                         <div class="input-icon password-input"><i class="fa-solid fa-lock"></i><input type="password"
-                                name="password" id="password" placeholder="Minimal 8 karakter"
+                                name="password" id="password" placeholder="Minimal 6 karakter"
                                 class="@error('password') invalid @enderror"><button type="button" id="togglePassword"><i
-                                    class="fa-regular fa-eye"></i></button></div><small class="field-help">Minimal 8
+                                    class="fa-regular fa-eye"></i></button></div><small class="field-help">Minimal 6
                             karakter
                             (dapat diubah mandiri).</small>
                         @error('password')

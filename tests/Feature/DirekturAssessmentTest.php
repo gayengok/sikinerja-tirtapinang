@@ -197,8 +197,7 @@ class DirekturAssessmentTest extends TestCase
             'urutan' => 1,
         ]);
 
-        $this->from(route('direktur.login'))
-            ->post(route('direktur.login.store'), [
+        $this->post(route('login.store'), [
                 'email' => $direkturUser->email,
                 'password' => 'password',
             ])

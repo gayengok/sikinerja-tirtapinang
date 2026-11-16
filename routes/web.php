@@ -7,13 +7,7 @@ use App\Http\Controllers\Atasan\HasilPenilaianController;
 use App\Http\Controllers\Atasan\KompetensiController;
 use App\Http\Controllers\Atasan\PegawaiAtasanController;
 use App\Http\Controllers\Atasan\PenilaianKpiController;
-use App\Http\Controllers\Auth\AtasanLoginController;
-use App\Http\Controllers\Auth\AtasanRegistrationController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\Auth\DirekturLoginController;
-use App\Http\Controllers\Auth\KepalaBagianLoginController;
-use App\Http\Controllers\Auth\MasterLoginController;
-use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\KepalaBagian\DashboardKepalaBagianController;
 use App\Http\Controllers\KepalaBagian\KompetensiAtasanController;
 use App\Http\Controllers\KepalaBagian\PegawaiTimController;
@@ -55,27 +49,9 @@ use Illuminate\Support\Facades\Route;
 // });
 
 
-// LOGIN PEGAWAI
-Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
-Route::post('/login', [AuthenticatedSessionController::class, 'store']);
-
-Route::get('/atasan/login', [AtasanLoginController::class, 'create'])->name('atasan.login');
-Route::post('/atasan/login', [AtasanLoginController::class, 'store'])->name('atasan.login.store');
-
-Route::get('/kepala-bagian/login', [KepalaBagianLoginController::class, 'create'])->name('kepala_bagian.login');
-Route::post('/kepala-bagian/login', [KepalaBagianLoginController::class, 'store'])->name('kepala_bagian.login.store');
-
-Route::get('/direktur/login', [DirekturLoginController::class, 'create'])->name('direktur.login');
-Route::post('/direktur/login', [DirekturLoginController::class, 'store'])->name('direktur.login.store');
-
-Route::get('/master/login', [MasterLoginController::class, 'create'])->name('master.login');
-Route::post('/master/login', [MasterLoginController::class, 'store'])->name('master.login.store');
-
-Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
-Route::post('/register', [RegisteredUserController::class, 'store'])->name('register.store');
-
-Route::get('/atasan/register', [AtasanRegistrationController::class, 'create'])->name('atasan.register');
-Route::post('/atasan/register', [AtasanRegistrationController::class, 'store'])->name('atasan.register.store');
+// All account types use the same login page; successful login redirects by role.
+Route::get('/', [AuthenticatedSessionController::class, 'create'])->name('login');
+Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login.store');
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');

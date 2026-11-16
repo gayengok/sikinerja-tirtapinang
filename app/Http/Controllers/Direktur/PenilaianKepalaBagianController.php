@@ -217,6 +217,8 @@ class PenilaianKepalaBagianController extends Controller
                     : 0,
             ];
         });
+
+
         $capaianKpi = $totalBobot > 0
             ? round($masterKpis->sum(function (MasterKpi $masterKpi) use ($penilaianKpiByMasterId, $totalBobot) {
                 $penilaian = $penilaianKpiByMasterId->get($masterKpi->id);
@@ -257,6 +259,8 @@ class PenilaianKepalaBagianController extends Controller
             'presensiPotongans' => $presensiPotongans,
         ];
     }
+
+
 
     public function edit(Request $request, Pegawai $pegawai)
     {
@@ -358,7 +362,6 @@ class PenilaianKepalaBagianController extends Controller
     }
 
 
-
     private function resolvePeriode(Request $request): ?PeriodePenilaian
     {
         $periodeId = $request->input('periode_id', $request->query('periode_id'));
@@ -372,6 +375,7 @@ class PenilaianKepalaBagianController extends Controller
             ->first()
             ?? PeriodePenilaian::orderByDesc('tanggal_mulai')->first();
     }
+
 
     private function hitungPersenCapaian(string $arahCapaian, ?float $target, float $realisasi): float
     {

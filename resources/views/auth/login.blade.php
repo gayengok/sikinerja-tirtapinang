@@ -1,7 +1,7 @@
 @php
     $loginRoute = $loginRoute ?? 'login';
     $loginTitle = $loginTitle ?? 'Masuk ke Akun';
-    $loginDescription = $loginDescription ?? 'Gunakan kredensial akun kepegawaian Anda.';
+    $loginDescription = $loginDescription ?? '';
     $loginButton = $loginButton ?? 'Masuk ke SIKINERJA';
 @endphp
 <!DOCTYPE html>
@@ -1157,7 +1157,9 @@
                 <div class="card-head">
                     <span class="kicker">Masuk ke akun</span>
                     <h2>{{ $loginTitle }}</h2>
-                    <p>{{ $loginDescription }}</p>
+                    @if ($loginDescription !== '')
+                        <p>{{ $loginDescription }}</p>
+                    @endif
                 </div>
 
                 @if (session('success'))
@@ -1185,7 +1187,7 @@
                     @csrf
 
                     <div class="field">
-                        <label for="email">Masukan Email</label>
+                        <label for="email">Email Akun</label>
                         <div class="input-wrap {{ $errors->has('email') ? 'err' : '' }}">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                                 <rect x="3" y="5" width="18" height="14" rx="2" />
@@ -1241,19 +1243,8 @@
                     </button>
                 </form>
 
-                @if (Route::has('register'))
-                    <p class="register-prompt">
-                        Belum punya akun?
-                        <a href="{{ route('register') }}">Daftar sekarang</a>
-                    </p>
-                @endif
-
                 <p class="register-prompt">
-                    Masuk sesuai peran:
-                    <a href="{{ route('atasan.login') }}">Atasan</a> ·
-                    <a href="{{ route('kepala_bagian.login') }}">Kepala Bagian</a> ·
-                    <a href="{{ route('direktur.login') }}">Direktur</a> ·
-                    <a href="{{ route('master.login') }}">Admin</a>
+                    Akun hanya dapat dibuat oleh Administrator. Dashboard akan terbuka otomatis sesuai peran akun.
                 </p>
 
                 <div class="divider">Kanal bantuan</div>

@@ -18,6 +18,13 @@ class TeamVisibilityService
             return $pegawai->bawahans()->pluck('id');
         }
 
+        if ($user->role === 'direktur') {
+            return $pegawai->bawahans()
+                ->whereHas('user', fn ($query) => $query->where('role', 'kepala_bagian'))
+                ->where('status', 'aktif')
+                ->pluck('id');
+        }
+
         abort_unless($user->role === 'kepala_bagian', 403);
 
         $atasanIds = $this->assignedAtasanIds($pegawai);
@@ -78,6 +85,10 @@ class TeamVisibilityService
 
     public function routePrefix(User $user): string
     {
-        return $user->role === 'kepala_bagian' ? 'kepala_bagian' : 'atasan';
+        return match ($user->role) {
+            'kepala_bagian' => 'kepala_bagian',
+            'direktur' => 'direktur',
+            default => 'atasan',
+        };
     }
 }

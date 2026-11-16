@@ -5,7 +5,8 @@
         $assessmentRoutePrefix = $assessmentRoutePrefix ?? 'atasan.penilaian-kpi';
         $targetLabel = $targetLabel ?? 'pegawai';
         $dashboardRoute = $dashboardRoute ?? ($assessmentRoutePrefix === 'atasan.penilaian-kpi' ? 'atasan.dashboard' : 'kepala_bagian.dashboard');
-        $isHeadAssessment = $targetLabel === 'atasan';
+        $isDirectorAssessment = $targetLabel === 'Kepala Bagian';
+        $isHeadAssessment = in_array($targetLabel, ['atasan', 'Kepala Bagian'], true);
     @endphp
     @if ($isHeadAssessment)
         @php
@@ -17,11 +18,11 @@
         @endphp
         <main class="kepala-kpi-page">
             <header class="kepala-kpi-header">
-                <a class="kepala-kpi-back" href="{{ route('kepala_bagian.dashboard') }}" aria-label="Kembali ke dashboard">
+                <a class="kepala-kpi-back" href="{{ route($dashboardRoute) }}" aria-label="Kembali ke dashboard">
                     <i class="fa-solid fa-arrow-left"></i>
                 </a>
                 <div class="kepala-kpi-title">
-                    <span>KEPALA BAGIAN</span>
+                    <span>{{ $isDirectorAssessment ? 'DIREKTUR' : 'KEPALA BAGIAN' }}</span>
                     <h1>Penilaian KPI
                         @if ($periodeAktif)
                             <small>{{ $periodeAktif->nama_periode }}</small>
@@ -32,9 +33,9 @@
 
             <section class="kepala-kpi-summary" aria-label="Ringkasan penilaian">
                 <article class="is-total">
-                    <div><small>TOTAL ATASAN</small><span><i class="fa-solid fa-users"></i></span></div>
+                    <div><small>TOTAL {{ $isDirectorAssessment ? 'KEPALA BAGIAN' : 'ATASAN' }}</small><span><i class="fa-solid fa-users"></i></span></div>
                     <strong>{{ $headCount }}</strong>
-                    <p>Atasan terdaftar dalam unit kerja</p>
+                    <p>{{ $isDirectorAssessment ? 'Kepala Bagian yang ditugaskan kepada Anda' : 'Atasan terdaftar dalam unit kerja' }}</p>
                 </article>
                 <article class="is-done">
                     <div><small>SUDAH DINILAI</small><span><i class="fa-regular fa-circle-check"></i></span></div>
@@ -57,8 +58,9 @@
             <div class="kepala-kpi-search-row">
                 <label class="kepala-kpi-search">
                     <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-                    <input type="search" id="kepalaKpiSearch" placeholder="Cari nama pegawai, NIP, atau jabatan atasan..."
-                        aria-label="Cari atasan">
+                    <input type="search" id="kepalaKpiSearch"
+                        placeholder="Cari nama {{ $isDirectorAssessment ? 'Kepala Bagian' : 'atasan' }}, NIP, atau jabatan..."
+                        aria-label="Cari {{ $isDirectorAssessment ? 'Kepala Bagian' : 'atasan' }}">
                     <button type="button" id="kepalaKpiReset">Reset</button>
                 </label>
             </div>
@@ -88,14 +90,14 @@
             <section class="kepala-kpi-table-card">
                 <div class="kepala-kpi-table-heading">
                     <div>
-                        <h2>Daftar Atasan yang Dinilai</h2>
-                        <p>Daftar pejabat struktural/atasan langsung yang wajib dievaluasi kinerjanya.</p>
+                        <h2>Daftar {{ $isDirectorAssessment ? 'Kepala Bagian' : 'Atasan' }} yang Dinilai</h2>
+                        <p>{{ $isDirectorAssessment ? 'Daftar Kepala Bagian yang menjadi tanggung jawab Anda.' : 'Daftar pejabat struktural/atasan langsung yang wajib dievaluasi kinerjanya.' }}</p>
                     </div>
                     <span id="kepalaKpiResultCount">Menampilkan {{ $headCount }} dari {{ $headCount }} pegawai</span>
                 </div>
                 <div class="kepala-kpi-table">
                     <div class="kepala-kpi-table-head" aria-hidden="true">
-                        <span>ATASAN / PEGAWAI</span>
+                        <span>{{ $isDirectorAssessment ? 'KEPALA BAGIAN' : 'ATASAN / PEGAWAI' }}</span>
                         <span>JABATAN</span>
                         <span>PERIODE</span>
                         <span>STATUS</span>
@@ -111,13 +113,16 @@
                                 $kpiPercent =
                                     $kpiTotal > 0 ? min(100, (int) round(($kpiCompleted / $kpiTotal) * 100)) : 0;
                                 $unitName = $pegawai->jabatan->divisi->nama_divisi ?? '-';
+                                $assessmentParameters = $isDirectorAssessment && $periodeAktif
+                                    ? ['pegawai' => $pegawai, 'periode_id' => $periodeAktif->id]
+                                    : $pegawai;
                             @endphp
                             <article class="kepala-kpi-row" data-kpi-status="{{ $hasRating ? 'rated' : 'pending' }}"
-                                data-kpi-search="{{ \Illuminate\Support\Str::lower($pegawai->nama . ' ' . ($pegawai->nip ?? '') . ' ' . ($pegawai->jabatan->nama_jabatan ?? '')) }}"
+                                data-kpi-search="{{ \Illuminate\Support\Str::lower($pegawai->nama . ' ' . ($pegawai->nip ?? '') . ' ' . ($pegawai->jabatan->nama_jabatan ?? '') . ' ' . $unitName) }}"
                                 data-kpi-unit="{{ \Illuminate\Support\Str::lower($unitName) }}">
                                 <div class="kepala-kpi-person">
                                     <span class="kepala-kpi-avatar">{{ strtoupper(substr($pegawai->nama, 0, 2)) }}</span>
-                                    <span><strong>{{ $pegawai->nama }}</strong><small>{{ $pegawai->nip ? 'NIP: ' . $pegawai->nip : 'Atasan langsung' }}</small></span>
+                                    <span><strong>{{ $pegawai->nama }}</strong><small>{{ $pegawai->nip ? 'NIP: ' . $pegawai->nip : ($isDirectorAssessment ? 'Kepala Bagian langsung' : 'Atasan langsung') }}</small></span>
                                 </div>
                                 <div class="kepala-kpi-position">
                                     <strong>{{ $pegawai->jabatan->nama_jabatan ?? '-' }}</strong>
@@ -135,12 +140,12 @@
                                 </div>
                                 <div class="kepala-kpi-actions">
                                     <a class="primary"
-                                        href="{{ route($assessmentRoutePrefix . ($hasRating ? '.show' : '.create'), $pegawai) }}">
-                                        {{ $hasRating ? 'Hasil Penilaian KPI' : 'Nilai KPI' }} <i
+                                        href="{{ route($assessmentRoutePrefix . ($isDirectorAssessment || $hasRating ? '.show' : '.create'), $assessmentParameters) }}">
+                                        {{ $isDirectorAssessment || $hasRating ? 'Hasil Penilaian KPI' : 'Nilai KPI' }} <i
                                             class="fa-solid fa-chevron-right"></i>
                                     </a>
                                     <a class="secondary"
-                                        href="{{ route($assessmentRoutePrefix . '.kompetensi.edit', $pegawai) }}">
+                                        href="{{ route($assessmentRoutePrefix . '.kompetensi.edit', $assessmentParameters) }}">
                                         Kompetensi <i class="fa-solid fa-chevron-right"></i>
                                     </a>
                                 </div>
@@ -148,12 +153,12 @@
                         @empty
                             <div class="kepala-kpi-empty">
                                 <i class="fa-solid fa-users"></i>
-                                <strong>Belum ada atasan yang ditugaskan</strong>
-                                <span>Atasan yang berada di bawah tanggung jawab Anda akan muncul di sini.</span>
+                                <strong>Belum ada {{ $isDirectorAssessment ? 'Kepala Bagian' : 'atasan' }} yang ditugaskan</strong>
+                                <span>{{ $isDirectorAssessment ? 'Kepala Bagian yang berada di bawah tanggung jawab Anda akan muncul di sini.' : 'Atasan yang berada di bawah tanggung jawab Anda akan muncul di sini.' }}</span>
                             </div>
                         @endforelse
                         <div class="kepala-kpi-no-results" id="kepalaKpiNoResults" hidden>
-                            Tidak ada atasan yang cocok dengan pencarian atau filter ini.
+                            Tidak ada {{ $isDirectorAssessment ? 'Kepala Bagian' : 'atasan' }} yang cocok dengan pencarian atau filter ini.
                         </div>
                     </div>
                 </div>
@@ -165,9 +170,9 @@
 
             <aside class="kepala-kpi-tip">
                 <i class="fa-regular fa-circle-info"></i>
-                <div><strong>Petunjuk Pengisian Penilaian KPI Atasan Langsung</strong>
+                <div><strong>Petunjuk Pengisian Penilaian KPI {{ $isDirectorAssessment ? 'Kepala Bagian' : 'Atasan Langsung' }}</strong>
                     <p>Pastikan Anda telah memeriksa laporan realisasi bulanan dan sasaran kerja unit sebelum mengklik
-                        tombol <b>Nilai KPI</b>. Nilai yang telah difinalisasi akan diteruskan ke Bagian SDM / Direksi untuk
+                        tombol <b>{{ $isDirectorAssessment ? 'Hasil Penilaian KPI' : 'Nilai KPI' }}</b>. Nilai yang telah difinalisasi akan diteruskan ke Bagian SDM / Direksi untuk
                         proses validasi insentif kinerja.</p>
                 </div>
             </aside>

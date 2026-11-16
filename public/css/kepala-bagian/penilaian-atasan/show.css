@@ -1,4 +1,4 @@
-body.role-kepala_bagian .kepala-kpi-result-page {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-result-page {
     box-sizing: border-box;
     width: min(1120px, 100%);
     margin: 0 auto;
@@ -355,7 +355,7 @@ body.role-kepala_bagian .kepala-kpi-result-page {
 }
 
 @media (max-width: 700px) {
-    body.role-kepala_bagian .kepala-kpi-result-page {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-result-page {
         padding: 1rem 1rem 1.5rem;
     }
 
@@ -391,7 +391,7 @@ body.role-kepala_bagian .kepala-kpi-result-page {
 }
 
 @media print {
-    body.role-kepala_bagian .kepala-kpi-result-page {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-result-page {
         width: 100%;
         max-width: none;
         padding: 0;

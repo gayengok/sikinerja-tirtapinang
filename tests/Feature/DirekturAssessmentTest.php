@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Divisi;
 use App\Models\Jabatan;
+use App\Models\LaporanHarian;
 use App\Models\MasterKompetensi;
 use App\Models\MasterKpi;
 use App\Models\Pegawai;
@@ -94,6 +95,7 @@ class DirekturAssessmentTest extends TestCase
             ->get(route('direktur.dashboard'))
             ->assertOk()
             ->assertSee('title="Rekap Data"', false)
+            ->assertDontSee('Rekap Data Kehadiran dan Tunjangan')
             ->assertSee(route('direktur.rekap-data.index'), false);
 
         $this->get(route('direktur.rekap-data.index'))
@@ -101,6 +103,61 @@ class DirekturAssessmentTest extends TestCase
             ->assertSee('Rekap Data Kehadiran')
             ->assertSee(route('direktur.rekap-data.index'), false)
             ->assertSee(route('direktur.rekap-data.pdf'), false);
+    }
+
+    public function test_director_dashboard_links_to_attendance_and_can_approve_only_direct_reports(): void
+    {
+        [$direkturUser, $kepalaBagian] = $this->createHierarchy();
+        $otherDirekturUser = $this->createUserAndPegawai(
+            'Direktur Lain',
+            'direktur.laporan.lain@example.test',
+            'direktur',
+            $kepalaBagian->jabatan_id
+        );
+        $kepalaBagianLain = $this->createUserAndPegawai(
+            'Kepala Bagian Lain',
+            'kabag.laporan.lain@example.test',
+            'kepala_bagian',
+            $kepalaBagian->jabatan_id,
+            $otherDirekturUser->pegawai->id
+        );
+        $laporanKepalaBagian = LaporanHarian::create([
+            'pegawai_id' => $kepalaBagian->id,
+            'tanggal' => now()->toDateString(),
+            'catatan' => 'Laporan untuk Direktur',
+            'status' => 'diajukan',
+        ]);
+        $laporanLain = LaporanHarian::create([
+            'pegawai_id' => $kepalaBagianLain->pegawai->id,
+            'tanggal' => now()->toDateString(),
+            'catatan' => 'Laporan Direktur lain',
+            'status' => 'diajukan',
+        ]);
+
+        $this->actingAs($direkturUser)
+            ->get(route('direktur.dashboard'))
+            ->assertOk()
+            ->assertSee(route('direktur.rekap-data.index'), false)
+            ->assertSee(route('direktur.laporan.index', ['status' => 'diajukan']), false)
+            ->assertSee('Data Absensi')
+            ->assertSee('Approval Laporan');
+
+        $this->get(route('direktur.laporan.index'))
+            ->assertOk()
+            ->assertSee('Laporan untuk Direktur')
+            ->assertDontSee('Laporan Direktur lain');
+
+        $this->get(route('direktur.laporan.show', $laporanLain))
+            ->assertForbidden();
+
+        $this->post(route('direktur.laporan.approve', $laporanKepalaBagian))
+            ->assertRedirect(route('direktur.laporan.index'));
+
+        $this->assertDatabaseHas('laporan_harians', [
+            'id' => $laporanKepalaBagian->id,
+            'status' => 'disetujui',
+            'disetujui_oleh' => $direkturUser->pegawai->id,
+        ]);
     }
 
     public function test_director_can_assess_assigned_head_and_is_limited_to_reporting_line(): void
@@ -153,14 +210,32 @@ class DirekturAssessmentTest extends TestCase
             ->assertSee('id="sidebarToggleDesktop"', false)
             ->assertSee('id="sidebarToggleMobile"', false)
             ->assertSee('title="Penilaian Kepala Bagian"', false)
-            ->assertSee('Kepala Bagian Operasional')
+            ->assertDontSee('direktur-dashboard-person', false)
+            ->assertDontSee('Kepala Bagian Operasional')
             ->assertDontSee('Kepala Bagian Lain');
 
         $this->get(route('direktur.penilaian-kepala-bagian.index'))
             ->assertOk()
+            ->assertSee('DIREKTUR')
             ->assertSee('Daftar Kepala Bagian yang Dinilai')
-            ->assertSee(route('direktur.penilaian-kepala-bagian.create', $kepalaBagian), false)
+            ->assertSee('PROGRES KPI')
+            ->assertSee('0 dari 1 butir indikator')
+            ->assertSee('Hasil Penilaian KPI')
+            ->assertDontSee('Nilai KPI')
+            ->assertSee(route('direktur.penilaian-kepala-bagian.show', [
+                'pegawai' => $kepalaBagian,
+                'periode_id' => $periode->id,
+            ]), false)
             ->assertDontSee('Kepala Bagian Lain');
+
+        $this->get(route('direktur.penilaian-kepala-bagian.show', [
+            'pegawai' => $kepalaBagian,
+            'periode_id' => $periode->id,
+        ]))
+            ->assertOk()
+            ->assertSee('Hasil Penilaian KPI')
+            ->assertSee('Belum ada indikator KPI yang dinilai')
+            ->assertDontSee('Form Penilaian');
 
         $this->get(route('direktur.penilaian-kepala-bagian.create', [
             'pegawai' => $kepalaBagian,
@@ -194,6 +269,15 @@ class DirekturAssessmentTest extends TestCase
             'pegawai_id' => $kepalaBagian->id,
             'periode_id' => $periode->id,
         ]);
+
+        $this->get(route('direktur.penilaian-kepala-bagian.index'))
+            ->assertOk()
+            ->assertSee('100%')
+            ->assertSee('1 dari 1 butir indikator')
+            ->assertSee(route('direktur.penilaian-kepala-bagian.show', [
+                'pegawai' => $kepalaBagian,
+                'periode_id' => $periode->id,
+            ]), false);
 
         $this->get(route('direktur.penilaian-kepala-bagian.kompetensi.edit', [
             'pegawai' => $kepalaBagian,
@@ -230,7 +314,11 @@ class DirekturAssessmentTest extends TestCase
             'periode_id' => $periode->id,
         ]))
             ->assertOk()
-            ->assertSee('Direktur');
+            ->assertSee('Hasil Penilaian KPI')
+            ->assertSee('Kepala Bagian')
+            ->assertSee('Rincian Hasil KPI')
+            ->assertSee('Rincian Tunjangan Kinerja')
+            ->assertSee('TUKIN NETO DITERIMA');
 
         $this->get(route('direktur.penilaian-kepala-bagian.show', $kepalaBagianLain))
             ->assertForbidden();

@@ -71,7 +71,7 @@
             </a>
             <a href="{{ route('kepala_bagian.penilaian-atasan.index') }}" title="Penilaian Atasan"
                 class="sidebar-link {{ request()->routeIs('kepala_bagian.penilaian-atasan.*') ? 'active' : '' }}">
-                <i class="fa-solid fa-chart-line"></i> <span>Penilaian Atasan</span>
+                <i class="fa-solid fa-chart-line"></i> <span>Penilaian</span>
             </a>
             <a href="{{ route('kepala_bagian.rekap-data.index') }}" title="Rekap Data"
                 class="sidebar-link {{ request()->routeIs('kepala_bagian.rekap-data.*') ? 'active' : '' }}">
@@ -84,8 +84,9 @@
             </a>
             <a href="{{ route('direktur.penilaian-kepala-bagian.index') }}" title="Penilaian Kepala Bagian"
                 class="sidebar-link {{ request()->routeIs('direktur.penilaian-kepala-bagian.*') ? 'active' : '' }}">
-                <i class="fa-solid fa-chart-line"></i> <span>Penilaian Kepala Bagian</span>
+                <i class="fa-solid fa-chart-line"></i> <span>Penilaian</span>
             </a>
+
             <a href="{{ route('direktur.rekap-data.index') }}" title="Rekap Data"
                 class="sidebar-link {{ request()->routeIs('direktur.rekap-data.*') ? 'active' : '' }}">
                 <i class="fa-solid fa-table-list"></i> <span>Rekap Data</span>

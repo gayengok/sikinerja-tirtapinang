@@ -1,7 +1,9 @@
 @extends('layouts.app')
-@section('title', 'Hasil KPI')
+@section('title', 'Hasil Penilaian KPI')
 @section('content')
     @php
+        $assessmentRoutePrefix = $assessmentRoutePrefix ?? 'kepala_bagian.penilaian-atasan';
+        $targetLabel = $targetLabel ?? 'Atasan';
         $periodeId = $periode?->id;
         $tanggalPenilaian = $hasilDiperbaruiPada?->translatedFormat('d M Y, H:i');
         $statusTunjangan = $hasilTunjangan?->status === 'dikirim'
@@ -17,7 +19,7 @@
         <header class="kepala-kpi-result-header">
             <div>
                 <h1><i class="fa-solid fa-clipboard-check"></i> Hasil Penilaian KPI</h1>
-                <p>Rincian hasil KPI dan tunjangan kinerja atasan pada periode penilaian.</p>
+                <p>Rincian hasil KPI dan tunjangan kinerja {{ strtolower($targetLabel) }} pada periode penilaian.</p>
             </div>
             <div class="kepala-kpi-result-meta">
                 <span>Periode {{ $periode?->nama_periode ?? 'Belum tersedia' }}</span>
@@ -35,6 +37,16 @@
                 <small>{{ $pegawai->jabatan->divisi->nama_divisi ?? 'Unit belum tersedia' }}</small>
             </div>
         </section>
+
+        @if ($penilaianKpis->isEmpty())
+            <div class="kepala-kpi-result-tukin-empty">
+                <i class="fa-solid fa-circle-info"></i>
+                <div>
+                    <strong>Belum ada indikator KPI yang dinilai</strong>
+                    <p>Hasil KPI akan terisi setelah indikator dinilai atau tercatat dari laporan yang disetujui.</p>
+                </div>
+            </div>
+        @endif
 
         <section class="kepala-kpi-result-summary">
             <div class="kepala-kpi-result-section-title">
@@ -130,7 +142,7 @@
                 <i class="fa-solid fa-download" aria-hidden="true"></i> Cetak PDF
             </button>
             <a class="kepala-kpi-result-back"
-                href="{{ route('kepala_bagian.penilaian-atasan.index', $periodeId ? ['periode_id' => $periodeId] : []) }}">
+                href="{{ route($assessmentRoutePrefix . '.index', $periodeId ? ['periode_id' => $periodeId] : []) }}">
                 <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Kembali
             </a>
         </div>

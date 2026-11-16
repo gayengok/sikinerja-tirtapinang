@@ -58,26 +58,23 @@
             <small>{{ $sudahDinilai }} dari {{ $totalKepalaBagian }} Kepala Bagian telah dinilai.</small>
         </section>
 
-        <section class="direktur-dashboard-tools" aria-label="Daftar Kepala Bagian yang dinilai">
-            @forelse ($kepalaBagians as $kepalaBagian)
-                @php $hasRating = $sudahDinilaiIds->contains($kepalaBagian->id); @endphp
-                <a class="direktur-dashboard-person" href="{{ $periodeAktif
-                    ? route('direktur.penilaian-kepala-bagian.' . ($hasRating ? 'show' : 'create'), ['pegawai' => $kepalaBagian, 'periode_id' => $periodeAktif->id])
-                    : route('direktur.penilaian-kepala-bagian.index') }}">
-                    <i class="fa-solid fa-user-tie"></i>
-                    <div class="direktur-dashboard-person-info">
-                        <strong>{{ $kepalaBagian->nama }}</strong>
-                        <small>{{ $kepalaBagian->jabatan->nama_jabatan ?? 'Jabatan belum diatur' }} · {{ $hasRating ? 'Sudah dinilai' : 'Belum dinilai' }}</small>
-                    </div>
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
-            @empty
-                <div class="direktur-dashboard-empty">
-                    <i class="fa-solid fa-user-tie"></i>
-                    <strong>Belum ada Kepala Bagian yang ditugaskan</strong>
-                    <span>Master dapat menghubungkan Kepala Bagian dengan akun Direktur melalui Data Pegawai.</span>
-                </div>
-            @endforelse
+        <section class="direktur-dashboard-quick-links" aria-label="Akses cepat">
+            <a class="direktur-dashboard-quick-link" href="{{ route('direktur.rekap-data.index') }}">
+                <span class="direktur-dashboard-quick-icon" aria-hidden="true"><i class="fa-solid fa-calendar-check"></i></span>
+                <span class="direktur-dashboard-quick-copy">
+                    <strong>Data Absensi</strong>
+                    <small>Pantau rekap kehadiran pegawai seluruh divisi.</small>
+                </span>
+                <i class="fa-solid fa-arrow-right direktur-dashboard-quick-arrow" aria-hidden="true"></i>
+            </a>
+            <a class="direktur-dashboard-quick-link" href="{{ route('direktur.laporan.index', ['status' => 'diajukan']) }}">
+                <span class="direktur-dashboard-quick-icon" aria-hidden="true"><i class="fa-solid fa-file-circle-check"></i></span>
+                <span class="direktur-dashboard-quick-copy">
+                    <strong>Approval Laporan</strong>
+                    <small>Tinjau, setujui, atau tolak laporan yang diajukan.</small>
+                </span>
+                <i class="fa-solid fa-arrow-right direktur-dashboard-quick-arrow" aria-hidden="true"></i>
+            </a>
         </section>
 
         <section class="direktur-dashboard-action">
@@ -89,14 +86,6 @@
             <a href="{{ route('direktur.penilaian-kepala-bagian.index') }}">Buka Penilaian <i class="fa-solid fa-arrow-right"></i></a>
         </section>
 
-        <section class="direktur-dashboard-action">
-            <div class="direktur-dashboard-action-icon"><i class="fa-solid fa-table-list"></i></div>
-            <div>
-                <h2>Rekap Data Kehadiran dan Tunjangan</h2>
-                <p>Lihat rekap bulanan seluruh pegawai di semua divisi.</p>
-            </div>
-            <a href="{{ route('direktur.rekap-data.index') }}">Buka Rekap Data <i class="fa-solid fa-arrow-right"></i></a>
-        </section>
     </main>
 @endsection
 

@@ -207,18 +207,18 @@ body.role-direktur .direktur-dashboard-progress-track span {
     border-radius: inherit;
 }
 
-body.role-direktur .direktur-dashboard-tools {
+body.role-direktur .direktur-dashboard-quick-links {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
 }
 
-body.role-direktur .direktur-dashboard-person {
+body.role-direktur .direktur-dashboard-quick-link {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     min-width: 0;
-    padding: 12px;
+    padding: 14px;
     color: #17213b;
     background: #fff;
     border: 1px solid #dfe7f0;
@@ -227,80 +227,43 @@ body.role-direktur .direktur-dashboard-person {
     transition: border-color .2s, transform .2s;
 }
 
-body.role-direktur .direktur-dashboard-person:hover {
+body.role-direktur .direktur-dashboard-quick-link:hover {
     color: #17213b;
     border-color: #078ac8;
     transform: translateY(-2px);
 }
 
-body.role-direktur .direktur-dashboard-person > i:first-child {
+body.role-direktur .direktur-dashboard-quick-icon {
     display: grid;
     place-items: center;
-    width: 30px;
-    height: 30px;
-    flex: 0 0 30px;
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
     color: #078ac8;
-    background: #edf7fc;
-    border-radius: 9px;
-    font-size: .75rem;
+    background: #e8f6fc;
+    border-radius: 10px;
+    font-size: .9rem;
 }
 
-body.role-direktur .direktur-dashboard-person > i:last-child {
-    margin-left: auto;
-    color: #078ac8;
-}
-
-body.role-direktur .direktur-dashboard-person-info {
+body.role-direktur .direktur-dashboard-quick-copy {
     display: grid;
     min-width: 0;
-    flex: 1;
-    gap: 3px;
+    gap: 4px;
 }
 
-body.role-direktur .direktur-dashboard-person-info strong {
-    overflow: hidden;
-    font-size: .7rem;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+body.role-direktur .direktur-dashboard-quick-copy strong {
+    font-size: .76rem;
 }
 
-body.role-direktur .direktur-dashboard-person-info small {
-    overflow: hidden;
-    margin-top: 3px;
-    color: #64748b;
-    font-size: .61rem;
-    line-height: 1.4;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-body.role-direktur .direktur-dashboard-empty {
-    display: grid;
-    justify-items: center;
-    grid-column: 1 / -1;
-    gap: 5px;
-    padding: 24px 12px;
+body.role-direktur .direktur-dashboard-quick-copy small {
     color: #71829c;
-    background: #fff;
-    border: 1px dashed #cbd5e1;
-    border-radius: 12px;
-    text-align: center;
+    font-size: .64rem;
+    line-height: 1.4;
 }
 
-body.role-direktur .direktur-dashboard-empty > i {
-    margin-bottom: 4px;
-    color: #9aacc0;
-    font-size: 1.3rem;
-}
-
-body.role-direktur .direktur-dashboard-empty strong {
-    color: #334155;
-    font-size: .75rem;
-}
-
-body.role-direktur .direktur-dashboard-empty span {
-    font-size: .62rem;
-    line-height: 1.5;
+body.role-direktur .direktur-dashboard-quick-arrow {
+    margin-left: auto;
+    color: #078ac8;
 }
 
 body.role-direktur .direktur-dashboard-action {
@@ -372,7 +335,7 @@ body.role-direktur .direktur-dashboard-action a {
         grid-template-columns: 1fr;
     }
 
-    body.role-direktur .direktur-dashboard-tools {
+    body.role-direktur .direktur-dashboard-quick-links {
         grid-template-columns: 1fr;
         gap: 8px;
     }

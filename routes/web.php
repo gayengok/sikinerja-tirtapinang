@@ -192,6 +192,13 @@ Route::middleware(['auth', 'role:direktur'])
     ->name('direktur.')
     ->group(function () {
         Route::get('dashboard', [DashboardDirekturController::class, 'index'])->name('dashboard');
+        Route::prefix('laporan')->name('laporan.')->group(function () {
+            Route::get('/', [ApprovalLaporanController::class, 'index'])->name('index');
+            Route::get('/{laporanHarian}/image', [ApprovalLaporanController::class, 'image'])->name('image');
+            Route::get('/{laporanHarian}', [ApprovalLaporanController::class, 'show'])->name('show');
+            Route::post('/{laporanHarian}/approve', [ApprovalLaporanController::class, 'approve'])->name('approve');
+            Route::post('/{laporanHarian}/reject', [ApprovalLaporanController::class, 'reject'])->name('reject');
+        });
         Route::get('rekap-data/pdf', [RekapDataController::class, 'downloadPdf'])->name('rekap-data.pdf');
         Route::get('rekap-data', [RekapDataController::class, 'index'])->name('rekap-data.index');
 

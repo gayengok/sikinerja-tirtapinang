@@ -261,7 +261,11 @@ class ApprovalLaporanController extends Controller
         // pada kolom "catatan" dengan prefix agar mudah dibedakan dari catatan pegawai.
         // Rekomendasi jangka panjang: tambahkan kolom "alasan_penolakan" (text, nullable)
         // pada migration laporan_harians agar catatan pegawai dan alasan atasan terpisah.
-        $penolak = $request->user()->role === 'kepala_bagian' ? 'Kepala Bagian' : 'atasan';
+        $penolak = match ($request->user()->role) {
+            'kepala_bagian' => 'Kepala Bagian',
+            'direktur' => 'Direktur',
+            default => 'atasan',
+        };
         $catatanBaru = trim(($laporanHarian->catatan ? $laporanHarian->catatan."\n\n" : '')
             .'[Ditolak oleh '.$penolak.']: '.$validated['alasan_penolakan']);
 

@@ -16,7 +16,7 @@
         $kpiDetails = $details->filter(fn($detail) => (bool) $detail->templateLaporan?->terhubung_ke_kpi_id);
         $reportNote = trim($laporanHarian->catatan ?? '');
         $rejectionReason = null;
-        foreach (['[Ditolak oleh atasan]:', '[Ditolak oleh Kepala Bagian]:'] as $rejectionMarker) {
+        foreach (['[Ditolak oleh atasan]:', '[Ditolak oleh Kepala Bagian]:', '[Ditolak oleh Direktur]:'] as $rejectionMarker) {
             if (str_contains($reportNote, $rejectionMarker)) {
                 [$reportNote, $rejectionReason] = explode($rejectionMarker, $reportNote, 2);
                 $reportNote = trim($reportNote);
@@ -54,7 +54,7 @@
                 <strong>
                     <i class="fa-solid {{ $laporanHarian->status === 'disetujui' ? 'fa-check-double' : 'fa-clock' }}"></i>
                     @if ($laporanHarian->status === 'disetujui')
-                        {{ auth()->user()->role === 'kepala_bagian' ? 'Disetujui Kepala Bagian' : 'Disetujui Atasan' }}
+                        {{ match (auth()->user()->role) { 'kepala_bagian' => 'Disetujui Kepala Bagian', 'direktur' => 'Disetujui Direktur', default => 'Disetujui Atasan' } }}
                     @elseif ($laporanHarian->status === 'diajukan')
                         Menunggu Persetujuan
                     @elseif ($laporanHarian->status === 'ditolak')

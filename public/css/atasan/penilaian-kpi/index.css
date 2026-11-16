@@ -329,7 +329,7 @@ body.role-atasan .atasan-kpi-page {
     }
 }
 
-body.role-kepala_bagian .kepala-kpi-page {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-page {
     display: grid;
     gap: 12px;
     box-sizing: border-box;
@@ -339,16 +339,16 @@ body.role-kepala_bagian .kepala-kpi-page {
     color: #17213b;
 }
 
-body.role-kepala_bagian .kepala-kpi-header,
-body.role-kepala_bagian .kepala-kpi-table-card,
-body.role-kepala_bagian .kepala-kpi-search,
-body.role-kepala_bagian .kepala-kpi-tip {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-header,
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-table-card,
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-search,
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-tip {
     background: #fff;
     border: 1px solid #e0e7f0;
     border-radius: 12px;
 }
 
-body.role-kepala_bagian .kepala-kpi-header {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-header {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -357,7 +357,7 @@ body.role-kepala_bagian .kepala-kpi-header {
     box-shadow: 0 2px 6px rgba(35, 52, 85, .025);
 }
 
-body.role-kepala_bagian .kepala-kpi-back {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-back {
     display: grid;
     place-items: center;
     width: 34px;
@@ -369,14 +369,14 @@ body.role-kepala_bagian .kepala-kpi-back {
     text-decoration: none;
 }
 
-body.role-kepala_bagian .kepala-kpi-title > span {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-title > span {
     color: #8a9ab4;
     font-size: .58rem;
     font-weight: 800;
     letter-spacing: .1em;
 }
 
-body.role-kepala_bagian .kepala-kpi-title h1 {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-title h1 {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -387,7 +387,7 @@ body.role-kepala_bagian .kepala-kpi-title h1 {
     font-weight: 800;
 }
 
-body.role-kepala_bagian .kepala-kpi-title h1 small {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-title h1 small {
     padding: 4px 8px;
     color: #087653;
     background: #effcf7;
@@ -397,13 +397,13 @@ body.role-kepala_bagian .kepala-kpi-title h1 small {
     font-weight: 700;
 }
 
-body.role-kepala_bagian .kepala-kpi-summary {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-summary {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 12px;
 }
 
-body.role-kepala_bagian .kepala-kpi-summary article {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-summary article {
     min-width: 0;
     padding: 12px 14px;
     background: #fff;
@@ -413,29 +413,29 @@ body.role-kepala_bagian .kepala-kpi-summary article {
     box-shadow: 0 2px 6px rgba(35, 52, 85, .025);
 }
 
-body.role-kepala_bagian .kepala-kpi-summary article.is-done {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-summary article.is-done {
     border-bottom-color: #9de7c4;
 }
 
-body.role-kepala_bagian .kepala-kpi-summary article.is-pending {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-summary article.is-pending {
     border-bottom-color: #f5b52e;
 }
 
-body.role-kepala_bagian .kepala-kpi-summary article > div {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-summary article > div {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 8px;
 }
 
-body.role-kepala_bagian .kepala-kpi-summary article > div > small {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-summary article > div > small {
     color: #71829c;
     font-size: .58rem;
     font-weight: 700;
     letter-spacing: .045em;
 }
 
-body.role-kepala_bagian .kepala-kpi-summary article > div > span {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-summary article > div > span {
     display: grid;
     place-items: center;
     width: 26px;
@@ -446,17 +446,17 @@ body.role-kepala_bagian .kepala-kpi-summary article > div > span {
     font-size: .67rem;
 }
 
-body.role-kepala_bagian .kepala-kpi-summary .is-done > div > span {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-summary .is-done > div > span {
     color: #059669;
     background: #e9fbf3;
 }
 
-body.role-kepala_bagian .kepala-kpi-summary .is-pending > div > span {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-summary .is-pending > div > span {
     color: #d97706;
     background: #fff4ca;
 }
 
-body.role-kepala_bagian .kepala-kpi-summary article > strong {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-summary article > strong {
     display: block;
     margin-top: 6px;
     color: #111827;
@@ -464,11 +464,11 @@ body.role-kepala_bagian .kepala-kpi-summary article > strong {
     line-height: 1.1;
 }
 
-body.role-kepala_bagian .kepala-kpi-summary .is-pending > strong {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-summary .is-pending > strong {
     color: #d97706;
 }
 
-body.role-kepala_bagian .kepala-kpi-summary article > p {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-summary article > p {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -478,12 +478,12 @@ body.role-kepala_bagian .kepala-kpi-summary article > p {
     font-size: .59rem;
 }
 
-body.role-kepala_bagian .kepala-kpi-summary .is-done p i {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-summary .is-done p i {
     color: #08a77f;
     font-size: .4rem;
 }
 
-body.role-kepala_bagian .kepala-kpi-summary .is-pending p b {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-summary .is-pending p b {
     padding: 3px 5px;
     color: #9a6200;
     background: #fff4ca;
@@ -491,12 +491,12 @@ body.role-kepala_bagian .kepala-kpi-summary .is-pending p b {
     font-size: .52rem;
 }
 
-body.role-kepala_bagian .kepala-kpi-search-row {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-search-row {
     display: flex;
     min-width: 0;
 }
 
-body.role-kepala_bagian .kepala-kpi-search {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-search {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -505,12 +505,12 @@ body.role-kepala_bagian .kepala-kpi-search {
     padding: 9px 11px;
 }
 
-body.role-kepala_bagian .kepala-kpi-search > i {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-search > i {
     color: #91a1b8;
     font-size: .78rem;
 }
 
-body.role-kepala_bagian .kepala-kpi-search input {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-search input {
     flex: 1;
     min-width: 0;
     padding: 3px 0;
@@ -522,13 +522,13 @@ body.role-kepala_bagian .kepala-kpi-search input {
     font-size: .72rem;
 }
 
-body.role-kepala_bagian .kepala-kpi-search input::placeholder {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-search input::placeholder {
     color: #91a1b8;
 }
 
-body.role-kepala_bagian .kepala-kpi-search button,
-body.role-kepala_bagian .kepala-kpi-unit-filter,
-body.role-kepala_bagian .kepala-kpi-export {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-search button,
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-unit-filter,
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-export {
     padding: 6px 9px;
     color: #526480;
     background: #f4f7fa;
@@ -540,28 +540,28 @@ body.role-kepala_bagian .kepala-kpi-export {
     cursor: pointer;
 }
 
-body.role-kepala_bagian .kepala-kpi-controls {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-controls {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 10px;
 }
 
-body.role-kepala_bagian .kepala-kpi-tabs,
-body.role-kepala_bagian .kepala-kpi-tools {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-tabs,
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-tools {
     display: flex;
     align-items: center;
     gap: 6px;
     min-width: 0;
 }
 
-body.role-kepala_bagian .kepala-kpi-tabs {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-tabs {
     padding: 4px;
     background: #eaf0f6;
     border-radius: 9px;
 }
 
-body.role-kepala_bagian .kepala-kpi-tabs button {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-tabs button {
     padding: 7px 10px;
     color: #526480;
     background: transparent;
@@ -573,13 +573,13 @@ body.role-kepala_bagian .kepala-kpi-tabs button {
     cursor: pointer;
 }
 
-body.role-kepala_bagian .kepala-kpi-tabs button.is-active {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-tabs button.is-active {
     color: #fff;
     background: #078ac8;
     box-shadow: 0 2px 4px rgba(7, 138, 200, .15);
 }
 
-body.role-kepala_bagian .kepala-kpi-tabs button > i {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-tabs button > i {
     display: inline-block;
     width: 5px;
     height: 5px;
@@ -589,7 +589,7 @@ body.role-kepala_bagian .kepala-kpi-tabs button > i {
     vertical-align: middle;
 }
 
-body.role-kepala_bagian .kepala-kpi-unit-filter {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-unit-filter {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -598,11 +598,11 @@ body.role-kepala_bagian .kepala-kpi-unit-filter {
     cursor: default;
 }
 
-body.role-kepala_bagian .kepala-kpi-unit-filter > i {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-unit-filter > i {
     color: #71829c;
 }
 
-body.role-kepala_bagian .kepala-kpi-unit-filter select {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-unit-filter select {
     max-width: 120px;
     color: #526480;
     background: transparent;
@@ -613,7 +613,7 @@ body.role-kepala_bagian .kepala-kpi-unit-filter select {
     cursor: pointer;
 }
 
-body.role-kepala_bagian .kepala-kpi-export {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-export {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -621,13 +621,13 @@ body.role-kepala_bagian .kepala-kpi-export {
     background: #fff;
 }
 
-body.role-kepala_bagian .kepala-kpi-table-card {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-table-card {
     min-width: 0;
     overflow: hidden;
     box-shadow: 0 2px 6px rgba(35, 52, 85, .025);
 }
 
-body.role-kepala_bagian .kepala-kpi-table-heading {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-table-heading {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -635,34 +635,34 @@ body.role-kepala_bagian .kepala-kpi-table-heading {
     padding: 13px 16px 11px;
 }
 
-body.role-kepala_bagian .kepala-kpi-table-heading h2 {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-table-heading h2 {
     margin: 0;
     color: #26344d;
     font-size: .78rem;
     font-weight: 800;
 }
 
-body.role-kepala_bagian .kepala-kpi-table-heading p {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-table-heading p {
     margin: 3px 0 0;
     color: #71829c;
     font-size: .61rem;
 }
 
-body.role-kepala_bagian .kepala-kpi-table-heading > span {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-table-heading > span {
     flex: 0 0 auto;
     color: #71829c;
     font-size: .59rem;
 }
 
-body.role-kepala_bagian .kepala-kpi-table-head,
-body.role-kepala_bagian .kepala-kpi-row {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-table-head,
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-row {
     display: grid;
     grid-template-columns: minmax(150px, 1.45fr) minmax(100px, 1.05fr) minmax(100px, .9fr) minmax(95px, .8fr) minmax(112px, 1.05fr) minmax(158px, 1.45fr);
     align-items: center;
     gap: 10px;
 }
 
-body.role-kepala_bagian .kepala-kpi-table-head {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-table-head {
     padding: 9px 16px;
     color: #64748b;
     background: #f8fafc;
@@ -673,19 +673,19 @@ body.role-kepala_bagian .kepala-kpi-table-head {
     letter-spacing: .04em;
 }
 
-body.role-kepala_bagian .kepala-kpi-row {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-row {
     padding: 12px 16px;
     border-bottom: 1px solid #edf1f5;
 }
 
-body.role-kepala_bagian .kepala-kpi-person {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-person {
     display: flex;
     align-items: center;
     gap: 9px;
     min-width: 0;
 }
 
-body.role-kepala_bagian .kepala-kpi-avatar {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-avatar {
     display: grid;
     place-items: center;
     width: 34px;
@@ -698,36 +698,36 @@ body.role-kepala_bagian .kepala-kpi-avatar {
     font-weight: 800;
 }
 
-body.role-kepala_bagian .kepala-kpi-person > span:last-child,
-body.role-kepala_bagian .kepala-kpi-person strong,
-body.role-kepala_bagian .kepala-kpi-person small,
-body.role-kepala_bagian .kepala-kpi-position strong,
-body.role-kepala_bagian .kepala-kpi-position small {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-person > span:last-child,
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-person strong,
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-person small,
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-position strong,
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-position small {
     display: block;
     min-width: 0;
     overflow-wrap: anywhere;
 }
 
-body.role-kepala_bagian .kepala-kpi-person strong,
-body.role-kepala_bagian .kepala-kpi-position strong {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-person strong,
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-position strong {
     color: #26344d;
     font-size: .62rem;
     line-height: 1.4;
 }
 
-body.role-kepala_bagian .kepala-kpi-person small,
-body.role-kepala_bagian .kepala-kpi-position small {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-person small,
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-position small {
     margin-top: 2px;
     color: #71829c;
     font-size: .54rem;
 }
 
-body.role-kepala_bagian .kepala-kpi-period {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-period {
     color: #526480;
     font-size: .59rem;
 }
 
-body.role-kepala_bagian .kepala-kpi-status {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-status {
     display: inline-flex;
     align-items: center;
     gap: 5px;
@@ -739,27 +739,27 @@ body.role-kepala_bagian .kepala-kpi-status {
     white-space: nowrap;
 }
 
-body.role-kepala_bagian .kepala-kpi-status i {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-status i {
     font-size: .38rem;
 }
 
-body.role-kepala_bagian .kepala-kpi-status.is-rated {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-status.is-rated {
     color: #087653;
     background: #effcf7;
     border-color: #b9efd5;
 }
 
-body.role-kepala_bagian .kepala-kpi-status.is-pending {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-status.is-pending {
     color: #a56800;
     background: #fffaf0;
     border-color: #f7df9a;
 }
 
-body.role-kepala_bagian .kepala-kpi-progress {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-progress {
     min-width: 0;
 }
 
-body.role-kepala_bagian .kepala-kpi-progress > div {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-progress > div {
     display: flex;
     justify-content: space-between;
     gap: 6px;
@@ -767,11 +767,11 @@ body.role-kepala_bagian .kepala-kpi-progress > div {
     font-size: .54rem;
 }
 
-body.role-kepala_bagian .kepala-kpi-progress > div strong {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-progress > div strong {
     color: #26344d;
 }
 
-body.role-kepala_bagian .kepala-kpi-progress > i {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-progress > i {
     display: block;
     height: 4px;
     margin: 4px 0;
@@ -780,26 +780,26 @@ body.role-kepala_bagian .kepala-kpi-progress > i {
     border-radius: 999px;
 }
 
-body.role-kepala_bagian .kepala-kpi-progress > i em {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-progress > i em {
     display: block;
     height: 100%;
     background: #078ac8;
     border-radius: inherit;
 }
 
-body.role-kepala_bagian .kepala-kpi-progress > small {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-progress > small {
     color: #8a9ab4;
     font-size: .51rem;
 }
 
-body.role-kepala_bagian .kepala-kpi-actions {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-actions {
     display: flex;
     align-items: center;
     gap: 5px;
     min-width: 0;
 }
 
-body.role-kepala_bagian .kepala-kpi-actions a {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-actions a {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -816,56 +816,56 @@ body.role-kepala_bagian .kepala-kpi-actions a {
     white-space: nowrap;
 }
 
-body.role-kepala_bagian .kepala-kpi-actions a.primary {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-actions a.primary {
     flex: 1;
     color: #fff;
     background: #078ac8;
     border-color: #078ac8;
 }
 
-body.role-kepala_bagian .kepala-kpi-actions a.secondary {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-actions a.secondary {
     flex: 0 0 auto;
 }
 
-body.role-kepala_bagian .kepala-kpi-empty,
-body.role-kepala_bagian .kepala-kpi-no-results {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-empty,
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-no-results {
     padding: 28px 16px;
     color: #71829c;
     text-align: center;
     font-size: .68rem;
 }
 
-body.role-kepala_bagian .kepala-kpi-empty > i {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-empty > i {
     display: block;
     margin-bottom: 8px;
     color: #078ac8;
     font-size: 1.35rem;
 }
 
-body.role-kepala_bagian .kepala-kpi-empty > strong,
-body.role-kepala_bagian .kepala-kpi-empty > span {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-empty > strong,
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-empty > span {
     display: block;
 }
 
-body.role-kepala_bagian .kepala-kpi-empty > strong {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-empty > strong {
     color: #34445e;
 }
 
-body.role-kepala_bagian .kepala-kpi-empty > span {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-empty > span {
     margin-top: 4px;
 }
 
-body.role-kepala_bagian .kepala-kpi-table-footer {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-table-footer {
     padding: 9px 16px;
     color: #71829c;
     font-size: .57rem;
 }
 
-body.role-kepala_bagian .kepala-kpi-table-footer b {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-table-footer b {
     color: #34445e;
 }
 
-body.role-kepala_bagian .kepala-kpi-tip {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-tip {
     display: flex;
     gap: 9px;
     padding: 12px 14px;
@@ -874,18 +874,18 @@ body.role-kepala_bagian .kepala-kpi-tip {
     border-color: #dcecfb;
 }
 
-body.role-kepala_bagian .kepala-kpi-tip > i {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-tip > i {
     margin-top: 2px;
     color: #078ac8;
     font-size: .75rem;
 }
 
-body.role-kepala_bagian .kepala-kpi-tip strong {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-tip strong {
     display: block;
     font-size: .62rem;
 }
 
-body.role-kepala_bagian .kepala-kpi-tip p {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-tip p {
     margin: 3px 0 0;
     color: #64819b;
     font-size: .57rem;
@@ -893,101 +893,101 @@ body.role-kepala_bagian .kepala-kpi-tip p {
 }
 
 @media (max-width: 1100px) {
-    body.role-kepala_bagian .kepala-kpi-table-head {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-table-head {
         display: none;
     }
 
-    body.role-kepala_bagian .kepala-kpi-row {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-row {
         grid-template-columns: minmax(0, 1fr) auto;
         gap: 10px 12px;
         padding: 13px;
     }
 
-    body.role-kepala_bagian .kepala-kpi-row > .kepala-kpi-person {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-row > .kepala-kpi-person {
         grid-column: 1;
     }
 
-    body.role-kepala_bagian .kepala-kpi-row > .kepala-kpi-position {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-row > .kepala-kpi-position {
         grid-column: 1;
         padding-left: 43px;
     }
 
-    body.role-kepala_bagian .kepala-kpi-row > .kepala-kpi-period {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-row > .kepala-kpi-period {
         display: none;
     }
 
-    body.role-kepala_bagian .kepala-kpi-row > div:nth-child(4) {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-row > div:nth-child(4) {
         grid-column: 2;
         grid-row: 1;
         justify-self: end;
     }
 
-    body.role-kepala_bagian .kepala-kpi-row > .kepala-kpi-progress {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-row > .kepala-kpi-progress {
         grid-column: 1;
         padding-left: 43px;
     }
 
-    body.role-kepala_bagian .kepala-kpi-row > .kepala-kpi-actions {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-row > .kepala-kpi-actions {
         grid-column: 1 / -1;
     }
 }
 
 @media (max-width: 767.98px) {
-    body.role-kepala_bagian .kepala-kpi-page {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-page {
         gap: 10px;
         padding: 12px;
         padding-bottom: calc(var(--bottom-nav-height) + 1rem);
     }
 
-    body.role-kepala_bagian .kepala-kpi-header {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-header {
         min-height: 60px;
         padding: 10px 12px;
     }
 
-    body.role-kepala_bagian .kepala-kpi-summary {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-summary {
         gap: 7px;
     }
 
-    body.role-kepala_bagian .kepala-kpi-summary article {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-summary article {
         padding: 9px;
     }
 
-    body.role-kepala_bagian .kepala-kpi-summary article > div > small {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-summary article > div > small {
         font-size: .5rem;
     }
 
-    body.role-kepala_bagian .kepala-kpi-summary article > div > span {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-summary article > div > span {
         width: 22px;
         height: 22px;
         font-size: .58rem;
     }
 
-    body.role-kepala_bagian .kepala-kpi-summary article > strong {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-summary article > strong {
         font-size: 1.15rem;
     }
 
-    body.role-kepala_bagian .kepala-kpi-summary article > p {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-summary article > p {
         font-size: .52rem;
     }
 
-    body.role-kepala_bagian .kepala-kpi-controls {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-controls {
         align-items: stretch;
         flex-direction: column;
     }
 
-    body.role-kepala_bagian .kepala-kpi-tabs {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-tabs {
         overflow-x: auto;
     }
 
-    body.role-kepala_bagian .kepala-kpi-tabs button {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-tabs button {
         flex: 0 0 auto;
     }
 
-    body.role-kepala_bagian .kepala-kpi-tools {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-tools {
         justify-content: flex-end;
     }
 
-    body.role-kepala_bagian .kepala-kpi-table-heading {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-table-heading {
         align-items: flex-start;
         flex-direction: column;
         gap: 5px;
@@ -996,16 +996,16 @@ body.role-kepala_bagian .kepala-kpi-tip p {
 }
 
 @media print {
-    body.role-kepala_bagian .kepala-kpi-page {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-page {
         width: 100%;
         padding: 0;
     }
 
-    body.role-kepala_bagian .kepala-kpi-back,
-    body.role-kepala_bagian .kepala-kpi-search-row,
-    body.role-kepala_bagian .kepala-kpi-controls,
-    body.role-kepala_bagian .kepala-kpi-actions,
-    body.role-kepala_bagian .kepala-kpi-tip {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-back,
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-search-row,
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-controls,
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-actions,
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-kpi-tip {
         display: none !important;
     }
 }

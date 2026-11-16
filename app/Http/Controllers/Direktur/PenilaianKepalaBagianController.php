@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Direktur;
 
 use App\Http\Controllers\Controller;
+use App\Models\HasilPenilaian;
 use App\Models\MasterKompetensi;
 use App\Models\MasterKpi;
 use App\Models\Pegawai;
 use App\Models\PenilaianKompetensi;
 use App\Models\PenilaianKpi;
 use App\Models\PeriodePenilaian;
+use App\Models\PresensiPotongan;
 use App\Services\HasilPenilaianService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -142,21 +144,67 @@ class PenilaianKepalaBagianController extends Controller
             ->with('success', 'Penilaian KPI Kepala Bagian berhasil disimpan.');
     }
 
-    public function show(Request $request, Pegawai $pegawai)
+    public function show(Request $request, Pegawai $pegawai, HasilPenilaianService $hasilPenilaianService)
     {
         $kepalaBagian = $this->cekKepalaBagian($request, $pegawai);
+        $kepalaBagian->load('jabatan.divisi');
         $periode = $this->resolvePeriode($request);
+        $canSyncPeriode = $periode !== null
+            && $periode->status === 'berjalan'
+            && $periode->tanggal_selesai->gte(now()->toDateString());
+        $hasilTunjangan = $periode
+            ? ($canSyncPeriode ? $hasilPenilaianService->syncForPegawai($kepalaBagian, $periode) : null)
+                ?? HasilPenilaian::where('pegawai_id', $kepalaBagian->id)
+                    ->where('periode_id', $periode->id)
+                    ->first()
+            : null;
         $penilaianKpis = PenilaianKpi::where('pegawai_id', $kepalaBagian->id)
             ->when($periode, fn ($query) => $query->where('periode_id', $periode->id))
             ->with('masterKpi')
             ->get();
 
-        return view('atasan.penilaian-kpi.show', [
+        $masterKpis = MasterKpi::where('jabatan_id', $kepalaBagian->jabatan_id)->get(['id', 'bobot']);
+        $totalBobot = (float) $masterKpis->sum('bobot');
+        $penilaianKpiByMasterId = $penilaianKpis->keyBy('master_kpi_id');
+        $capaianKpi = $totalBobot > 0
+            ? round($masterKpis->sum(function (MasterKpi $masterKpi) use ($penilaianKpiByMasterId, $totalBobot) {
+                $penilaian = $penilaianKpiByMasterId->get($masterKpi->id);
+                $capaian = min(100, max(0, (float) ($penilaian->persen_capaian ?? 0)));
+
+                return $capaian * ((float) $masterKpi->bobot / $totalBobot);
+            }), 2)
+            : 0;
+        $penilaianDenganSkor = $penilaianKpis->filter(
+            fn (PenilaianKpi $penilaian) => $penilaian->skor !== null
+                && (float) ($penilaian->masterKpi?->bobot ?? 0) > 0
+        );
+        $totalBobotBerskor = (float) $penilaianDenganSkor->sum(
+            fn (PenilaianKpi $penilaian) => (float) $penilaian->masterKpi->bobot
+        );
+        $rataSkorKpi = $totalBobotBerskor > 0
+            ? round($penilaianDenganSkor->sum(
+                fn (PenilaianKpi $penilaian) => (float) $penilaian->skor
+                    * ((float) $penilaian->masterKpi->bobot / $totalBobotBerskor)
+            ), 2)
+            : 0;
+        $hasilDiperbaruiPada = $penilaianKpis->sortByDesc('updated_at')->first()?->updated_at;
+        $presensiPotongans = $hasilTunjangan
+            ? PresensiPotongan::with('jenisPotongan')
+                ->where('pegawai_id', $kepalaBagian->id)
+                ->where('periode_id', $periode->id)
+                ->get()
+            : collect();
+
+        return view('kepala_bagian.penilaian-atasan.show', [
             'pegawai' => $kepalaBagian,
             'periode' => $periode,
             'penilaianKpis' => $penilaianKpis,
+            'capaianKpi' => $capaianKpi,
+            'rataSkorKpi' => $rataSkorKpi,
+            'hasilDiperbaruiPada' => $hasilDiperbaruiPada,
+            'hasilTunjangan' => $hasilTunjangan,
+            'presensiPotongans' => $presensiPotongans,
             'assessmentRoutePrefix' => self::ROUTE_PREFIX,
-            'assessmentEvaluatorLabel' => 'Direktur',
             'targetLabel' => 'Kepala Bagian',
         ]);
     }

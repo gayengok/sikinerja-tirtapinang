@@ -7,7 +7,7 @@
         <div class="atasan-mobile-breadcrumb">
             <a href="{{ route($routePrefix . '.dashboard') }}" aria-label="Kembali ke dashboard"><i
                     class="fa-solid fa-arrow-left"></i></a>
-            <div><span>{{ auth()->user()->role === 'kepala_bagian' ? 'Kepala Bagian' : 'Atasan' }}</span><strong>Approval Laporan</strong></div>
+            <div><span>{{ match (auth()->user()->role) { 'kepala_bagian' => 'Kepala Bagian', 'direktur' => 'Direktur', default => 'Atasan' } }}</span><strong>Approval Laporan</strong></div>
         </div>
         @php
             $waitingCount = (int) ($statusCounts['diajukan'] ?? 0);

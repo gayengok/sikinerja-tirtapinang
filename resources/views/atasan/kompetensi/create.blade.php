@@ -4,6 +4,9 @@
     @php
         $assessmentRoutePrefix = $assessmentRoutePrefix ?? 'atasan.kompetensi';
         $targetLabel = $targetLabel ?? 'Pegawai';
+        $updateRoute = $assessmentRoutePrefix === 'atasan.kompetensi'
+            ? $assessmentRoutePrefix . '.update'
+            : $assessmentRoutePrefix . '.kompetensi.update';
     @endphp
     <div class="kompetensi-form-page">
         <div class="atasan-mobile-breadcrumb"><a
@@ -30,7 +33,7 @@
         @if ($masterKompetensis->isEmpty())
             <div class="alert alert-warning mt-3">Belum ada master kompetensi untuk jabatan ini.</div>
         @else
-            <form action="{{ route($assessmentRoutePrefix . '.kompetensi.update', $pegawai) }}" method="POST">@csrf @method('PUT')<input
+            <form action="{{ route($updateRoute, $pegawai) }}" method="POST">@csrf @method('PUT')<input
                     type="hidden" name="periode_id" value="{{ $periode->id }}">
                 <div class="kompetensi-form-intro"><strong><i class="fa-solid fa-user-check"></i> ASPEK PERILAKU KERJA
                         (BOBOT 40%)</strong><span>Skala Penilaian 1–5</span></div>

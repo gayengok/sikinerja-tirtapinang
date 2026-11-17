@@ -6,14 +6,15 @@
     <title>Hasil Penilaian KPI</title>
     <style>
         @page {
-            margin: 28px 30px 34px;
+            margin: 24px 28px 30px;
         }
 
         body {
+            margin: 0;
             color: #17314b;
             font-family: DejaVu Sans, sans-serif;
-            font-size: 8px;
-            line-height: 1.4;
+            font-size: 7px;
+            line-height: 1.3;
         }
 
         table {
@@ -26,8 +27,8 @@
         }
 
         .brand-logo {
-            width: 54px;
-            height: 45px;
+            width: 42px;
+            height: 38px;
         }
 
         .brand-copy small,
@@ -43,8 +44,8 @@
         }
 
         .brand-copy strong {
-            margin: 2px 0;
-            font-size: 11px;
+            margin: 2px 0 1px;
+            font-size: 10px;
         }
 
         .brand-copy span,
@@ -55,70 +56,21 @@
         }
 
         .rule {
-            margin: 10px 0 12px;
-            border-top: 1px solid #26435e;
-        }
-
-        .report-title {
-            margin: 0 0 3px;
-            font-size: 10px;
-            font-weight: bold;
-        }
-
-        .report-subtitle {
-            margin: 0;
-        }
-
-        .identity {
-            margin: 14px 0 12px;
-            border: 1px solid #dce6ef;
-        }
-
-        .identity td {
-            width: 33.33%;
-            padding: 8px 9px;
-            border-right: 1px solid #e6edf3;
-        }
-
-        .identity td:last-child {
-            border-right: 0;
-        }
-
-        .label {
-            display: block;
-            margin-bottom: 3px;
-            color: #7a8ea2;
-            font-size: 6px;
-            font-weight: bold;
-        }
-
-        .identity strong,
-        .identity small {
-            display: block;
-        }
-
-        .identity strong {
-            font-size: 8px;
-        }
-
-        .identity small {
-            margin-top: 2px;
-            color: #71859a;
-            font-size: 6px;
+            margin: 7px 0 14px;
+            border-top: 2px solid #26435e;
         }
 
         .section-heading {
-            margin: 12px 0 5px;
-            padding: 5px 7px;
-            color: #174e72;
-            background: #eaf4fb;
-            border-left: 3px solid #1594c5;
+            margin: 11px 0 5px;
+            padding-left: 7px;
+            color: #26394d;
+            border-left: 4px solid #26394d;
             font-size: 8px;
             font-weight: bold;
         }
 
         .section-note {
-            margin: -2px 0 6px;
+            margin: -2px 0 5px;
         }
 
         .kpi-table {
@@ -126,16 +78,20 @@
         }
 
         .kpi-table th {
-            padding: 5px 4px;
+            padding: 6px 4px;
             color: #38536e;
             background: #f0f5f9;
             border: 1px solid #dce6ef;
             font-size: 6px;
+            text-align: center;
+        }
+
+        .kpi-table th:nth-child(2) {
             text-align: left;
         }
 
         .kpi-table td {
-            padding: 5px 4px;
+            padding: 6px 4px;
             border: 1px solid #e1e9f0;
             vertical-align: top;
             word-wrap: break-word;
@@ -167,12 +123,25 @@
         }
 
         .tukin-table {
-            margin-top: 2px;
+            margin-top: 3px;
+            page-break-inside: avoid;
         }
 
         .tukin-table td {
-            padding: 5px 7px;
-            border-bottom: 1px solid #e7edf3;
+            padding: 6px 7px;
+            border: 1px solid #e1e9f0;
+        }
+
+        .tukin-table td:first-child {
+            width: 72%;
+        }
+
+        .tukin-table .description {
+            display: block;
+            margin-top: 2px;
+            color: #71859a;
+            font-size: 6px;
+            font-weight: normal;
         }
 
         .tukin-table .amount {
@@ -188,17 +157,16 @@
             font-weight: bold;
         }
 
-        .deduction-row td {
-            color: #7a5260;
-            background: #fffafa;
-            font-size: 7px;
-        }
-
         .net-row td {
             padding: 8px 7px;
             color: #0e4b70;
             background: #eaf4fb;
             font-weight: bold;
+        }
+
+        .net-row .description {
+            color: #526b80;
+            font-style: italic;
         }
 
         .net-row .amount {
@@ -220,7 +188,7 @@
         }
 
         .signatures {
-            margin-top: 14px;
+            margin-top: 12px;
             page-break-inside: avoid;
         }
 
@@ -270,53 +238,27 @@
         </tr>
     </table>
     <div class="rule"></div>
-    <p class="report-title">Hasil Penilaian KPI Kepala Bagian</p>
-    <p class="report-subtitle">
-        Periode {{ $periode?->nama_periode ?? 'Belum tersedia' }}
-        &bull; Status: {{ $hasilTunjangan?->status === 'dikirim' ? 'Menunggu Verifikasi Final' : ($hasilTunjangan ? 'Draft / Meninjau Ulang' : 'Belum dihitung') }}
-    </p>
-
-    <table class="identity">
-        <tr>
-            <td>
-                <span class="label">Kepala Bagian yang Dinilai</span>
-                <strong>{{ $pegawai->nama }}</strong>
-                <small>{{ $pegawai->jabatan?->nama_jabatan ?? '-' }} &bull; NIP {{ $pegawai->nip ?? '-' }}</small>
-            </td>
-            <td>
-                <span class="label">Pejabat Penilai</span>
-                <strong>{{ $penilai->nama }}</strong>
-                <small>{{ $penilai->jabatan?->nama_jabatan ?? 'Direktur' }}</small>
-            </td>
-            <td>
-                <span class="label">Unit / Periode</span>
-                <strong>{{ $pegawai->jabatan?->divisi?->nama_divisi ?? '-' }}</strong>
-                <small>{{ $periode?->nama_periode ?? 'Periode belum tersedia' }}</small>
-            </td>
-        </tr>
-    </table>
 
     <div class="section-heading">I. Rincian Capaian Hasil KPI</div>
-    <p class="section-note">Rekap capaian berbobot dan skor setiap indikator kinerja yang dinilai.</p>
     <table class="kpi-table">
         <colgroup>
             <col style="width: 5%">
-            <col style="width: 37%">
-            <col style="width: 10%">
+            <col style="width: 42%">
+            <col style="width: 8%">
+            <col style="width: 11%">
+            <col style="width: 11%">
+            <col style="width: 11%">
             <col style="width: 12%">
-            <col style="width: 12%">
-            <col style="width: 10%">
-            <col style="width: 14%">
         </colgroup>
         <thead>
             <tr>
                 <th class="center">No</th>
                 <th>Indikator Kinerja Utama (IKU) / Sasaran</th>
                 <th class="center">Bobot</th>
-                <th class="right">Target</th>
-                <th class="right">Realisasi</th>
+                <th>Target</th>
+                <th>Realisasi</th>
                 <th class="center">Skor (1-5)</th>
-                <th class="right">Tertimbang</th>
+                <th>Tertimbang</th>
             </tr>
         </thead>
         <tbody>
@@ -329,16 +271,24 @@
                     <td class="center">{{ $loop->iteration }}</td>
                     <td>{{ $masterKpi->indikator }}</td>
                     <td class="center">{{ number_format((float) $masterKpi->bobot, 0, ',', '.') }}%</td>
-                    <td class="right">
+                    <td class="center">
                         {{ $penilaian?->target !== null
                             ? number_format((float) $penilaian->target, 2, ',', '.')
-                            : ($masterKpi->target_default !== null ? number_format((float) $masterKpi->target_default, 2, ',', '.') : '-') }}
+                            : ($masterKpi->target_default !== null
+                                ? number_format((float) $masterKpi->target_default, 2, ',', '.')
+                                : '-') }}{{ $penilaian?->target !== null || $masterKpi->target_default !== null ? '%' : '' }}
                     </td>
-                    <td class="right">
-                        {{ $penilaian?->realisasi_final !== null ? number_format((float) $penilaian->realisasi_final, 2, ',', '.') : '-' }}
+                    <td class="center">
+                        {{ $penilaian?->realisasi_final !== null ? number_format((float) $penilaian->realisasi_final, 2, ',', '.') . '%' : '-' }}
                     </td>
-                    <td class="center">{{ $penilaian?->skor !== null ? number_format((float) $penilaian->skor, 2, ',', '.') : '-' }}</td>
-                    <td class="right">{{ number_format((float) $row['tertimbang'], 2, ',', '.') }}%</td>
+                    <td class="center">
+                        {{ $penilaian?->skor !== null ? number_format((float) $penilaian->skor, 2, ',', '.') : '-' }}
+                    </td>
+                    <td class="center">
+                        {{ $penilaian?->skor !== null && (float) $totalBobotKpi > 0
+                            ? number_format((float) $penilaian->skor * ((float) $masterKpi->bobot / (float) $totalBobotKpi), 2, ',', '.')
+                            : '-' }}
+                    </td>
                 </tr>
             @empty
                 <tr>
@@ -361,47 +311,112 @@
     </table>
 
     <div class="section-heading">II. Rincian Tunjangan Kinerja (Tukin)</div>
-    <p class="section-note">Kalkulasi berdasarkan hasil penilaian dan kedisiplinan presensi.</p>
     @if ($hasilTunjangan)
         @php
             $nilaiAkhir = min(100, max(0, (float) ($hasilTunjangan->nilai_akhir ?? 0)));
             $tukinBruto = (float) ($hasilTunjangan->tukin_bruto ?? 0);
             $totalPotongan = (float) ($hasilTunjangan->total_potongan_presensi ?? 0);
-            $nilaiPotongan = $tukinBruto * $totalPotongan / 100;
+            $nilaiPotongan = ($tukinBruto * $totalPotongan) / 100;
+            $tukinNeto = (int) round((float) ($hasilTunjangan->tukin_neto ?? 0));
+            $terbilang = function (int $angka) use (&$terbilang): string {
+                $kata = [
+                    'nol',
+                    'satu',
+                    'dua',
+                    'tiga',
+                    'empat',
+                    'lima',
+                    'enam',
+                    'tujuh',
+                    'delapan',
+                    'sembilan',
+                    'sepuluh',
+                    'sebelas',
+                ];
+
+                if ($angka < 12) {
+                    return $kata[$angka];
+                }
+                if ($angka < 20) {
+                    return $terbilang($angka - 10) . ' belas';
+                }
+                if ($angka < 100) {
+                    return $terbilang(intdiv($angka, 10)) .
+                        ' puluh' .
+                        ($angka % 10 ? ' ' . $terbilang($angka % 10) : '');
+                }
+                if ($angka < 200) {
+                    return 'seratus' . ($angka - 100 ? ' ' . $terbilang($angka - 100) : '');
+                }
+                if ($angka < 1000) {
+                    return $terbilang(intdiv($angka, 100)) .
+                        ' ratus' .
+                        ($angka % 100 ? ' ' . $terbilang($angka % 100) : '');
+                }
+                if ($angka < 2000) {
+                    return 'seribu' . ($angka - 1000 ? ' ' . $terbilang($angka - 1000) : '');
+                }
+                if ($angka < 1000000) {
+                    return $terbilang(intdiv($angka, 1000)) .
+                        ' ribu' .
+                        ($angka % 1000 ? ' ' . $terbilang($angka % 1000) : '');
+                }
+                if ($angka < 1000000000) {
+                    return $terbilang(intdiv($angka, 1000000)) .
+                        ' juta' .
+                        ($angka % 1000000 ? ' ' . $terbilang($angka % 1000000) : '');
+                }
+
+                return $terbilang(intdiv($angka, 1000000000)) .
+                    ' miliar' .
+                    ($angka % 1000000000 ? ' ' . $terbilang($angka % 1000000000) : '');
+            };
         @endphp
         <table class="tukin-table">
             <tr>
-                <td>Base Tukin Jabatan</td>
-                <td class="amount">Rp {{ number_format((float) ($pegawai->jabatan?->base_tukin ?? 0), 0, ',', '.') }}</td>
+                <td>
+                    Base Tukin Jabatan (Plafon Struktural)
+                    <span class="description">Standar honorarium kinerja maksimal posisi Kepala Bagian</span>
+                </td>
+                <td class="amount">Rp {{ number_format((float) ($pegawai->jabatan?->base_tukin ?? 0), 0, ',', '.') }}
+                </td>
             </tr>
             <tr>
-                <td>Tukin Bruto (Capaian {{ number_format($nilaiAkhir, 1, ',', '.') }}%)</td>
+                <td>
+                    Tukin Bruto (Capaian {{ number_format($nilaiAkhir, 2, ',', '.') }}%)
+                    <span class="description">
+                        Formula: {{ number_format($nilaiAkhir, 2, ',', '.') }}% x Rp
+                        {{ number_format((float) ($pegawai->jabatan?->base_tukin ?? 0), 0, ',', '.') }}
+                    </span>
+                </td>
                 <td class="amount">Rp {{ number_format($tukinBruto, 0, ',', '.') }}</td>
             </tr>
             <tr>
-                <td class="deduction-title">Potongan Presensi ({{ number_format($totalPotongan, 2, ',', '.') }}%)</td>
+                <td class="deduction-title">
+                    Potongan Presensi &amp; Disiplin Kerja ({{ number_format($totalPotongan, 2, ',', '.') }}%)
+                    <span class="description">
+                        @if ($presensiPotongans->isNotEmpty())
+                            {{ $presensiPotongans->map(
+                                    fn($potongan) => sprintf(
+                                        '%s %s kejadian (%s%%)',
+                                        $potongan->jenisPotongan?->nama_potongan ?? 'Potongan Presensi',
+                                        $potongan->jumlah_kejadian,
+                                        number_format((float) $potongan->persen_potongan, 0, ',', '.'),
+                                    ),
+                                )->implode(' + ') }}
+                        @else
+                            Tidak ada potongan presensi
+                        @endif
+                    </span>
+                </td>
                 <td class="amount deduction-title">-Rp {{ number_format($nilaiPotongan, 0, ',', '.') }}</td>
             </tr>
-            @forelse ($presensiPotongans as $potongan)
-                <tr class="deduction-row">
-                    <td>
-                        {{ $potongan->jenisPotongan?->nama_potongan ?? 'Potongan Presensi' }}
-                        ({{ $potongan->jumlah_kejadian }} kejadian)
-                        &bull; Tarif {{ number_format((float) ($potongan->jenisPotongan?->persen_potongan ?? 0), 2, ',', '.') }}% per kejadian
-                    </td>
-                    <td class="amount">
-                        -Rp {{ number_format($tukinBruto * (float) $potongan->persen_potongan / 100, 0, ',', '.') }}
-                    </td>
-                </tr>
-            @empty
-                <tr class="deduction-row">
-                    <td>Tidak ada potongan presensi</td>
-                    <td class="amount">Rp 0</td>
-                </tr>
-            @endforelse
             <tr class="net-row">
-                <td>TUKIN NETO DITERIMA</td>
-                <td class="amount">Rp {{ number_format((float) ($hasilTunjangan->tukin_neto ?? 0), 0, ',', '.') }}</td>
+                <td>
+                    TUKIN NETO DITERIMA
+                    <span class="description">Terbilang: "{{ ucfirst($terbilang($tukinNeto)) }} Rupiah"</span>
+                </td>
+                <td class="amount">Rp {{ number_format($tukinNeto, 0, ',', '.') }}</td>
             </tr>
         </table>
     @else

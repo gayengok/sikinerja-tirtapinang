@@ -1,0 +1,588 @@
+.pegawai-navigation {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1100;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 70px;
+    padding: 8px 12px calc(8px + env(safe-area-inset-bottom));
+    border-top: 1px solid #dce5ef;
+    background: #ffffff;
+    box-shadow: 0 -8px 25px rgba(37, 62, 90, 0.08);
+}
+
+.pegawai-navigation-brand {
+    display: none;
+}
+
+.pegawai-navigation-links {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+}
+
+.pegawai-navigation-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    min-width: 0;
+    min-height: 52px;
+    padding: 7px 4px;
+    border: 0;
+    border-radius: 12px;
+    background: transparent;
+    color: #94a3b8;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.pegawai-navigation-link i {
+    font-size: 20px;
+}
+
+.pegawai-navigation-link.is-active,
+.pegawai-profile-menu.is-open .pegawai-profile-trigger {
+    color: #0875ad;
+    font-weight: 800;
+}
+
+.pegawai-navigation-link:hover,
+.pegawai-navigation-link:focus-visible {
+    color: #0875ad;
+}
+
+.pegawai-navigation-link.is-unavailable {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.pegawai-profile-menu {
+    position: relative;
+    min-width: 0;
+}
+
+.pegawai-profile-trigger {
+    appearance: none;
+}
+
+.pegawai-profile-dropdown {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 18px);
+    z-index: 1150;
+    width: min(310px, calc(100vw - 24px));
+    padding: 12px;
+    border: 1px solid #e2eaf3;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 20px 50px rgba(19, 46, 74, 0.18);
+}
+
+.pegawai-profile-dropdown[hidden] {
+    display: none !important;
+}
+
+.pegawai-profile-dropdown-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px;
+}
+
+.pegawai-profile-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #0875ad;
+    color: #ffffff;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.pegawai-profile-dropdown-header > div {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    gap: 4px;
+}
+
+.pegawai-profile-dropdown-header strong {
+    overflow: hidden;
+    color: #1f2a37;
+    font-size: 13px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.pegawai-profile-dropdown-header small {
+    overflow: hidden;
+    color: #7c8da2;
+    font-size: 11px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.pegawai-profile-dropdown-divider {
+    height: 1px;
+    margin: 10px 0;
+    background: #e9eef5;
+}
+
+.pegawai-profile-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    min-height: 43px;
+    padding: 11px 12px;
+    border: 0;
+    border-radius: 11px;
+    background: transparent;
+    color: #344256;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.pegawai-profile-dropdown-item > i:first-child {
+    width: 18px;
+    color: #0875ad;
+    font-size: 14px;
+    text-align: center;
+}
+
+.pegawai-profile-dropdown-item > i:last-child {
+    margin-left: auto;
+    color: #94a3b8;
+    font-size: 10px;
+}
+
+.pegawai-profile-dropdown-item:hover {
+    background: #eef7fd;
+    color: #0875ad;
+}
+
+.pegawai-profile-dropdown-item.is-unavailable {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.pegawai-profile-dropdown form {
+    margin: 0;
+}
+
+.pegawai-profile-logout {
+    color: #dc3545;
+}
+
+.pegawai-profile-logout > i:first-child {
+    color: #dc3545;
+}
+
+.pegawai-profile-logout:hover {
+    background: #fff1f2;
+    color: #dc3545;
+}
+
+.pegawai-notification-trigger {
+    position: fixed;
+    top: calc(16px + env(safe-area-inset-top));
+    right: 16px;
+    z-index: 1090;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    background: #ffffff;
+    color: #0875ad;
+    font-size: 20px;
+    box-shadow: 0 8px 25px rgba(15, 59, 91, 0.16);
+    cursor: pointer;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.pegawai-notification-trigger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(15, 59, 91, 0.2);
+}
+
+.pegawai-notification-indicator {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+    width: 9px;
+    height: 9px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    background: #ef4444;
+}
+
+.pegawai-notification-indicator[hidden] {
+    display: none !important;
+}
+
+body.pegawai-notification-open {
+    overflow: hidden;
+}
+
+.pegawai-notification-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    isolation: isolate;
+}
+
+.pegawai-notification-modal[hidden] {
+    display: none !important;
+}
+
+.pegawai-notification-backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: rgba(9, 25, 44, 0.48);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.pegawai-notification-panel {
+    display: flex;
+    flex-direction: column;
+    width: min(100%, 680px);
+    max-height: min(760px, calc(100dvh - 32px));
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    border-radius: 24px;
+    background: #ffffff;
+    box-shadow: 0 30px 90px rgba(0, 0, 0, 0.22);
+    transform: translateY(18px) scale(0.98);
+    opacity: 0;
+    transition:
+        transform 0.22s ease,
+        opacity 0.22s ease;
+}
+
+.pegawai-notification-modal.is-visible .pegawai-notification-panel {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+.pegawai-notification-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 22px 24px;
+    border-bottom: 1px solid #e9eef5;
+}
+
+.pegawai-notification-heading {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+}
+
+.pegawai-notification-heading-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 46px;
+    width: 46px;
+    height: 46px;
+    border-radius: 15px;
+    background: #eaf5fc;
+    color: #0875ad;
+    font-size: 20px;
+}
+
+.pegawai-notification-heading h2 {
+    margin: 0;
+    color: #1f2a37;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.pegawai-notification-heading p {
+    margin: 5px 0 0;
+    color: #718399;
+    font-size: 12px;
+}
+
+.pegawai-notification-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 38px;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.pegawai-notification-close:hover {
+    background: #e2e8f0;
+}
+
+.pegawai-notification-content {
+    flex: 1;
+    min-height: 0;
+    padding: 24px;
+    overflow-y: auto;
+}
+
+.pegawai-notification-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 320px;
+    padding: 24px;
+    text-align: center;
+}
+
+.pegawai-notification-empty-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90px;
+    height: 90px;
+    margin-bottom: 20px;
+    border-radius: 50%;
+    background: #eef7fd;
+    color: #1687c8;
+    font-size: 36px;
+}
+
+.pegawai-notification-empty h3 {
+    margin: 0 0 10px;
+    color: #1f2a37;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.pegawai-notification-empty p {
+    max-width: 370px;
+    margin: 0;
+    color: #718399;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+@media (min-width: 1024px) {
+    .pegawai-navigation {
+        position: sticky;
+        top: 22px;
+        right: auto;
+        bottom: auto;
+        left: auto;
+        z-index: 1100;
+        width: max-content;
+        max-width: calc(100vw - 48px);
+        min-height: 74px;
+        margin: 22px auto 32px;
+        padding: 9px 14px;
+        border: 1px solid #ffffff;
+        border-radius: 999px;
+        background: linear-gradient(180deg, #ffffff, #f5f9fc);
+        box-shadow:
+            0 4px 0 #d6e1ea,
+            0 9px 0 rgba(170, 190, 205, 0.16),
+            0 20px 38px rgba(37, 62, 90, 0.14);
+    }
+
+    .pegawai-navigation-brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-right: 20px;
+        padding-right: 20px;
+        border-right: 1px solid #dce5ef;
+    }
+
+    .pegawai-navigation-logo {
+        display: block;
+        width: 44px;
+        height: 44px;
+        object-fit: contain;
+    }
+
+    .pegawai-navigation-brand-text {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .pegawai-navigation-brand-text strong {
+        color: #026aa7;
+        font-size: 14px;
+        font-weight: 800;
+    }
+
+    .pegawai-navigation-brand-text small {
+        color: #64748b;
+        font-size: 9px;
+        font-weight: 600;
+    }
+
+    .pegawai-navigation-links {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        width: auto;
+    }
+
+    .pegawai-navigation-link {
+        flex-direction: row;
+        gap: 9px;
+        width: auto;
+        min-height: 46px;
+        padding: 12px 18px;
+        border-radius: 999px;
+        font-size: 13px;
+        white-space: nowrap;
+    }
+
+    .pegawai-navigation-link i {
+        font-size: 15px;
+    }
+
+    .pegawai-navigation-link.is-active {
+        background: #0875ad;
+        color: #ffffff;
+        box-shadow: 0 5px 12px rgba(8, 117, 173, 0.22);
+    }
+
+    .pegawai-navigation-link.is-active:hover {
+        background: #026aa7;
+        color: #ffffff;
+    }
+
+    .pegawai-profile-menu.is-open .pegawai-profile-trigger {
+        background: #e5f3fb;
+        color: #0875ad;
+    }
+
+    .pegawai-profile-dropdown {
+        top: calc(100% + 20px);
+        right: 0;
+        bottom: auto;
+    }
+
+    .pegawai-notification-trigger {
+        position: relative;
+        top: auto;
+        right: auto;
+        z-index: auto;
+        flex: 0 0 46px;
+        width: 46px;
+        height: 46px;
+        margin-left: 16px;
+        border: 1px solid #dce5ef;
+        background: #eaf5fc;
+        box-shadow: none;
+    }
+
+    .pegawai-notification-trigger:hover {
+        background: #dceefa;
+        transform: none;
+        box-shadow: none;
+    }
+}
+
+@media (max-width: 1023px) {
+    .pegawai-navigation {
+        border-radius: 0;
+    }
+
+    .pegawai-profile-dropdown {
+        right: 8px;
+    }
+
+    .pegawai-notification-modal {
+        padding: 0;
+    }
+
+    .pegawai-notification-panel {
+        width: 100%;
+        height: 100dvh;
+        max-height: 100dvh;
+        border: 0;
+        border-radius: 0;
+    }
+
+    .pegawai-notification-header {
+        padding: calc(20px + env(safe-area-inset-top)) 20px 20px;
+    }
+
+    .pegawai-notification-content {
+        padding: 20px;
+    }
+
+    .pegawai-notification-empty {
+        min-height: 55dvh;
+    }
+}
+
+@media (max-width: 359px) {
+    .pegawai-navigation {
+        padding-right: 6px;
+        padding-left: 6px;
+    }
+
+    .pegawai-navigation-link {
+        font-size: 10px;
+    }
+
+    .pegawai-navigation-link i {
+        font-size: 18px;
+    }
+
+    .pegawai-profile-dropdown {
+        right: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pegawai-notification-panel,
+    .pegawai-navigation-link,
+    .pegawai-notification-trigger {
+        transition: none;
+    }
+}

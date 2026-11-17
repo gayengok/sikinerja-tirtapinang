@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.apps')
 
 @section('title', $attendanceRoute === 'atasan.absensi-saya' ? 'Presensi Atasan' : 'Presensi Pegawai')
 
@@ -8,7 +8,7 @@
 @endpush
 
 @section('content')
-    <div class="manual-page {{ $attendanceRoute === 'atasan.absensi-saya' ? 'manual-atasan-page' : '' }}">
+    <div class="manual-page attendance-dashboard-page {{ $attendanceRoute === 'atasan.absensi-saya' ? 'manual-atasan-page' : '' }}">
         @php($attendanceLocked = $cutiHariIni || $hariLiburHariIni !== null)
         @php($jenisPresensiAwal = old('jenis_presensi', $absensiMasukHariIni && !$absensiPulangHariIni ? 'pulang' : 'masuk'))
 
@@ -18,85 +18,84 @@
             </button>
             <div>
                 <h1>{{ $attendanceRoute === 'atasan.absensi-saya' ? 'Presensi Atasan' : 'Presensi Pegawai' }}</h1>
-                <p>Rekam kehadiran Anda dengan verifikasi lokasi &amp; foto</p>
+                <p>Rekam kehadiran dengan verifikasi GPS dan Foto</p>
+            </div>
+            <div class="attendance-header-clock" id="attendanceClock"
+                data-server-timestamp="{{ now()->timestamp }}">
+                <span class="attendance-header-clock-icon"><i class="fa-regular fa-clock"></i></span>
+                <div class="attendance-header-clock-text">
+                    <small id="attendanceClockDate">{{ now()->translatedFormat('l, d F Y') }}</small>
+                    <strong><span id="attendanceClockTime">{{ now()->format('H:i:s') }}</span> <em>WIB</em></strong>
+                </div>
             </div>
         </header>
 
         @if ($hariLiburHariIni)
             <dialog class="manual-holiday-dialog" id="holidayDialog" aria-labelledby="holidayDialogTitle">
                 <div class="manual-holiday-dialog-content">
-                    <span class="manual-holiday-dialog-icon"><i class="fa-solid fa-calendar-xmark"></i></span>
+                    <span class="manual-holiday-dialog-icon">
+                        <i class="fa-solid fa-calendar-xmark"></i>
+                    </span>
                     <h2 id="holidayDialogTitle">Hari Libur</h2>
-                    <p>Keterangan: {{ $hariLiburHariIni['label'] }}. Anda tidak perlu melakukan presensi. Fitur presensi
-                        dikunci otomatis dan akan terbuka kembali pada hari kerja.</p>
+                    <p>{{ $hariLiburHariIni['label'] }}. Presensi tidak diperlukan dan dinonaktifkan otomatis.</p>
                     <button type="button" id="closeHolidayDialog">Mengerti</button>
                 </div>
             </dialog>
         @endif
+
         <dialog class="manual-holiday-dialog" id="attendanceWarningDialog"
             data-show-on-load="{{ session('attendance_warning') ? 'true' : 'false' }}"
             aria-labelledby="attendanceWarningDialogTitle">
             <div class="manual-holiday-dialog-content">
-                <span class="manual-holiday-dialog-icon"><i class="fa-solid fa-circle-exclamation"></i></span>
+                <span class="manual-holiday-dialog-icon">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                </span>
                 <h2 id="attendanceWarningDialogTitle">Presensi Sudah Tercatat</h2>
-                <p>{{ session('attendance_warning', 'Setiap jenis presensi hanya dapat dilakukan satu kali dalam sehari.') }}</p>
+                <p>{{ session('attendance_warning', 'Setiap jenis presensi hanya dapat dilakukan satu kali sehari.') }}</p>
                 <button type="button" class="close-attendance-warning">Mengerti</button>
             </div>
         </dialog>
 
         <div class="manual-body">
             <div class="manual-card manual-banner manual-banner-info manual-system-notice">
-                <i aria-hidden="true">
-                    <svg class="manual-banner-icon" viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="9"></circle>
-                        <path d="M12 11v5"></path>
-                        <path d="M12 8h.01"></path>
-                    </svg>
-                </i>
+                <i class="fa-solid fa-circle-info"></i>
                 <div>
                     <strong>Perhatian Sistem</strong>
-                    Pengajuan presensi memerlukan verifikasi foto selfie langsung di lokasi kerja serta koordinat
-                    GPS akurat bertempel waktu. Pastikan izin browser untuk Kamera dan Lokasi aktif.
+                    Presensi hanya diterima ketika koordinat perangkat berada di dalam area kantor.
+                    Aktifkan izin lokasi akurat dan kamera. Batas akurasi GPS maksimal 25 meter.
                 </div>
             </div>
 
-            <div class="manual-card manual-identity">
-                <div class="manual-avatar">{{ strtoupper(substr($pegawai->nama, 0, 1)) }}</div>
-                <div class="manual-identity-copy">
-                    <h2>{{ $pegawai->nama }}</h2>
-                    <a href="#"><i class="fa-regular fa-id-badge"></i>
-                        {{ $pegawai->jabatan->nama_jabatan ?? 'Pegawai' }}</a>
-                </div>
-                <span class="manual-active">Aktif</span>
-            </div>
+
 
             @if ($cutiHariIni)
-                <div class="manual-card manual-banner manual-banner-warning" style="margin-bottom: 0.9rem;">
+                <div class="manual-card manual-banner manual-banner-warning">
                     <i class="fa-solid fa-umbrella-beach"></i>
                     <div>
                         <strong>Anda sedang cuti hari ini</strong>
-                        Presensi dinonaktifkan karena status kehadiran Anda tercatat sebagai cuti. Presensi dapat
-                        dilakukan kembali pada hari kerja berikutnya.
+                        Presensi dinonaktifkan karena status Anda tercatat sebagai cuti.
                     </div>
                 </div>
             @endif
 
             @if ($hariLiburHariIni)
-                <div class="manual-card manual-banner manual-banner-warning" style="margin-bottom: 0.9rem;">
+                <div class="manual-card manual-banner manual-banner-warning">
                     <i class="fa-solid fa-calendar-xmark"></i>
                     <div>
                         <strong>Hari ini hari libur</strong>
-                        {{ $hariLiburHariIni['label'] }}. Presensi tidak diperlukan dan dinonaktifkan otomatis.
+                        {{ $hariLiburHariIni['label'] }}.
                     </div>
                 </div>
             @endif
 
             <fieldset class="{{ $attendanceLocked ? 'manual-disabled' : '' }}" @disabled($attendanceLocked)>
-                <form id="attendanceForm" action="{{ route($attendanceRoute . '.store') }}" method="POST"
+                <form id="attendanceForm"
+                    action="{{ route($attendanceRoute . '.store') }}"
+                    method="POST"
                     enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" id="jenisPresensi" name="jenis_presensi"
-                        value="{{ $jenisPresensiAwal }}">
+
+                    <input type="hidden" id="jenisPresensi" name="jenis_presensi" value="{{ $jenisPresensiAwal }}">
                     <input type="hidden" id="latitude" name="latitude">
                     <input type="hidden" id="longitude" name="longitude">
                     <input type="hidden" id="accuracy" name="accuracy">
@@ -115,115 +114,71 @@
                         </div>
                     @endif
 
-                    <div class="manual-attendance-layout">
-                        <div class="manual-attendance-left">
-                            @if ($attendanceRoute === 'atasan.absensi-saya')
-                                @include('pegawai.absensi.partials.attendance-calendar')
-                            @endif
-
-                            <section class="manual-card manual-clock-card">
+                    <div class="manual-attendance-layout attendance-flow-layout">
+                        <div class="attendance-primary-grid">
+                            <div class="attendance-gps-column">
+                                <section class="manual-card manual-gps-card">
                                 <div class="manual-section-title">
-                                    <span>Waktu Sistem Server</span>
-                                </div>
-                                <div class="manual-clock" id="attendanceClock" data-server-timestamp="{{ now()->timestamp }}">
-                                    <div class="manual-clock-icon"><i class="fa-regular fa-clock"></i></div>
-                                    <div class="manual-clock-time">
-                                        <small id="attendanceClockDate">{{ now()->translatedFormat('l, d F Y') }}</small>
-                                        <strong><span id="attendanceClockTime">{{ now()->format('H:i:s') }}</span> <em>WIB</em></strong>
-                                    </div>
-                                    <div class="manual-clock-meta">
-                                        <span class="manual-lock"><i class="fa-solid fa-lock"></i> Waktu Terkunci</span>
-                                    </div>
-                                </div>
-                            </section>
-
-                            <section class="manual-card manual-presence-card">
-                                <div class="manual-section-title">
-                                    <span>Jenis Presensi</span>
-                                    <span class="manual-sync"><i class="fa-solid fa-circle"></i> Sinkron Server</span>
+                                    <span>
+                                        <i class="fa-solid fa-location-crosshairs"></i>
+                                        Validasi Geolokasi GPS
+                                    </span>
+                                    <span class="manual-chip">GPS Real-time</span>
                                 </div>
 
-                                <div class="manual-types" role="group" aria-label="Jenis presensi">
-                                    <button type="button"
-                                        class="{{ $jenisPresensiAwal === 'masuk' ? 'selected' : '' }}"
-                                        data-presensi="masuk" data-completed="{{ $absensiMasukHariIni ? 'true' : 'false' }}">
-                                        <i class="fa-solid fa-arrow-right-to-bracket"></i> Masuk
-                                        @if ($absensiMasukHariIni)<small>Sudah tercatat</small>@endif
-                                    </button>
-                                    <button type="button"
-                                        class="{{ $jenisPresensiAwal === 'pulang' ? 'selected' : '' }}"
-                                        data-presensi="pulang" data-completed="{{ $absensiPulangHariIni ? 'true' : 'false' }}">
-                                        <i class="fa-solid fa-arrow-right-from-bracket"></i> Pulang
-                                        @if ($absensiPulangHariIni)<small>Sudah tercatat</small>@endif
-                                    </button>
-                                </div>
-
-                                <label class="manual-label" for="status">Status Absensi</label>
-                                <select class="manual-select manual-field" id="status" name="status" required>
-                                    <option value="hadir" @selected(old('status', 'hadir') === 'hadir')>Hadir (Bekerja Normal)</option>
-                                    <option value="izin" @selected(old('status') === 'izin')>Izin</option>
-                                    <option value="cuti" @selected(old('status') === 'cuti')>Cuti</option>
-                                </select>
-                                <button type="submit" form="attendanceForm" class="manual-submit">
-                                    <i class="fa-solid fa-user-check"></i> Kirim Presensi
-                                </button>
-                                <div class="manual-note">
-                                    <i aria-hidden="true">
-                                        <svg class="manual-note-icon" viewBox="0 0 24 24">
-                                            <path d="M12 3 20 6v5c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10V6l8-3Z"></path>
-                                            <path d="m9 12 2 2 4-4"></path>
-                                        </svg>
-                                    </i>
-                                    <span>Data presensi, titik koordinat GPS, dan foto akan diverifikasi oleh atasan langsung dan Subbagian Kepegawaian sesuai Peraturan Disiplin.</span>
-                                </div>
-                            </section>
-                        </div>
-
-                        <div class="manual-attendance-right">
-                            <section class="manual-card manual-gps-card">
-                                <div class="manual-section-title">
-                                    <span><i class="fa-solid fa-location-crosshairs"></i> Validasi Geolokasi GPS</span>
-                                    <span class="manual-chip">GPS presisi</span>
-                                </div>
                                 <p class="manual-gps-status">
-                                    Presensi tetap dapat dikirim dari luar area kantor. Lokasi dan jaraknya akan ditandai untuk
-                                    verifikasi atasan.
+                                    GPS diperbarui otomatis selama halaman aktif.
+                                    Presensi hanya diterima di dalam area kantor.
                                 </p>
 
                                 <div class="manual-map">
                                     <div class="manual-map-canvas" id="attendanceMap"></div>
+
                                     <div class="manual-map-overlay">
-                                        <strong id="gpsLocationTitle">LOKASI BELUM DIVERIFIKASI</strong>
-                                        <span id="gpsCoordinates">Tekan Perbarui untuk membaca beberapa pembacaan GPS terbaik</span>
+                                        <strong id="gpsLocationTitle">
+                                            MENUNGGU LOKASI GPS
+                                        </strong>
+                                        <span id="gpsCoordinates">
+                                            Mengaktifkan pembacaan lokasi perangkat...
+                                        </span>
                                     </div>
                                 </div>
 
                                 <div class="manual-gps">
                                     <div>
-                                        <strong>Wajib berada di area kantor</strong>
-                                        <small class="manual-gps-status" id="gpsStatus">GPS belum dibaca</small>
+                                        <strong>Wajib berada di dalam area kantor</strong>
+                                        <small class="manual-gps-status" id="gpsStatus">
+                                            Memulai GPS otomatis...
+                                        </small>
                                     </div>
+
                                     <button type="button" class="manual-refresh" id="refreshGpsButton">
-                                        <i class="fa-solid fa-rotate"></i> Perbarui
+                                        <i class="fa-solid fa-rotate"></i>
+                                        Cari Ulang
                                     </button>
                                 </div>
                             </section>
-
-                            <section class="manual-card manual-photo-card">
+                            </div>
+                            <div class="attendance-camera-column">
+                                <section class="manual-card manual-photo-card">
                                 <div class="manual-section-title">
                                     <span>
                                         <svg class="manual-photo-icon" viewBox="0 0 24 24" aria-hidden="true">
-                                            <path
-                                                d="M4 7h3l1.5-2h5L15 7h3a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z" />
+                                            <path d="M4 7h3l1.5-2h5L15 7h3a2 2 0 0 1 2 2v9a2 2 0 0 1 2-2Z" />
                                             <circle cx="12" cy="13" r="3.5" />
                                         </svg>
                                         Foto Absensi
                                     </span>
-                                    <span class="manual-chip manual-photo-status" id="manualPhotoStatus">Belum diambil</span>
+                                    <span class="manual-chip manual-photo-status" id="manualPhotoStatus">
+                                        Belum diambil
+                                    </span>
                                 </div>
 
                                 <div class="manual-photo" id="manualPhotoPreview">
-                                    <img class="manual-photo-preview" id="manualPhotoImage" alt="Pratinjau foto absensi">
+                                    <video class="manual-camera-video" id="manualCameraVideo" autoplay playsinline muted hidden></video>
+                                    <img class="manual-photo-preview"
+                                        id="manualPhotoImage"
+                                        alt="Pratinjau foto absensi">
 
                                     <div class="manual-photo-guide" aria-hidden="true">
                                         <span class="manual-photo-corner manual-photo-corner-tl"></span>
@@ -236,100 +191,172 @@
 
                                     <div class="manual-photo-body">
                                         <span class="manual-photo-body-icon">
-                                            <svg class="manual-photo-icon" viewBox="0 0 24 24" aria-hidden="true">
-                                                <path
-                                                    d="M4 7h3l1.5-2h5L15 7h3a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z" />
-                                                <circle cx="12" cy="13" r="3.5" />
-                                            </svg>
+                                            <i class="fa-solid fa-camera"></i>
                                         </span>
                                         <strong>Siap mengambil foto</strong>
-                                        <span class="manual-photo-hint">Pastikan wajah terlihat jelas dan pencahayaan cukup</span>
+                                        <span class="manual-photo-hint">
+                                            Pastikan wajah terlihat jelas dan pencahayaan cukup
+                                        </span>
                                     </div>
 
-                                    <span class="manual-photo-label"><i class="fa-solid fa-shield-halved"></i> Foto digunakan
-                                        untuk verifikasi absensi</span>
-
-                                    <span class="manual-photo-badge" aria-hidden="true">
-                                        <svg viewBox="0 0 24 24" class="manual-photo-badge-icon">
-                                            <path d="M20 6 9 17l-5-5" />
-                                        </svg>
+                                    <span class="manual-photo-label">
+                                        <i class="fa-solid fa-shield-halved"></i>
+                                        Foto digunakan untuk verifikasi absensi
                                     </span>
 
-                                    <button type="button" class="manual-photo-floating-retake" id="manualFloatingRetake"
+                                    <span class="manual-photo-badge" aria-hidden="true">
+                                        <i class="fa-solid fa-check"></i>
+                                    </span>
+
+                                    <button type="button"
+                                        class="manual-photo-floating-retake"
+                                        id="manualFloatingRetake"
                                         aria-label="Ambil ulang foto">
-                                        <svg viewBox="0 0 24 24" class="manual-photo-icon">
-                                            <path d="M20 11a8 8 0 0 0-14.8-4L3 9" />
-                                            <path d="M3 4v5h5" />
-                                            <path d="M4 13a8 8 0 0 0 14.8 4L21 15" />
-                                            <path d="M21 20v-5h-5" />
-                                        </svg>
+                                        <i class="fa-solid fa-rotate"></i>
                                     </button>
                                 </div>
 
-                                <input class="manual-photo-input" id="manualPhotoInput" name="foto" type="file" accept="image/*"
+                                <input class="manual-photo-input"
+                                    id="manualPhotoInput"
+                                    name="foto"
+                                    type="file"
+                                    accept="image/jpeg,image/png,image/webp"
                                     capture="user">
 
                                 <div class="manual-actions">
-                                    <button type="button" class="manual-action manual-action-primary" id="manualPhotoButton">
-                                        <svg class="manual-photo-icon" viewBox="0 0 24 24" aria-hidden="true">
-                                            <path
-                                                d="M4 7h3l1.5-2h5L15 7h3a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z" />
-                                            <circle cx="12" cy="13" r="3.5" />
-                                        </svg>
-                                        Ambil Foto
+                                    <button type="button"
+                                        class="manual-action manual-action-primary"
+                                        id="manualPhotoButton">
+                                        <i class="fa-solid fa-camera"></i>
+                                        Buka Kamera
                                     </button>
-                                    <button type="button" class="manual-action" id="manualRetakeButton" disabled>
-                                        <svg class="manual-photo-icon" viewBox="0 0 24 24" aria-hidden="true">
-                                            <path d="M20 11a8 8 0 0 0-14.8-4L3 9" />
-                                            <path d="M3 4v5h5" />
-                                            <path d="M4 13a8 8 0 0 0 14.8 4L21 15" />
-                                            <path d="M21 20v-5h-5" />
-                                        </svg>
+
+                                    <button type="button"
+                                        class="manual-action"
+                                        id="manualRetakeButton"
+                                        disabled>
+                                        <i class="fa-solid fa-rotate"></i>
                                         Ambil Ulang
                                     </button>
                                 </div>
                             </section>
+                            </div>
+                        </div>
+                        <div class="attendance-secondary-grid">
+                            <div class="attendance-presence-column">
+                                <section class="manual-card manual-presence-card">
+                                <div class="manual-section-title">
+                                    <span>Jenis Presensi</span>
+                                    <span class="manual-sync">
+                                        <i class="fa-solid fa-circle"></i>
+                                        Sinkron Server
+                                    </span>
+                                </div>
+
+                                <div class="manual-types" role="group" aria-label="Jenis presensi">
+                                    <button type="button"
+                                        class="{{ $jenisPresensiAwal === 'masuk' ? 'selected' : '' }}"
+                                        data-presensi="masuk"
+                                        data-completed="{{ $absensiMasukHariIni ? 'true' : 'false' }}">
+                                        <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                                        Masuk
+                                        @if ($absensiMasukHariIni)
+                                            <small>Sudah tercatat</small>
+                                        @endif
+                                    </button>
+
+                                    <button type="button"
+                                        class="{{ $jenisPresensiAwal === 'pulang' ? 'selected' : '' }}"
+                                        data-presensi="pulang"
+                                        data-completed="{{ $absensiPulangHariIni ? 'true' : 'false' }}">
+                                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                                        Pulang
+                                        @if ($absensiPulangHariIni)
+                                            <small>Sudah tercatat</small>
+                                        @endif
+                                    </button>
+                                </div>
+
+                                <label class="manual-label" for="status">Status Absensi</label>
+
+                                <select class="manual-select manual-field" id="status" name="status" required>
+                                    <option value="hadir" @selected(old('status', 'hadir') === 'hadir')>
+                                        Hadir (Bekerja Normal)
+                                    </option>
+                                    <option value="izin" @selected(old('status') === 'izin')>
+                                        Izin
+                                    </option>
+                                    <option value="alpa" @selected(old('status') === 'alpa')>
+                                        Alpa
+                                    </option>
+                                </select>
+
+                                <button type="submit" form="attendanceForm"
+                                    class="manual-submit" id="submitAttendanceButton">
+                                    <i class="fa-solid fa-user-check"></i>
+                                    Kirim Presensi
+                                </button>
+
+                                <div class="manual-note">
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                    <span>
+                                        Koordinat GPS dan foto dicatat untuk verifikasi.
+                                        Lokasi di luar area tidak dapat melakukan presensi.
+                                    </span>
+                                </div>
+                            </section>
+                            </div>
+                            @if ($attendanceRoute === 'atasan.absensi-saya')
+                                <div class="attendance-calendar-column">
+                                    @include('pegawai.absensi.partials.attendance-calendar')
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </form>
             </fieldset>
         </div>
     </div>
-    </div>
 @endsection
 
 @push('scripts')
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
     <script>
         (() => {
             const clock = document.getElementById('attendanceClock');
             const dateElement = document.getElementById('attendanceClockDate');
             const timeElement = document.getElementById('attendanceClockTime');
-            const serverTimestamp = Number(clock?.dataset.serverTimestamp);
 
-            if (!clock || !dateElement || !timeElement || !Number.isFinite(serverTimestamp)) {
-                return;
-            }
+            if (!clock || !dateElement || !timeElement) return;
+
+            const serverTimestamp = Number(clock.dataset.serverTimestamp);
+            if (!Number.isFinite(serverTimestamp)) return;
 
             const serverTime = serverTimestamp * 1000;
             const pageOpenedAt = performance.now();
+
             const dateFormatter = new Intl.DateTimeFormat('id-ID', {
                 timeZone: 'Asia/Jakarta',
                 weekday: 'long',
                 day: '2-digit',
                 month: 'long',
-                year: 'numeric',
+                year: 'numeric'
             });
+
             const timeFormatter = new Intl.DateTimeFormat('id-ID', {
                 timeZone: 'Asia/Jakarta',
                 hour: '2-digit',
                 minute: '2-digit',
                 second: '2-digit',
-                hourCycle: 'h23',
+                hourCycle: 'h23'
             });
 
             const updateClock = () => {
-                const currentTime = new Date(serverTime + performance.now() - pageOpenedAt);
+                const currentTime = new Date(
+                    serverTime + performance.now() - pageOpenedAt
+                );
+
                 dateElement.textContent = dateFormatter.format(currentTime);
                 timeElement.textContent = timeFormatter.format(currentTime);
             };
@@ -340,16 +367,15 @@
 
         (() => {
             const openDialog = (dialog) => {
-                if (!dialog) {
-                    return;
-                }
+                if (!dialog) return;
 
                 if (typeof dialog.showModal === 'function') {
-                    dialog.showModal();
+                    if (!dialog.open) dialog.showModal();
                 } else {
                     dialog.setAttribute('open', '');
                 }
             };
+
             const closeDialog = (dialog) => {
                 if (typeof dialog?.close === 'function') {
                     dialog.close();
@@ -357,20 +383,23 @@
                     dialog?.removeAttribute('open');
                 }
             };
+
             const holidayDialog = document.getElementById('holidayDialog');
-            const attendanceWarningDialog = document.getElementById('attendanceWarningDialog');
+            const warningDialog = document.getElementById('attendanceWarningDialog');
 
             openDialog(holidayDialog);
-            if (attendanceWarningDialog?.dataset.showOnLoad === 'true') {
-                openDialog(attendanceWarningDialog);
+
+            if (warningDialog?.dataset.showOnLoad === 'true') {
+                openDialog(warningDialog);
             }
 
-            document.getElementById('closeHolidayDialog')?.addEventListener('click', () => {
-                closeDialog(holidayDialog);
-            });
-            document.querySelectorAll('.close-attendance-warning').forEach((button) => {
-                button.addEventListener('click', () => closeDialog(attendanceWarningDialog));
-            });
+            document.getElementById('closeHolidayDialog')
+                ?.addEventListener('click', () => closeDialog(holidayDialog));
+
+            document.querySelectorAll('.close-attendance-warning')
+                .forEach((button) => {
+                    button.addEventListener('click', () => closeDialog(warningDialog));
+                });
         })();
 
         (() => {
@@ -380,24 +409,22 @@
             typeButtons.forEach((button) => {
                 button.addEventListener('click', () => {
                     if (button.dataset.completed === 'true') {
-                        const warningDialog = document.getElementById('attendanceWarningDialog');
-                        const warningText = document.querySelector('#attendanceWarningDialog p');
-                        const label = button.dataset.presensi === 'masuk' ? 'masuk' : 'pulang';
+                        const dialog = document.getElementById('attendanceWarningDialog');
+                        const message = document.querySelector('#attendanceWarningDialog p');
 
-                        if (warningText) {
-                            warningText.textContent =
-                                `Presensi ${label} hari ini sudah tercatat. Setiap jenis presensi hanya dapat dilakukan satu kali dalam sehari.`;
+                        if (message) {
+                            message.textContent =
+                                `Presensi ${button.dataset.presensi} hari ini sudah tercatat.`;
                         }
-                        if (warningDialog) {
-                            if (warningDialog.open) {
-                                return;
-                            }
-                            if (typeof warningDialog.showModal === 'function') {
-                                warningDialog.showModal();
+
+                        if (dialog && !dialog.open) {
+                            if (typeof dialog.showModal === 'function') {
+                                dialog.showModal();
                             } else {
-                                warningDialog.setAttribute('open', '');
+                                dialog.setAttribute('open', '');
                             }
                         }
+
                         return;
                     }
 
@@ -412,44 +439,104 @@
             const input = document.getElementById('manualPhotoInput');
             const preview = document.getElementById('manualPhotoPreview');
             const image = document.getElementById('manualPhotoImage');
-            const takePhotoButton = document.getElementById('manualPhotoButton');
+            const video = document.getElementById('manualCameraVideo');
+            const takeButton = document.getElementById('manualPhotoButton');
             const retakeButton = document.getElementById('manualRetakeButton');
-            const floatingRetakeButton = document.getElementById('manualFloatingRetake');
+            const floatingButton = document.getElementById('manualFloatingRetake');
             const photoStatus = document.getElementById('manualPhotoStatus');
+            if (!input || !preview || !image || !video || !takeButton || !retakeButton) return;
 
-            if (!input || !preview || !image || !takePhotoButton || !retakeButton || !photoStatus) {
-                return;
-            }
+            let stream = null;
+            let previewUrl = null;
+            let opening = false;
+            const stopCamera = () => {
+                if (stream) stream.getTracks().forEach(track => track.stop());
+                stream = null;
+                video.srcObject = null;
+                video.hidden = true;
+                preview.classList.remove('is-camera-live');
+            };
 
-            const openCameraInput = () => input.click();
-
-            takePhotoButton.addEventListener('click', openCameraInput);
-            retakeButton.addEventListener('click', openCameraInput);
-            floatingRetakeButton?.addEventListener('click', openCameraInput);
-
-            input.addEventListener('change', () => {
-                const [photo] = input.files;
-
-                if (!photo) {
+            const openCamera = async () => {
+                if (opening) return;
+                if (!navigator.mediaDevices?.getUserMedia) {
+                    alert('Kamera langsung membutuhkan HTTPS atau localhost dan browser yang mendukung akses kamera.');
                     return;
                 }
+                opening = true;
+                takeButton.disabled = true;
+                try {
+                    stopCamera();
+                    stream = await navigator.mediaDevices.getUserMedia({
+                        audio: false,
+                        video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 960 } }
+                    });
+                    video.srcObject = stream;
+                    await video.play();
+                    preview.classList.remove('has-preview');
+                    preview.classList.add('is-camera-live');
+                    video.hidden = false;
+                    takeButton.innerHTML = '<i class="fa-solid fa-camera"></i> Jepret Foto';
+                    photoStatus.textContent = 'Kamera aktif';
+                    photoStatus.classList.remove('is-ready');
+                } catch (error) {
+                    stopCamera();
+                    const message = error.name === 'NotAllowedError'
+                        ? 'Izin kamera ditolak. Aktifkan izin kamera di pengaturan browser.'
+                        : error.name === 'NotFoundError'
+                            ? 'Kamera tidak ditemukan pada perangkat ini.'
+                            : 'Kamera tidak dapat dibuka: ' + error.message;
+                    alert(message);
+                } finally {
+                    opening = false;
+                    takeButton.disabled = false;
+                }
+            };
 
-                if (!photo.type.startsWith('image/')) {
-                    input.value = '';
+            const capturePhoto = async () => {
+                if (!stream || video.readyState < 2) return;
+                const width = Math.min(video.videoWidth || 1280, 1280);
+                const height = Math.round(width * (video.videoHeight || 960) / (video.videoWidth || 1280));
+                const canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                canvas.getContext('2d').drawImage(video, 0, 0, width, height);
+                const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', .85));
+                if (!blob) {
+                    alert('Gagal mengambil foto. Silakan coba kembali.');
                     return;
                 }
-
-                image.src = URL.createObjectURL(photo);
+                if (blob.size > 5 * 1024 * 1024) {
+                    alert('Foto melebihi batas 5 MB.');
+                    return;
+                }
+                const file = new File([blob], 'absensi-' + Date.now() + '.jpg', { type: 'image/jpeg' });
+                const transfer = new DataTransfer();
+                transfer.items.add(file);
+                input.files = transfer.files;
+                if (previewUrl) URL.revokeObjectURL(previewUrl);
+                previewUrl = URL.createObjectURL(file);
+                image.src = previewUrl;
+                stopCamera();
                 preview.classList.add('has-preview');
                 photoStatus.textContent = 'Sudah diambil';
                 photoStatus.classList.add('is-ready');
-                takePhotoButton.innerHTML = `
-                    <svg class="manual-photo-icon" viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M4 7h3l1.5-2h5L15 7h3a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z" />
-                        <circle cx="12" cy="13" r="3.5" />
-                    </svg>
-                    Ganti Foto`;
+                takeButton.innerHTML = '<i class="fa-solid fa-camera"></i> Ambil Ulang Foto';
                 retakeButton.disabled = false;
+            };
+
+            takeButton.addEventListener('click', () => stream ? capturePhoto() : openCamera());
+            retakeButton.addEventListener('click', openCamera);
+            floatingButton?.addEventListener('click', openCamera);
+            window.addEventListener('pagehide', () => {
+                stopCamera();
+                if (previewUrl) URL.revokeObjectURL(previewUrl);
+            });
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden && stream) {
+                    stopCamera();
+                    takeButton.innerHTML = '<i class="fa-solid fa-camera"></i> Buka Kamera';
+                }
             });
         })();
 
@@ -464,137 +551,399 @@
             const coordinates = document.getElementById('gpsCoordinates');
             const status = document.getElementById('gpsStatus');
             const mapElement = document.getElementById('attendanceMap');
-            const officeLatitude = -2.146435;
-            const officeLongitude = 106.101327;
-            const maximumDistance = 50;
+            const submitButton = document.getElementById('submitAttendanceButton');
+            const photoInput = document.getElementById('manualPhotoInput');
 
-            if (!form || !typeInput || !refreshButton || !latitudeInput || !longitudeInput || !accuracyInput || !mapElement) {
+            if (
+                !form || !typeInput || !refreshButton ||
+                !latitudeInput || !longitudeInput || !accuracyInput ||
+                !locationTitle || !coordinates || !status || !mapElement
+            ) {
                 return;
             }
 
-            const map = window.L ? L.map(mapElement).setView([officeLatitude, officeLongitude], 17) : null;
-            if (map) {
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    maxZoom: 19,
-                    attribution: '&copy; OpenStreetMap contributors',
-                }).addTo(map);
-                L.marker([officeLatitude, officeLongitude])
-                    .addTo(map)
-                    .bindPopup('<strong>PDAM Kota Pangkal Pinang</strong><br>Jl. Bandes No. 200');
-                L.circle([officeLatitude, officeLongitude], {
-                    radius: maximumDistance,
-                    color: '#0875ad',
-                    fillColor: '#0875ad',
-                    fillOpacity: 0.14,
-                }).addTo(map);
-            }
+            const geofenceData = @json($geofence);
+
+            const MAX_ACCURACY = 25;
+            const TARGET_ACCURACY = 10;
+            const MAX_LOCATION_AGE = 15000;
+            const GPS_TIMEOUT = 30000;
+
+            let lastPosition = null;
+            let watchId = null;
             let userMarker = null;
+            let accuracyCircle = null;
+            let submitting = false;
+            let gpsStartedAt = 0;
 
-            const distanceInMeters = (latitude, longitude) => {
-                const earthRadius = 6371000;
-                const latitudeDifference = (latitude - officeLatitude) * Math.PI / 180;
-                const longitudeDifference = (longitude - officeLongitude) * Math.PI / 180;
-                const a = Math.sin(latitudeDifference / 2) ** 2 +
-                    Math.cos(officeLatitude * Math.PI / 180) *
-                    Math.cos(latitude * Math.PI / 180) *
-                    Math.sin(longitudeDifference / 2) ** 2;
+            const map = window.L
+                ? L.map(mapElement).setView([-2.146627, 106.101188], 18)
+                : null;
 
-                return earthRadius * 2 * Math.asin(Math.sqrt(a));
-            };
+            if (map) {
+                L.tileLayer(
+                    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    {
+                        maxZoom: 19,
+                        attribution: '&copy; OpenStreetMap contributors'
+                    }
+                ).addTo(map);
 
-            const setGpsStatus = (message, isValid = false) => {
-                status.textContent = message;
-                status.style.color = isValid ? 'var(--pr-success)' : '';
-            };
+                const geofenceLayer = L.geoJSON(geofenceData, {
+                    style: {
+                        color: '#0875ad',
+                        weight: 3,
+                        fillColor: '#0875ad',
+                        fillOpacity: 0.16
+                    }
+                }).addTo(map);
 
-            const readBestLocation = (attempt = 1, bestPosition = null) => new Promise((resolve, reject) => {
-                navigator.geolocation.getCurrentPosition((position) => {
-                    const betterPosition = !bestPosition ||
-                        position.coords.accuracy < bestPosition.coords.accuracy ?
-                        position :
-                        bestPosition;
+                map.fitBounds(geofenceLayer.getBounds(), {
+                    padding: [20, 20]
+                });
+            }
 
-                    if (attempt >= 3 || betterPosition.coords.accuracy <= 30) {
-                        resolve(betterPosition);
-                        return;
+            const pointInRing = (longitude, latitude, ring) => {
+                let inside = false;
+
+                for (
+                    let i = 0, j = ring.length - 1;
+                    i < ring.length;
+                    j = i++
+                ) {
+                    const [xi, yi] = ring[i];
+                    const [xj, yj] = ring[j];
+
+                    const cross =
+                        (longitude - xi) * (yj - yi) -
+                        (latitude - yi) * (xj - xi);
+
+                    if (
+                        Math.abs(cross) < 1e-12 &&
+                        longitude >= Math.min(xi, xj) &&
+                        longitude <= Math.max(xi, xj) &&
+                        latitude >= Math.min(yi, yj) &&
+                        latitude <= Math.max(yi, yj)
+                    ) {
+                        return true;
                     }
 
-                    window.setTimeout(() => {
-                        readBestLocation(attempt + 1, betterPosition).then(resolve, reject);
-                    }, 700);
-                }, reject, {
-                    enableHighAccuracy: true,
-                    timeout: 12000,
-                    maximumAge: 0,
-                });
-            });
+                    if ((yi > latitude) !== (yj > latitude)) {
+                        const intersectionX =
+                            xi + (latitude - yi) *
+                            (xj - xi) / (yj - yi);
 
-            const updateLocation = () => {
-                if (!navigator.geolocation) {
-                    setGpsStatus('Perangkat tidak mendukung GPS.');
+                        if (longitude < intersectionX) {
+                            inside = !inside;
+                        }
+                    }
+                }
+
+                return inside;
+            };
+
+            const insideGeofence = (latitude, longitude) => {
+                const rings =
+                    geofenceData.features[0].geometry.coordinates;
+
+                if (!pointInRing(longitude, latitude, rings[0])) {
+                    return false;
+                }
+
+                for (let i = 1; i < rings.length; i++) {
+                    if (pointInRing(longitude, latitude, rings[i])) {
+                        return false;
+                    }
+                }
+
+                return true;
+            };
+
+            const setGpsStatus = (message, valid = false) => {
+                status.textContent = message;
+                status.style.color = valid
+                    ? 'var(--pr-success, #198754)'
+                    : '';
+            };
+
+            const clearLocation = () => {
+                lastPosition = null;
+                latitudeInput.value = '';
+                longitudeInput.value = '';
+                accuracyInput.value = '';
+            };
+
+            const isFresh = (position) => {
+                return position &&
+                    Number.isFinite(position.timestamp) &&
+                    Date.now() >= position.timestamp &&
+                    Date.now() - position.timestamp <= MAX_LOCATION_AGE;
+            };
+
+            const isValidPosition = (position) => {
+                if (!isFresh(position)) return false;
+
+                const { latitude, longitude, accuracy } = position.coords;
+
+                return (
+                    Number.isFinite(latitude) &&
+                    Number.isFinite(longitude) &&
+                    Number.isFinite(accuracy) &&
+                    accuracy >= 0 &&
+                    accuracy <= MAX_ACCURACY &&
+                    insideGeofence(latitude, longitude)
+                );
+            };
+
+            const updateMap = (position) => {
+                if (!map) return;
+
+                const { latitude, longitude, accuracy } = position.coords;
+                const point = [latitude, longitude];
+
+                if (!userMarker) {
+                    userMarker = L.circleMarker(point, {
+                        radius: 8,
+                        color: '#ffffff',
+                        weight: 2,
+                        fillColor: '#2563eb',
+                        fillOpacity: 1
+                    }).addTo(map);
+                } else {
+                    userMarker.setLatLng(point);
+                }
+
+                if (!accuracyCircle) {
+                    accuracyCircle = L.circle(point, {
+                        radius: accuracy,
+                        color: '#f59e0b',
+                        fillColor: '#f59e0b',
+                        fillOpacity: 0.08,
+                        weight: 1
+                    }).addTo(map);
+                } else {
+                    accuracyCircle.setLatLng(point);
+                    accuracyCircle.setRadius(accuracy);
+                }
+
+                if (!map.getBounds().contains(point)) {
+                    map.panTo(point);
+                }
+            };
+
+            const displayPosition = (position) => {
+                const { latitude, longitude, accuracy } = position.coords;
+
+                const inside = insideGeofence(latitude, longitude);
+                const accurate = accuracy <= MAX_ACCURACY;
+                const fresh = isFresh(position);
+                const valid = inside && accurate && fresh;
+
+                coordinates.textContent =
+                    `${latitude.toFixed(7)}, ${longitude.toFixed(7)}`;
+
+                updateMap(position);
+
+                if (!fresh) {
+                    locationTitle.textContent = 'GPS BELUM DIPERBARUI';
+                } else if (!accurate) {
+                    locationTitle.textContent = 'AKURASI GPS BELUM CUKUP';
+                } else if (!inside) {
+                    locationTitle.textContent = 'LOKASI DI LUAR AREA KANTOR';
+                } else {
+                    locationTitle.textContent = 'LOKASI VALID DI DALAM AREA KANTOR';
+                }
+
+                const accuracyText = `Akurasi GPS ±${Math.round(accuracy)} meter.`;
+
+                if (valid) {
+                    lastPosition = position;
+                    latitudeInput.value = latitude.toFixed(8);
+                    longitudeInput.value = longitude.toFixed(8);
+                    accuracyInput.value = accuracy.toFixed(2);
+
+                    setGpsStatus(
+                        `${accuracyText} Lokasi valid dan diperbarui otomatis.`,
+                        true
+                    );
+                } else {
+                    clearLocation();
+
+                    setGpsStatus(
+                        `${accuracyText} ${
+                            !inside
+                                ? 'Posisi berada di luar polygon.'
+                                : !accurate
+                                    ? 'Menunggu GPS lebih akurat.'
+                                    : 'Menunggu koordinat terbaru.'
+                        }`
+                    );
+                }
+            };
+
+            const stopGps = () => {
+                if (watchId !== null && navigator.geolocation) {
+                    navigator.geolocation.clearWatch(watchId);
+                    watchId = null;
+                }
+            };
+
+            const startGps = () => {
+                if (!window.isSecureContext) {
+                    clearLocation();
+                    locationTitle.textContent = 'HTTPS DIPERLUKAN';
+                    setGpsStatus('GPS memerlukan HTTPS atau localhost.');
                     return;
                 }
 
-                refreshButton.disabled = true;
-                setGpsStatus('Membaca lokasi perangkat...');
+                if (!navigator.geolocation) {
+                    clearLocation();
+                    locationTitle.textContent = 'GPS TIDAK TERSEDIA';
+                    setGpsStatus('Browser tidak mendukung geolokasi.');
+                    return;
+                }
 
-                readBestLocation().then((position) => {
-                    const {
-                        latitude,
-                        longitude,
-                        accuracy
-                    } = position.coords;
-                    const distance = distanceInMeters(latitude, longitude);
-                    const gpsUncertainty = Math.min(accuracy, 50);
-                    const effectiveDistance = Math.max(0, distance - gpsUncertainty);
+                stopGps();
+                clearLocation();
 
-                    latitudeInput.value = latitude;
-                    longitudeInput.value = longitude;
-                    accuracyInput.value = accuracy;
-                    coordinates.textContent = `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
-                    locationTitle.textContent = effectiveDistance <= maximumDistance ?
-                        'LOKASI SESUAI AREA KANTOR' :
-                        'LOKASI DI LUAR AREA KANTOR';
-                    setGpsStatus(
-                        `${Math.round(distance)} m dari titik kantor (akurasi ±${Math.round(accuracy)} m)`,
-                        effectiveDistance <= maximumDistance
-                    );
-                    if (map && !userMarker) {
-                        userMarker = L.marker([latitude, longitude])
-                            .addTo(map)
-                            .bindPopup('Lokasi perangkat Anda');
-                    } else if (map) {
-                        userMarker.setLatLng([latitude, longitude]);
+                gpsStartedAt = Date.now();
+                locationTitle.textContent = 'MEMBACA GPS SECARA REAL-TIME';
+                coordinates.textContent = 'Menunggu koordinat perangkat...';
+
+                setGpsStatus('GPS aktif. Mencari lokasi dengan akurasi tinggi...');
+
+                watchId = navigator.geolocation.watchPosition(
+                    (position) => {
+                        if (submitting) return;
+
+                        if (
+                            !Number.isFinite(position.coords.latitude) ||
+                            !Number.isFinite(position.coords.longitude) ||
+                            !Number.isFinite(position.coords.accuracy) ||
+                            !isFresh(position)
+                        ) {
+                            return;
+                        }
+
+                        displayPosition(position);
+                    },
+                    (error) => {
+                        if (submitting) return;
+
+                        clearLocation();
+
+                        const messages = {
+                            1: 'Izin lokasi ditolak. Aktifkan izin lokasi akurat untuk browser.',
+                            2: 'Lokasi tidak tersedia. Pastikan layanan lokasi HP aktif.',
+                            3: 'GPS belum mendapat posisi. Sistem tetap mencoba membaca lokasi.'
+                        };
+
+                        locationTitle.textContent = 'MENUNGGU GPS';
+
+                        setGpsStatus(
+                            messages[error.code] ||
+                            'Terjadi kesalahan saat membaca GPS.'
+                        );
+
+                        if (error.code === 1) {
+                            stopGps();
+                        }
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        maximumAge: 0,
+                        timeout: GPS_TIMEOUT
                     }
-                    if (map) {
-                        map.setView([latitude, longitude], 17);
-                    }
-                    refreshButton.disabled = false;
-                }).catch(() => {
-                    latitudeInput.value = '';
-                    longitudeInput.value = '';
-                    accuracyInput.value = '';
-                    setGpsStatus('Lokasi tidak dapat dibaca. Izinkan akses GPS lalu coba lagi.');
-                    refreshButton.disabled = false;
-                });
+                );
             };
 
-            refreshButton.addEventListener('click', updateLocation);
+            refreshButton.addEventListener('click', startGps);
+
+            window.setInterval(() => {
+                if (submitting) return;
+
+                if (lastPosition && !isFresh(lastPosition)) {
+                    clearLocation();
+                    locationTitle.textContent = 'MENUNGGU GPS TERBARU';
+                    setGpsStatus('Koordinat kedaluwarsa. Menunggu pembaruan otomatis.');
+                }
+
+                if (
+                    watchId !== null &&
+                    Date.now() - gpsStartedAt > GPS_TIMEOUT &&
+                    !lastPosition &&
+                    !document.hidden
+                ) {
+                    setGpsStatus(
+                        'GPS masih mencari lokasi yang memenuhi syarat. ' +
+                        'Coba bergerak ke area terbuka jika diperlukan.'
+                    );
+                }
+            }, 1000);
+
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    stopGps();
+                    clearLocation();
+                    locationTitle.textContent = 'GPS DIJEDA';
+                    setGpsStatus('GPS dijeda saat halaman tidak aktif.');
+                } else if (!submitting) {
+                    startGps();
+                }
+            });
+
             form.addEventListener('submit', (event) => {
                 const selectedButton = document.querySelector(
                     `[data-presensi="${typeInput.value}"]`
                 );
+
                 if (selectedButton?.dataset.completed === 'true') {
                     event.preventDefault();
                     selectedButton.click();
                     return;
                 }
 
-                if (!latitudeInput.value || !longitudeInput.value || !accuracyInput.value) {
+                if (!lastPosition || !isValidPosition(lastPosition)) {
                     event.preventDefault();
-                    setGpsStatus('Perbarui lokasi GPS sebelum mengirim presensi.');
+                    clearLocation();
+                    locationTitle.textContent = 'GPS BELUM VALID';
+
+                    setGpsStatus(
+                        'Presensi belum dapat dikirim. ' +
+                        'Tunggu GPS akurat dan berada di dalam polygon.'
+                    );
+                    return;
+                }
+
+                if (!photoInput?.files?.length) {
+                    event.preventDefault();
+                    alert('Ambil foto terlebih dahulu.');
+                    return;
+                }
+
+                const { latitude, longitude, accuracy } = lastPosition.coords;
+
+                latitudeInput.value = latitude.toFixed(8);
+                longitudeInput.value = longitude.toFixed(8);
+                accuracyInput.value = accuracy.toFixed(2);
+
+                submitting = true;
+                stopGps();
+
+                if (submitButton) {
+                    submitButton.disabled = true;
+                    submitButton.textContent = 'Mengirim Presensi...';
                 }
             });
+
+            window.addEventListener('pagehide', stopGps);
+
+            if (!form.closest('fieldset')?.disabled) {
+                startGps();
+            } else {
+                locationTitle.textContent = 'PRESENSI DINONAKTIFKAN';
+                setGpsStatus('GPS tidak dijalankan karena presensi sedang dinonaktifkan.');
+            }
         })();
     </script>
 @endpush

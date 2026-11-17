@@ -1,553 +1,512 @@
-/* ------------------------------------------------------------------
-                                                                           Design tokens
-                                                                        ------------------------------------------------------------------ */
 :root {
     --pw-bg: #edf3f5;
     --pw-surface: #ffffff;
-    --pw-surface-muted: #f5f7fa;
     --pw-border: #dce5ef;
-    --pw-border-soft: #ebeff4;
     --pw-ink: #1f2a37;
-    --pw-ink-soft: #5a697d;
-    --pw-ink-faint: #64748b;
-
-    --pw-primary: #0b8db3;
-    --pw-primary-dark: #1687c8;
-    --pw-link: #117dc6;
-
-    --pw-icon-blue-bg: #e4f1ff;
-    --pw-icon-blue-fg: #1d78ff;
-    --pw-icon-cyan-bg: #dff8ff;
-    --pw-icon-cyan-fg: #0ea5e9;
-    --pw-icon-emerald-bg: #defae8;
-    --pw-icon-emerald-fg: #1aa26a;
-    --pw-icon-orange-bg: #fff0d9;
-    --pw-icon-orange-fg: #ef9f18;
-
-    --pw-radius-lg: 1.1rem;
-    --pw-radius-md: 0.9rem;
-    --pw-radius-sm: 0.65rem;
-    --pw-shadow-card: 0 3px 10px rgba(37, 62, 90, 0.08);
+    --pw-muted: #64748b;
+    --pw-primary: #0875ad;
+    --pw-primary-dark: #026aa7;
 }
 
-body {
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    width: 100%;
+    min-height: 100%;
+}
+
+body.pegawai-app-body {
+    width: 100%;
+    min-height: 100dvh;
+    margin: 0;
     background: var(--pw-bg);
-
+    color: var(--pw-ink);
+    font-family: "Inter", sans-serif;
+    overflow-x: clip;
 }
 
-/* ------------------------------------------------------------------
-                                                                           Shell
-                                                                           The pegawai dashboard always renders the compact, phone-width
-                                                                           composition — regardless of viewport — since it lives inside the
-                                                                           mobile portal shell.
-                                                                        ------------------------------------------------------------------ */
+.pegawai-app-layout {
+    width: 100%;
+    min-height: 100dvh;
+}
+
+.pegawai-navigation {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1100;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 70px;
+    padding: 8px 12px calc(8px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--pw-border);
+    background: #ffffff;
+    box-shadow: 0 -8px 25px rgba(37, 62, 90, 0.08);
+}
+
+.pegawai-navigation-brand,
+.pegawai-navigation-profile {
+    display: none;
+}
+
+.pegawai-navigation-links {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+}
+
+.pegawai-navigation-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-width: 0;
+    min-height: 52px;
+    padding: 7px 4px;
+    border-radius: 12px;
+    color: var(--pw-muted);
+    font-size: 11px;
+    font-weight: 600;
+    text-decoration: none;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.pegawai-navigation-link i {
+    font-size: 20px;
+}
+
+.pegawai-navigation-link.is-active {
+    color: var(--pw-primary);
+    font-weight: 800;
+}
+
+.pegawai-navigation-link:not(.is-disabled):hover {
+    color: var(--pw-primary);
+    background: #e4f1ff;
+}
+
+.pegawai-navigation-link.is-disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.pegawai-app-main {
+    width: 100%;
+    min-height: 100dvh;
+    padding-bottom: calc(85px + env(safe-area-inset-bottom));
+}
+
 .pegawai-dashboard-shell {
     width: 100%;
     max-width: 560px;
     margin: 0 auto;
-    padding: 1rem 1rem 1.5rem;
-    color: var(--pw-ink);
+    padding: 16px 16px 28px;
 }
 
-.pegawai-breadcrumb {
-    padding: 0.75rem 1rem 0.65rem;
-    background: #f4f7fb;
-    color: var(--pw-ink-soft);
-    font-size: 0.7rem;
-}
-
-.pegawai-breadcrumb strong {
-    font-weight: 700;
-    color: var(--pw-ink);
-}
-
-/* ------------------------------------------------------------------
-                                                                           Hero
-                                                                        ------------------------------------------------------------------ */
 .pegawai-hero-panel {
+    padding: 18px;
+    margin-bottom: 20px;
+    border-radius: 18px;
     background: #0875ad;
-    border-radius: var(--pw-radius-lg);
-    margin: 0 0 1.1rem;
-    padding: 1rem 1rem 0.85rem;
-    color: #fff;
+    color: #ffffff;
     box-shadow: 0 12px 26px rgba(10, 126, 160, 0.2);
 }
 
 .hero-topline {
     display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.8rem;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
 }
 
 .hero-chip {
     display: inline-flex;
     align-items: center;
-    padding: 0.35rem 0.55rem;
+    padding: 6px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 999px;
-    font-size: 0.62rem;
-    font-weight: 700;
     background: rgba(255, 255, 255, 0.16);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-}
-
-.hero-chip-soft {
-    background: rgba(255, 255, 255, 0.14);
-    color: rgba(255, 255, 255, 0.9);
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 700;
 }
 
 .pegawai-hero-panel h1 {
     margin: 0;
-    font-size: 1.18rem;
+    color: #ffffff;
+    font-size: 21px;
     font-weight: 800;
-    line-height: 1.25;
-    letter-spacing: -0.03em;
+    line-height: 1.3;
 }
 
 .pegawai-hero-panel p {
-    margin: 0.55rem 0 0.85rem;
-    font-size: 0.72rem;
-    line-height: 1.5;
+    margin: 10px 0 16px;
     color: rgba(255, 255, 255, 0.9);
+    font-size: 12px;
+    line-height: 1.6;
 }
 
 .hero-bottom-row {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 12px;
 }
 
 .hero-status-label {
-    font-size: 0.68rem;
+    flex: 0 0 auto;
+    font-size: 11px;
     font-weight: 600;
-    color: rgba(255, 255, 255, 0.92);
 }
 
 .hero-status-pill {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    background: rgba(255, 255, 255, 0.18);
+    flex: 0 0 auto;
+    gap: 7px;
+    padding: 7px 11px;
     border: 1px solid rgba(255, 255, 255, 0.22);
-    padding: 0.35rem 0.6rem;
     border-radius: 999px;
-    font-size: 0.68rem;
+    background: rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+    font-size: 11px;
     font-weight: 700;
 }
 
 .hero-status-pill i {
     color: #d9ffec;
-    font-size: 0.75rem;
 }
 
 .hero-timer {
-    opacity: 0.92;
     font-weight: 600;
 }
 
-/* ------------------------------------------------------------------
-                                                                           Summary cards
-                                                                        ------------------------------------------------------------------ */
-.pegawai-summary-panel {
-    padding: 0;
+.pegawai-dashboard-content,
+.pegawai-dashboard-right {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
 }
 
 .summary-header {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
-    margin-bottom: 0.65rem;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 12px;
 }
 
 .summary-header h3 {
     margin: 0;
-    font-size: 0.78rem;
-    font-weight: 800;
     color: #243447;
-}
-
-.summary-header span {
-    font-size: 0.68rem;
-    color: var(--pw-ink-faint);
-    font-weight: 600;
-}
-
-.summary-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.65rem;
-}
-
-.summary-card {
-    display: flex;
-    flex-direction: column;
-    min-height: 126px;
-    padding: 0.8rem 0.75rem 0.7rem;
-    background: var(--pw-surface);
-    border: 1px solid var(--pw-border);
-    border-radius: var(--pw-radius-md);
-    box-shadow: var(--pw-shadow-card);
-    color: inherit;
-    text-decoration: none;
-}
-
-.summary-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.15rem;
-    height: 2.15rem;
-    margin-bottom: 0.55rem;
-    border-radius: 0.7rem;
-    font-size: 0.9rem;
-}
-
-.summary-icon-primary {
-    background: var(--pw-icon-blue-bg);
-    color: var(--pw-icon-blue-fg);
-}
-
-.summary-icon-cyan {
-    background: var(--pw-icon-cyan-bg);
-    color: var(--pw-icon-cyan-fg);
-}
-
-.summary-icon-emerald {
-    background: var(--pw-icon-emerald-bg);
-    color: var(--pw-icon-emerald-fg);
-}
-
-.summary-icon-orange {
-    background: var(--pw-icon-orange-bg);
-    color: var(--pw-icon-orange-fg);
-}
-
-.summary-number {
-    font-size: 1.25rem;
-    line-height: 1;
+    font-size: 15px;
     font-weight: 800;
-    letter-spacing: -0.03em;
-    margin-bottom: 0.25rem;
-    color: var(--pw-ink);
 }
 
-.summary-label {
-    font-size: 0.66rem;
-    font-weight: 600;
-    line-height: 1.35;
-    color: #5f6d80;
+.summary-header p {
+    margin: 5px 0 0;
+    color: #718399;
+    font-size: 11px;
 }
 
-.summary-link,
-.summary-subtext {
-    margin-top: auto;
-    padding-top: 0.5rem;
-    font-size: 0.66rem;
+.summary-month {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 11px;
+    border: 1px solid #dce5ef;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #64748b;
+    font-size: 11px;
     font-weight: 700;
 }
 
-.summary-link {
+.summary-visual-card {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--pw-border);
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 3px 10px rgba(37, 62, 90, 0.08);
+}
+
+.summary-card-topbar {
     display: flex;
     align-items: center;
-    gap: 0.3rem;
-    color: var(--pw-link);
+    justify-content: flex-end;
+    width: 100%;
+    margin-bottom: 12px;
 }
 
-.summary-subtext {
-    color: var(--pw-ink-soft);
-    font-weight: 600;
+.summary-card-topbar .summary-month {
+    margin: 0;
+    background: #f5f9fd;
 }
 
-.summary-visual-card {
-    min-height: 355px;
-    padding: 1rem 0.75rem;
-    background: var(--pw-surface);
-    border: 1px solid var(--pw-border);
-    border-radius: var(--pw-radius-md);
-    box-shadow: var(--pw-shadow-card);
+.activity-chart-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
 }
 
-.summary-chart {
-    position: relative;
-    width: min(100%, 340px);
-    height: 330px;
-    margin: 0 auto;
+.activity-gauge-card {
+    min-width: 0;
+    padding: 15px 10px 12px;
+    border: 1px solid #e8edf4;
+    border-radius: 16px;
+    background: #ffffff;
 }
 
-.summary-chart::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 212px;
-    height: 212px;
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
-    background: conic-gradient(#0b91b2 0deg 90deg,
-            #f2365a 90deg 180deg,
-            #27bd8c 180deg 270deg,
-            #ff9f12 270deg 360deg);
-    box-shadow: 0 8px 18px rgba(23, 70, 102, 0.12);
+.gauge-card-heading {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    min-width: 0;
 }
 
-.summary-chart-center {
-    position: absolute;
-    z-index: 1;
-    top: 50%;
-    left: 50%;
+.gauge-card-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
-    width: 72px;
-    height: 72px;
-    transform: translate(-50%, -50%);
-    border: 8px solid #243447;
-    border-radius: 50%;
-    background: #fff;
-    color: #34465b;
-    line-height: 1.1;
-    text-align: center;
+    flex: 0 0 30px;
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+    background: #e4f2fa;
+    color: #0875ad;
+    font-size: 13px;
 }
 
-.summary-chart-center strong {
-    font-size: 0.68rem;
+.gauge-report .gauge-card-icon {
+    background: #e5f3fc;
+    color: #1687c8;
+}
+
+.gauge-card-heading h4 {
+    margin: 0;
+    color: #344b6a;
+    font-size: 11px;
     font-weight: 800;
+    line-height: 1.35;
 }
 
-.summary-chart-center span {
-    margin-top: 0.12rem;
-    font-size: 0.55rem;
-    color: #7890a6;
+.gauge-card-heading p {
+    margin: 3px 0 0;
+    color: #8996a8;
+    font-size: 9px;
+    line-height: 1.35;
 }
 
-.summary-orbit-label {
+.gauge-chart {
+    position: relative;
+    width: 100%;
+    max-width: 270px;
+    aspect-ratio: 240 / 190;
+    margin: 8px auto 0;
+}
+
+.gauge-chart svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.gauge-chart path {
+    fill: none;
+    stroke-width: 15;
+    stroke-linecap: round;
+}
+
+.gauge-track {
+    stroke: #edf0f4;
+}
+
+.gauge-attendance .gauge-progress {
+    stroke: #0875ad;
+}
+
+.gauge-report .gauge-progress {
+    stroke: #1687c8;
+}
+
+.gauge-chart-value {
     position: absolute;
-    z-index: 2;
+    top: 57%;
+    left: 50%;
     display: flex;
     flex-direction: column;
-    gap: 0.08rem;
-    min-width: 62px;
-    color: #334155;
-    font-size: 0.58rem;
-    line-height: 1.15;
+    align-items: center;
+    width: 100%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    pointer-events: none;
 }
 
-.summary-orbit-label strong {
-    font-size: 0.72rem;
+.gauge-chart-value strong {
+    color: #0875ad;
+    font-size: clamp(14px, 3.6vw, 23px);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.04em;
+    white-space: nowrap;
+}
+
+.gauge-report .gauge-chart-value strong {
+    color: #1687c8;
+}
+
+.gauge-chart-value span {
+    margin-top: 5px;
+    color: #718399;
+    font-size: 9px;
+    white-space: nowrap;
+}
+
+.gauge-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding-top: 11px;
+    border-top: 1px solid #edf1f6;
+}
+
+.gauge-card-footer > div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.gauge-card-footer > div:last-child {
+    text-align: right;
+}
+
+.gauge-card-footer span {
+    color: #8a98a9;
+    font-size: 9px;
+}
+
+.gauge-card-footer strong {
+    color: #334155;
+    font-size: 10px;
     font-weight: 800;
 }
 
-.summary-orbit-label span {
-    color: #708399;
-    font-weight: 600;
+.activity-carousel-pagination {
+    display: none;
 }
 
-.summary-orbit-label::before {
-    content: '';
-    position: absolute;
-    width: 7px;
-    height: 7px;
-    border: 2px solid #fff;
-    border-radius: 50%;
-    box-shadow: 0 0 0 1px currentColor;
+.summary-workday-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 11px 12px;
+    border-radius: 10px;
+    background: #f3f7fc;
+    color: #718399;
+    font-size: 10px;
+    line-height: 1.6;
 }
 
-.summary-orbit-report {
-    top: 58px;
-    left: 0;
-    align-items: flex-end;
-    text-align: right;
-    color: #ff9f12;
+.summary-workday-note i {
+    margin-top: 2px;
+    color: #0875ad;
 }
 
-.summary-orbit-report::after,
-.summary-orbit-presence::after {
-    content: '';
-    position: absolute;
-    width: 78px;
-    height: 24px;
-    border-top: 2px solid currentColor;
-    border-radius: 50%;
-}
-
-.summary-orbit-report::after {
-    top: 10px;
-    right: -83px;
-    transform: rotate(12deg);
-    transform-origin: right;
-}
-
-.summary-orbit-report::before {
-    top: 19px;
-    right: -90px;
-}
-
-.summary-orbit-total {
-    top: 72px;
-    right: 0;
-    color: #0b91b2;
-}
-
-.summary-orbit-total::after,
-.summary-orbit-attendance::after {
-    content: '';
-    position: absolute;
-    width: 74px;
-    height: 24px;
-    border-top: 2px solid currentColor;
-    border-radius: 50%;
-}
-
-.summary-orbit-total::after {
-    top: 9px;
-    left: -79px;
-    transform: rotate(-12deg);
-    transform-origin: left;
-}
-
-.summary-orbit-total::before {
-    top: 19px;
-    left: -86px;
-}
-
-.summary-orbit-attendance {
-    right: 0;
-    bottom: 62px;
-    color: #f2365a;
-}
-
-.summary-orbit-attendance::after {
-    top: -22px;
-    left: -78px;
-    transform: rotate(12deg);
-    transform-origin: left;
-}
-
-.summary-orbit-attendance::before {
-    top: -10px;
-    left: -85px;
-}
-
-.summary-orbit-presence {
-    bottom: 55px;
-    left: 0;
-    align-items: flex-end;
-    text-align: right;
-    color: #27bd8c;
-}
-
-.summary-orbit-presence::after {
-    top: -22px;
-    right: -83px;
-    transform: rotate(-12deg);
-    transform-origin: right;
-}
-
-.summary-orbit-presence::before {
-    top: -10px;
-    right: -90px;
-}
-
-@media (max-width: 340px) {
-    .summary-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .summary-visual-card {
-        padding-inline: 0.35rem;
-    }
-
-    .summary-chart {
-        transform: scale(0.92);
-        transform-origin: center;
-    }
-}
-
-/* ------------------------------------------------------------------
-                                                                           Period & evaluation panels
-                                                                        ------------------------------------------------------------------ */
 .pegawai-period-panel,
 .pegawai-evaluation-panel {
-    margin: 0.9rem 0 0;
-    padding: 0.9rem 0.85rem;
-    background: #fff;
-    border: 1px solid var(--pw-border-soft);
-    border-radius: var(--pw-radius-lg);
-    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.02);
+    min-width: 0;
+    margin-top: 15px;
+    padding: 15px;
+    border: 1px solid #ebeff4;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 5px 15px rgba(15, 23, 42, 0.04);
 }
 
 .period-header-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.75rem;
-    margin-bottom: 0.7rem;
-}
-
-.pegawai-evaluation-panel .panel-title-wrap {
-    margin-bottom: 0.9rem;
+    gap: 10px;
+    margin-bottom: 12px;
 }
 
 .panel-title-wrap {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: 10px;
+    min-width: 0;
 }
 
 .panel-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 1.8rem;
-    height: 1.8rem;
-    border-radius: var(--pw-radius-sm);
+    flex: 0 0 30px;
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
     background: #edf6ff;
-    color: var(--pw-primary-dark);
-    font-size: 0.75rem;
+    color: #1687c8;
+    font-size: 12px;
 }
 
 .panel-title-wrap h3 {
     margin: 0;
-    font-size: 0.82rem;
+    color: #1f2a37;
+    font-size: 13px;
     font-weight: 800;
-    letter-spacing: -0.02em;
-    color: var(--pw-ink);
 }
 
 .period-running-badge {
-    padding: 0.3rem 0.6rem;
+    flex: 0 0 auto;
+    padding: 5px 9px;
     border-radius: 999px;
     background: #d9f4eb;
     color: #177b5d;
-    font-size: 0.62rem;
+    font-size: 10px;
     font-weight: 800;
 }
 
 .pegawai-period-panel h2 {
-    margin: 0 0 0.55rem;
-    font-size: 1.05rem;
-    font-weight: 800;
-    letter-spacing: -0.02em;
+    margin: 0 0 10px;
     color: #1d2a38;
+    font-size: 17px;
+    font-weight: 800;
 }
 
 .period-date-range {
     display: flex;
     align-items: center;
-    gap: 0.4rem;
-    margin-bottom: 0.8rem;
-    font-size: 0.68rem;
-    color: var(--pw-ink-soft);
+    gap: 7px;
+    margin-bottom: 15px;
+    color: #5a697d;
+    font-size: 11px;
 }
 
 .progress-track {
-    height: 0.4rem;
-    margin-bottom: 0.6rem;
-    background: #dfe7ee;
+    height: 7px;
+    margin-bottom: 10px;
     border-radius: 999px;
+    background: #dfe7ee;
     overflow: hidden;
 }
 
@@ -555,84 +514,36 @@ body {
     display: block;
     height: 100%;
     border-radius: inherit;
-    background: linear-gradient(90deg, #25aed9 0%, #1d7ef7 100%);
+    background: linear-gradient(90deg, #25aed9, #1d7ef7);
 }
 
 .progress-meta {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.5rem;
-    margin-bottom: 0.8rem;
-    font-size: 0.68rem;
-    color: var(--pw-ink-soft);
-}
-
-.detail-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-    padding: 0.7rem;
-    background: #edf2f5;
-    border: 1px solid #e2e9ef;
-    border-radius: var(--pw-radius-sm);
-    font-size: 0.68rem;
-    font-weight: 600;
-    color: #2b3a4a;
-    text-decoration: none;
-}
-
-.detail-row-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    color: var(--pw-link);
-    font-weight: 700;
-}
-
-.evaluation-empty-state {
-    padding: 1.1rem 0.9rem;
-    text-align: center;
-    background: rgba(255, 255, 255, 0.5);
-    border: 1px dashed #d0d9e4;
-    border-radius: var(--pw-radius-md);
-    color: #4c5d73;
-}
-
-.evaluation-empty-state p {
-    margin: 0 0 0.5rem;
-    font-size: 0.82rem;
-    font-weight: 700;
-    color: #243447;
-}
-
-.evaluation-empty-state small {
-    font-size: 0.68rem;
-    line-height: 1.5;
-    color: #687889;
+    flex-wrap: wrap;
+    gap: 8px;
+    color: #5a697d;
+    font-size: 11px;
 }
 
 .evaluation-result-card {
-    padding: 0.85rem;
-    background: #fff;
-    border: 1px solid #edf1f6;
-    border-radius: var(--pw-radius-lg);
+    width: 100%;
 }
 
 .evaluation-result-heading {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.75rem;
-    padding-bottom: 0.75rem;
+    gap: 10px;
+    padding-bottom: 12px;
     border-bottom: 1px solid #edf1f6;
 }
 
 .evaluation-title {
     display: flex;
     align-items: center;
-    gap: 0.55rem;
+    gap: 9px;
     min-width: 0;
 }
 
@@ -641,13 +552,17 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex: 0 0 auto;
-    width: 1.8rem;
-    height: 1.8rem;
-    border-radius: 0.55rem;
+    flex: 0 0 30px;
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
     background: #edf5ff;
     color: #236fe5;
-    font-size: 0.7rem;
+    font-size: 12px;
+}
+
+.evaluation-title > div {
+    min-width: 0;
 }
 
 .evaluation-title strong,
@@ -659,28 +574,28 @@ body {
 }
 
 .evaluation-title strong {
-    font-size: 0.76rem;
     color: #243447;
+    font-size: 12px;
 }
 
 .evaluation-title small {
-    margin-top: 0.15rem;
-    font-size: 0.56rem;
+    margin-top: 3px;
     color: #7b8da1;
+    font-size: 10px;
 }
 
 .evaluation-status-badge {
     flex: 0 0 auto;
-    padding: 0.3rem 0.55rem;
+    padding: 5px 9px;
     border-radius: 999px;
     background: #e1f5eb;
     color: #187957;
-    font-size: 0.58rem;
+    font-size: 10px;
     font-weight: 800;
 }
 
 .evaluation-score-panel {
-    padding: 0.9rem 0.1rem 0.8rem;
+    padding: 15px 0;
     border-bottom: 1px solid #e6eef5;
 }
 
@@ -690,79 +605,76 @@ body {
     justify-content: center;
     width: 142px;
     height: 142px;
-    margin: 0 auto 0.9rem;
+    margin: 0 auto 15px;
     border-radius: 50%;
     background: conic-gradient(#f23b5b var(--score-progress), #e1e8f0 0deg);
-    transform: rotate(-18deg);
 }
 
 .evaluation-score-ring-inner {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
     width: 116px;
     height: 116px;
     border-radius: 50%;
-    background: #fff;
-    transform: rotate(18deg);
+    background: #ffffff;
 }
 
 .evaluation-score-ring-inner small {
-    font-size: 0.56rem;
-    font-weight: 800;
     color: #93a3b8;
+    font-size: 9px;
+    font-weight: 800;
 }
 
 .evaluation-score-ring-inner div {
     display: flex;
     align-items: baseline;
-    margin: 0.1rem 0 0.25rem;
+    margin: 3px 0 5px;
 }
 
 .evaluation-score-ring-inner div strong {
-    font-size: 1.8rem;
-    line-height: 1;
     color: #17243a;
+    font-size: 28px;
+    line-height: 1;
 }
 
 .evaluation-score-ring-inner div span {
-    margin-left: 0.12rem;
-    font-size: 0.66rem;
+    margin-left: 3px;
     color: #8a9bb0;
+    font-size: 11px;
 }
 
 .evaluation-score-ring-inner b {
-    padding: 0.22rem 0.55rem;
+    padding: 4px 9px;
     border: 1px solid #ffc5cf;
     border-radius: 999px;
     background: #fff1f3;
     color: #f23b5b;
-    font-size: 0.58rem;
+    font-size: 10px;
 }
 
 .evaluation-meta-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.55rem;
+    gap: 9px;
 }
 
 .evaluation-metric {
-    padding: 0.65rem 0.55rem;
+    padding: 11px 9px;
     border: 1px solid #edf1f6;
-    border-radius: 0.65rem;
-    background: #fff;
+    border-radius: 11px;
 }
 
 .evaluation-metric div {
     display: flex;
     justify-content: space-between;
-    gap: 0.35rem;
+    gap: 6px;
 }
 
 .evaluation-metric span,
 .evaluation-metric strong {
-    font-size: 0.58rem;
+    font-size: 10px;
 }
 
 .evaluation-metric span {
@@ -775,11 +687,11 @@ body {
 
 .evaluation-metric i {
     display: block;
-    height: 0.28rem;
-    margin-top: 0.5rem;
-    overflow: hidden;
+    height: 5px;
+    margin-top: 9px;
     border-radius: 999px;
     background: #edf1f6;
+    overflow: hidden;
 }
 
 .evaluation-metric i b {
@@ -796,45 +708,549 @@ body {
 .evaluation-tukin {
     display: flex;
     align-items: center;
-    gap: 0.55rem;
-    margin-top: 0.8rem;
-    padding: 0.7rem;
-    border-radius: 0.7rem;
+    gap: 10px;
+    margin-top: 14px;
+    padding: 12px;
+    border-radius: 12px;
     background: #eef7ff;
 }
 
 .evaluation-tukin-icon {
-    background: #fff;
+    background: #ffffff;
     color: #159dbd;
 }
 
 .evaluation-tukin div {
     display: flex;
     flex-direction: column;
-    gap: 0.18rem;
+    gap: 3px;
     min-width: 0;
 }
 
 .evaluation-tukin small {
-    font-size: 0.54rem;
-    font-weight: 800;
-    letter-spacing: 0.04em;
     color: #718399;
+    font-size: 9px;
+    font-weight: 800;
 }
 
 .evaluation-tukin div strong {
-    font-size: 0.68rem;
     color: #243447;
+    font-size: 11px;
 }
 
-.evaluation-tukin>b {
+.evaluation-tukin > b {
     margin-left: auto;
-    font-size: 0.82rem;
     color: #17243a;
+    font-size: 13px;
+    white-space: nowrap;
 }
 
-@media (max-width: 340px) {
-    .evaluation-meta-grid {
-        grid-template-columns: 1fr 1fr;
+.pegawai-evaluation-panel > .panel-title-wrap {
+    margin-bottom: 16px;
+}
+
+.evaluation-empty-state {
+    margin-top: 0;
+    padding: 20px 14px;
+    border: 1px dashed #d0d9e4;
+    border-radius: 14px;
+    text-align: center;
+}
+
+.evaluation-empty-state p {
+    margin: 0 0 8px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.evaluation-empty-state small {
+    color: #687889;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+@media (max-width: 767px) {
+    .summary-visual-card {
+        overflow: hidden;
+        padding: 14px 0 12px;
+    }
+
+    .summary-card-topbar {
+        padding: 0 14px;
+        margin-bottom: 8px;
+    }
+
+    .activity-chart-grid {
+        display: flex;
+        gap: 0;
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
+    }
+
+    .activity-chart-grid::-webkit-scrollbar {
+        display: none;
+    }
+
+    .activity-gauge-card {
+        flex: 0 0 100%;
+        width: 100%;
+        min-width: 0;
+        padding: 18px 22px;
+        border: 0;
+        border-radius: 0;
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+    }
+
+    .gauge-chart {
+        max-width: 280px;
+        margin: 14px auto 0;
+    }
+
+    .gauge-chart-value strong {
+        font-size: 26px;
+    }
+
+    .gauge-chart-value span {
+        font-size: 11px;
+    }
+
+    .gauge-card-heading h4 {
+        font-size: 15px;
+    }
+
+    .gauge-card-heading p {
+        font-size: 11px;
+    }
+
+    .gauge-card-footer {
+        margin-top: 8px;
+    }
+
+    .gauge-card-footer span {
+        font-size: 10px;
+    }
+
+    .gauge-card-footer strong {
+        font-size: 12px;
+    }
+
+    .activity-carousel-pagination {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin: 8px 0 14px;
+    }
+
+    .activity-carousel-dot {
+        width: 8px;
+        height: 8px;
+        padding: 0;
+        border: 0;
+        border-radius: 999px;
+        background: #cbd5e1;
+        cursor: pointer;
+        transition:
+            width 0.25s ease,
+            background 0.25s ease;
+    }
+
+    .activity-carousel-dot.is-active {
+        width: 24px;
+        background: #0875ad;
+    }
+
+    .summary-workday-note {
+        margin: 0 14px;
+    }
+
+    .pegawai-evaluation-panel > .panel-title-wrap {
+        margin-bottom: 16px;
+    }
+
+    .pegawai-evaluation-panel > .evaluation-empty-state {
+        margin-top: 0;
+        padding: 22px 16px;
+    }
+
+    .hero-bottom-row {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .hero-status-label {
+        flex: 0 0 auto;
+        font-size: 11px;
+        white-space: nowrap;
+    }
+
+    .hero-status-pill {
+        flex: 0 0 auto;
+        gap: 6px;
+        padding: 7px 10px;
+        font-size: 11px;
+    }
+
+    .hero-timer {
+        font-size: 10px;
+    }
+}
+
+@media (min-width: 768px) {
+    .activity-chart-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1024px) {
+    .pegawai-navigation {
+        position: sticky;
+        top: 22px;
+        right: auto;
+        bottom: auto;
+        left: auto;
+        z-index: 1100;
+        width: max-content;
+        max-width: calc(100vw - 48px);
+        min-height: 74px;
+        margin: 22px auto 32px;
+        padding: 9px 14px;
+        border: 1px solid #ffffff;
+        border-radius: 999px;
+        background: linear-gradient(180deg, #ffffff, #f5f9fc);
+        box-shadow:
+            0 4px 0 #d6e1ea,
+            0 9px 0 rgba(170, 190, 205, 0.16),
+            0 20px 38px rgba(37, 62, 90, 0.14);
+    }
+
+    .pegawai-navigation-brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-right: 20px;
+        padding-right: 20px;
+        border-right: 1px solid var(--pw-border);
+    }
+
+    .pegawai-navigation-logo {
+        display: block;
+        width: 44px;
+        height: 44px;
+        object-fit: contain;
+    }
+
+    .pegawai-navigation-brand-text {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .pegawai-navigation-brand-text strong {
+        color: var(--pw-primary-dark);
+        font-size: 14px;
+        font-weight: 800;
+    }
+
+    .pegawai-navigation-brand-text small {
+        color: var(--pw-muted);
+        font-size: 9px;
+        font-weight: 600;
+    }
+
+    .pegawai-navigation-links {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        width: auto;
+    }
+
+    .pegawai-navigation-link {
+        flex-direction: row;
+        gap: 9px;
+        min-height: 46px;
+        padding: 12px 18px;
+        border-radius: 999px;
+        font-size: 13px;
+        white-space: nowrap;
+    }
+
+    .pegawai-navigation-link i {
+        font-size: 15px;
+    }
+
+    .pegawai-navigation-link.is-active {
+        background: var(--pw-primary);
+        color: #ffffff;
+        box-shadow: 0 5px 12px rgba(8, 117, 173, 0.22);
+    }
+
+    .pegawai-navigation-link.is-active:hover {
+        background: var(--pw-primary-dark);
+        color: #ffffff;
+    }
+
+    .pegawai-navigation-profile {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 38px;
+        width: 38px;
+        height: 38px;
+        margin-left: 18px;
+        border-radius: 50%;
+        background: #2563eb;
+        color: #ffffff;
+        font-size: 15px;
+        font-weight: 800;
+    }
+
+    .pegawai-app-main {
+        min-height: 0;
+        padding: 0 24px 48px;
+    }
+
+    .pegawai-dashboard-shell {
+        width: 100%;
+        max-width: 1600px;
+        padding: 0;
+    }
+
+    .pegawai-hero-panel {
+        margin-bottom: 28px;
+        padding: 32px 38px;
+        border-radius: 24px;
+    }
+
+    .pegawai-hero-panel h1 {
+        font-size: clamp(25px, 2.5vw, 36px);
+    }
+
+    .pegawai-hero-panel p {
+        margin: 12px 0 22px;
+        font-size: 14px;
+    }
+
+    .hero-chip {
+        padding: 8px 12px;
+        font-size: 11px;
+    }
+
+    .hero-bottom-row {
+        justify-content: flex-start;
+        gap: 16px;
+    }
+
+    .hero-status-label,
+    .hero-status-pill {
+        font-size: 12px;
+    }
+
+    .pegawai-dashboard-content {
+        display: grid;
+        grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+        align-items: start;
+        gap: 24px;
+    }
+
+    .pegawai-summary-panel {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+    }
+
+    .summary-header {
+        min-height: 42px;
+        margin-bottom: 12px;
+    }
+
+    .summary-header h3 {
+        font-size: 18px;
+    }
+
+    .summary-header p {
+        font-size: 12px;
+    }
+
+    .summary-visual-card {
+        display: flex;
+        flex: 0 0 auto;
+        flex-direction: column;
+        justify-content: flex-start;
+        min-height: 0;
+        padding: 16px 18px 18px;
+        border-radius: 22px;
+    }
+
+    .summary-card-topbar {
+        margin-bottom: 10px;
+    }
+
+    .activity-chart-grid {
+        align-items: stretch;
+        gap: 18px;
+    }
+
+    .activity-gauge-card {
+        padding: 22px 15px 18px;
+        border-radius: 18px;
+    }
+
+    .gauge-card-heading h4 {
+        font-size: 15px;
+    }
+
+    .gauge-card-heading p {
+        font-size: 11px;
+    }
+
+    .gauge-card-icon {
+        flex-basis: 38px;
+        width: 38px;
+        height: 38px;
+        font-size: 16px;
+    }
+
+    .gauge-chart {
+        margin-top: 18px;
+    }
+
+    .gauge-chart-value strong {
+        font-size: clamp(18px, 2vw, 28px);
+    }
+
+    .gauge-chart-value span {
+        font-size: 11px;
+    }
+
+    .gauge-card-footer span {
+        font-size: 10px;
+    }
+
+    .gauge-card-footer strong {
+        font-size: 12px;
+    }
+
+    .summary-workday-note {
+        margin-top: 18px;
+        font-size: 11px;
+    }
+
+    .pegawai-dashboard-right {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        gap: 24px;
+        padding-top: 54px;
+    }
+
+    .pegawai-period-panel,
+    .pegawai-evaluation-panel {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        flex: 0 0 auto;
+        width: 100%;
+        min-height: 235px;
+        margin: 0;
+        padding: 26px;
+        border-radius: 22px;
+        box-shadow: 0 3px 10px rgba(37, 62, 90, 0.08);
+    }
+
+    .panel-title-wrap h3 {
+        font-size: 16px;
+    }
+
+    .pegawai-period-panel h2 {
+        font-size: 21px;
+    }
+
+    .period-date-range,
+    .progress-meta {
+        font-size: 12px;
+    }
+
+    .pegawai-evaluation-panel .evaluation-empty-state {
+        margin-top: 12px;
+    }
+
+    .pegawai-evaluation-panel > .panel-title-wrap {
+        margin-bottom: 16px;
+    }
+
+    .pegawai-evaluation-panel > .evaluation-empty-state {
+        margin-top: 0;
+    }
+
+    .evaluation-score-ring {
+        width: 160px;
+        height: 160px;
+    }
+
+    .evaluation-score-ring-inner {
+        width: 132px;
+        height: 132px;
+    }
+}
+
+@media (min-width: 1024px) and (max-width: 1199px) {
+    .pegawai-dashboard-content {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 18px;
+    }
+
+    .pegawai-dashboard-right {
+        gap: 18px;
+    }
+
+    .summary-visual-card {
+        padding: 12px;
+    }
+
+    .activity-chart-grid {
+        gap: 10px;
+    }
+
+    .activity-gauge-card {
+        padding: 14px 8px;
+    }
+
+    .pegawai-period-panel,
+    .pegawai-evaluation-panel {
+        min-height: 220px;
+        padding: 18px;
+    }
+}
+
+@media (max-width: 359px) {
+    .pegawai-navigation {
+        padding-right: 6px;
+        padding-left: 6px;
+    }
+
+    .pegawai-navigation-link {
+        font-size: 10px;
+    }
+
+    .pegawai-navigation-link i {
+        font-size: 18px;
+    }
+
+    .pegawai-dashboard-shell {
+        padding-right: 10px;
+        padding-left: 10px;
     }
 }

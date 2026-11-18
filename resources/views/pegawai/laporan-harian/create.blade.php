@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends($routePrefix === 'atasan' ? 'layouts.app' : 'layouts.apps')
 
 @section('title', 'Buat Laporan Harian')
 
@@ -53,16 +53,14 @@
                 <div class="daily-report-field daily-report-date-field">
                     <label for="tanggal">Tanggal Pelaporan <b>*</b></label>
                     <input type="hidden" name="tanggal" id="tanggal" value="{{ old('tanggal', $tanggalTerpilih) }}">
-                    <div class="report-calendar" data-calendar
-                        data-readonly="{{ $laporanHariIni ? 'true' : 'false' }}" data-reports='@json($laporanTanggal)'>
+                    <div class="report-calendar" data-calendar data-readonly="{{ $laporanHariIni ? 'true' : 'false' }}"
+                        data-reports='@json($laporanTanggal)'>
                         <div class="report-calendar-toolbar">
                             <button type="button" data-calendar-prev aria-label="Bulan sebelumnya"
-                                @disabled($laporanHariIni)><i
-                                    class="fa-solid fa-chevron-left"></i></button>
+                                @disabled($laporanHariIni)><i class="fa-solid fa-chevron-left"></i></button>
                             <strong data-calendar-label></strong>
                             <button type="button" data-calendar-next aria-label="Bulan berikutnya"
-                                @disabled($laporanHariIni)><i
-                                    class="fa-solid fa-chevron-right"></i></button>
+                                @disabled($laporanHariIni)><i class="fa-solid fa-chevron-right"></i></button>
                         </div>
                         <div class="report-calendar-weekdays" aria-hidden="true">
                             <span>Sen</span><span>Sel</span><span>Rab</span><span>Kam</span><span>Jum</span><span>Sab</span><span>Min</span>
@@ -160,8 +158,8 @@
                                         <input type="{{ $template->tipe_field === 'angka' ? 'number' : 'text' }}"
                                             {{ $template->tipe_field === 'angka' ? 'step=0.01' : '' }}
                                             name="detail[{{ $index }}][nilai]"
-                                            value="{{ old('detail.' . $index . '.nilai', $nilaiTersimpan->get($template->id)?->nilai) }}" placeholder="Masukkan nilai"
-                                            @readonly($laporanHariIni)
+                                            value="{{ old('detail.' . $index . '.nilai', $nilaiTersimpan->get($template->id)?->nilai) }}"
+                                            placeholder="Masukkan nilai" @readonly($laporanHariIni)
                                             class="@error('detail.' . $index . '.nilai') is-invalid @enderror">
                                     @endif
                                     <input type="hidden" name="detail[{{ $index }}][master_template_laporan_id]"
@@ -179,10 +177,14 @@
                         <button type="submit"><i class="fa-solid fa-paper-plane"></i> Kirim Laporan Harian</button>
                     </div>
                 @endif
-                @if ($routePrefix === 'atasan' && $templateLaporans->isNotEmpty() && !in_array($laporanHariIni?->status, ['disetujui', 'diverifikasi']))
+                @if (
+                    $routePrefix === 'atasan' &&
+                        $templateLaporans->isNotEmpty() &&
+                        !in_array($laporanHariIni?->status, ['disetujui', 'diverifikasi']))
                     <div class="daily-report-submit-bar">
                         @if ($laporanHariIni?->status === 'diajukan')
-                            <button type="button" disabled><i class="fa-solid fa-clock"></i> Menunggu verifikasi Kepala Bagian</button>
+                            <button type="button" disabled><i class="fa-solid fa-clock"></i> Menunggu verifikasi Kepala
+                                Bagian</button>
                         @elseif (in_array($laporanHariIni?->status, ['draft', 'ditolak']))
                             <a href="{{ route($routePrefix . '.laporan-harian.edit', $laporanHariIni) }}">
                                 {{ $laporanHariIni->status === 'ditolak' ? 'Perbaiki Laporan' : 'Lanjutkan Laporan' }}

@@ -16,7 +16,7 @@ body.role-atasan .daily-report-banner {
     background: #fff;
     border: 1px solid #e3eaf2;
     border-radius: 14px;
-    box-shadow: 0 2px 8px rgba(35, 52, 85, .025);
+    box-shadow: 0 2px 8px rgba(35, 52, 85, 0.025);
 }
 
 body.role-atasan .daily-report-banner > span {
@@ -29,14 +29,14 @@ body.role-atasan .daily-report-banner > span {
     color: #41617d;
     background: #f1f6fa;
     border-radius: 999px;
-    font-size: .64rem;
+    font-size: 0.64rem;
     font-weight: 700;
-    letter-spacing: .035em;
+    letter-spacing: 0.035em;
 }
 
 body.role-atasan .daily-report-banner > span > i {
     color: #078ac8;
-    font-size: .38rem;
+    font-size: 0.38rem;
 }
 
 body.role-atasan .daily-report-banner > span > b {
@@ -59,7 +59,7 @@ body.role-atasan .daily-report-banner p {
     max-width: 560px;
     margin: 0;
     color: #71829c;
-    font-size: .78rem;
+    font-size: 0.78rem;
     line-height: 1.6;
 }
 
@@ -80,7 +80,7 @@ body.role-atasan .daily-report-banner-icon {
 
 body.role-atasan .daily-report-form-page > form {
     display: grid;
-    grid-template-columns: minmax(0, 1.35fr) minmax(280px, .95fr);
+    grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.95fr);
     align-items: start;
     gap: 16px;
 }
@@ -113,12 +113,12 @@ body.role-atasan .daily-report-steps a > span {
     color: #71829c;
     background: #f1f5f9;
     border-radius: 50%;
-    font-size: .68rem;
+    font-size: 0.68rem;
     font-weight: 800;
 }
 
 body.role-atasan .daily-report-steps a strong {
-    font-size: .78rem;
+    font-size: 0.78rem;
 }
 
 body.role-atasan .daily-report-steps a.is-current {
@@ -133,7 +133,7 @@ body.role-atasan .daily-report-steps a.is-current > span {
 
 body.role-atasan .daily-report-steps > i {
     color: #b3c0cf;
-    font-size: .72rem;
+    font-size: 0.72rem;
 }
 
 body.role-atasan .daily-report-form-card {
@@ -143,7 +143,7 @@ body.role-atasan .daily-report-form-card {
     background: #fff;
     border: 1px solid #dfe7f0;
     border-radius: 14px;
-    box-shadow: 0 3px 12px rgba(35, 52, 85, .035);
+    box-shadow: 0 3px 12px rgba(35, 52, 85, 0.035);
 }
 
 body.role-atasan .daily-report-card-title {
@@ -168,13 +168,13 @@ body.role-atasan .daily-report-card-title > i {
 
 body.role-atasan .daily-report-card-title strong {
     color: #17213b;
-    font-size: .95rem;
+    font-size: 0.95rem;
 }
 
 body.role-atasan .daily-report-card-title span {
     margin-left: auto;
     color: #71829c;
-    font-size: .75rem;
+    font-size: 0.75rem;
     white-space: nowrap;
 }
 
@@ -199,7 +199,11 @@ body.role-atasan .daily-report-form-page > form > [data-report-fields][hidden] {
     display: none;
 }
 
-body.role-atasan .daily-report-form-page > form > [data-report-fields] > #laporan-realisasi {
+body.role-atasan
+    .daily-report-form-page
+    > form
+    > [data-report-fields]
+    > #laporan-realisasi {
     grid-column: 2;
     grid-row: 1;
 }
@@ -208,7 +212,11 @@ body.role-atasan .daily-report-form-page > form > .daily-report-holiday-notice {
     grid-column: 1 / -1;
 }
 
-body.role-atasan .daily-report-form-page > form > [data-report-fields] > .daily-report-submit-bar {
+body.role-atasan
+    .daily-report-form-page
+    > form
+    > [data-report-fields]
+    > .daily-report-submit-bar {
     grid-column: 1 / -1;
 }
 
@@ -225,7 +233,7 @@ body.role-atasan .daily-report-field label {
     display: block;
     margin-bottom: 8px;
     color: #26344d;
-    font-size: .82rem;
+    font-size: 0.82rem;
     font-weight: 700;
 }
 
@@ -248,7 +256,7 @@ body.role-atasan .daily-report-indicator select {
     border-radius: 10px;
     outline: 0;
     font: inherit;
-    font-size: .84rem;
+    font-size: 0.84rem;
 }
 
 body.role-atasan .daily-report-field textarea {
@@ -262,7 +270,7 @@ body.role-atasan .daily-report-field textarea:focus,
 body.role-atasan .daily-report-indicator input:focus,
 body.role-atasan .daily-report-indicator select:focus {
     border-color: #42a8d1;
-    box-shadow: 0 0 0 3px rgba(8, 138, 200, .12);
+    box-shadow: 0 0 0 3px rgba(8, 138, 200, 0.12);
 }
 
 body.role-atasan .daily-report-field input[type="file"] {
@@ -284,7 +292,7 @@ body.role-atasan .daily-report-field small {
     display: block;
     margin-top: 7px;
     color: #71829c;
-    font-size: .72rem;
+    font-size: 0.72rem;
     line-height: 1.5;
 }
 
@@ -295,8 +303,8 @@ body.role-atasan .daily-report-form-card .report-calendar {
 
 body.role-atasan .daily-report-form-card .report-calendar-day {
     min-height: 34px;
-    padding: .3rem .2rem .2rem;
-    font-size: .72rem;
+    padding: 0.3rem 0.2rem 0.2rem;
+    font-size: 0.72rem;
 }
 
 body.role-atasan .daily-report-hint {
@@ -306,7 +314,7 @@ body.role-atasan .daily-report-hint {
     background: #f3f9fc;
     border: 1px solid #e4f0f5;
     border-radius: 10px;
-    font-size: .82rem;
+    font-size: 0.82rem;
     line-height: 1.55;
 }
 
@@ -318,7 +326,7 @@ body.role-atasan .daily-report-indicators {
 
 body.role-atasan .daily-report-indicator {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(130px, .7fr);
+    grid-template-columns: minmax(0, 1fr) minmax(130px, 0.7fr);
     align-items: center;
     gap: 14px;
     min-width: 0;
@@ -340,14 +348,14 @@ body.role-atasan .daily-report-indicator-label span {
 
 body.role-atasan .daily-report-indicator-label strong {
     color: #26344d;
-    font-size: .84rem;
+    font-size: 0.84rem;
     line-height: 1.45;
 }
 
 body.role-atasan .daily-report-indicator-label span {
     margin-top: 4px;
     color: #71829c;
-    font-size: .72rem;
+    font-size: 0.72rem;
 }
 
 body.role-atasan .daily-report-submit-bar {
@@ -366,7 +374,7 @@ body.role-atasan .daily-report-submit-bar a {
     color: #526480;
     background: #f1f5f9;
     border-radius: 9px;
-    font-size: .82rem;
+    font-size: 0.82rem;
     font-weight: 700;
     text-decoration: none;
 }
@@ -378,14 +386,14 @@ body.role-atasan .daily-report-submit-bar button {
     background: #078ac8;
     border: 0;
     border-radius: 9px;
-    font-size: .82rem;
+    font-size: 0.82rem;
     font-weight: 700;
 }
 
 body.role-atasan .daily-report-submit-bar button:disabled {
     background: #64748b;
     cursor: not-allowed;
-    opacity: .9;
+    opacity: 0.9;
 }
 
 body.role-atasan .daily-report-status-notice {
@@ -397,7 +405,7 @@ body.role-atasan .daily-report-status-notice {
     background: #eaf7ff;
     border: 1px solid #c8eaff;
     border-radius: 10px;
-    font-size: .82rem;
+    font-size: 0.82rem;
     line-height: 1.5;
 }
 
@@ -408,7 +416,7 @@ body.role-atasan .daily-report-status-notice > i {
 
 body.role-atasan .report-calendar-toolbar button:disabled {
     cursor: not-allowed;
-    opacity: .45;
+    opacity: 0.45;
 }
 
 body.role-atasan .daily-report-alert,
@@ -418,7 +426,7 @@ body.role-atasan .daily-report-holiday-notice {
 
 @media (min-width: 721px) and (max-width: 991.98px) {
     body.role-atasan .daily-report-form-page > form {
-        grid-template-columns: minmax(0, 1.25fr) minmax(250px, .9fr);
+        grid-template-columns: minmax(0, 1.25fr) minmax(250px, 0.9fr);
     }
 }
 
@@ -438,7 +446,7 @@ body.role-atasan .daily-report-holiday-notice {
         right: 16px;
         width: 36px;
         height: 36px;
-        font-size: .95rem;
+        font-size: 0.95rem;
         transform: none;
     }
 
@@ -448,9 +456,20 @@ body.role-atasan .daily-report-holiday-notice {
     }
 
     body.role-atasan .daily-report-form-page > form > #laporan-informasi,
-    body.role-atasan .daily-report-form-page > form > [data-report-fields] > #laporan-realisasi,
-    body.role-atasan .daily-report-form-page > form > .daily-report-holiday-notice,
-    body.role-atasan .daily-report-form-page > form > [data-report-fields] > .daily-report-submit-bar {
+    body.role-atasan
+        .daily-report-form-page
+        > form
+        > [data-report-fields]
+        > #laporan-realisasi,
+    body.role-atasan
+        .daily-report-form-page
+        > form
+        > .daily-report-holiday-notice,
+    body.role-atasan
+        .daily-report-form-page
+        > form
+        > [data-report-fields]
+        > .daily-report-submit-bar {
         grid-column: 1;
         grid-row: auto;
     }
@@ -472,11 +491,11 @@ body.role-atasan .daily-report-holiday-notice {
     }
 
     body.role-atasan .daily-report-steps a strong {
-        font-size: .68rem;
+        font-size: 0.68rem;
     }
 
     body.role-atasan .daily-report-steps > i {
-        font-size: .6rem;
+        font-size: 0.6rem;
     }
 
     body.role-atasan .daily-report-form-card {
@@ -485,7 +504,7 @@ body.role-atasan .daily-report-holiday-notice {
     }
 
     body.role-atasan .daily-report-indicator {
-        grid-template-columns: minmax(0, 1fr) minmax(100px, .7fr);
+        grid-template-columns: minmax(0, 1fr) minmax(100px, 0.7fr);
         gap: 10px;
         padding: 11px;
     }
@@ -506,7 +525,7 @@ body.role-atasan .daily-report-holiday-notice {
     position: relative;
     display: flex;
     align-items: flex-start;
-    gap: .75rem;
+    gap: 0.75rem;
     margin-bottom: 1rem;
     padding: 1rem;
     border: 1px solid #dce5ef;
@@ -534,30 +553,30 @@ body.role-atasan .daily-report-holiday-notice {
 
 .daily-report-holiday-notice strong {
     padding-right: 5rem;
-    font-size: .9rem;
+    font-size: 0.9rem;
 }
 
 .daily-report-holiday-notice span:not(.daily-report-holiday-badge) {
-    margin-top: .3rem;
+    margin-top: 0.3rem;
     color: #607694;
-    font-size: .75rem;
+    font-size: 0.75rem;
 }
 
 .daily-report-holiday-notice p {
-    margin: .8rem 0 0;
+    margin: 0.8rem 0 0;
     color: #17345d;
-    font-size: .82rem;
+    font-size: 0.82rem;
 }
 
 .daily-report-holiday-badge {
     position: absolute;
     top: 1rem;
     right: 1rem;
-    padding: .35rem .65rem;
+    padding: 0.35rem 0.65rem;
     border-radius: 999px;
     background: #e9edf2;
     color: #17345d;
-    font-size: .68rem;
+    font-size: 0.68rem;
     font-weight: 800;
 }
 
@@ -565,14 +584,14 @@ body.role-atasan .daily-report-holiday-notice {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: .75rem .9rem;
+    padding: 0.75rem 0.9rem;
     background: #f7fafd;
     border-bottom: 1px solid #e4ebf3;
     color: #17345d;
 }
 
 .report-calendar-toolbar strong {
-    font-size: .88rem;
+    font-size: 0.88rem;
     text-transform: capitalize;
 }
 
@@ -600,28 +619,28 @@ body.role-atasan .daily-report-holiday-notice {
 }
 
 .report-calendar-weekdays {
-    padding: .7rem .35rem .45rem;
+    padding: 0.7rem 0.35rem 0.45rem;
     color: #607694;
-    font-size: .72rem;
+    font-size: 0.72rem;
     font-weight: 700;
     text-align: center;
 }
 
 .report-calendar-grid {
     gap: 1px;
-    padding: 0 .35rem .35rem;
+    padding: 0 0.35rem 0.35rem;
     background: #e7edf4;
 }
 
 .report-calendar-day {
     position: relative;
     min-height: 3.35rem;
-    padding: .45rem .25rem .25rem;
+    padding: 0.45rem 0.25rem 0.25rem;
     border: 0;
     background: #fff;
     color: #526b8b;
     font: inherit;
-    font-size: .78rem;
+    font-size: 0.78rem;
     cursor: pointer;
 }
 
@@ -641,16 +660,16 @@ body.role-atasan .daily-report-holiday-notice {
 
 .report-calendar-lock {
     position: absolute;
-    top: .25rem;
-    right: .3rem;
+    top: 0.25rem;
+    right: 0.3rem;
     display: grid;
-    width: .85rem;
-    height: .85rem;
+    width: 0.85rem;
+    height: 0.85rem;
     place-items: center;
     border-radius: 50%;
     background: #e7edf4;
     color: #7b8da1;
-    font-size: .48rem;
+    font-size: 0.48rem;
 }
 
 .report-calendar-day.is-national-holiday {
@@ -665,10 +684,10 @@ body.role-atasan .daily-report-holiday-notice {
 
 .report-calendar-day.is-today::before {
     position: absolute;
-    top: .25rem;
-    right: .3rem;
-    width: .32rem;
-    height: .32rem;
+    top: 0.25rem;
+    right: 0.3rem;
+    width: 0.32rem;
+    height: 0.32rem;
     border-radius: 50%;
     background: #168fd4;
     content: "";
@@ -694,9 +713,9 @@ body.role-atasan .daily-report-holiday-notice {
 
 .report-calendar-mark {
     display: grid;
-    width: .42rem;
-    height: .42rem;
-    margin: .2rem auto 0;
+    width: 0.42rem;
+    height: 0.42rem;
+    margin: 0.2rem auto 0;
     border-radius: 50%;
     place-items: center;
 }
@@ -706,22 +725,22 @@ body.role-atasan .daily-report-holiday-notice {
 }
 
 .report-calendar-mark.is-approved {
-    width: .85rem;
-    height: .85rem;
+    width: 0.85rem;
+    height: 0.85rem;
     border-radius: 50%;
     background: #25a66f;
     color: #fff;
-    font-size: .55rem;
+    font-size: 0.55rem;
     line-height: 1;
 }
 
 .report-calendar-mark.is-permission {
-    width: .85rem;
-    height: .85rem;
+    width: 0.85rem;
+    height: 0.85rem;
     border-radius: 50%;
     background: #25a66f;
     color: #fff;
-    font-size: .55rem;
+    font-size: 0.55rem;
     line-height: 1;
 }
 
@@ -729,13 +748,13 @@ body.role-atasan .daily-report-holiday-notice {
 .report-calendar-mark.is-rejected {
     background: #ef5350;
     color: #fff;
-    font-size: .45rem;
+    font-size: 0.45rem;
 }
 
 .report-calendar-mark.is-rejected {
-    width: .85rem;
-    height: .85rem;
-    font-size: .55rem;
+    width: 0.85rem;
+    height: 0.85rem;
+    font-size: 0.55rem;
 }
 
 .report-calendar-mark.is-missing {
@@ -746,27 +765,27 @@ body.role-atasan .daily-report-holiday-notice {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: .45rem .8rem;
-    margin-top: .7rem;
-    padding: .55rem .1rem .1rem;
+    gap: 0.45rem 0.8rem;
+    margin-top: 0.7rem;
+    padding: 0.55rem 0.1rem 0.1rem;
     color: #17345d;
-    font-size: .67rem;
+    font-size: 0.67rem;
     font-weight: 700;
 }
 
 .report-calendar-legend-item {
     display: inline-flex;
     align-items: center;
-    gap: .25rem;
+    gap: 0.25rem;
     white-space: nowrap;
 }
 
 .report-calendar-legend-item i {
     display: inline-grid;
-    width: .9rem;
-    height: .9rem;
+    width: 0.9rem;
+    height: 0.9rem;
     place-items: center;
-    font-size: .72rem;
+    font-size: 0.72rem;
 }
 
 .report-calendar-legend-item.is-approved i {
@@ -775,12 +794,12 @@ body.role-atasan .daily-report-holiday-notice {
 
 .report-calendar-legend-item.is-not-approved i {
     color: #d92f4b;
-    font-size: .58rem;
+    font-size: 0.58rem;
 }
 
 .report-calendar-legend-item.is-missing i {
     color: #2f8fe5;
-    font-size: .58rem;
+    font-size: 0.58rem;
 }
 
 body.role-pegawai .daily-report-form-page {
@@ -801,7 +820,7 @@ body.role-pegawai .daily-report-banner {
     background: #fff;
     border: 1px solid #e3eaf2;
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(35, 52, 85, .025);
+    box-shadow: 0 2px 8px rgba(35, 52, 85, 0.025);
 }
 
 body.role-pegawai .daily-report-banner > span {
@@ -814,14 +833,14 @@ body.role-pegawai .daily-report-banner > span {
     color: #41617d;
     background: #f1f6fa;
     border-radius: 999px;
-    font-size: .64rem;
+    font-size: 0.64rem;
     font-weight: 700;
-    letter-spacing: .035em;
+    letter-spacing: 0.035em;
 }
 
 body.role-pegawai .daily-report-banner > span > i {
     color: #078ac8;
-    font-size: .38rem;
+    font-size: 0.38rem;
 }
 
 body.role-pegawai .daily-report-banner h1 {
@@ -839,7 +858,7 @@ body.role-pegawai .daily-report-banner p {
     max-width: 560px;
     margin: 0;
     color: #71829c;
-    font-size: .78rem;
+    font-size: 0.78rem;
     line-height: 1.6;
 }
 
@@ -886,12 +905,12 @@ body.role-pegawai .daily-report-steps a > span {
     color: #71829c;
     background: #f1f5f9;
     border-radius: 50%;
-    font-size: .68rem;
+    font-size: 0.68rem;
     font-weight: 800;
 }
 
 body.role-pegawai .daily-report-steps a strong {
-    font-size: .78rem;
+    font-size: 0.78rem;
 }
 
 body.role-pegawai .daily-report-steps a.is-current {
@@ -906,12 +925,12 @@ body.role-pegawai .daily-report-steps a.is-current > span {
 
 body.role-pegawai .daily-report-steps > i {
     color: #b3c0cf;
-    font-size: .72rem;
+    font-size: 0.72rem;
 }
 
 body.role-pegawai .daily-report-form-page > form {
     display: grid;
-    grid-template-columns: minmax(0, 1.35fr) minmax(280px, .95fr);
+    grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.95fr);
     align-items: start;
     gap: 16px;
 }
@@ -923,7 +942,7 @@ body.role-pegawai .daily-report-form-card {
     background: #fff;
     border: 1px solid #dfe7f0;
     border-radius: 12px;
-    box-shadow: 0 3px 12px rgba(35, 52, 85, .035);
+    box-shadow: 0 3px 12px rgba(35, 52, 85, 0.035);
 }
 
 body.role-pegawai .daily-report-card-title {
@@ -948,13 +967,13 @@ body.role-pegawai .daily-report-card-title > i {
 
 body.role-pegawai .daily-report-card-title strong {
     color: #17213b;
-    font-size: .95rem;
+    font-size: 0.95rem;
 }
 
 body.role-pegawai .daily-report-card-title span {
     margin-left: auto;
     color: #71829c;
-    font-size: .75rem;
+    font-size: 0.75rem;
     white-space: nowrap;
 }
 
@@ -972,11 +991,18 @@ body.role-pegawai #laporan-realisasi {
     grid-row: 1;
 }
 
-body.role-pegawai .daily-report-form-page > form > .daily-report-holiday-notice {
+body.role-pegawai
+    .daily-report-form-page
+    > form
+    > .daily-report-holiday-notice {
     grid-column: 1 / -1;
 }
 
-body.role-pegawai .daily-report-form-page > form > [data-report-fields] > .daily-report-submit-bar {
+body.role-pegawai
+    .daily-report-form-page
+    > form
+    > [data-report-fields]
+    > .daily-report-submit-bar {
     grid-column: 1 / -1;
 }
 
@@ -988,7 +1014,7 @@ body.role-pegawai .daily-report-field label {
     display: block;
     margin-bottom: 8px;
     color: #26344d;
-    font-size: .82rem;
+    font-size: 0.82rem;
     font-weight: 700;
 }
 
@@ -1007,7 +1033,7 @@ body.role-pegawai .daily-report-indicator select {
     border-radius: 9px;
     outline: 0;
     font: inherit;
-    font-size: .78rem;
+    font-size: 0.78rem;
     text-align: left;
 }
 
@@ -1022,7 +1048,7 @@ body.role-pegawai .daily-report-field textarea:focus,
 body.role-pegawai .daily-report-indicator input:focus,
 body.role-pegawai .daily-report-indicator select:focus {
     border-color: #42a8d1;
-    box-shadow: 0 0 0 3px rgba(8, 138, 200, .12);
+    box-shadow: 0 0 0 3px rgba(8, 138, 200, 0.12);
 }
 
 body.role-pegawai .daily-report-field input[type="file"] {
@@ -1044,7 +1070,7 @@ body.role-pegawai .daily-report-field small {
     display: block;
     margin-top: 7px;
     color: #71829c;
-    font-size: .72rem;
+    font-size: 0.72rem;
     line-height: 1.5;
 }
 
@@ -1055,8 +1081,8 @@ body.role-pegawai .daily-report-form-card .report-calendar {
 
 body.role-pegawai .daily-report-form-card .report-calendar-day {
     min-height: 34px;
-    padding: .3rem .2rem .2rem;
-    font-size: .72rem;
+    padding: 0.3rem 0.2rem 0.2rem;
+    font-size: 0.72rem;
 }
 
 body.role-pegawai .daily-report-hint {
@@ -1066,7 +1092,7 @@ body.role-pegawai .daily-report-hint {
     background: #f3f9fc;
     border: 1px solid #e4f0f5;
     border-radius: 9px;
-    font-size: .76rem;
+    font-size: 0.76rem;
     line-height: 1.55;
 }
 
@@ -1078,7 +1104,7 @@ body.role-pegawai .daily-report-indicators {
 
 body.role-pegawai .daily-report-indicator {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(110px, .7fr);
+    grid-template-columns: minmax(0, 1fr) minmax(110px, 0.7fr);
     align-items: center;
     gap: 12px;
     min-width: 0;
@@ -1090,14 +1116,14 @@ body.role-pegawai .daily-report-indicator {
 
 body.role-pegawai .daily-report-indicator-label strong {
     color: #26344d;
-    font-size: .78rem;
+    font-size: 0.78rem;
     line-height: 1.45;
 }
 
 body.role-pegawai .daily-report-indicator-label span {
     margin-top: 4px;
     color: #71829c;
-    font-size: .68rem;
+    font-size: 0.68rem;
 }
 
 body.role-pegawai .daily-report-submit-bar {
@@ -1119,7 +1145,7 @@ body.role-pegawai .daily-report-submit-bar button {
     background: #078ac8;
     border: 0;
     border-radius: 8px;
-    font-size: .82rem;
+    font-size: 0.82rem;
     font-weight: 700;
 }
 
@@ -1142,7 +1168,8 @@ body.role-pegawai .daily-report-alert {
         background: #f4f7fb;
     }
 
-    body.role-pegawai .navbar-sikinerja:has(+ .main-content .daily-report-form-page) {
+    body.role-pegawai
+        .navbar-sikinerja:has(+ .main-content .daily-report-form-page) {
         width: min(1180px, 100%);
     }
 }
@@ -1172,8 +1199,15 @@ body.role-pegawai .daily-report-alert {
 
     body.role-pegawai #laporan-informasi,
     body.role-pegawai #laporan-realisasi,
-    body.role-pegawai .daily-report-form-page > form > .daily-report-holiday-notice,
-    body.role-pegawai .daily-report-form-page > form > [data-report-fields] > .daily-report-submit-bar {
+    body.role-pegawai
+        .daily-report-form-page
+        > form
+        > .daily-report-holiday-notice,
+    body.role-pegawai
+        .daily-report-form-page
+        > form
+        > [data-report-fields]
+        > .daily-report-submit-bar {
         grid-column: 1;
         grid-row: auto;
     }
@@ -1195,7 +1229,7 @@ body.role-pegawai .daily-report-alert {
     }
 
     body.role-pegawai .daily-report-steps a strong {
-        font-size: .68rem;
+        font-size: 0.68rem;
     }
 
     body.role-pegawai .daily-report-form-card {
@@ -1203,7 +1237,7 @@ body.role-pegawai .daily-report-alert {
     }
 
     body.role-pegawai .daily-report-indicator {
-        grid-template-columns: minmax(0, 1fr) minmax(100px, .7fr);
+        grid-template-columns: minmax(0, 1fr) minmax(100px, 0.7fr);
         gap: 10px;
     }
 
@@ -1214,6 +1248,6 @@ body.role-pegawai .daily-report-alert {
 
 @media (min-width: 721px) and (max-width: 991.98px) {
     body.role-pegawai .daily-report-form-page > form {
-        grid-template-columns: minmax(0, 1.25fr) minmax(250px, .9fr);
+        grid-template-columns: minmax(0, 1.25fr) minmax(250px, 0.9fr);
     }
 }

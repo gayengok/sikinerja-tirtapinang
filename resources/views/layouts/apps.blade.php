@@ -94,7 +94,7 @@
     );
 @endphp
 
-<body class="pegawai-app-body">
+<body class="pegawai-app-body {{ request()->routeIs('pegawai.laporan-harian.create') ? 'role-pegawai' : '' }}">
     <div class="pegawai-app-layout" id="pegawaiAppLayout">
 
         <nav class="pegawai-navigation" aria-label="Navigasi utama">

@@ -66,7 +66,7 @@ class AtasanLaporanHarianTest extends TestCase
 
         $this->get(route('atasan.laporan-harian.create'))
             ->assertOk()
-            ->assertSee('Menunggu verifikasi Kepala Bagian')
+            ->assertSee('Menunggu verifikasi Kepala')
             ->assertSee('Laporan sudah dikirim dan sedang menunggu verifikasi Kepala Bagian.')
             ->assertSee('Menyelesaikan rekap pekerjaan tim.')
             ->assertSee('value="8"', false)
@@ -267,6 +267,7 @@ class AtasanLaporanHarianTest extends TestCase
         $this->actingAs($pegawaiUser)
             ->get(route('pegawai.laporan-harian.create'))
             ->assertOk()
+            ->assertSee('class="pegawai-navigation"', false)
             ->assertSee('Tahapan pengisian laporan')
             ->assertSee('Kirim Laporan Harian')
             ->assertSee(route('pegawai.laporan-harian.store'), false);

@@ -13,10 +13,19 @@
     <title>{{ $loginTitle }} — {{ config('app.name', 'SIKINERJA') }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link
-        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
     <style>
-        @include('auth._theme') * {
+        @include('auth._theme')
+        /* Penyesuaian token warna saja: konsisten dengan dashboard pegawai. */
+        :root {
+            --tirta: #0875ad;
+            --tirta-lt: #0b94c6;
+            --sand: #9be3ff;
+            --sand-dark: #0b94c6;
+        }
+
+        * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -28,7 +37,7 @@
         }
 
         body {
-            font-family: 'Work Sans', sans-serif;
+            font-family: 'Inter', sans-serif;
             color: var(--ink);
             background: var(--foam);
             min-height: 100vh;
@@ -61,8 +70,8 @@
         /* ============ LEFT: BRAND / WAVE PANEL ============ */
         .brandside {
             position: relative;
-            background: #0875ad;
-            color: var(--foam);
+            background: linear-gradient(115deg, #0875ad 0%, #0875ad 58%, #0b94c6 100%);
+            color: #ffffff;
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -76,7 +85,7 @@
             inset: 0;
             background-image:
                 radial-gradient(circle at 18% 20%, rgba(255, 255, 255, 0.06) 0, transparent 40%),
-                radial-gradient(circle at 85% 75%, rgba(242, 166, 90, 0.10) 0, transparent 45%);
+                radial-gradient(circle at 85% 75%, rgba(155, 227, 255, 0.10) 0, transparent 45%);
             pointer-events: none;
         }
 
@@ -118,7 +127,7 @@
         }
 
         .brand-name .eyebrow {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'Inter', sans-serif;
             font-size: 11px;
             letter-spacing: .14em;
             text-transform: uppercase;
@@ -128,7 +137,7 @@
 
         .brand-name strong {
             display: block;
-            font-family: 'Space Grotesk', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 18px;
             font-weight: 600;
             color: #fff;
@@ -143,7 +152,7 @@
         }
 
         .brand-mid h1 {
-            font-family: 'Space Grotesk', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-weight: 700;
             font-size: clamp(28px, 3.4vw, 42px);
             line-height: 1.12;
@@ -173,12 +182,12 @@
         }
 
         .brand-stats div {
-            border-left: 2px solid rgba(242, 166, 90, 0.55);
+            border-left: 2px solid rgba(155, 227, 255, 0.55);
             padding-left: 12px;
         }
 
         .brand-stats .num {
-            font-family: 'Space Grotesk', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 22px;
             font-weight: 600;
             color: #fff;
@@ -259,7 +268,7 @@
             justify-content: center;
             padding: clamp(24px, 5vw, 64px);
             background:
-                radial-gradient(circle at 100% 0%, rgba(29, 138, 130, 0.06), transparent 45%),
+                radial-gradient(circle at 100% 0%, rgba(8, 117, 173, 0.06), transparent 45%),
                 var(--foam);
         }
 
@@ -273,7 +282,7 @@
         }
 
         .card-head .kicker {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'Inter', sans-serif;
             font-size: 11px;
             letter-spacing: .14em;
             text-transform: uppercase;
@@ -281,7 +290,7 @@
         }
 
         .card-head h2 {
-            font-family: 'Space Grotesk', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 26px;
             font-weight: 700;
             margin-top: 6px;
@@ -331,7 +340,7 @@
 
         .input-wrap input {
             width: 100%;
-            font-family: 'Work Sans', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 14.5px;
             padding: 12px 14px 12px 42px;
             border-radius: 10px;
@@ -343,12 +352,12 @@
         }
 
         .input-wrap input::placeholder {
-            color: #9FB4B6;
+            color: #94a3b8;
         }
 
         .input-wrap input:focus {
             border-color: var(--tirta);
-            box-shadow: 0 0 0 4px rgba(29, 138, 130, 0.12);
+            box-shadow: 0 0 0 4px rgba(8, 117, 173, 0.12);
         }
 
         .input-wrap.err input {
@@ -376,7 +385,7 @@
 
         .toggle-eye:hover {
             color: var(--tirta);
-            background: rgba(29, 138, 130, 0.08);
+            background: rgba(8, 117, 173, 0.08);
         }
 
         .toggle-eye svg {
@@ -428,9 +437,9 @@
             padding: 13px;
             border: none;
             border-radius: 10px;
-            background: #0875ad;
+            background: linear-gradient(115deg, #0875ad 0%, #0875ad 58%, #0b94c6 100%);
             color: #fff;
-            font-family: 'Space Grotesk', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 15px;
             font-weight: 600;
             letter-spacing: .01em;
@@ -496,8 +505,8 @@
         }
 
         .alert.success {
-            background: rgba(29, 138, 130, 0.08);
-            border-color: rgba(29, 138, 130, 0.28);
+            background: rgba(8, 117, 173, 0.08);
+            border-color: rgba(8, 117, 173, 0.28);
             color: var(--deep);
         }
 
@@ -521,7 +530,7 @@
             align-items: center;
             gap: 12px;
             margin: 22px 0 16px;
-            color: #9FB4B6;
+            color: #94a3b8;
             font-size: 11.5px;
             text-transform: uppercase;
             letter-spacing: .08em;
@@ -556,9 +565,9 @@
             margin-top: 30px;
             display: flex;
             justify-content: space-between;
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'Inter', sans-serif;
             font-size: 10.5px;
-            color: #9FB4B6;
+            color: #94a3b8;
             letter-spacing: .02em;
         }
 
@@ -673,7 +682,7 @@
                 padding: 8px 14px;
                 background: var(--foam);
                 border-radius: 999px;
-                font-family: 'Work Sans', sans-serif;
+                font-family: 'Inter', sans-serif;
                 font-size: 11px;
                 font-weight: 700;
                 letter-spacing: .1em;
@@ -795,10 +804,10 @@
             }
         }
 
-        /* Reference layout: dark split-screen login */
+        /* Desktop: layout asli, panel formulir putih */
         @media (min-width: 921px) {
             body {
-                background: #0c172d;
+                background: #ffffff;
             }
 
             .stage {
@@ -840,7 +849,7 @@
             }
 
             .brand-name .eyebrow {
-                font-family: 'Space Grotesk', sans-serif;
+                font-family: 'Inter', sans-serif;
                 font-size: 14px;
                 font-weight: 700;
                 letter-spacing: .03em;
@@ -890,8 +899,8 @@
             .formside {
                 padding: 42px clamp(42px, 7.4vw, 116px);
                 background:
-                    radial-gradient(circle at 90% 15%, rgba(27, 75, 92, .16), transparent 40%),
-                    #0c172d;
+                    radial-gradient(circle at 90% 15%, rgba(8, 117, 173, .035), transparent 40%),
+                    #ffffff;
             }
 
             .card {
@@ -908,14 +917,14 @@
 
             .card-head h2 {
                 margin-top: 0;
-                color: #f7f9fc;
+                color: #1f2a37;
                 font-size: 31px;
                 letter-spacing: -.035em;
             }
 
             .card-head p {
                 margin-top: 8px;
-                color: #8d9bb3;
+                color: #64748b;
                 font-size: 16px;
             }
 
@@ -929,44 +938,44 @@
 
             .field label,
             .remember {
-                color: #c7d0de;
+                color: #334155;
                 font-size: 14px;
             }
 
             .input-wrap input {
                 min-height: 55px;
-                border: 1px solid rgba(126, 149, 184, .28);
+                border: 1px solid #dce5ef;
                 border-radius: 14px;
-                background: rgba(3, 12, 29, .62);
-                color: #f4f7fb;
+                background: #ffffff;
+                color: #1f2a37;
                 font-size: 15px;
             }
 
             .input-wrap input::placeholder {
-                color: #c9d1dd;
+                color: #94a3b8;
             }
 
             .input-wrap svg {
-                stroke: #8fa0b9;
+                stroke: #94a3b8;
             }
 
             .input-wrap input:focus {
                 border-color: var(--tirta);
-                box-shadow: 0 0 0 4px rgba(18, 181, 170, .14);
+                box-shadow: 0 0 0 4px rgba(8, 117, 173, .14);
             }
 
             .toggle-eye {
-                color: #8fa0b9;
+                color: #64748b;
             }
 
             .toggle-eye:hover {
-                color: var(--tirta-lt);
-                background: rgba(18, 181, 170, .1);
+                color: var(--tirta);
+                background: rgba(8, 117, 173, 0.08);
             }
 
             .forgot,
             .footnote a {
-                color: var(--tirta-lt);
+                color: #0875ad;
             }
 
             .remember input {
@@ -978,23 +987,23 @@
                 min-height: 53px;
                 margin-top: 11px;
                 border-radius: 13px;
-                background: #0875ad;
+                background: linear-gradient(115deg, #0875ad 0%, #0875ad 58%, #0b94c6 100%);
                 box-shadow: 0 8px 22px rgba(0, 0, 0, .2);
                 font-size: 16px;
             }
 
             .divider {
                 margin: 35px 0 27px;
-                color: #687891;
+                color: #94a3b8;
             }
 
             .divider::before,
             .divider::after {
-                background: rgba(126, 149, 184, .16);
+                background: #dce5ef;
             }
 
             .footnote {
-                color: #8795ad;
+                color: #64748b;
                 font-size: 14px;
             }
 
@@ -1003,21 +1012,21 @@
             }
 
             .alert {
-                color: #ffb7aa;
+                color: #a62c21;
                 background: rgba(196, 67, 43, .12);
                 border-color: rgba(255, 130, 110, .3);
             }
 
             .alert.success {
-                color: #9ee5dd;
-                background: rgba(18, 181, 170, .12);
-                border-color: rgba(18, 181, 170, .3);
+                color: #0875ad;
+                background: rgba(8, 117, 173, .12);
+                border-color: rgba(8, 117, 173, .3);
             }
         }
 
         @media (max-width: 920px) {
             body {
-                background: #0c172d;
+                background: #edf3f5;
             }
 
             .brandside {
@@ -1065,15 +1074,15 @@
                 max-width: 560px;
                 padding: 30px 22px 26px;
                 border-radius: 24px;
-                background: #101d34;
-                color: #f4f7fb;
+                background: #ffffff;
+                color: #1f2a37;
                 box-shadow: 0 14px 35px rgba(0, 0, 0, .2);
             }
 
             .card-head .kicker,
             .card-head h2,
             .field label {
-                color: #f4f7fb;
+                color: #1f2a37;
             }
 
             .card-head .kicker,
@@ -1098,7 +1107,7 @@
             }
 
             .remember {
-                color: #9aa8bd;
+                color: #64748b;
             }
 
             .input-wrap input {
@@ -1106,9 +1115,9 @@
                 padding-top: 13px;
                 padding-bottom: 13px;
                 border-radius: 14px;
-                background: #081329;
-                border-color: rgba(126, 149, 184, .28);
-                color: #f4f7fb;
+                background: #f8fbfd;
+                border-color: #dce5ef;
+                color: #1f2a37;
             }
 
             .btn-submit {
@@ -1125,6 +1134,52 @@
                 display: none;
             }
         }
+
+        /* Perbaikan tombol tampil/sembunyikan password */
+.input-wrap .toggle-eye {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 34px;
+    height: 34px;
+    padding: 0;
+
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: #94a3b8;
+
+    box-shadow: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.input-wrap .toggle-eye:hover,
+.input-wrap .toggle-eye:active {
+    background: transparent;
+    color: #0875ad;
+    box-shadow: none;
+}
+
+.input-wrap .toggle-eye:focus-visible {
+    outline: 2px solid #0875ad;
+    outline-offset: 2px;
+}
+
+.input-wrap .toggle-eye svg {
+    position: static;
+    width: 19px;
+    height: 19px;
+    stroke: currentColor;
+    pointer-events: none;
+}
+
     </style>
 </head>
 
@@ -1269,7 +1324,7 @@
             const el = document.getElementById('clock');
             const now = new Date();
             const pad = n => String(n).padStart(2, '0');
-            el.textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())} WIB`;
+            if (el) el.textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())} WIB`;
         }
         tickClock();
         setInterval(tickClock, 1000);

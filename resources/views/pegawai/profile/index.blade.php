@@ -1,10 +1,13 @@
-@extends('layouts.app')
+@extends('layouts.apps')
 
 @section('title', 'Profil Saya')
 
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/pegawai/profile/index.css') }}">
+@endpush
+
 @section('content')
     <div class="pegawai-page profile-page">
-
         <section class="profile-hero">
             <div class="profile-avatar">{{ strtoupper(substr($pegawai->user->name ?? 'P', 0, 1)) }}<span><i
                         class="fa-solid fa-camera"></i></span></div>

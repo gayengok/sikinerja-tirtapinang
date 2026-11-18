@@ -16,6 +16,7 @@
 
     <link href="{{ asset('css/pegawai/dashboard.css') }}" rel="stylesheet">
     <link href="{{ asset('css/pegawai/navigation.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/pegawai/theme.css') }}" rel="stylesheet">
 
     @stack('styles')
 </head>

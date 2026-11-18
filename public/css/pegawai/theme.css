@@ -1,0 +1,189 @@
+/* SIKINERJA | Unified employee theme
+   Load AFTER dashboard.css, attendance index.css/responsive.css, and profile/index.css.
+   Visual-only: does not modify JavaScript, routes, forms, GPS, or camera behavior. */
+:root {
+    --pw-bg: #edf3f5;
+    --pw-surface: #fff;
+    --pw-border: #dce5ef;
+    --pw-ink: #1f2a37;
+    --pw-muted: #64748b;
+    --pw-primary: #0875ad;
+    --pw-primary-dark: #075b91;
+    --pw-primary-light: #0b94c6;
+    --pw-hero-gradient: linear-gradient(115deg, #0875ad 0%, #0b94c6 100%);
+    --pw-card-radius: 18px;
+    --pw-hero-radius: 20px;
+    --pw-card-shadow: 0 5px 18px rgba(29, 55, 89, 0.06);
+    --pw-hero-shadow: 0 14px 30px rgba(8, 117, 173, 0.14);
+    --pw-soft-blue: #e8f6fc;
+    --pw-success: #087653;
+    --pw-success-bg: #eaf9f1;
+    --pr-bg: var(--pw-bg);
+    --pr-surface: var(--pw-surface);
+    --pr-surface-tint: #f4f9fd;
+    --pr-border: var(--pw-border);
+    --pr-ink: var(--pw-ink);
+    --pr-ink-soft: var(--pw-muted);
+    --pr-ink-faint: #8795a5;
+    --pr-primary: var(--pw-primary);
+    --pr-primary-dark: var(--pw-primary-dark);
+    --pr-primary-tint: var(--pw-soft-blue);
+    --pr-radius-lg: var(--pw-card-radius);
+    --pr-shadow-card: var(--pw-card-shadow);
+    --attendance-blue: var(--pw-primary);
+    --attendance-blue-dark: var(--pw-primary-dark);
+    --attendance-ink: var(--pw-ink);
+    --attendance-muted: var(--pw-muted);
+    --attendance-border: var(--pw-border);
+    --attendance-surface: var(--pw-surface);
+    --attendance-shadow: var(--pw-card-shadow);
+    --attendance-radius: var(--pw-card-radius);
+}
+body.pegawai-app-body {
+    background: var(--pw-bg);
+    color: var(--pw-ink);
+    font-family: Inter, system-ui, sans-serif;
+}
+.pegawai-app-main {
+    color: var(--pw-ink);
+}
+/* Identical gradient, radius, border and shadow for all primary hero banners */
+.pegawai-hero-panel,
+.attendance-dashboard-page .manual-header,
+.attendance-detail-hero,
+.profile-page .profile-hero {
+    background: var(--pw-hero-gradient);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--pw-hero-radius);
+    box-shadow: var(--pw-hero-shadow);
+}
+.pegawai-hero-panel h1,
+.attendance-dashboard-page .manual-header h1,
+.attendance-detail-hero h1,
+.profile-page .profile-hero h1 {
+    color: #fff;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+}
+.pegawai-hero-panel p,
+.attendance-dashboard-page .manual-header p,
+.attendance-detail-hero p,
+.profile-page .profile-hero > span {
+    color: rgba(255, 255, 255, 0.86);
+}
+/* Shared card surface */
+.summary-visual-card,
+.activity-gauge-card,
+.pegawai-period-panel,
+.pegawai-evaluation-panel,
+.attendance-dashboard-page .manual-card,
+.attendance-detail-card,
+.profile-page .profile-card,
+.profile-page .profile-options-card {
+    background: var(--pw-surface);
+    border: 1px solid var(--pw-border);
+    border-radius: var(--pw-card-radius);
+    box-shadow: var(--pw-card-shadow);
+    color: var(--pw-ink);
+}
+/* Consistent titles and secondary labels */
+.summary-header h3,
+.panel-title-wrap h3,
+.attendance-dashboard-page .manual-section-title,
+.attendance-detail-card-heading h2,
+.profile-page .profile-card-heading,
+.profile-page .profile-data-list strong,
+.profile-page .profile-form label,
+.profile-page .profile-options-card a strong {
+    color: var(--pw-ink);
+}
+.summary-header p,
+.gauge-card-heading p,
+.attendance-detail-card-heading p,
+.attendance-detail-data dt,
+.profile-page .profile-data-list label,
+.profile-page .profile-card-heading small,
+.profile-page .profile-options-card a small {
+    color: var(--pw-muted);
+}
+/* Icons and accent controls */
+.gauge-card-icon,
+.panel-icon,
+.attendance-detail-card-icon,
+.attendance-detail-time-icon,
+.profile-page .profile-card-heading > i,
+.profile-page .profile-options-card a > i:first-child {
+    background: var(--pw-soft-blue);
+    color: var(--pw-primary);
+}
+.pegawai-navigation-link.is-active,
+.attendance-breadcrumb a,
+.profile-page .profile-options-card a:hover {
+    color: var(--pw-primary);
+}
+.pegawai-navigation-link.is-active {
+    background: transparent;
+}
+@media (min-width: 1024px) {
+    .pegawai-navigation-link.is-active {
+        background: var(--pw-primary);
+        color: #fff;
+    }
+}
+.attendance-dashboard-page .manual-submit,
+.attendance-dashboard-page .manual-action-primary,
+.profile-page .profile-form button {
+    background: var(--pw-primary);
+    border-color: var(--pw-primary);
+    color: #fff;
+}
+.attendance-dashboard-page .manual-submit:hover,
+.attendance-dashboard-page .manual-action-primary:hover,
+.profile-page .profile-form button:hover {
+    background: var(--pw-primary-dark);
+}
+.profile-page .profile-input-wrap input,
+.attendance-dashboard-page .manual-select,
+.attendance-dashboard-page .manual-textarea {
+    border-color: var(--pw-border);
+    background: #fbfdff;
+    color: var(--pw-ink);
+}
+.profile-page .profile-input-wrap input:focus,
+.attendance-dashboard-page .manual-select:focus,
+.attendance-dashboard-page .manual-textarea:focus {
+    border-color: var(--pw-primary);
+    box-shadow: 0 0 0 3px rgba(8, 117, 173, 0.12);
+    outline: none;
+}
+.profile-page {
+    --profile-blue: var(--pw-primary);
+    --profile-cyan: var(--pw-primary-light);
+    --profile-ink: var(--pw-ink);
+    --profile-muted: var(--pw-muted);
+    --profile-line: var(--pw-border);
+    --profile-radius: var(--pw-card-radius);
+}
+.profile-page .profile-hero::before,
+.profile-page .profile-hero::after {
+    display: none;
+}
+.profile-page .profile-hero-meta b:first-child,
+.profile-page .profile-card-heading > span {
+    background: var(--pw-success-bg);
+    color: var(--pw-success);
+}
+/* Preserve individual page layout and all interactive elements. */
+@media (max-width: 767.98px) {
+    .pegawai-hero-panel,
+    .attendance-dashboard-page .manual-header,
+    .attendance-detail-hero,
+    .profile-page .profile-hero {
+        border-radius: 18px;
+    }
+    /* Profile already has its own 12px page padding; don't double it. */
+    .profile-page {
+        padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px));
+    }
+}

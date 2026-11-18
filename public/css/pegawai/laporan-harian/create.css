@@ -1251,3 +1251,297 @@ body.role-pegawai .daily-report-alert {
         grid-template-columns: minmax(0, 1.25fr) minmax(250px, 0.9fr);
     }
 }
+
+/* SIKINERJA — penyelarasan visual Laporan Harian.
+   Tempel di AKHIR public/css/pegawai/laporan-harian/create.css.
+   Tidak mengubah logika kalender, form, atau role. */
+
+body.role-pegawai .daily-report-form-page,
+body.role-atasan .daily-report-form-page {
+    --report-primary: #0875ad;
+    --report-primary-hover: #075e8c;
+    --report-accent: #0b94c6;
+    --report-ink: #17324a;
+    --report-muted: #64788b;
+    --report-border: #dce7ee;
+    --report-soft: #eef7fc;
+    font-family:
+        "Inter",
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+    color: var(--report-ink);
+    gap: 16px;
+    width: min(1240px, 100%);
+    box-sizing: border-box;
+}
+
+body.role-pegawai .daily-report-form-page *,
+body.role-atasan .daily-report-form-page * {
+    box-sizing: border-box;
+}
+
+body.role-pegawai .daily-report-banner,
+body.role-atasan .daily-report-banner {
+    padding: 24px 28px;
+    background: linear-gradient(125deg, #0875ad 0%, #0b94c6 100%);
+    color: #fff;
+    border: 0;
+    border-radius: 20px;
+    box-shadow: 0 10px 24px rgba(8, 117, 173, 0.13);
+}
+body.role-pegawai .daily-report-banner > span,
+body.role-atasan .daily-report-banner > span {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.17);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    font-size: 0.68rem;
+}
+body.role-pegawai .daily-report-banner > span > i,
+body.role-atasan .daily-report-banner > span > i,
+body.role-pegawai .daily-report-banner > span > b,
+body.role-atasan .daily-report-banner > span > b {
+    color: #d6f4ff;
+}
+body.role-pegawai .daily-report-banner h1,
+body.role-atasan .daily-report-banner h1 {
+    color: #fff;
+    font-size: clamp(1.35rem, 2.7vw, 1.8rem);
+    line-height: 1.3;
+    letter-spacing: -0.025em;
+}
+body.role-pegawai .daily-report-banner p,
+body.role-atasan .daily-report-banner p {
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 0.82rem;
+}
+body.role-pegawai .daily-report-banner-icon,
+body.role-atasan .daily-report-banner-icon {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.17);
+    border-radius: 12px;
+}
+
+body.role-pegawai .daily-report-steps,
+body.role-atasan .daily-report-steps,
+body.role-pegawai .daily-report-form-card,
+body.role-atasan .daily-report-form-card {
+    border: 1px solid var(--report-border);
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 4px 16px rgba(20, 61, 88, 0.045);
+}
+body.role-pegawai .daily-report-steps a.is-current,
+body.role-atasan .daily-report-steps a.is-current {
+    color: var(--report-primary);
+}
+body.role-pegawai .daily-report-steps a.is-current > span,
+body.role-atasan .daily-report-steps a.is-current > span {
+    background: var(--report-primary);
+    box-shadow: 0 0 0 4px var(--report-soft);
+}
+body.role-pegawai .daily-report-card-title > i,
+body.role-atasan .daily-report-card-title > i {
+    color: var(--report-primary);
+    background: var(--report-soft);
+}
+body.role-pegawai .daily-report-card-title strong,
+body.role-atasan .daily-report-card-title strong,
+body.role-pegawai .daily-report-indicator-label strong,
+body.role-atasan .daily-report-indicator-label strong {
+    color: var(--report-ink);
+    font-size: 0.88rem;
+}
+body.role-pegawai .daily-report-field label,
+body.role-atasan .daily-report-field label {
+    color: var(--report-ink);
+}
+body.role-pegawai .daily-report-field small,
+body.role-atasan .daily-report-field small,
+body.role-pegawai .daily-report-card-title > span,
+body.role-atasan .daily-report-card-title > span,
+body.role-pegawai .daily-report-indicator-label span,
+body.role-atasan .daily-report-indicator-label span {
+    color: var(--report-muted);
+}
+
+body.role-pegawai .daily-report-field input:not([type="hidden"]),
+body.role-atasan .daily-report-field input:not([type="hidden"]),
+body.role-pegawai .daily-report-field textarea,
+body.role-atasan .daily-report-field textarea,
+body.role-pegawai .daily-report-indicator input:not([type="hidden"]),
+body.role-atasan .daily-report-indicator input:not([type="hidden"]),
+body.role-pegawai .daily-report-indicator select,
+body.role-atasan .daily-report-indicator select {
+    min-height: 44px;
+    font-size: 0.83rem;
+    color: var(--report-ink);
+    border: 1px solid var(--report-border);
+    border-radius: 10px;
+    background: #f9fbfd;
+    transition:
+        border-color 0.18s ease,
+        box-shadow 0.18s ease,
+        background-color 0.18s ease;
+}
+body.role-pegawai .daily-report-field input:focus,
+body.role-atasan .daily-report-field input:focus,
+body.role-pegawai .daily-report-field textarea:focus,
+body.role-atasan .daily-report-field textarea:focus,
+body.role-pegawai .daily-report-indicator input:focus,
+body.role-atasan .daily-report-indicator input:focus,
+body.role-pegawai .daily-report-indicator select:focus,
+body.role-atasan .daily-report-indicator select:focus {
+    background: #fff;
+    border-color: var(--report-primary);
+    box-shadow: 0 0 0 3px rgba(8, 117, 173, 0.13);
+}
+body.role-pegawai .daily-report-field input[type="file"]::file-selector-button,
+body.role-atasan .daily-report-field input[type="file"]::file-selector-button {
+    background: var(--report-soft);
+    color: var(--report-primary);
+    cursor: pointer;
+}
+body.role-pegawai .daily-report-hint,
+body.role-atasan .daily-report-hint {
+    background: #f1f8fc;
+    color: #4b687b;
+    border-color: #dcecf5;
+}
+body.role-pegawai .daily-report-indicator,
+body.role-atasan .daily-report-indicator {
+    border-color: var(--report-border);
+    border-radius: 11px;
+}
+body.role-pegawai .daily-report-submit-bar button:not(:disabled),
+body.role-atasan .daily-report-submit-bar button:not(:disabled) {
+    background: var(--report-primary);
+    color: #fff;
+    border-radius: 10px;
+    transition:
+        background-color 0.18s ease,
+        transform 0.18s ease;
+    cursor: pointer;
+}
+body.role-pegawai .daily-report-submit-bar button:not(:disabled):hover,
+body.role-atasan .daily-report-submit-bar button:not(:disabled):hover {
+    background: var(--report-primary-hover);
+    transform: translateY(-1px);
+}
+body.role-pegawai .daily-report-submit-bar a,
+body.role-atasan .daily-report-submit-bar a {
+    color: var(--report-primary);
+    background: var(--report-soft);
+    border-radius: 10px;
+    text-decoration: none;
+}
+
+/* Kalender — hanya visual; tidak mengubah logika tanggal atau status. */
+.daily-report-form-page .report-calendar {
+    border-color: #dce7ee;
+    border-radius: 13px;
+}
+.daily-report-form-page .report-calendar-toolbar {
+    background: #f3f9fc;
+    color: #17324a;
+}
+.daily-report-form-page .report-calendar-toolbar button:hover:not(:disabled) {
+    color: #0875ad;
+    background: #e4f3fb;
+}
+.daily-report-form-page
+    .report-calendar-day:not(.is-empty):not(:disabled):hover {
+    background: #eaf6fc;
+}
+.daily-report-form-page .report-calendar-day.is-selected {
+    background: #eaf6fc;
+    color: #0875ad;
+    outline-color: #67b4dc;
+}
+.daily-report-form-page
+    .report-calendar-day.is-selected
+    .report-calendar-number {
+    color: #fff;
+    background: #0875ad;
+}
+.daily-report-form-page .report-calendar-day.is-today::before,
+.daily-report-form-page .report-calendar-mark.is-missing {
+    background: #0875ad;
+}
+.daily-report-form-page .report-calendar-legend {
+    color: #526b7e;
+}
+
+/* Hindari overflow pada layar kecil. */
+@media (max-width: 720px) {
+    body.role-pegawai .daily-report-form-page,
+    body.role-atasan .daily-report-form-page {
+        width: 100%;
+        padding: 12px;
+        gap: 14px;
+    }
+    body.role-pegawai .daily-report-banner,
+    body.role-atasan .daily-report-banner {
+        padding: 20px 18px;
+        border-radius: 18px;
+    }
+    body.role-pegawai .daily-report-banner h1,
+    body.role-atasan .daily-report-banner h1 {
+        padding-right: 36px;
+    }
+    body.role-pegawai .daily-report-form-card,
+    body.role-atasan .daily-report-form-card {
+        padding: 16px;
+        border-radius: 14px;
+    }
+    body.role-pegawai .daily-report-indicator,
+    body.role-atasan .daily-report-indicator {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 8px;
+    }
+    body.role-pegawai .daily-report-submit-bar,
+    body.role-atasan .daily-report-submit-bar {
+        flex-wrap: wrap;
+    }
+    body.role-pegawai .daily-report-submit-bar button:not(:disabled),
+    body.role-atasan .daily-report-submit-bar button:not(:disabled) {
+        width: 100%;
+    }
+    .daily-report-form-page .report-calendar-day {
+        min-width: 0;
+    }
+}
+
+/* Perbaikan nama dan satuan indikator */
+body.role-pegawai .daily-report-indicator-label,
+body.role-atasan .daily-report-indicator-label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    min-width: 0;
+}
+
+body.role-pegawai .daily-report-indicator-label strong,
+body.role-atasan .daily-report-indicator-label strong {
+    display: block;
+    width: 100%;
+    color: #1f2a37;
+    font-size: 0.84rem;
+    font-weight: 700;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+body.role-pegawai .daily-report-indicator-label span,
+body.role-atasan .daily-report-indicator-label span {
+    display: block;
+    margin: 0;
+    color: #64748b;
+    font-size: 0.72rem;
+    font-weight: 500;
+    line-height: 1.4;
+}

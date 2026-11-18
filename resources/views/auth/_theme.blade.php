@@ -12,16 +12,16 @@
             --danger: #C4432B;
         }
 
-        @media (min-width: 921px) {
-            :root {
-                --deep: #0c172d;
-                --deep-2: #10263b;
-                --tirta: #12b5aa;
-                --tirta-lt: #14c7bb;
-                --foam: #0c172d;
-                --sand: #f5c33b;
-                --ink: #f4f7fb;
-                --ink-soft: #93a1b8;
-                --line: rgba(137, 157, 190, .24);
-            }
-        }
+     @media (min-width: 921px) {
+    :root {
+        --deep: #0875ad;
+        --deep-2: #0b94c6;
+        --tirta: #0875ad;
+        --tirta-lt: #0b94c6;
+        --foam: #ffffff;
+        --sand: #f5c33b;
+        --ink: #1f2a37;
+        --ink-soft: #64748b;
+        --line: #dce5ef;
+    }
+}

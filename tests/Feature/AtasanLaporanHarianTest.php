@@ -236,7 +236,7 @@ class AtasanLaporanHarianTest extends TestCase
             ->assertDontSee('Laporan sudah diverifikasi</button>', false);
     }
 
-    public function test_existing_pegawai_report_form_keeps_its_original_routes(): void
+    public function test_pegawai_report_navigation_opens_the_form_without_an_index_route(): void
     {
         $divisi = Divisi::create(['nama_divisi' => 'Divisi Pegawai Uji']);
         $jabatan = Jabatan::create([
@@ -267,10 +267,15 @@ class AtasanLaporanHarianTest extends TestCase
         $this->actingAs($pegawaiUser)
             ->get(route('pegawai.laporan-harian.create'))
             ->assertOk()
-            ->assertDontSee('Tahapan pengisian laporan')
+            ->assertSee('Tahapan pengisian laporan')
+            ->assertSee('Kirim Laporan Harian')
             ->assertSee(route('pegawai.laporan-harian.store'), false);
 
-        $this->get(route('pegawai.laporan-harian.index'))->assertOk();
+        $this->get('/pegawai/laporan-harian')->assertMethodNotAllowed();
+
+        $this->get(route('pegawai.dashboard'))
+            ->assertOk()
+            ->assertSee(route('pegawai.laporan-harian.create'), false);
     }
 
     private function createAtasan(): array

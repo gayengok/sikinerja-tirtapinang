@@ -117,7 +117,7 @@
                 class="sidebar-link {{ request()->routeIs('pegawai.dashboard') ? 'active' : '' }}">
                 <i class="fa-solid fa-gauge"></i> <span>Dashboard Saya</span>
             </a>
-            <a href="{{ route('pegawai.laporan-harian.index') }}"
+            <a href="{{ route('pegawai.laporan-harian.create') }}"
                 class="sidebar-link {{ request()->routeIs('pegawai.laporan-harian.*') ? 'active' : '' }}">
                 <i class="fa-solid fa-file-lines"></i> <span>Laporan Harian</span>
             </a>

@@ -17,39 +17,9 @@ use Illuminate\Validation\ValidationException;
 
 class LaporanHarianController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        if ($request->user()->role === 'atasan') {
-            return redirect()->route('atasan.laporan-harian.create');
-        }
-
-        $pegawai = $this->pegawaiLogin($request);
-
-        $query = $pegawai->laporanHarians()->orderByDesc('tanggal');
-
-        if ($request->filled('status')) {
-            $query->where('status', $request->query('status'));
-        }
-
-        if ($request->filled('tanggal')) {
-            $query->whereDate('tanggal', $request->query('tanggal'));
-        }
-
-        if ($request->filled('bulan')) {
-            $query->whereMonth('tanggal', $request->query('bulan'));
-        }
-
-        $laporans = $query->paginate(10)->withQueryString();
-        $statusCounts = $pegawai->laporanHarians()
-            ->selectRaw('status, COUNT(*) as total')
-            ->groupBy('status')
-            ->pluck('total', 'status');
-
-        return view('pegawai.laporan-harian.index', [
-            'laporans' => $laporans,
-            'statusCounts' => $statusCounts,
-            'routePrefix' => $this->routePrefix($request),
-        ]);
+        return redirect()->route('atasan.laporan-harian.create');
     }
 
     public function create(Request $request)
@@ -149,9 +119,7 @@ class LaporanHarianController extends Controller
         });
 
         return redirect()
-            ->route($this->routePrefix($request) . ($isAtasan
-                ? '.laporan-harian.create'
-                : '.laporan-harian.index'))
+            ->route($this->routePrefix($request) . '.laporan-harian.create')
             ->with('success', $isAtasan
                 ? 'Laporan harian berhasil dikirim kepada Kepala Bagian untuk ditinjau.'
                 : 'Laporan harian berhasil disimpan sebagai draft.');
@@ -298,7 +266,7 @@ class LaporanHarianController extends Controller
 
         if ($laporan->status !== 'draft') {
             return redirect()
-                ->route($this->routePrefix($request).'.laporan-harian.index')
+                ->route($this->routePrefix($request).'.laporan-harian.create')
                 ->with('error', 'Hanya laporan berstatus "draft" yang dapat dihapus.');
         }
 
@@ -309,7 +277,7 @@ class LaporanHarianController extends Controller
         $laporan->delete();
 
         return redirect()
-            ->route($this->routePrefix($request).'.laporan-harian.index')
+            ->route($this->routePrefix($request).'.laporan-harian.create')
             ->with('success', 'Laporan berhasil dihapus.');
     }
 

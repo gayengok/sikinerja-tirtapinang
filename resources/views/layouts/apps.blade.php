@@ -34,9 +34,7 @@
             'label' => 'Laporan',
             'icon' => 'fa-solid fa-file-lines',
             'routes' => [
-                'pegawai.laporan.index',
-                'pegawai.laporan-harian.index',
-                'pegawai.laporan_harian.index',
+                'pegawai.laporan-harian.create',
             ],
             'active' => request()->routeIs(
                 'pegawai.laporan.*',

@@ -245,7 +245,7 @@
                 </li>
                 <li>
                     <a class="dropdown-item rounded-3 py-2 px-2 small text-wrap d-flex gap-2"
-                        href="{{ route('pegawai.laporan-harian.index') }}">
+                        href="{{ route('pegawai.laporan-harian.create') }}">
                         <i class="fa-solid fa-circle-check text-success mt-1"></i>
                         <div>
                             <div class="fw-semibold">Laporan harian telah diverifikasi</div>

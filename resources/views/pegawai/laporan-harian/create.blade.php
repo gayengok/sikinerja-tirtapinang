@@ -13,19 +13,17 @@
             <i class="fa-regular fa-file-lines daily-report-banner-icon"></i>
         </div>
 
-        @if ($routePrefix === 'atasan')
-            <nav class="daily-report-steps" aria-label="Tahapan pengisian laporan">
-                <a href="#laporan-informasi" class="is-current">
-                    <span>01</span>
-                    <strong>Informasi laporan</strong>
-                </a>
-                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-                <a href="#laporan-realisasi">
-                    <span>02</span>
-                    <strong>Realisasi aktivitas</strong>
-                </a>
-            </nav>
-        @endif
+        <nav class="daily-report-steps" aria-label="Tahapan pengisian laporan">
+            <a href="#laporan-informasi" class="is-current">
+                <span>01</span>
+                <strong>Informasi laporan</strong>
+            </a>
+            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            <a href="#laporan-realisasi">
+                <span>02</span>
+                <strong>Realisasi aktivitas</strong>
+            </a>
+        </nav>
 
         @if (session('error'))
             <div class="alert alert-danger daily-report-alert">{{ session('error') }}</div>
@@ -174,14 +172,13 @@
                                 </div>
                             @endforeach
                         </div>
-                        @if ($routePrefix !== 'atasan')
-                            <div class="daily-report-submit-bar">
-                                <a href="{{ route($routePrefix . '.laporan-harian.index') }}">Batal</a>
-                                <button type="submit"><i class="fa-solid fa-floppy-disk"></i> Simpan</button>
-                            </div>
-                        @endif
                     @endif
                 </section>
+                @if ($routePrefix !== 'atasan' && $templateLaporans->isNotEmpty())
+                    <div class="daily-report-submit-bar">
+                        <button type="submit"><i class="fa-solid fa-paper-plane"></i> Kirim Laporan Harian</button>
+                    </div>
+                @endif
                 @if ($routePrefix === 'atasan' && $templateLaporans->isNotEmpty() && !in_array($laporanHariIni?->status, ['disetujui', 'diverifikasi']))
                     <div class="daily-report-submit-bar">
                         @if ($laporanHariIni?->status === 'diajukan')

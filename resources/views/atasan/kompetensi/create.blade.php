@@ -4,9 +4,10 @@
     @php
         $assessmentRoutePrefix = $assessmentRoutePrefix ?? 'atasan.kompetensi';
         $targetLabel = $targetLabel ?? 'Pegawai';
-        $updateRoute = $assessmentRoutePrefix === 'atasan.kompetensi'
-            ? $assessmentRoutePrefix . '.update'
-            : $assessmentRoutePrefix . '.kompetensi.update';
+        $updateRoute =
+            $assessmentRoutePrefix === 'atasan.kompetensi'
+                ? $assessmentRoutePrefix . '.update'
+                : $assessmentRoutePrefix . '.kompetensi.update';
     @endphp
     <div class="kompetensi-form-page">
         <div class="atasan-mobile-breadcrumb"><a
@@ -16,7 +17,8 @@
         </div>
 
         <nav class="kompetensi-form-breadcrumb" aria-label="Breadcrumb">
-            <a href="{{ route($assessmentRoutePrefix === 'atasan.kompetensi' ? 'atasan.dashboard' : ($assessmentRoutePrefix === 'kepala_bagian.penilaian-atasan' ? 'kepala_bagian.dashboard' : 'direktur.dashboard')) }}">Beranda</a>
+            <a
+                href="{{ route($assessmentRoutePrefix === 'atasan.kompetensi' ? 'atasan.dashboard' : ($assessmentRoutePrefix === 'kepala_bagian.penilaian-atasan' ? 'kepala_bagian.dashboard' : 'direktur.dashboard')) }}">Beranda</a>
             <i class="fa-solid fa-chevron-right"></i>
             <a href="{{ route($assessmentRoutePrefix . '.index', ['periode_id' => $periode->id]) }}">Penilaian Kompetensi</a>
             <i class="fa-solid fa-chevron-right"></i>
@@ -33,8 +35,8 @@
         @if ($masterKompetensis->isEmpty())
             <div class="alert alert-warning mt-3">Belum ada master kompetensi untuk jabatan ini.</div>
         @else
-            <form action="{{ route($updateRoute, $pegawai) }}" method="POST">@csrf @method('PUT')<input
-                    type="hidden" name="periode_id" value="{{ $periode->id }}">
+            <form action="{{ route($updateRoute, $pegawai) }}" method="POST">@csrf @method('PUT')<input type="hidden"
+                    name="periode_id" value="{{ $periode->id }}">
                 <div class="kompetensi-form-intro"><strong><i class="fa-solid fa-user-check"></i> ASPEK PERILAKU KERJA
                         (BOBOT 40%)</strong><span>Skala Penilaian 1–5</span></div>
                 @foreach ($masterKompetensis as $index => $kompetensi)
@@ -71,8 +73,9 @@
                         @enderror
                     </article>
                 @endforeach
-                <div class="kompetensi-form-actions"><a href="{{ route($assessmentRoutePrefix . '.index') }}">Batal</a><button
-                        type="submit"><i class="fa-solid fa-floppy-disk"></i> Simpan Penilaian</button></div>
+                <div class="kompetensi-form-actions"><a
+                        href="{{ route($assessmentRoutePrefix . '.index') }}">Batal</a><button type="submit"><i
+                            class="fa-solid fa-floppy-disk"></i> Simpan Penilaian</button></div>
             </form>
         @endif
     </div>

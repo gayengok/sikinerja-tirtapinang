@@ -13,7 +13,7 @@
     @endphp
     <div class="pegawai-page report-detail-page">
         <div class="report-detail-header">
-            <a href="{{ route($routePrefix . '.laporan-harian.index') }}" class="report-back-button"><i
+            <a href="{{ route($routePrefix . '.laporan-harian.create') }}" class="report-back-button"><i
                     class="fa-solid fa-arrow-left"></i></a>
             <div><span>LAPORAN HARIAN / DETAIL</span>
                 <h1>Detail Laporan Harian</h1>
@@ -117,8 +117,8 @@
                         Laporan</button>
                 </form>
             @endif
-            <a href="{{ route($routePrefix . '.laporan-harian.index') }}" class="report-secondary-action"><i
-                    class="fa-solid fa-arrow-left"></i> Kembali ke Daftar Laporan</a>
+            <a href="{{ route($routePrefix . '.laporan-harian.create') }}" class="report-secondary-action"><i
+                    class="fa-solid fa-arrow-left"></i> Kembali ke Form Laporan</a>
         </div>
     </div>
 @endsection

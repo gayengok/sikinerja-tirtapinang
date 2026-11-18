@@ -207,7 +207,6 @@ Route::middleware(['auth', 'role:pegawai'])
         Route::get('dashboard', [DashboardPegawaiController::class, 'index'])->name('dashboard');
 
         Route::prefix('laporan-harian')->name('laporan-harian.')->group(function () {
-            Route::get('/', [LaporanHarianController::class, 'index'])->name('index');
             Route::get('/create', [LaporanHarianController::class, 'create'])->name('create');
             Route::post('/', [LaporanHarianController::class, 'store'])->name('store');
             Route::get('/{laporanHarian}/image', [LaporanHarianController::class, 'image'])->name('image');

@@ -16,7 +16,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('pegawai.laporan-harian.index') }}"
+                    <a href="{{ route('pegawai.laporan-harian.create') }}"
                         class="mobile-nav-link {{ request()->routeIs('pegawai.laporan-harian.*') ? 'active' : '' }}">
                         <div class="nav-icon-wrapper">
                             <i class="fa-solid fa-file-lines"></i>

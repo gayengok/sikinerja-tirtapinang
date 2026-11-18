@@ -49,6 +49,9 @@
                 </div>
             </div>
 
+
+
+
             <div class="hasil-performance-trend">
                 <span><i class="fa-solid fa-circle"></i> Periode Penilaian</span>
                 <strong>{{ $periode->nama_periode ?? 'Belum tersedia' }}</strong>

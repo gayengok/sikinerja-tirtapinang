@@ -3,7 +3,7 @@
 @section('title', 'Buat Laporan Harian')
 
 @section('content')
-    <div class="pegawai-page daily-report-form-page">
+    <div class="pegawai-page daily-report-form-page" @class(['is-report-readonly' => ! $bolehEdit])>
 
         <div class="daily-report-banner">
             <span><i class="fa-solid fa-circle" aria-hidden="true"></i> INPUT HARIAN <b aria-hidden="true">·</b>
@@ -19,7 +19,7 @@
                 <strong>Informasi laporan</strong>
             </a>
             <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-            <a href="#laporan-realisasi">
+            <a href="#laporan-realisasi" @class(['is-current' => (bool) $laporanHariIni])>
                 <span>02</span>
                 <strong>Realisasi aktivitas</strong>
             </a>
@@ -28,39 +28,50 @@
         @if (session('error'))
             <div class="alert alert-danger daily-report-alert">{{ session('error') }}</div>
         @endif
-        @if ($routePrefix === 'atasan' && $laporanHariIni)
+        @if ($laporanHariIni)
             <div class="daily-report-status-notice" role="status">
                 <i class="fa-solid {{ $laporanHariIni->status === 'diajukan' ? 'fa-clock' : ($laporanHariIni->status === 'disetujui' ? 'fa-circle-check' : 'fa-circle-exclamation') }}"
                     aria-hidden="true"></i>
                 <span>
                     @if ($laporanHariIni->status === 'diajukan')
-                        Laporan sudah dikirim dan sedang menunggu verifikasi Kepala Bagian.
+                        Laporan sudah dikirim dan menunggu persetujuan atasan. Data masih dapat diperbarui sebelum disetujui.
                     @elseif (in_array($laporanHariIni->status, ['disetujui', 'diverifikasi']))
                         Laporan sudah diverifikasi oleh Kepala Bagian.
                     @elseif ($laporanHariIni->status === 'ditolak')
                         Laporan perlu diperbaiki sebelum dikirim kembali.
                     @else
-                        Laporan hari ini sudah tersimpan sebagai draft.
+                        Laporan masih berstatus draft. Perbarui laporan untuk mengirimkannya kepada atasan.
                     @endif
                 </span>
             </div>
         @endif
-        <form action="{{ route($routePrefix . '.laporan-harian.store') }}" method="POST" enctype="multipart/form-data">
+        @if (session('success'))
+            <div class="alert alert-success daily-report-alert">{{ session('success') }}</div>
+        @endif
+        @if (! $isHariIni && ! $laporanHariIni)
+            <div class="daily-report-status-notice">Belum ada laporan pada tanggal ini. Hanya laporan hari ini yang dapat dibuat.</div>
+        @elseif ($laporanHariIni && ! $bolehEdit)
+            <div class="daily-report-status-notice">Laporan ini sudah disetujui dan hanya dapat dilihat.</div>
+        @endif
+        <form action="{{ $laporanHariIni ? route($routePrefix . '.laporan-harian.update', $laporanHariIni) : route($routePrefix . '.laporan-harian.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
+            @if ($laporanHariIni)
+                @method('PUT')
+            @endif
             <section class="daily-report-form-card" id="laporan-informasi">
                 <div class="daily-report-card-title"><i class="fa-regular fa-file-lines"></i><strong>Informasi
                         Pelaporan</strong><span>Langkah 1 dari 2</span></div>
                 <div class="daily-report-field daily-report-date-field">
                     <label for="tanggal">Tanggal Pelaporan <b>*</b></label>
                     <input type="hidden" name="tanggal" id="tanggal" value="{{ old('tanggal', $tanggalTerpilih) }}">
-                    <div class="report-calendar" data-calendar data-readonly="{{ $laporanHariIni ? 'true' : 'false' }}"
+                    <div class="report-calendar" data-calendar data-readonly="false"
                         data-reports='@json($laporanTanggal)'>
                         <div class="report-calendar-toolbar">
                             <button type="button" data-calendar-prev aria-label="Bulan sebelumnya"
-                                @disabled($laporanHariIni)><i class="fa-solid fa-chevron-left"></i></button>
+                               ><i class="fa-solid fa-chevron-left"></i></button>
                             <strong data-calendar-label></strong>
                             <button type="button" data-calendar-next aria-label="Bulan berikutnya"
-                                @disabled($laporanHariIni)><i class="fa-solid fa-chevron-right"></i></button>
+                               ><i class="fa-solid fa-chevron-right"></i></button>
                         </div>
                         <div class="report-calendar-weekdays" aria-hidden="true">
                             <span>Sen</span><span>Sel</span><span>Rab</span><span>Kam</span><span>Jum</span><span>Sab</span><span>Min</span>
@@ -94,7 +105,7 @@
                     <label for="catatan">Catatan & Uraian Aktivitas</label>
                     <textarea name="catatan" id="catatan" rows="4" maxlength="1000"
                         placeholder="Jelaskan ringkas kegiatan lapangan, kendala jaringan, atau progres tugas hari ini..."
-                        @readonly($laporanHariIni)>{{ old('catatan', $laporanHariIni?->catatan) }}</textarea>
+                        @readonly(! $bolehEdit)>{{ old('catatan', $laporanHariIni?->catatan) }}</textarea>
                     <small>Contoh: Pemeriksaan debit air sambungan blok B. <em>0/1000 karakter</em></small>
                     @error('catatan')
                         <div class="text-danger small">{{ $message }}</div>
@@ -106,9 +117,13 @@
                 <div class="daily-report-field daily-report-evidence-field">
                     <label for="bukti_gambar">Bukti Kegiatan <span>(Opsional)</span></label>
                     <input type="file" name="bukti_gambar" id="bukti_gambar" accept="image/jpeg,image/png,image/webp"
-                        class="@error('bukti_gambar') is-invalid @enderror" @disabled($laporanHariIni)>
+                        class="@error('bukti_gambar') is-invalid @enderror" @disabled(! $bolehEdit)>
                     @if ($laporanHariIni?->bukti_gambar)
-                        <small>Bukti kegiatan sudah dilampirkan pada laporan ini.</small>
+                        <small>Bukti kegiatan tersimpan:</small>
+                        <a href="{{ route($routePrefix . '.laporan-harian.image', $laporanHariIni) }}" target="_blank" rel="noopener">
+                            <img src="{{ route($routePrefix . '.laporan-harian.image', $laporanHariIni) }}"
+                                alt="Bukti kegiatan" style="display:block;max-width:100%;max-height:180px;border-radius:10px;object-fit:contain;margin-top:8px;">
+                        </a>
                     @else
                         <small><i class="fa-regular fa-image"></i> Upload JPG, PNG, atau WEBP maksimal 5 MB.</small>
                     @endif
@@ -128,11 +143,11 @@
                 <span class="daily-report-holiday-badge">Hari Libur</span>
             </div>
 
-            <div data-report-fields @if ($hariLiburTerpilih) hidden @endif>
+            <div data-report-fields @if ($hariLiburTerpilih || (! $isHariIni && ! $laporanHariIni)) hidden @endif>
                 <section class="daily-report-form-card" id="laporan-realisasi">
                     <div class="daily-report-card-title"><i class="fa-solid fa-chart-simple"></i><strong>Realisasi Laporan
                             Harian</strong><span>{{ $templateLaporans->count() }} indikator</span></div>
-                    <p class="daily-report-hint">Gunakan kolom input untuk mengisi realisasi pekerjaan Anda hari ini.</p>
+                    <p class="daily-report-hint">{{ $bolehEdit ? 'Isi atau perbarui realisasi pekerjaan sebelum laporan disetujui.' : 'Realisasi pekerjaan tersimpan (hanya baca).' }}</p>
                     @if ($templateLaporans->isEmpty())
                         <div class="alert alert-warning">Belum ada template laporan untuk divisi Anda. Hubungi Master untuk
                             mengaturnya.</div>
@@ -146,7 +161,7 @@
                                     @if ($template->tipe_field === 'dropdown')
                                         <select name="detail[{{ $index }}][nilai]"
                                             class="@error('detail.' . $index . '.nilai') is-invalid @enderror"
-                                            @disabled($laporanHariIni)>
+                                            @disabled(! $bolehEdit)>
                                             <option value="">-- Pilih --</option>
                                             @foreach ($template->options as $option)
                                                 <option value="{{ $option->label }}"
@@ -159,7 +174,7 @@
                                             {{ $template->tipe_field === 'angka' ? 'step=0.01' : '' }}
                                             name="detail[{{ $index }}][nilai]"
                                             value="{{ old('detail.' . $index . '.nilai', $nilaiTersimpan->get($template->id)?->nilai) }}"
-                                            placeholder="Masukkan nilai" @readonly($laporanHariIni)
+                                            placeholder="Masukkan nilai" @readonly(! $bolehEdit)
                                             class="@error('detail.' . $index . '.nilai') is-invalid @enderror">
                                     @endif
                                     <input type="hidden" name="detail[{{ $index }}][master_template_laporan_id]"
@@ -172,26 +187,11 @@
                         </div>
                     @endif
                 </section>
-                @if ($routePrefix !== 'atasan' && $templateLaporans->isNotEmpty())
+                @if ($bolehEdit && $templateLaporans->isNotEmpty() && ! $hariLiburTerpilih)
                     <div class="daily-report-submit-bar">
-                        <button type="submit"><i class="fa-solid fa-paper-plane"></i> Kirim Laporan Harian</button>
-                    </div>
-                @endif
-                @if (
-                    $routePrefix === 'atasan' &&
-                        $templateLaporans->isNotEmpty() &&
-                        !in_array($laporanHariIni?->status, ['disetujui', 'diverifikasi']))
-                    <div class="daily-report-submit-bar">
-                        @if ($laporanHariIni?->status === 'diajukan')
-                            <button type="button" disabled><i class="fa-solid fa-clock"></i> Menunggu verifikasi Kepala
-                                Bagian</button>
-                        @elseif (in_array($laporanHariIni?->status, ['draft', 'ditolak']))
-                            <a href="{{ route($routePrefix . '.laporan-harian.edit', $laporanHariIni) }}">
-                                {{ $laporanHariIni->status === 'ditolak' ? 'Perbaiki Laporan' : 'Lanjutkan Laporan' }}
-                            </a>
-                        @else
-                            <button type="submit"><i class="fa-solid fa-paper-plane"></i> Kirim Laporan Harian</button>
-                        @endif
+                        <button type="submit"><i class="fa-solid fa-floppy-disk"></i>
+                            {{ $laporanHariIni ? 'Perbarui Laporan Harian' : 'Kirim Laporan Harian' }}
+                        </button>
                     </div>
                 @endif
             </div>
@@ -220,7 +220,8 @@
             const holidayLabel = holidayNotice?.querySelector('[data-holiday-label]');
             const holidaySource = holidayNotice?.querySelector('[data-holiday-source]');
             const reports = JSON.parse(calendar.dataset.reports || '{}');
-            const reportIsReadOnly = calendar.dataset.readonly === 'true';
+            const hasSelectedReport = @json((bool) $laporanHariIni);
+            const createUrl = @json(route($routePrefix . '.laporan-harian.create'));
             const monthNames = [
                 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
                 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
@@ -337,9 +338,9 @@
                 const selected = new Date(`${input.value}T00:00:00`);
                 const weekend = selected.getDay() === 0 || selected.getDay() === 6;
                 const holidayName = holidays[input.value];
-                const isHoliday = weekend || Boolean(holidayName);
+                const isHoliday = !hasSelectedReport && (weekend || Boolean(holidayName));
 
-                reportFields.hidden = isHoliday;
+                reportFields.hidden = isHoliday || (!@json($isHariIni) && !hasSelectedReport);
                 holidayNotice.hidden = !isHoliday;
 
                 if (!isHoliday) return;
@@ -377,19 +378,19 @@
                     const marker = reports[value];
                     const isToday = value === todayValue;
                     const isHoliday = Boolean(holidays[value]) || dayOfWeek === 0 || dayOfWeek === 6;
-                    const isSelectable = isToday || isHoliday;
+                    const isSelectable = (value <= todayValue) && (isToday || Boolean(marker));
                     button.type = 'button';
                     button.className = 'report-calendar-day';
                     button.innerHTML = `<span class="report-calendar-number">${day}</span>`;
 
                     if (isHoliday) button.classList.add('is-holiday');
-                    if (reportIsReadOnly || !isSelectable) {
+                    if (!isSelectable) {
                         button.disabled = true;
                         button.classList.add('is-disabled');
                         button.setAttribute('aria-disabled', 'true');
                         button.setAttribute('title', 'Tanggal tidak dapat dipilih');
 
-                        if (!reportIsReadOnly && !isHoliday) {
+                        if (!isHoliday) {
                             const lock = document.createElement('span');
                             lock.className = 'report-calendar-lock';
                             lock.innerHTML = '<i class="fa-solid fa-lock" aria-hidden="true"></i>';
@@ -432,8 +433,8 @@
 
                     button.addEventListener('click', () => {
                         if (!isSelectable) return;
-                        input.value = value;
-                        render();
+                        if (input.value === value) return;
+                        window.location.href = `${createUrl}?tanggal=${encodeURIComponent(value)}`;
                     });
                     grid.appendChild(button);
                 }

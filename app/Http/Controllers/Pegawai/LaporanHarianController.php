@@ -36,23 +36,38 @@ class LaporanHarianController extends Controller
 
         $laporanTanggal = $pegawai->laporanHarians()
             ->get(['tanggal', 'status'])
-            ->mapWithKeys(fn (LaporanHarian $laporan) => [
+            ->mapWithKeys(fn(LaporanHarian $laporan) => [
                 $laporan->tanggal->toDateString() => $laporan->status,
             ]);
-        $tanggalTerpilih = old('tanggal', now()->toDateString());
-        $hariLiburTerpilih = HariLibur::detail($tanggalTerpilih);
-        $laporanHariIni = $request->user()->role === 'atasan'
-            ? $pegawai->laporanHarians()
-                ->with('details')
-                ->whereDate('tanggal', now()->toDateString())
-                ->first()
-            : null;
+
+        $tanggalTerpilih = $request->query('tanggal', now()->toDateString());
+        if (! preg_match('/^\d{4}-\d{2}-\d{2}$/', $tanggalTerpilih)) {
+            abort(404, 'Tanggal tidak valid.');
+        }
+        try {
+            $tanggalTerpilih = Carbon::createFromFormat('!Y-m-d', $tanggalTerpilih)->toDateString();
+        } catch (\Throwable $exception) {
+            abort(404, 'Tanggal tidak valid.');
+        }
+        abort_if($tanggalTerpilih > now()->toDateString(), 404, 'Tanggal belum tersedia.');
+
+        $laporanHariIni = $pegawai->laporanHarians()
+            ->with('details')
+            ->whereDate('tanggal', $tanggalTerpilih)
+            ->first();
+        $isHariIni = $tanggalTerpilih === now()->toDateString();
+        $bolehEdit = $laporanHariIni
+            ? ! in_array($laporanHariIni->status, ['disetujui', 'diverifikasi'])
+            : $isHariIni;
+        $hariLiburTerpilih = $laporanHariIni ? null : HariLibur::detail($tanggalTerpilih);
 
         return view('pegawai.laporan-harian.create', [
             'templateLaporans' => $templateLaporans,
             'laporanTanggal' => $laporanTanggal,
             'tanggalTerpilih' => $tanggalTerpilih,
             'hariLiburTerpilih' => $hariLiburTerpilih,
+            'isHariIni' => $isHariIni,
+            'bolehEdit' => $bolehEdit,
             'laporanHariIni' => $laporanHariIni,
             'nilaiTersimpan' => $laporanHariIni?->details->keyBy('master_template_laporan_id') ?? collect(),
             'routePrefix' => $this->routePrefix($request),
@@ -97,7 +112,7 @@ class LaporanHarianController extends Controller
 
         $isAtasan = $request->user()->role === 'atasan';
 
-        DB::transaction(function () use ($validated, $pegawai, $request, $isAtasan) {
+        DB::transaction(function () use ($validated, $pegawai, $request) {
             $buktiGambar = $request->hasFile('bukti_gambar')
                 ? $request->file('bukti_gambar')->store('laporan-harian', 'public')
                 : null;
@@ -107,7 +122,7 @@ class LaporanHarianController extends Controller
                 'tanggal' => $validated['tanggal'],
                 'catatan' => $validated['catatan'] ?? null,
                 'bukti_gambar' => $buktiGambar,
-                'status' => $isAtasan ? 'diajukan' : 'draft',
+                'status' => 'diajukan',
             ]);
 
             foreach ($validated['detail'] as $item) {
@@ -122,7 +137,7 @@ class LaporanHarianController extends Controller
             ->route($this->routePrefix($request) . '.laporan-harian.create')
             ->with('success', $isAtasan
                 ? 'Laporan harian berhasil dikirim kepada Kepala Bagian untuk ditinjau.'
-                : 'Laporan harian berhasil disimpan sebagai draft.');
+                : 'Laporan harian berhasil dikirim dan menunggu persetujuan atasan.');
     }
 
     public function show(Request $request, LaporanHarian $laporanHarian)
@@ -157,10 +172,10 @@ class LaporanHarianController extends Controller
     {
         $laporan = $this->cekMilikSendiri($request, $laporanHarian);
 
-        if (! in_array($laporan->status, ['draft', 'ditolak'])) {
+        if (in_array($laporan->status, ['disetujui', 'diverifikasi'])) {
             return redirect()
-                ->route($this->routePrefix($request).'.laporan-harian.show', $laporan)
-                ->with('error', 'Laporan dengan status "'.$laporan->status.'" tidak dapat diedit.');
+                ->route($this->routePrefix($request) . '.laporan-harian.create', ['tanggal' => $laporan->tanggal->toDateString()])
+                ->with('error', 'Laporan yang sudah disetujui tidak dapat diperbarui.');
         }
 
         $pegawai = $request->user()->pegawai;
@@ -185,10 +200,10 @@ class LaporanHarianController extends Controller
     {
         $laporan = $this->cekMilikSendiri($request, $laporanHarian);
 
-        if (! in_array($laporan->status, ['draft', 'ditolak'])) {
+        if (in_array($laporan->status, ['disetujui', 'diverifikasi'])) {
             return redirect()
-                ->route($this->routePrefix($request).'.laporan-harian.show', $laporan)
-                ->with('error', 'Laporan dengan status "'.$laporan->status.'" tidak dapat diedit.');
+                ->route($this->routePrefix($request) . '.laporan-harian.create', ['tanggal' => $laporan->tanggal->toDateString()])
+                ->with('error', 'Laporan yang sudah disetujui tidak dapat diperbarui.');
         }
 
         $pegawai = $request->user()->pegawai;
@@ -208,7 +223,9 @@ class LaporanHarianController extends Controller
             'detail.required' => 'Minimal satu field laporan wajib diisi.',
             'detail.*.master_template_laporan_id.in' => 'Field laporan tidak valid untuk divisi Anda.',
         ]);
-        $this->tolakJikaHariLibur($validated['tanggal']);
+        if ($validated['tanggal'] !== $laporan->tanggal->toDateString()) {
+            throw ValidationException::withMessages(['tanggal' => 'Tanggal laporan tidak boleh diubah.']);
+        }
         $this->validateKpiDetails($validated['detail'], $divisiId);
         $this->validateDropdownDetails($validated['detail'], $templateIds);
 
@@ -228,6 +245,13 @@ class LaporanHarianController extends Controller
         // Dipilih karena jumlah field per divisi relatif kecil dan berubah-ubah tiap submit,
         // sehingga lebih sederhana & aman dibanding mencocokkan updateOrCreate per template_id.
         DB::transaction(function () use ($validated, $laporan, $request) {
+            $laporan = LaporanHarian::query()->whereKey($laporan->id)->lockForUpdate()->firstOrFail();
+            if (in_array($laporan->status, ['disetujui', 'diverifikasi'])) {
+                throw ValidationException::withMessages([
+                    'tanggal' => 'Laporan sudah disetujui dan tidak dapat diperbarui.',
+                ]);
+            }
+
             $buktiGambar = $laporan->bukti_gambar;
 
             if ($request->hasFile('bukti_gambar')) {
@@ -242,7 +266,7 @@ class LaporanHarianController extends Controller
                 'tanggal' => $validated['tanggal'],
                 'catatan' => $validated['catatan'] ?? null,
                 'bukti_gambar' => $buktiGambar,
-                'status' => 'draft',
+                'status' => 'diajukan',
             ]);
 
             $laporan->details()->delete();
@@ -256,17 +280,17 @@ class LaporanHarianController extends Controller
         });
 
         return redirect()
-            ->route($this->routePrefix($request).'.laporan-harian.show', $laporan)
-            ->with('success', 'Laporan harian berhasil diperbarui dan berstatus draft.');
+            ->route($this->routePrefix($request) . '.laporan-harian.create', ['tanggal' => $laporan->tanggal->toDateString()])
+            ->with('success', 'Laporan harian berhasil diperbarui.');
     }
 
     public function destroy(Request $request, LaporanHarian $laporanHarian)
     {
         $laporan = $this->cekMilikSendiri($request, $laporanHarian);
 
-        if ($laporan->status !== 'draft') {
+        if ($laporan->status !== 'draft' || ! $laporan->tanggal->isToday()) {
             return redirect()
-                ->route($this->routePrefix($request).'.laporan-harian.create')
+                ->route($this->routePrefix($request) . '.laporan-harian.create')
                 ->with('error', 'Hanya laporan berstatus "draft" yang dapat dihapus.');
         }
 
@@ -277,7 +301,7 @@ class LaporanHarianController extends Controller
         $laporan->delete();
 
         return redirect()
-            ->route($this->routePrefix($request).'.laporan-harian.create')
+            ->route($this->routePrefix($request) . '.laporan-harian.create')
             ->with('success', 'Laporan berhasil dihapus.');
     }
 
@@ -287,13 +311,13 @@ class LaporanHarianController extends Controller
 
         if ($laporan->status !== 'draft') {
             return redirect()
-                ->route($this->routePrefix($request).'.laporan-harian.show', $laporan)
+                ->route($this->routePrefix($request) . '.laporan-harian.show', $laporan)
                 ->with('error', 'Hanya laporan berstatus "draft" yang dapat diajukan.');
         }
 
         if ($laporan->details()->count() < 1) {
             return redirect()
-                ->route($this->routePrefix($request).'.laporan-harian.show', $laporan)
+                ->route($this->routePrefix($request) . '.laporan-harian.show', $laporan)
                 ->with('error', 'Laporan harus memiliki minimal satu detail sebelum diajukan.');
         }
 
@@ -302,7 +326,7 @@ class LaporanHarianController extends Controller
         $reviewerLabel = $request->user()->role === 'atasan' ? 'Kepala Bagian' : 'Atasan';
 
         return redirect()
-            ->route($this->routePrefix($request).'.laporan-harian.show', $laporan)
+            ->route($this->routePrefix($request) . '.laporan-harian.show', $laporan)
             ->with('success', "Laporan berhasil diajukan ke {$reviewerLabel}.");
     }
 

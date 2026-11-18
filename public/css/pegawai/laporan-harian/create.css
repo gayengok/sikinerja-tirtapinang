@@ -1545,3 +1545,50 @@ body.role-atasan .daily-report-indicator-label span {
     font-weight: 500;
     line-height: 1.4;
 }
+
+/* Tambahkan di akhir create.css agar status tahapan dan input konsisten. */
+body.role-pegawai .daily-report-steps a.is-current,
+body.role-atasan .daily-report-steps a.is-current {
+    color: #0875ad;
+}
+body.role-pegawai .daily-report-steps a.is-current > span,
+body.role-atasan .daily-report-steps a.is-current > span {
+    background: #0875ad;
+    color: #fff;
+    box-shadow: 0 0 0 4px #e8f6fc;
+}
+.daily-report-indicator-label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    min-width: 0;
+}
+.daily-report-indicator-label strong {
+    display: block;
+    overflow-wrap: anywhere;
+}
+.daily-report-indicator-label span {
+    display: block;
+    margin: 0;
+    color: #64748b;
+    font-size: 0.72rem;
+}
+.daily-report-form-page input[readonly],
+.daily-report-form-page textarea[readonly],
+.daily-report-form-page select:disabled {
+    background: #f1f5f9;
+    color: #475569;
+    cursor: default;
+    opacity: 1;
+}
+.daily-report-form-page .report-calendar-day.is-disabled {
+    cursor: not-allowed;
+}
+.daily-report-form-page .report-calendar-day:not(.is-disabled):hover {
+    background: #e8f6fc;
+}
+.daily-report-form-page .daily-report-submit-bar button {
+    background: #0875ad;
+    cursor: pointer;
+}

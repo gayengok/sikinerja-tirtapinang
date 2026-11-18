@@ -1,0 +1,209 @@
+/* ==========================================
+   PROFILE AVATAR - AUTOSAVE
+   ========================================== */
+
+/* Hero tetap menata isi secara vertikal */
+.profile-page .profile-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* Pembungkus avatar dan ikon kamera */
+.profile-page .profile-avatar-wrapper {
+    position: relative;
+    display: block;
+
+    width: 136px;
+    height: 136px;
+    min-width: 136px;
+    min-height: 136px;
+
+    flex: 0 0 136px;
+    margin: 0 auto 24px;
+}
+
+/* Lingkaran yang benar-benar menampung gambar */
+.profile-page .profile-avatar-circle {
+    position: relative;
+
+    width: 136px;
+    height: 136px;
+
+    overflow: hidden;
+
+    border: 5px solid rgba(255, 255, 255, 0.55);
+    border-radius: 50%;
+
+    background: #075f90;
+    box-sizing: border-box;
+}
+
+/* Foto profil */
+.profile-page .profile-avatar-circle .profile-avatar-image {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    max-width: none;
+    max-height: none;
+
+    display: block;
+
+    object-fit: cover;
+    object-position: center;
+
+    border-radius: 50%;
+    padding: 0;
+    margin: 0;
+
+    font-size: 0;
+}
+
+/* Elemen hidden harus benar-benar disembunyikan */
+.profile-page .profile-avatar-circle .profile-avatar-image[hidden] {
+    display: none !important;
+}
+
+/* Inisial nama */
+.profile-page .profile-avatar-circle .profile-avatar-initial {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #ffffff;
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+/* Inisial tidak tampil ketika foto tersedia */
+.profile-page .profile-avatar-circle .profile-avatar-initial[hidden] {
+    display: none !important;
+}
+
+/* Tombol kamera */
+.profile-page .profile-avatar-camera {
+    position: absolute;
+
+    right: 0;
+    bottom: 0;
+
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #ffffff;
+    color: #0875ad;
+
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+
+    cursor: pointer;
+    z-index: 20;
+
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+
+    transition: transform 0.2s ease;
+}
+
+.profile-page .profile-avatar-camera:hover {
+    transform: scale(1.08);
+}
+
+.profile-page .profile-avatar-camera i {
+    color: #0875ad;
+    font-size: 16px;
+}
+
+.profile-page .profile-avatar-camera.is-loading {
+    opacity: 0.65;
+    pointer-events: none;
+}
+
+/* Input foto disembunyikan */
+.profile-page .profile-photo-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* ==========================================
+   STATUS UPLOAD FOTO
+   ========================================== */
+
+.profile-page .profile-hero .profile-photo-status {
+    display: block;
+
+    width: fit-content;
+    max-width: 90%;
+
+    margin: 0 auto 18px;
+    padding: 9px 18px;
+
+    border-radius: 10px;
+
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+
+    box-sizing: border-box;
+}
+
+.profile-page .profile-hero .profile-photo-status[hidden] {
+    display: none !important;
+}
+
+.profile-page .profile-photo-status.is-success {
+    background: rgba(220, 252, 231, 0.95);
+    color: #166534;
+}
+
+.profile-page .profile-photo-status.is-error {
+    background: rgba(254, 226, 226, 0.95);
+    color: #991b1b;
+}
+
+.profile-page .profile-photo-status.is-loading {
+    background: rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+    .profile-page .profile-avatar-wrapper,
+    .profile-page .profile-avatar-circle {
+        width: 120px;
+        height: 120px;
+        min-width: 120px;
+        min-height: 120px;
+    }
+
+    .profile-page .profile-avatar-wrapper {
+        flex-basis: 120px;
+    }
+
+    .profile-page .profile-avatar-circle .profile-avatar-initial {
+        font-size: 42px;
+    }
+
+    .profile-page .profile-avatar-camera {
+        width: 36px;
+        height: 36px;
+    }
+}

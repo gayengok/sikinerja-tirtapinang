@@ -524,3 +524,134 @@
         transition: none;
     }
 }
+
+/* =========================================
+   FOTO PROFIL PADA HERO
+   ========================================= */
+
+.profile-page .profile-hero .profile-avatar {
+    position: relative;
+    overflow: visible;
+    flex-shrink: 0;
+}
+
+/* Foto profil yang tersimpan / dipilih */
+.profile-page .profile-hero .profile-avatar > img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Huruf inisial jika belum memiliki foto */
+.profile-page .profile-hero .profile-avatar-initial {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+    background: transparent;
+    border-radius: 50%;
+}
+
+/* Ikon kamera pada avatar */
+.profile-page .profile-hero .profile-avatar .profile-avatar-camera {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 38px;
+    height: 38px;
+
+    padding: 0;
+    margin: 0;
+
+    background: #ffffff;
+    color: #0875ad;
+
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+
+    cursor: pointer;
+    z-index: 10;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16);
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+}
+
+.profile-page .profile-hero .profile-avatar .profile-avatar-camera:hover {
+    transform: scale(1.08);
+    background: #edf8ff;
+}
+
+.profile-page .profile-hero .profile-avatar .profile-avatar-camera i {
+    font-size: 15px;
+    color: #0875ad;
+}
+
+/* Input file tidak ditampilkan */
+.profile-page .profile-photo-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Fokus keyboard pada tombol kamera */
+.profile-page .profile-avatar:focus-within .profile-avatar-camera {
+    outline: 3px solid #b6e6ff;
+    outline-offset: 3px;
+}
+
+/* Pesan setelah memilih foto */
+.profile-page .profile-photo-message {
+    margin-top: 14px;
+    padding: 9px 14px;
+
+    background: rgba(255, 255, 255, 0.14);
+    color: #ffffff;
+
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 10px;
+
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.profile-page .profile-photo-message[hidden] {
+    display: none;
+}
+
+.profile-page .profile-photo-error {
+    background: rgba(220, 38, 38, 0.18);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Tampilan mobile */
+@media (max-width: 576px) {
+    .profile-page .profile-hero .profile-avatar .profile-avatar-camera {
+        width: 34px;
+        height: 34px;
+    }
+
+    .profile-page .profile-hero .profile-avatar .profile-avatar-camera i {
+        font-size: 13px;
+    }
+}

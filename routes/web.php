@@ -204,27 +204,62 @@ Route::middleware(['auth', 'role:pegawai'])
     ->prefix('pegawai')
     ->name('pegawai.')
     ->group(function () {
-        Route::get('dashboard', [DashboardPegawaiController::class, 'index'])->name('dashboard');
 
-        Route::prefix('laporan-harian')->name('laporan-harian.')->group(function () {
-            Route::get('/create', [LaporanHarianController::class, 'create'])->name('create');
-            Route::post('/', [LaporanHarianController::class, 'store'])->name('store');
-            Route::get('/{laporanHarian}/image', [LaporanHarianController::class, 'image'])->name('image');
-            Route::get('/{laporanHarian}', [LaporanHarianController::class, 'show'])->name('show');
-            Route::get('/{laporanHarian}/edit', [LaporanHarianController::class, 'edit'])->name('edit');
-            Route::put('/{laporanHarian}', [LaporanHarianController::class, 'update'])->name('update');
-            Route::delete('/{laporanHarian}', [LaporanHarianController::class, 'destroy'])->name('destroy');
-            Route::post('/{laporanHarian}/ajukan', [LaporanHarianController::class, 'ajukan'])->name('ajukan');
-        });
+        Route::get('dashboard', [DashboardPegawaiController::class, 'index'])
+            ->name('dashboard');
 
-        Route::prefix('absensi')->name('absensi.')->group(function () {
-            Route::get('/', [AbsensiController::class, 'index'])->name('index');
-            Route::post('/', [AbsensiController::class, 'store'])->name('store');
-            Route::get('/{absensi}', [AbsensiController::class, 'show'])->name('show');
-        });
+        Route::prefix('laporan-harian')
+            ->name('laporan-harian.')
+            ->group(function () {
 
-        Route::prefix('profile')->name('profile.')->group(function () {
-            Route::get('/', [ProfileController::class, 'index'])->name('index');
-            Route::put('/', [ProfileController::class, 'update'])->name('update');
-        });
+                Route::get('/create', [LaporanHarianController::class, 'create'])
+                    ->name('create');
+
+                Route::post('/', [LaporanHarianController::class, 'store'])
+                    ->name('store');
+
+                Route::get('/{laporanHarian}/image', [LaporanHarianController::class, 'image'])
+                    ->name('image');
+
+                Route::get('/{laporanHarian}', [LaporanHarianController::class, 'show'])
+                    ->name('show');
+
+                Route::get('/{laporanHarian}/edit', [LaporanHarianController::class, 'edit'])
+                    ->name('edit');
+
+                Route::put('/{laporanHarian}', [LaporanHarianController::class, 'update'])
+                    ->name('update');
+
+                Route::delete('/{laporanHarian}', [LaporanHarianController::class, 'destroy'])
+                    ->name('destroy');
+
+                Route::post('/{laporanHarian}/ajukan', [LaporanHarianController::class, 'ajukan'])
+                    ->name('ajukan');
+            });
+
+        Route::prefix('absensi')
+            ->name('absensi.')
+            ->group(function () {
+
+                Route::get('/', [AbsensiController::class, 'index'])
+                    ->name('index');
+
+                Route::post('/', [AbsensiController::class, 'store'])
+                    ->name('store');
+
+                Route::get('/{absensi}', [AbsensiController::class, 'show'])
+                    ->name('show');
+            });
+
+        Route::prefix('profile')
+            ->name('profile.')
+            ->group(function () {
+
+                Route::get('/', [ProfileController::class, 'index'])
+                    ->name('index');
+                Route::put('/', [ProfileController::class, 'update'])
+                    ->name('update');
+                Route::put('/foto', [ProfileController::class, 'updateFoto'])
+                    ->name('foto');
+            });
     });

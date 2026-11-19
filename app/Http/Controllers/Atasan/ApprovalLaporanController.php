@@ -8,6 +8,7 @@ use App\Models\MasterKpi;
 use App\Models\Pegawai;
 use App\Models\PenilaianKpi;
 use App\Models\PeriodePenilaian;
+use App\Services\PegawaiNotificationService;
 use App\Services\TeamVisibilityService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -112,8 +113,12 @@ class ApprovalLaporanController extends Controller
         return response()->file($disk->path($laporanHarian->bukti_gambar));
     }
 
-    public function approve(Request $request, LaporanHarian $laporanHarian, TeamVisibilityService $teamVisibility)
-    {
+    public function approve(
+        Request $request,
+        LaporanHarian $laporanHarian,
+        TeamVisibilityService $teamVisibility,
+        PegawaiNotificationService $notifications
+    ) {
         $atasan = $request->user()->pegawai;
 
         abort_if(! $atasan, 403, 'Data pegawai untuk akun Anda tidak ditemukan.');
@@ -128,12 +133,20 @@ class ApprovalLaporanController extends Controller
                 ->with('error', 'Hanya laporan berstatus "diajukan" yang dapat disetujui.');
         }
 
-        DB::transaction(function () use ($laporanHarian, $atasan) {
+        DB::transaction(function () use ($laporanHarian, $atasan, $notifications) {
             $laporanHarian->update([
                 'status' => 'disetujui',
                 'disetujui_oleh' => $atasan->id,
                 'disetujui_at' => now(),
             ]);
+
+            $notifications->send(
+                $laporanHarian->pegawai,
+                'laporan',
+                'Laporan disetujui',
+                'Laporan harian tanggal ' . $laporanHarian->tanggal->translatedFormat('d F Y') . ' telah disetujui atasan.',
+                route('pegawai.laporan-harian.show', $laporanHarian, false)
+            );
 
             $this->hitungKpiOtomatis($laporanHarian->pegawai_id, $laporanHarian->tanggal);
         });
@@ -234,8 +247,12 @@ class ApprovalLaporanController extends Controller
         };
     }
 
-    public function reject(Request $request, LaporanHarian $laporanHarian, TeamVisibilityService $teamVisibility)
-    {
+    public function reject(
+        Request $request,
+        LaporanHarian $laporanHarian,
+        TeamVisibilityService $teamVisibility,
+        PegawaiNotificationService $notifications
+    ) {
         $atasan = $request->user()->pegawai;
 
         abort_if(! $atasan, 403, 'Data pegawai untuk akun Anda tidak ditemukan.');
@@ -269,12 +286,23 @@ class ApprovalLaporanController extends Controller
         $catatanBaru = trim(($laporanHarian->catatan ? $laporanHarian->catatan."\n\n" : '')
             .'[Ditolak oleh '.$penolak.']: '.$validated['alasan_penolakan']);
 
-        $laporanHarian->update([
-            'status' => 'ditolak',
-            'catatan' => $catatanBaru,
-            'disetujui_oleh' => $atasan->id,
-            'disetujui_at' => now(),
-        ]);
+        DB::transaction(function () use ($laporanHarian, $atasan, $catatanBaru, $validated, $notifications) {
+            $laporanHarian->update([
+                'status' => 'ditolak',
+                'catatan' => $catatanBaru,
+                'disetujui_oleh' => $atasan->id,
+                'disetujui_at' => now(),
+            ]);
+
+            $notifications->send(
+                $laporanHarian->pegawai,
+                'laporan',
+                'Laporan ditolak',
+                'Laporan harian tanggal ' . $laporanHarian->tanggal->translatedFormat('d F Y')
+                    . ' ditolak. Alasan: ' . $validated['alasan_penolakan'],
+                route('pegawai.laporan-harian.show', $laporanHarian, false)
+            );
+        });
 
         return redirect()
             ->route($teamVisibility->routePrefix($request->user()).'.laporan.index')

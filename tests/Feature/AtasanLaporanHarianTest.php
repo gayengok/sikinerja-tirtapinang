@@ -279,6 +279,54 @@ class AtasanLaporanHarianTest extends TestCase
             ->assertSee(route('pegawai.laporan-harian.create'), false);
     }
 
+    public function test_pegawai_report_submission_does_not_show_success_popup(): void
+    {
+        $divisi = Divisi::create(['nama_divisi' => 'Divisi Notifikasi Uji']);
+        $jabatan = Jabatan::create([
+            'divisi_id' => $divisi->id,
+            'nama_jabatan' => 'Pegawai Operasional',
+            'grade' => 'Grade 1',
+            'base_tukin' => 1500000,
+        ]);
+        $pegawaiUser = User::create([
+            'name' => 'Pegawai Uji',
+            'email' => 'pegawai.popup@example.test',
+            'password' => bcrypt('password'),
+            'role' => 'pegawai',
+        ]);
+        $pegawai = Pegawai::create([
+            'user_id' => $pegawaiUser->id,
+            'nama' => 'Pegawai Uji',
+            'jabatan_id' => $jabatan->id,
+            'status' => 'aktif',
+        ]);
+        $template = MasterTemplateLaporan::create([
+            'divisi_id' => $divisi->id,
+            'nama_field' => 'Jumlah pekerjaan',
+            'tipe_field' => 'angka',
+            'satuan' => 'pekerjaan',
+        ]);
+
+        $this->actingAs($pegawaiUser)
+            ->post(route('pegawai.laporan-harian.store'), [
+                'tanggal' => now()->toDateString(),
+                'catatan' => 'Menyelesaikan pekerjaan harian.',
+                'detail' => [[
+                    'master_template_laporan_id' => $template->id,
+                    'nilai' => '3',
+                ]],
+            ])
+            ->assertRedirect(route('pegawai.laporan-harian.create'))
+            ->assertSessionMissing('success');
+
+        $this->assertTrue(
+            LaporanHarian::where('pegawai_id', $pegawai->id)
+                ->whereDate('tanggal', now()->toDateString())
+                ->where('status', 'diajukan')
+                ->exists()
+        );
+    }
+
     private function createAtasan(): array
     {
         $divisi = Divisi::create(['nama_divisi' => 'Divisi Operasional']);

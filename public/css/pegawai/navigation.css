@@ -367,6 +367,82 @@ body.pegawai-notification-open {
     overflow-y: auto;
 }
 
+.pegawai-notification-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pegawai-notification-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px;
+    border: 1px solid #e5edf5;
+    border-radius: 14px;
+    color: inherit;
+    text-decoration: none;
+    transition: background 0.18s ease, border-color 0.18s ease;
+}
+
+.pegawai-notification-item:hover,
+.pegawai-notification-item:focus-visible {
+    border-color: #b7d8ed;
+    background: #f7fbfe;
+}
+
+.pegawai-notification-item.is-unread {
+    border-color: #c6e4f5;
+    background: #f3faff;
+}
+
+.pegawai-notification-item-icon {
+    display: flex;
+    flex: 0 0 40px;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: #eaf5fc;
+    color: #0875ad;
+}
+
+.pegawai-notification-item-copy {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+}
+
+.pegawai-notification-item-copy strong {
+    color: #1f2a37;
+    font-size: 14px;
+    font-weight: 750;
+}
+
+.pegawai-notification-item-copy > span {
+    color: #53677d;
+    font-size: 13px;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
+}
+
+.pegawai-notification-item-copy small {
+    color: #8291a3;
+    font-size: 11px;
+}
+
+.pegawai-notification-item-unread {
+    flex: 0 0 9px;
+    width: 9px;
+    height: 9px;
+    margin-top: 6px;
+    border-radius: 50%;
+    background: #1687c8;
+}
+
 .pegawai-notification-empty {
     display: flex;
     flex-direction: column;

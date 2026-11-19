@@ -205,7 +205,7 @@
                 aria-controls="pegawaiNotificationModal"
             >
                 <i class="fa-regular fa-bell"></i>
-                <span class="pegawai-notification-indicator" hidden></span>
+                <span class="pegawai-notification-indicator" @if ($pegawaiNotificationUnreadCount === 0) hidden @endif></span>
             </button>
         </nav>
 
@@ -252,6 +252,28 @@
             <div class="pegawai-notification-content">
                 @hasSection('pegawai_notifications')
                     @yield('pegawai_notifications')
+                @elseif ($pegawaiNotifications->isNotEmpty())
+                    <div class="pegawai-notification-list">
+                        @foreach ($pegawaiNotifications as $notification)
+                            <a href="{{ route('pegawai.notifikasi.open', $notification) }}"
+                                class="pegawai-notification-item {{ $notification->dibaca_pada ? '' : 'is-unread' }}">
+                                <span class="pegawai-notification-item-icon">
+                                    <i
+                                        class="fa-solid {{ $notification->jenis === 'absensi' ? 'fa-calendar-check' : 'fa-file-lines' }}"></i>
+                                </span>
+
+                                <span class="pegawai-notification-item-copy">
+                                    <strong>{{ $notification->judul }}</strong>
+                                    <span>{{ $notification->pesan }}</span>
+                                    <small>{{ $notification->created_at->translatedFormat('d M Y, H:i') }}</small>
+                                </span>
+
+                                @if (!$notification->dibaca_pada)
+                                    <span class="pegawai-notification-item-unread" aria-label="Belum dibaca"></span>
+                                @endif
+                            </a>
+                        @endforeach
+                    </div>
                 @else
                     <div class="pegawai-notification-empty">
                         <span class="pegawai-notification-empty-icon">

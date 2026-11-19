@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Atasan;
 use App\Http\Controllers\Controller;
 use App\Models\Absensi;
 use App\Models\Pegawai;
+use App\Services\PegawaiNotificationService;
 use App\Services\TeamVisibilityService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class AbsensiAtasanController extends Controller
@@ -162,8 +164,12 @@ class AbsensiAtasanController extends Controller
 
 
 
-    public function verifikasi(Request $request, Absensi $absensi, TeamVisibilityService $teamVisibility)
-    {
+    public function verifikasi(
+        Request $request,
+        Absensi $absensi,
+        TeamVisibilityService $teamVisibility,
+        PegawaiNotificationService $notifications
+    ) {
         $atasan = $request->user()->pegawai;
 
         abort_if(! $atasan, 403, 'Data pegawai untuk akun Anda tidak ditemukan.');
@@ -181,12 +187,40 @@ class AbsensiAtasanController extends Controller
             'catatan_verifikasi.max' => 'Catatan verifikasi maksimal 1000 karakter.',
         ]);
 
-        $dataAbsensi->forceFill([
-            'status_verifikasi' => $validated['keputusan'],
-            'catatan_verifikasi' => $validated['catatan_verifikasi'] ?? null,
-            'diverifikasi_oleh' => $atasan->getKey(),
-            'diverifikasi_pada' => now(),
-        ])->save();
+        $statusVerifikasiSebelumnya = $dataAbsensi->status_verifikasi;
+
+        DB::transaction(function () use (
+            $dataAbsensi,
+            $validated,
+            $atasan,
+            $statusVerifikasiSebelumnya,
+            $notifications
+        ) {
+            $dataAbsensi->forceFill([
+                'status_verifikasi' => $validated['keputusan'],
+                'catatan_verifikasi' => $validated['catatan_verifikasi'] ?? null,
+                'diverifikasi_oleh' => $atasan->getKey(),
+                'diverifikasi_pada' => now(),
+            ])->save();
+
+            if ($statusVerifikasiSebelumnya === $validated['keputusan']) {
+                return;
+            }
+
+            $tanggal = $dataAbsensi->tanggal->translatedFormat('d F Y');
+            $terverifikasi = $validated['keputusan'] === 'terverifikasi';
+            $pesan = $terverifikasi
+                ? "Absensi tanggal {$tanggal} telah diverifikasi atasan."
+                : "Absensi tanggal {$tanggal} perlu klarifikasi. Catatan: {$validated['catatan_verifikasi']}";
+
+            $notifications->send(
+                $dataAbsensi->pegawai,
+                'absensi',
+                $terverifikasi ? 'Absensi terverifikasi' : 'Absensi perlu diperbaiki',
+                $pesan,
+                route('pegawai.absensi.show', $dataAbsensi, false)
+            );
+        });
 
         $pesan = $validated['keputusan'] === 'terverifikasi'
             ? 'Data absensi berhasil diverifikasi.'

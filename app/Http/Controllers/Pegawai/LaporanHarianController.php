@@ -133,11 +133,17 @@ class LaporanHarianController extends Controller
             }
         });
 
-        return redirect()
-            ->route($this->routePrefix($request) . '.laporan-harian.create')
-            ->with('success', $isAtasan
-                ? 'Laporan harian berhasil dikirim kepada Kepala Bagian untuk ditinjau.'
-                : 'Laporan harian berhasil dikirim dan menunggu persetujuan atasan.');
+        $redirect = redirect()
+            ->route($this->routePrefix($request) . '.laporan-harian.create');
+
+        if ($isAtasan) {
+            return $redirect->with(
+                'success',
+                'Laporan harian berhasil dikirim kepada Kepala Bagian untuk ditinjau.'
+            );
+        }
+
+        return $redirect;
     }
 
     public function show(Request $request, LaporanHarian $laporanHarian)

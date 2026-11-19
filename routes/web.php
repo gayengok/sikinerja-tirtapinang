@@ -28,6 +28,7 @@ use App\Http\Controllers\Master\TemplateLaporanController;
 use App\Http\Controllers\Pegawai\AbsensiController;
 use App\Http\Controllers\Pegawai\DashboardPegawaiController;
 use App\Http\Controllers\Pegawai\LaporanHarianController;
+use App\Http\Controllers\Pegawai\PegawaiNotificationController;
 use App\Http\Controllers\Pegawai\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -207,6 +208,9 @@ Route::middleware(['auth', 'role:pegawai'])
 
         Route::get('dashboard', [DashboardPegawaiController::class, 'index'])
             ->name('dashboard');
+
+        Route::get('notifikasi/{notification}', [PegawaiNotificationController::class, 'open'])
+            ->name('notifikasi.open');
 
         Route::prefix('laporan-harian')
             ->name('laporan-harian.')

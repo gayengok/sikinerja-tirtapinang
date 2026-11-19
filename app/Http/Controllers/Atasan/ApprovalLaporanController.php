@@ -145,7 +145,9 @@ class ApprovalLaporanController extends Controller
                 'laporan',
                 'Laporan disetujui',
                 'Laporan harian tanggal ' . $laporanHarian->tanggal->translatedFormat('d F Y') . ' telah disetujui atasan.',
-                route('pegawai.laporan-harian.show', $laporanHarian, false)
+                route('pegawai.laporan-harian.create', [
+                    'tanggal' => $laporanHarian->tanggal->toDateString(),
+                ], false)
             );
 
             $this->hitungKpiOtomatis($laporanHarian->pegawai_id, $laporanHarian->tanggal);
@@ -300,7 +302,9 @@ class ApprovalLaporanController extends Controller
                 'Laporan ditolak',
                 'Laporan harian tanggal ' . $laporanHarian->tanggal->translatedFormat('d F Y')
                     . ' ditolak. Alasan: ' . $validated['alasan_penolakan'],
-                route('pegawai.laporan-harian.show', $laporanHarian, false)
+                route('pegawai.laporan-harian.create', [
+                    'tanggal' => $laporanHarian->tanggal->toDateString(),
+                ], false)
             );
         });
 

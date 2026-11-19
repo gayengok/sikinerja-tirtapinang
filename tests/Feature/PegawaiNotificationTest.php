@@ -90,6 +90,26 @@ class PegawaiNotificationTest extends TestCase
         $this->assertSame('Laporan ditolak', $notifications[1]->judul);
         $this->assertSame('Absensi terverifikasi', $notifications[2]->judul);
         $this->assertSame('Absensi perlu diperbaiki', $notifications[3]->judul);
+        $this->assertSame(
+            route('pegawai.laporan-harian.create', [
+                'tanggal' => $laporanDisetujui->tanggal->toDateString(),
+            ], false),
+            $notifications[0]->url
+        );
+
+        $this->actingAs($pegawaiUser)
+            ->get(route('pegawai.laporan-harian.show', $laporanDitolak))
+            ->assertRedirect(route('pegawai.laporan-harian.create', [
+                'tanggal' => $laporanDitolak->tanggal->toDateString(),
+            ]));
+
+        $this->get(route('pegawai.laporan-harian.create', [
+            'tanggal' => $laporanDisetujui->tanggal->toDateString(),
+        ]))
+            ->assertOk()
+            ->assertSee('daily-report-approval-toast', false)
+            ->assertSee('Laporan sudah diverifikasi oleh Kepala Bagian.')
+            ->assertSee('sudah disetujui dan hanya dapat dilihat.');
 
         $this->actingAs($pegawaiUser)
             ->get(route('pegawai.profile.index'))
@@ -106,5 +126,9 @@ class PegawaiNotificationTest extends TestCase
             ->assertRedirect($notification->url);
 
         $this->assertNotNull($notification->fresh()->dibaca_pada);
+
+        $this->get(route('pegawai.profile.index'))
+            ->assertOk()
+            ->assertSee('Sudah dilihat');
     }
 }

@@ -266,6 +266,9 @@
                                     <strong>{{ $notification->judul }}</strong>
                                     <span>{{ $notification->pesan }}</span>
                                     <small>{{ $notification->created_at->translatedFormat('d M Y, H:i') }}</small>
+                                    <small class="pegawai-notification-item-read-status">
+                                        {{ $notification->dibaca_pada ? 'Sudah dilihat' : 'Belum dilihat' }}
+                                    </small>
                                 </span>
 
                                 @if (!$notification->dibaca_pada)

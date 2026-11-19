@@ -434,6 +434,10 @@ body.pegawai-notification-open {
     font-size: 11px;
 }
 
+.pegawai-notification-item-read-status {
+    font-weight: 600;
+}
+
 .pegawai-notification-item-unread {
     flex: 0 0 9px;
     width: 9px;

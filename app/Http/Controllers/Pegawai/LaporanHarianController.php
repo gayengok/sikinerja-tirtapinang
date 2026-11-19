@@ -154,11 +154,8 @@ class LaporanHarianController extends Controller
             return redirect()->route('atasan.dashboard');
         }
 
-        $laporan->load(['details.templateLaporan', 'penyetuju']);
-
-        return view('pegawai.laporan-harian.show', [
-            'laporan' => $laporan,
-            'routePrefix' => $this->routePrefix($request),
+        return redirect()->route('pegawai.laporan-harian.create', [
+            'tanggal' => $laporan->tanggal->toDateString(),
         ]);
     }
 

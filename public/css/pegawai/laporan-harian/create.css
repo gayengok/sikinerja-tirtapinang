@@ -409,6 +409,30 @@ body.role-atasan .daily-report-status-notice {
     line-height: 1.5;
 }
 
+.daily-report-approval-toast {
+    gap: 8px;
+    padding: 16px 20px;
+    border-radius: 14px;
+    color: #164b37;
+}
+
+.daily-report-approval-toast > div {
+    line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+    .daily-report-approval-toast {
+        align-items: flex-start !important;
+        padding: 14px;
+        font-size: 0.9rem;
+    }
+
+    .daily-report-approval-toast .btn-close {
+        flex: 0 0 auto;
+        margin-top: 2px;
+    }
+}
+
 body.role-atasan .daily-report-status-notice > i {
     margin-top: 2px;
     color: #078ac8;

@@ -25,10 +25,22 @@
             </a>
         </nav>
 
+        @if ($laporanHariIni && in_array($laporanHariIni->status, ['disetujui', 'diverifikasi'], true))
+            <div class="alert alert-success alert-dismissible fade show shadow-sm border-0 d-flex align-items-center mb-3 daily-report-approval-toast"
+                role="status">
+                <i class="fa-solid fa-circle-check me-2 fs-5 text-success"></i>
+                <div>
+                    Laporan sudah diverifikasi oleh Kepala Bagian. Laporan ini sudah disetujui dan hanya dapat dilihat.
+                </div>
+                <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert"
+                    aria-label="Tutup pemberitahuan"></button>
+            </div>
+        @endif
+
         @if (session('error'))
             <div class="alert alert-danger daily-report-alert">{{ session('error') }}</div>
         @endif
-        @if ($laporanHariIni)
+        @if ($laporanHariIni && !in_array($laporanHariIni->status, ['disetujui', 'diverifikasi'], true))
             <div class="daily-report-status-notice" role="status">
                 <i class="fa-solid {{ $laporanHariIni->status === 'diajukan' ? 'fa-clock' : ($laporanHariIni->status === 'disetujui' ? 'fa-circle-check' : 'fa-circle-exclamation') }}"
                     aria-hidden="true"></i>
@@ -52,8 +64,6 @@
         @if (!$isHariIni && !$laporanHariIni)
             <div class="daily-report-status-notice">Belum ada laporan pada tanggal ini. Hanya laporan hari ini yang dapat
                 dibuat.</div>
-        @elseif ($laporanHariIni && !$bolehEdit)
-            <div class="daily-report-status-notice">Laporan ini sudah disetujui dan hanya dapat dilihat.</div>
         @endif
         <form
             action="{{ $laporanHariIni ? route($routePrefix . '.laporan-harian.update', $laporanHariIni) : route($routePrefix . '.laporan-harian.store') }}"

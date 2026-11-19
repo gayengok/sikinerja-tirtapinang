@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="pegawai-page daily-report-form-page">
-        <div class="daily-report-breadcrumb"><a href="{{ route($routePrefix . '.laporan-harian.show', $laporan) }}"><i class="fa-solid fa-chevron-left"></i> Detail Laporan</a> <span>/ Edit Laporan</span></div>
+        <div class="daily-report-breadcrumb"><a href="{{ route($routePrefix . '.laporan-harian.create', ['tanggal' => $laporan->tanggal->toDateString()]) }}"><i class="fa-solid fa-chevron-left"></i> Kembali ke Laporan</a> <span>/ Edit Laporan</span></div>
         <div class="daily-report-banner">
             <span>EDIT LAPORAN <i>â€¢</i> {{ auth()->user()->pegawai->jabatan->divisi->nama_divisi ?? 'Laporan Pegawai' }}</span>
             <h1>Edit Laporan Harian</h1>
@@ -75,7 +75,7 @@
                     @endforeach
                 </div>
                 <div class="daily-report-submit-bar">
-                    <a href="{{ route($routePrefix . '.laporan-harian.show', $laporan) }}">Batal</a>
+                    <a href="{{ route($routePrefix . '.laporan-harian.create', ['tanggal' => $laporan->tanggal->toDateString()]) }}">Batal</a>
                     <button type="submit"><i class="fa-solid fa-floppy-disk"></i> Perbarui Laporan</button>
                 </div>
             </section>

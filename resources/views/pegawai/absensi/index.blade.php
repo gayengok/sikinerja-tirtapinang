@@ -754,7 +754,7 @@
                     locationTitle.textContent = 'LOKASI VALID DI DALAM AREA KANTOR';
                 }
 
-                const accuracyText = `Akurasi GPS ±${Math.round(accuracy)} meter.`;
+                const accuracyText = `Akurasi lokasi ±${Math.round(accuracy)} meter.`;
 
                 if (valid) {
                     lastPosition = position;
@@ -769,15 +769,13 @@
                 } else {
                     clearLocation();
 
-                    setGpsStatus(
-                        `${accuracyText} ${
-                            !inside
-                                ? 'Posisi berada di luar polygon.'
-                                : !accurate
-                                    ? 'Menunggu GPS lebih akurat.'
-                                    : 'Menunggu koordinat terbaru.'
-                        }`
-                    );
+                    const locationIssue = !inside
+                        ? 'Titik di luar area kantor. Periksa Layanan lokasi Windows dan Wi-Fi di laptop, lalu klik Cari Ulang.'
+                        : !accurate
+                            ? 'Akurasi lebih dari 25 meter. Periksa izin lokasi Windows/browser dan Wi-Fi.'
+                            : 'Menunggu koordinat terbaru.';
+
+                    setGpsStatus(`${accuracyText} ${locationIssue}`);
                 }
             };
 
@@ -834,7 +832,7 @@
 
                         const messages = {
                             1: 'Izin lokasi ditolak. Aktifkan izin lokasi akurat untuk browser.',
-                            2: 'Lokasi tidak tersedia. Pastikan layanan lokasi HP aktif.',
+                            2: 'Lokasi tidak tersedia. Pastikan layanan lokasi perangkat dan Wi-Fi aktif.',
                             3: 'GPS belum mendapat posisi. Sistem tetap mencoba membaca lokasi.'
                         };
 
@@ -876,7 +874,8 @@
                 ) {
                     setGpsStatus(
                         'GPS masih mencari lokasi yang memenuhi syarat. ' +
-                        'Coba bergerak ke area terbuka jika diperlukan.'
+                        'Di laptop, aktifkan Layanan lokasi Windows dan Wi-Fi. ' +
+                        'Laptop tanpa GPS fisik mungkin tetap kurang akurat.'
                     );
                 }
             }, 1000);

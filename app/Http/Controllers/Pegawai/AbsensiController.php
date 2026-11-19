@@ -118,7 +118,7 @@ class AbsensiController extends Controller
                 'max:5120',
             ],
         ], [
-            'accuracy.max' => 'Akurasi GPS belum cukup baik. Pastikan lokasi perangkat aktif.',
+            'accuracy.max' => 'Akurasi lokasi melebihi 25 meter. Aktifkan Layanan lokasi dan Wi-Fi; laptop tanpa GPS fisik mungkin tetap kurang akurat.',
             'latitude.required' => 'Lokasi GPS belum tersedia.',
             'longitude.required' => 'Lokasi GPS belum tersedia.',
             'foto.required' => 'Foto presensi wajib diambil.',
@@ -130,7 +130,7 @@ class AbsensiController extends Controller
         if (!$this->isInsideGeofence($latitude, $longitude)) {
             return back()->with(
                 'error',
-                'Presensi ditolak. Lokasi GPS Anda berada di luar polygon area kantor.'
+                'Presensi ditolak. Lokasi berada di luar area kantor. Jika menggunakan laptop, periksa Layanan lokasi Windows dan Wi-Fi; jangan kirim presensi sampai titik lokasi valid.'
             );
         }
 

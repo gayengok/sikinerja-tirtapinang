@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Absensi;
 use App\Models\Divisi;
 use App\Models\Jabatan;
 use App\Models\Pegawai;
@@ -151,15 +152,14 @@ class AbsensiOutsideOfficeTest extends TestCase
                 ->assertOk()
                 ->assertSee('Presensi Atasan')
                 ->assertSee(route('atasan.absensi-saya.store'), false)
-                ->assertSee('manual-atasan-page', false)
+                ->assertDontSee('manual-atasan-page', false)
                 ->assertSee('desktop-atasan-attendance', false)
                 ->assertSee('Waktu Sistem Server')
                 ->assertSee('Validasi Geolokasi GPS')
                 ->assertSee('Foto Absensi')
                 ->assertSee('manual-attendance-layout', false)
-                ->assertSee('Tanggal Absensi')
-                ->assertSee('manual-calendar-card', false)
-                ->assertSee('aria-current="date"', false);
+                ->assertDontSee('Tanggal Absensi')
+                ->assertDontSee('manual-calendar-card', false);
 
             $this->actingAs($user)
                 ->post(route('atasan.absensi-saya.store'), $this->attendancePayload('masuk'))
@@ -201,6 +201,51 @@ class AbsensiOutsideOfficeTest extends TestCase
         } finally {
             Carbon::setTestNow();
         }
+    }
+
+    public function test_atasan_attendance_uses_atasan_navigation_without_pegawai_items(): void
+    {
+        [$user] = $this->createAtasan();
+
+        $this->actingAs($user)
+            ->get(route('atasan.absensi-saya.index'))
+            ->assertOk()
+            ->assertSee('class="navbar navbar-sikinerja navbar-expand"', false)
+            ->assertSee('id="sidebar"', false)
+            ->assertSee('mobile-bottom-nav', false)
+            ->assertSee('attendance-dashboard-page', false)
+            ->assertDontSee('manual-atasan-page', false)
+            ->assertSee(route('atasan.dashboard'), false)
+            ->assertSee(route('atasan.laporan.index'), false)
+            ->assertSee(route('atasan.absensi.index'), false)
+            ->assertSee(route('atasan.pegawai.index'), false)
+            ->assertSee(route('atasan.hasil-penilaian.index'), false)
+            ->assertDontSee('pegawai-navigation', false)
+            ->assertDontSee(route('pegawai.dashboard'), false)
+            ->assertDontSee(route('pegawai.laporan-harian.create'), false)
+            ->assertDontSee('id="pegawaiProfileTrigger"', false)
+            ->assertDontSee('id="pegawaiNotificationTrigger"', false)
+            ->assertDontSee('manual-calendar-card', false);
+    }
+
+    public function test_atasan_dashboard_marks_both_attendance_records_with_red_state(): void
+    {
+        [$user, $pegawai] = $this->createAtasan();
+        Absensi::create([
+            'pegawai_id' => $pegawai->id,
+            'tanggal' => now()->toDateString(),
+            'status' => 'hadir',
+            'jam_masuk' => '08:00:00',
+            'jam_pulang' => '16:00:00',
+        ]);
+
+        $this->actingAs($user)
+            ->get(route('atasan.dashboard'))
+            ->assertOk()
+            ->assertSee('is-attendance-complete', false)
+            ->assertSee('Sudah Absensi')
+            ->assertSee('Presensi masuk dan pulang hari ini sudah tercatat.')
+            ->assertDontSee('Isi Absensi');
     }
 
     private function attendancePayload(string $jenisPresensi): array

@@ -4,7 +4,7 @@
 @section('title', 'Dashboard Atasan')
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/atasan/dashboard.css') }}?v=20261119-5">
+<link rel="stylesheet" href="{{ asset('css/atasan/dashboard.css') }}?v=20261119-7">
 @endpush
 
 @section('content')
@@ -25,6 +25,45 @@
         : (\Illuminate\Support\Facades\Route::has('atasan.laporan-saya.create')
             ? route('atasan.laporan-saya.create')
             : null);
+
+    $statusLaporanAtasan = $laporanAtasanHariIni?->status;
+    $laporanAtasanLabel = match ($statusLaporanAtasan) {
+        'draft' => 'Lanjutkan Laporan',
+        'diajukan' => 'Laporan Terkirim',
+        'disetujui' => 'Sudah Disetujui',
+        'ditolak' => 'Perbaiki Laporan',
+        default => 'Buat Laporan',
+    };
+    $laporanAtasanDescription = match ($statusLaporanAtasan) {
+        'draft' => 'Draf laporan belum dikirim. Lanjutkan pengisian untuk mengajukannya.',
+        'diajukan' => 'Laporan sudah dikirim dan sedang menunggu verifikasi Kepala Bagian.',
+        'disetujui' => 'Laporan sudah diverifikasi dan disetujui Kepala Bagian.',
+        'ditolak' => 'Laporan perlu diperbaiki sebelum dikirim kembali ke Kepala Bagian.',
+        default => 'Isi dan ajukan laporan kegiatan Anda untuk diverifikasi Kepala Bagian.',
+    };
+    $laporanAtasanActionClass = match ($statusLaporanAtasan) {
+        'diajukan', 'disetujui' => 'is-report-submitted',
+        'ditolak' => 'is-report-rejected',
+        default => '',
+    };
+
+    if (
+        in_array($statusLaporanAtasan, ['draft', 'ditolak'], true)
+        && \Illuminate\Support\Facades\Route::has('atasan.laporan-harian.edit')
+    ) {
+        $routeLaporan = route('atasan.laporan-harian.edit', $laporanAtasanHariIni);
+    }
+
+    $presensiAtasanSelesai = filled($presensiAtasanHariIni?->jam_masuk)
+        && filled($presensiAtasanHariIni?->jam_pulang);
+    $presensiAtasanLabel = $presensiAtasanSelesai
+        ? 'Sudah Absensi'
+        : (filled($presensiAtasanHariIni?->jam_masuk) ? 'Isi Absensi Pulang' : 'Isi Absensi');
+    $presensiAtasanDescription = $presensiAtasanSelesai
+        ? 'Presensi masuk dan pulang hari ini sudah tercatat.'
+        : (filled($presensiAtasanHariIni?->jam_masuk)
+            ? 'Presensi masuk tercatat. Lengkapi dengan presensi pulang.'
+            : 'Catat kehadiran Anda dengan verifikasi lokasi dan foto.');
 
     $routeAbsensi = \Illuminate\Support\Facades\Route::has('atasan.absensi-saya.index')
         ? route('atasan.absensi-saya.index')
@@ -104,36 +143,36 @@
 
             <div class="atasan-hero-action-grid">
                 @if($routeLaporan)
-                    <a href="{{ $routeLaporan }}" class="atasan-hero-action">
+                    <a href="{{ $routeLaporan }}" class="atasan-hero-action {{ $laporanAtasanActionClass }}">
                         <span class="atasan-hero-action-icon">
-                            <i class="fa-solid fa-clipboard-question"></i>
+                            <i class="fa-solid {{ $statusLaporanAtasan === 'disetujui' ? 'fa-clipboard-check' : 'fa-clipboard-question' }}"></i>
                         </span>
 
                         <span class="atasan-hero-action-copy">
                             <strong>Laporan Harian ke Kepala Bagian</strong>
-                            <small>Isi dan ajukan laporan kegiatan Anda untuk diverifikasi Kepala Bagian.</small>
+                            <small>{{ $laporanAtasanDescription }}</small>
                         </span>
 
                         <span class="atasan-hero-action-button">
-                            Buat Laporan
+                            {{ $laporanAtasanLabel }}
                             <i class="fa-solid fa-arrow-right"></i>
                         </span>
                     </a>
                 @endif
 
                 @if($routeAbsensi)
-                    <a href="{{ $routeAbsensi }}" class="atasan-hero-action">
+                    <a href="{{ $routeAbsensi }}" class="atasan-hero-action {{ $presensiAtasanSelesai ? 'is-attendance-complete' : '' }}">
                         <span class="atasan-hero-action-icon">
                             <i class="fa-regular fa-calendar-check"></i>
                         </span>
 
                         <span class="atasan-hero-action-copy">
                             <strong>Presensi Atasan</strong>
-                            <small>Catat kehadiran Anda dengan verifikasi lokasi dan foto.</small>
+                            <small>{{ $presensiAtasanDescription }}</small>
                         </span>
 
                         <span class="atasan-hero-action-button">
-                            Isi Absensi
+                            {{ $presensiAtasanLabel }}
                             <i class="fa-solid fa-arrow-right"></i>
                         </span>
                     </a>

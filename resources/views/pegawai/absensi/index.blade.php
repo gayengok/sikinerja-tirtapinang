@@ -1,4 +1,4 @@
-@extends('layouts.apps')
+@extends($attendanceRoute === 'atasan.absensi-saya' ? 'layouts.app' : 'layouts.apps')
 
 @section('title', $attendanceRoute === 'atasan.absensi-saya' ? 'Presensi Atasan' : 'Presensi Pegawai')
 
@@ -8,7 +8,7 @@
 @endpush
 
 @section('content')
-    <div class="manual-page attendance-dashboard-page {{ $attendanceRoute === 'atasan.absensi-saya' ? 'manual-atasan-page' : '' }}">
+    <div class="manual-page attendance-dashboard-page">
         @php($attendanceLocked = $cutiHariIni || $hariLiburHariIni !== null)
         @php($jenisPresensiAwal = old('jenis_presensi', $absensiMasukHariIni && !$absensiPulangHariIni ? 'pulang' : 'masuk'))
 
@@ -306,11 +306,6 @@
                                 </div>
                             </section>
                             </div>
-                            @if ($attendanceRoute === 'atasan.absensi-saya')
-                                <div class="attendance-calendar-column">
-                                    @include('pegawai.absensi.partials.attendance-calendar')
-                                </div>
-                            @endif
                         </div>
                     </div>
                 </form>

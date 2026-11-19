@@ -77,8 +77,9 @@ class AtasanLaporanHarianTest extends TestCase
             ->assertOk()
             ->assertSee(route('atasan.laporan-harian.create'), false)
             ->assertDontSee(route('atasan.laporan-harian.show', $laporan), false)
-            ->assertSee('is-completed', false)
-            ->assertSee('Sudah Isi Laporan')
+            ->assertSee('is-report-submitted', false)
+            ->assertSee('Laporan Terkirim')
+            ->assertSee('Laporan sudah dikirim dan sedang menunggu verifikasi Kepala Bagian.')
             ->assertDontSee('Buat Laporan');
 
         $this->get(route('atasan.laporan-harian.show', $laporan))
@@ -104,6 +105,55 @@ class AtasanLaporanHarianTest extends TestCase
 
         $this->get(route('atasan.laporan-harian.index'))
             ->assertRedirect(route('atasan.laporan-harian.create'));
+    }
+
+    public function test_dashboard_marks_a_submitted_report_as_sent(): void
+    {
+        [$atasanUser] = $this->createAtasan();
+        LaporanHarian::create([
+            'pegawai_id' => $atasanUser->pegawai->id,
+            'tanggal' => now()->toDateString(),
+            'catatan' => 'Laporan kegiatan sudah dikirim.',
+            'status' => 'diajukan',
+        ]);
+
+        $this->actingAs($atasanUser)
+            ->get(route('atasan.dashboard'))
+            ->assertOk()
+            ->assertSee('is-report-submitted', false)
+            ->assertSee('Laporan Terkirim')
+            ->assertSee('Laporan sudah dikirim dan sedang menunggu verifikasi Kepala Bagian.')
+            ->assertDontSee('Buat Laporan');
+    }
+
+    public function test_atasan_report_detail_does_not_show_the_back_to_list_button(): void
+    {
+        [$atasanUser, $jabatan] = $this->createAtasan();
+        $pegawaiUser = User::create([
+            'name' => 'Pegawai Bawahan',
+            'email' => 'pegawai.bawahan.report@example.test',
+            'password' => bcrypt('password'),
+            'role' => 'pegawai',
+        ]);
+        $pegawai = Pegawai::create([
+            'user_id' => $pegawaiUser->id,
+            'nama' => 'Pegawai Bawahan',
+            'jabatan_id' => $jabatan->id,
+            'atasan_id' => $atasanUser->pegawai->id,
+            'status' => 'aktif',
+        ]);
+        $laporan = LaporanHarian::create([
+            'pegawai_id' => $pegawai->id,
+            'tanggal' => now()->toDateString(),
+            'catatan' => 'Laporan pekerjaan untuk pemeriksaan.',
+            'status' => 'diajukan',
+        ]);
+
+        $this->actingAs($atasanUser)
+            ->get(route('atasan.laporan.show', $laporan))
+            ->assertOk()
+            ->assertDontSee('report-back-button', false)
+            ->assertDontSee('Kembali ke Daftar Laporan');
     }
 
     public function test_atasan_dashboard_shows_count_of_unconfirmed_subordinate_reports(): void

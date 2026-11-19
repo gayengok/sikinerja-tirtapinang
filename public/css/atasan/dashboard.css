@@ -221,6 +221,60 @@
     transform: translateY(-2px);
 }
 
+.atasan-hero-action.is-report-submitted {
+    border-color: rgba(252, 165, 165, 0.65);
+    background: rgba(239, 68, 68, 0.2);
+}
+
+.atasan-hero-action.is-report-submitted:hover {
+    background: rgba(239, 68, 68, 0.3);
+}
+
+.atasan-hero-action.is-report-submitted .atasan-hero-action-icon {
+    background: rgba(248, 113, 113, 0.35);
+}
+
+.atasan-hero-action.is-report-submitted .atasan-hero-action-button {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.atasan-hero-action.is-report-rejected {
+    border-color: rgba(253, 230, 138, 0.65);
+    background: rgba(245, 158, 11, 0.18);
+}
+
+.atasan-hero-action.is-report-rejected:hover {
+    background: rgba(245, 158, 11, 0.28);
+}
+
+.atasan-hero-action.is-report-rejected .atasan-hero-action-icon {
+    background: rgba(251, 191, 36, 0.3);
+}
+
+.atasan-hero-action.is-report-rejected .atasan-hero-action-button {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.atasan-hero-action.is-attendance-complete {
+    border-color: rgba(252, 165, 165, 0.65);
+    background: rgba(239, 68, 68, 0.2);
+}
+
+.atasan-hero-action.is-attendance-complete:hover {
+    background: rgba(239, 68, 68, 0.3);
+}
+
+.atasan-hero-action.is-attendance-complete .atasan-hero-action-icon {
+    background: rgba(248, 113, 113, 0.35);
+}
+
+.atasan-hero-action.is-attendance-complete .atasan-hero-action-button {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
 .atasan-hero-action-copy {
     display: flex;
     flex-direction: column;

@@ -72,7 +72,9 @@
         @if ($laporanHarian->status === 'diajukan')
             <section class="report-action-card" id="reject"><div class="report-card-heading"><span class="report-card-icon"><i class="fa-solid fa-clipboard-check"></i></span><div><h2>Tindakan Approval</h2><p>Pastikan laporan sudah diperiksa sebelum memberikan keputusan.</p></div></div><div class="report-action-layout"><div class="report-approve-panel"><h3>Setujui laporan</h3><p>Setujui apabila informasi dan hasil kegiatan sudah sesuai.</p><form action="{{ route($routePrefix . '.laporan.approve', $laporanHarian) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menyetujui laporan ini?');">@csrf<button class="report-approve-button" type="submit"><i class="fa-solid fa-check"></i> Setujui Laporan</button></form></div><div class="report-reject-panel"><h3>Tolak laporan</h3><p>Berikan alasan agar pegawai mengetahui bagian yang perlu diperbaiki.</p><form action="{{ route($routePrefix . '.laporan.reject', $laporanHarian) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menolak laporan ini?');">@csrf<label for="alasan_penolakan">Alasan Penolakan <span>*</span></label><textarea id="alasan_penolakan" name="alasan_penolakan" rows="3" maxlength="500" required placeholder="Jelaskan alasan penolakan...">{{ old('alasan_penolakan') }}</textarea>@error('alasan_penolakan')<small class="report-field-error">{{ $message }}</small>@enderror<button class="report-reject-button" type="submit"><i class="fa-solid fa-xmark"></i> Tolak Laporan</button></form></div></div></section>
         @endif
-        <a class="report-back-button" href="{{ route($routePrefix . '.laporan.index') }}"><i class="fa-solid fa-arrow-left"></i> Kembali ke Daftar Laporan</a>
+        @if ($routePrefix !== 'atasan')
+            <a class="report-back-button" href="{{ route($routePrefix . '.laporan.index') }}"><i class="fa-solid fa-arrow-left"></i> Kembali ke Daftar Laporan</a>
+        @endif
     </div>
 @endsection
 

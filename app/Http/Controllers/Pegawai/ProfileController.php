@@ -153,7 +153,7 @@ class ProfileController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Foto profil berhasil disimpan.',
-            'foto_url' => $disk->url($fotoBaru),
+            'foto_url' => '/storage/' . $fotoBaru,
         ]);
     }
 

@@ -3,7 +3,7 @@
 @section('title', 'Buat Laporan Harian')
 
 @section('content')
-    <div class="pegawai-page daily-report-form-page" @class(['is-report-readonly' => ! $bolehEdit])>
+    <div class="pegawai-page daily-report-form-page" @class(['is-report-readonly' => !$bolehEdit])>
 
         <div class="daily-report-banner">
             <span><i class="fa-solid fa-circle" aria-hidden="true"></i> INPUT HARIAN <b aria-hidden="true">·</b>
@@ -34,7 +34,8 @@
                     aria-hidden="true"></i>
                 <span>
                     @if ($laporanHariIni->status === 'diajukan')
-                        Laporan sudah dikirim dan menunggu persetujuan atasan. Data masih dapat diperbarui sebelum disetujui.
+                        Laporan sudah dikirim dan menunggu persetujuan atasan. Data masih dapat diperbarui sebelum
+                        disetujui.
                     @elseif (in_array($laporanHariIni->status, ['disetujui', 'diverifikasi']))
                         Laporan sudah diverifikasi oleh Kepala Bagian.
                     @elseif ($laporanHariIni->status === 'ditolak')
@@ -48,12 +49,15 @@
         @if (session('success'))
             <div class="alert alert-success daily-report-alert">{{ session('success') }}</div>
         @endif
-        @if (! $isHariIni && ! $laporanHariIni)
-            <div class="daily-report-status-notice">Belum ada laporan pada tanggal ini. Hanya laporan hari ini yang dapat dibuat.</div>
-        @elseif ($laporanHariIni && ! $bolehEdit)
+        @if (!$isHariIni && !$laporanHariIni)
+            <div class="daily-report-status-notice">Belum ada laporan pada tanggal ini. Hanya laporan hari ini yang dapat
+                dibuat.</div>
+        @elseif ($laporanHariIni && !$bolehEdit)
             <div class="daily-report-status-notice">Laporan ini sudah disetujui dan hanya dapat dilihat.</div>
         @endif
-        <form action="{{ $laporanHariIni ? route($routePrefix . '.laporan-harian.update', $laporanHariIni) : route($routePrefix . '.laporan-harian.store') }}" method="POST" enctype="multipart/form-data">
+        <form
+            action="{{ $laporanHariIni ? route($routePrefix . '.laporan-harian.update', $laporanHariIni) : route($routePrefix . '.laporan-harian.store') }}"
+            method="POST" enctype="multipart/form-data">
             @csrf
             @if ($laporanHariIni)
                 @method('PUT')
@@ -67,11 +71,11 @@
                     <div class="report-calendar" data-calendar data-readonly="false"
                         data-reports='@json($laporanTanggal)'>
                         <div class="report-calendar-toolbar">
-                            <button type="button" data-calendar-prev aria-label="Bulan sebelumnya"
-                               ><i class="fa-solid fa-chevron-left"></i></button>
+                            <button type="button" data-calendar-prev aria-label="Bulan sebelumnya"><i
+                                    class="fa-solid fa-chevron-left"></i></button>
                             <strong data-calendar-label></strong>
-                            <button type="button" data-calendar-next aria-label="Bulan berikutnya"
-                               ><i class="fa-solid fa-chevron-right"></i></button>
+                            <button type="button" data-calendar-next aria-label="Bulan berikutnya"><i
+                                    class="fa-solid fa-chevron-right"></i></button>
                         </div>
                         <div class="report-calendar-weekdays" aria-hidden="true">
                             <span>Sen</span><span>Sel</span><span>Rab</span><span>Kam</span><span>Jum</span><span>Sab</span><span>Min</span>
@@ -105,7 +109,7 @@
                     <label for="catatan">Catatan & Uraian Aktivitas</label>
                     <textarea name="catatan" id="catatan" rows="4" maxlength="1000"
                         placeholder="Jelaskan ringkas kegiatan lapangan, kendala jaringan, atau progres tugas hari ini..."
-                        @readonly(! $bolehEdit)>{{ old('catatan', $laporanHariIni?->catatan) }}</textarea>
+                        @readonly(!$bolehEdit)>{{ old('catatan', $laporanHariIni?->catatan) }}</textarea>
                     <small>Contoh: Pemeriksaan debit air sambungan blok B. <em>0/1000 karakter</em></small>
                     @error('catatan')
                         <div class="text-danger small">{{ $message }}</div>
@@ -117,12 +121,14 @@
                 <div class="daily-report-field daily-report-evidence-field">
                     <label for="bukti_gambar">Bukti Kegiatan <span>(Opsional)</span></label>
                     <input type="file" name="bukti_gambar" id="bukti_gambar" accept="image/jpeg,image/png,image/webp"
-                        class="@error('bukti_gambar') is-invalid @enderror" @disabled(! $bolehEdit)>
+                        class="@error('bukti_gambar') is-invalid @enderror" @disabled(!$bolehEdit)>
                     @if ($laporanHariIni?->bukti_gambar)
                         <small>Bukti kegiatan tersimpan:</small>
-                        <a href="{{ route($routePrefix . '.laporan-harian.image', $laporanHariIni) }}" target="_blank" rel="noopener">
+                        <a href="{{ route($routePrefix . '.laporan-harian.image', $laporanHariIni) }}" target="_blank"
+                            rel="noopener">
                             <img src="{{ route($routePrefix . '.laporan-harian.image', $laporanHariIni) }}"
-                                alt="Bukti kegiatan" style="display:block;max-width:100%;max-height:180px;border-radius:10px;object-fit:contain;margin-top:8px;">
+                                alt="Bukti kegiatan"
+                                style="display:block;max-width:100%;max-height:180px;border-radius:10px;object-fit:contain;margin-top:8px;">
                         </a>
                     @else
                         <small><i class="fa-regular fa-image"></i> Upload JPG, PNG, atau WEBP maksimal 5 MB.</small>
@@ -143,11 +149,13 @@
                 <span class="daily-report-holiday-badge">Hari Libur</span>
             </div>
 
-            <div data-report-fields @if ($hariLiburTerpilih || (! $isHariIni && ! $laporanHariIni)) hidden @endif>
+            <div data-report-fields @if ($hariLiburTerpilih || (!$isHariIni && !$laporanHariIni)) hidden @endif>
                 <section class="daily-report-form-card" id="laporan-realisasi">
                     <div class="daily-report-card-title"><i class="fa-solid fa-chart-simple"></i><strong>Realisasi Laporan
                             Harian</strong><span>{{ $templateLaporans->count() }} indikator</span></div>
-                    <p class="daily-report-hint">{{ $bolehEdit ? 'Isi atau perbarui realisasi pekerjaan sebelum laporan disetujui.' : 'Realisasi pekerjaan tersimpan (hanya baca).' }}</p>
+                    <p class="daily-report-hint">
+                        {{ $bolehEdit ? 'Isi atau perbarui realisasi pekerjaan sebelum laporan disetujui.' : 'Realisasi pekerjaan tersimpan (hanya baca).' }}
+                    </p>
                     @if ($templateLaporans->isEmpty())
                         <div class="alert alert-warning">Belum ada template laporan untuk divisi Anda. Hubungi Master untuk
                             mengaturnya.</div>
@@ -161,7 +169,7 @@
                                     @if ($template->tipe_field === 'dropdown')
                                         <select name="detail[{{ $index }}][nilai]"
                                             class="@error('detail.' . $index . '.nilai') is-invalid @enderror"
-                                            @disabled(! $bolehEdit)>
+                                            @disabled(!$bolehEdit)>
                                             <option value="">-- Pilih --</option>
                                             @foreach ($template->options as $option)
                                                 <option value="{{ $option->label }}"
@@ -174,7 +182,7 @@
                                             {{ $template->tipe_field === 'angka' ? 'step=0.01' : '' }}
                                             name="detail[{{ $index }}][nilai]"
                                             value="{{ old('detail.' . $index . '.nilai', $nilaiTersimpan->get($template->id)?->nilai) }}"
-                                            placeholder="Masukkan nilai" @readonly(! $bolehEdit)
+                                            placeholder="Masukkan nilai" @readonly(!$bolehEdit)
                                             class="@error('detail.' . $index . '.nilai') is-invalid @enderror">
                                     @endif
                                     <input type="hidden" name="detail[{{ $index }}][master_template_laporan_id]"
@@ -187,7 +195,7 @@
                         </div>
                     @endif
                 </section>
-                @if ($bolehEdit && $templateLaporans->isNotEmpty() && ! $hariLiburTerpilih)
+                @if ($bolehEdit && $templateLaporans->isNotEmpty() && !$hariLiburTerpilih)
                     <div class="daily-report-submit-bar">
                         <button type="submit"><i class="fa-solid fa-floppy-disk"></i>
                             {{ $laporanHariIni ? 'Perbarui Laporan Harian' : 'Kirim Laporan Harian' }}

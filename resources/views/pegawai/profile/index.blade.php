@@ -31,7 +31,7 @@
         }
 
         $fotoProfil = $pegawai->foto_profil
-            ? \Illuminate\Support\Facades\Storage::disk('public')->url($pegawai->foto_profil)
+            ? '/storage/' . $pegawai->foto_profil
             : null;
     @endphp
 

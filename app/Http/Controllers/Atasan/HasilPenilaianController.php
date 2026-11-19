@@ -13,13 +13,25 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class HasilPenilaianController extends Controller
 {
+
     public function index(Request $request, HasilPenilaianService $hasilPenilaianService)
     {
         $atasan = $request->user()->pegawai;
 
         abort_if(! $atasan, 403, 'Data pegawai untuk akun Anda tidak ditemukan.');
 
+        $validated = $request->validate([
+            'search' => ['nullable', 'string', 'max:150'],
+            'predikat' => ['nullable', 'in:semua,sangat_baik,baik,perbaikan'],
+            'periode_id' => ['nullable', 'integer', 'exists:periode_penilaians,id'],
+            'page' => ['nullable', 'integer', 'min:1'],
+        ]);
+
+        $search = trim($validated['search'] ?? '');
+        $filterPredikat = $validated['predikat'] ?? 'semua';
+
         $periode = $this->resolvePeriode($request);
+
         $periodeOptions = PeriodePenilaian::query()
             ->orderByDesc('tanggal_mulai')
             ->orderByDesc('id')
@@ -36,10 +48,15 @@ class HasilPenilaianController extends Controller
             }
         }
 
-        $hasilByPegawai = HasilPenilaian::whereIn('pegawai_id', $bawahan->pluck('id'))
-            ->when($periode, fn($q) => $q->where('periode_id', $periode->id))
+        // Hasil penilaian hanya dari periode yang dipilih.
+        // Jika belum ada periode, jangan mengambil data lintas periode.
+        $hasilByPegawai = $periode
+            ? HasilPenilaian::query()
+            ->whereIn('pegawai_id', $bawahan->pluck('id'))
+            ->where('periode_id', $periode->id)
             ->get()
-            ->keyBy('pegawai_id');
+            ->keyBy('pegawai_id')
+            : collect();
 
         $hasilTim = $bawahan
             ->map(function (Pegawai $pegawaiBawahan) use ($hasilByPegawai) {
@@ -48,47 +65,128 @@ class HasilPenilaianController extends Controller
 
                 return $hasil->setRelation('pegawai', $pegawaiBawahan);
             })
-            ->sortByDesc(fn(HasilPenilaian $hasil) => $hasil->created_at?->getTimestamp() ?? 0)
+            ->sortBy(fn(HasilPenilaian $hasil) => mb_strtolower($hasil->pegawai->nama))
             ->values();
 
-        $bulanAkhirTren = now()->startOfMonth();
+        // Statistik dihitung dari seluruh pegawai, bukan halaman pagination.
+        $hasilDinilai = $hasilTim->filter(
+            fn(HasilPenilaian $hasil) =>
+            $hasil->exists && $hasil->nilai_akhir !== null
+        );
+
+        $totalPegawai = $hasilTim->count();
+        $selesai = $hasilDinilai->count();
+
+        $avg = $hasilDinilai->avg('nilai_akhir');
+        $avgTukin = $hasilDinilai->avg('tukin_bruto');
+
+        $tuntasPercent = $totalPegawai > 0
+            ? round(($selesai / $totalPegawai) * 100)
+            : 0;
+
+        $jumlahPredikat = [
+            'semua' => $totalPegawai,
+            'sangat_baik' => $hasilTim->where('predikat', 'Sangat Baik')->count(),
+            'baik' => $hasilTim->where('predikat', 'Baik')->count(),
+            'perbaikan' => $hasilTim->filter(
+                fn($hasil) => in_array(
+                    $hasil->predikat,
+                    ['Cukup', 'Kurang', 'Perlu Perbaikan'],
+                    true
+                )
+            )->count(),
+        ];
+
+        // Filter hanya memengaruhi daftar pegawai.
+        $hasilFiltered = $hasilTim
+            ->filter(function (HasilPenilaian $hasil) use ($search, $filterPredikat) {
+                $nama = mb_strtolower($hasil->pegawai->nama ?? '');
+                $jabatan = mb_strtolower(
+                    $hasil->pegawai->jabatan->nama_jabatan ?? ''
+                );
+                $predikat = mb_strtolower($hasil->predikat ?? 'Belum dinilai');
+
+                $cocokSearch = $search === ''
+                    || str_contains($nama, mb_strtolower($search))
+                    || str_contains($jabatan, mb_strtolower($search))
+                    || str_contains($predikat, mb_strtolower($search));
+
+                $cocokPredikat = match ($filterPredikat) {
+                    'sangat_baik' => $hasil->predikat === 'Sangat Baik',
+                    'baik' => $hasil->predikat === 'Baik',
+                    'perbaikan' => in_array(
+                        $hasil->predikat,
+                        ['Cukup', 'Kurang', 'Perlu Perbaikan'],
+                        true
+                    ),
+                    default => true,
+                };
+
+                return $cocokSearch && $cocokPredikat;
+            })
+            ->values();
+
+        $perPage = 10;
+        $page = LengthAwarePaginator::resolveCurrentPage();
+
+        $hasilPenilaians = new LengthAwarePaginator(
+            $hasilFiltered->forPage($page, $perPage)->values(),
+            $hasilFiltered->count(),
+            $perPage,
+            $page,
+            [
+                'path' => LengthAwarePaginator::resolveCurrentPath(),
+                'query' => $request->query(),
+            ]
+        );
+
+        $hasilPenilaians->withQueryString();
+
+        // Tren menggunakan hasil penilaian aktual dari database.
+        $bulanAkhirTren = $periode
+            ? $periode->tanggal_mulai->copy()->startOfMonth()
+            : now()->startOfMonth();
+
         $bulanMulaiTren = $bulanAkhirTren->copy()->subMonths(4);
+
         $trenPeriods = PeriodePenilaian::query()
             ->whereDate('tanggal_mulai', '>=', $bulanMulaiTren->toDateString())
-            ->whereDate('tanggal_mulai', '<', $bulanAkhirTren->copy()->addMonth()->toDateString())
+            ->whereDate(
+                'tanggal_mulai',
+                '<',
+                $bulanAkhirTren->copy()->addMonth()->toDateString()
+            )
             ->get(['id', 'tanggal_mulai']);
+
         $periodeBulan = $trenPeriods->mapWithKeys(
-            fn(PeriodePenilaian $trenPeriode) => [$trenPeriode->id => $trenPeriode->tanggal_mulai->format('Y-m')]
+            fn(PeriodePenilaian $item) => [
+                $item->id => $item->tanggal_mulai->format('Y-m')
+            ]
         );
 
         $trenHasil = HasilPenilaian::query()
             ->whereIn('pegawai_id', $bawahan->pluck('id'))
             ->whereIn('periode_id', $trenPeriods->pluck('id'))
             ->get(['periode_id', 'rata_skor_kpi', 'nilai_akhir'])
-            ->groupBy(fn(HasilPenilaian $hasil) => $periodeBulan->get($hasil->periode_id));
+            ->groupBy(
+                fn(HasilPenilaian $hasil) =>
+                $periodeBulan->get($hasil->periode_id)
+            );
 
-        $trenPenilaian = collect(range(0, 4))->map(function (int $offset) use ($bulanMulaiTren, $trenHasil) {
-            $bulan = $bulanMulaiTren->copy()->addMonths($offset);
-            $hasilPeriode = $trenHasil->get($bulan->format('Y-m'), collect());
+        $trenPenilaian = collect(range(0, 4))
+            ->map(function (int $offset) use ($bulanMulaiTren, $trenHasil) {
+                $bulan = $bulanMulaiTren->copy()->addMonths($offset);
+                $data = $trenHasil->get($bulan->format('Y-m'), collect());
 
-            return [
-                'label' => $bulan->translatedFormat('M'),
-                'avg_kpi' => $hasilPeriode->whereNotNull('rata_skor_kpi')->avg('rata_skor_kpi'),
-                'avg_nilai' => $hasilPeriode->whereNotNull('nilai_akhir')->avg('nilai_akhir'),
-            ];
-        });
-
-        $perPage = 10;
-        $hasilPenilaians = (new LengthAwarePaginator(
-            $hasilTim->forPage(LengthAwarePaginator::resolveCurrentPage(), $perPage)->values(),
-            $hasilTim->count(),
-            $perPage,
-            LengthAwarePaginator::resolveCurrentPage(),
-            [
-                'path' => LengthAwarePaginator::resolveCurrentPath(),
-                'query' => $request->query(),
-            ]
-        ))->withQueryString();
+                return [
+                    'label' => $bulan->translatedFormat('M'),
+                    'periode' => $bulan->translatedFormat('F Y'),
+                    'avg_kpi' => $data->whereNotNull('rata_skor_kpi')
+                        ->avg('rata_skor_kpi'),
+                    'avg_nilai' => $data->whereNotNull('nilai_akhir')
+                        ->avg('nilai_akhir'),
+                ];
+            });
 
         return view('atasan.hasil-penilaian.index', [
             'hasilPenilaians' => $hasilPenilaians,
@@ -96,10 +194,18 @@ class HasilPenilaianController extends Controller
             'periode' => $periode,
             'periodeOptions' => $periodeOptions,
             'trenPenilaian' => $trenPenilaian,
-            'rentangTren' => $bulanMulaiTren->translatedFormat('M') . ' - ' . $bulanAkhirTren->translatedFormat('M Y'),
+            'rentangTren' => $bulanMulaiTren->translatedFormat('M')
+                . ' - ' . $bulanAkhirTren->translatedFormat('M Y'),
+            'search' => $search,
+            'filterPredikat' => $filterPredikat,
+            'jumlahPredikat' => $jumlahPredikat,
+            'totalPegawai' => $totalPegawai,
+            'selesai' => $selesai,
+            'avg' => $avg,
+            'avgTukin' => $avgTukin,
+            'tuntasPercent' => $tuntasPercent,
         ]);
     }
-
 
 
     public function show(Request $request, Pegawai $pegawai, HasilPenilaianService $hasilPenilaianService)

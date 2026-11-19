@@ -1,720 +1,1285 @@
-body.role-atasan .atasan-team-page {
-    padding: 1rem;
-    color: #17213b
+.atasan-team-page {
+    --team-primary: #0875ad;
+    --team-cyan: #0b94c6;
+    --team-dark: #1f2a37;
+    --team-muted: #64748b;
+    --team-border: #dce5ef;
+
+    width: 100%;
+    min-width: 0;
+    padding: 20px 24px 36px;
+    color: var(--team-dark);
+    font-family: "Inter", sans-serif;
 }
 
-.atasan-mobile-breadcrumb {
-    display: flex;
-    gap: .45rem;
-    margin-bottom: 1rem;
-    color: #7b8ca6;
-    font-size: .74rem
+.atasan-team-page *,
+.atasan-team-page *::before,
+.atasan-team-page *::after {
+    box-sizing: border-box;
 }
 
-.atasan-mobile-breadcrumb a {
-    color: #078ac8;
-    text-decoration: none
-}
-
-.atasan-team-heading {
-    display: flex;
-    justify-content: space-between;
-    gap: .7rem;
-    align-items: flex-start
-}
-
-.atasan-team-heading h1 {
+.atasan-team-page h1,
+.atasan-team-page h2,
+.atasan-team-page h3,
+.atasan-team-page p {
     margin: 0;
-    font-size: 1.35rem;
-    font-weight: 800
 }
 
-.atasan-team-heading p {
-    margin: .3rem 0 1rem;
-    color: #7789a4;
-    font-size: .78rem;
-    line-height: 1.5
+.atasan-team-page a {
+    text-decoration: none;
 }
 
-.atasan-team-heading>span {
-    min-width: 112px;
-    padding: .35rem .6rem;
-    color: #078ac8;
-    border: 1px solid #8edaff;
-    border-radius: 18px;
-    font-size: .72rem;
-    line-height: 1.15
+/* ========================================
+   BREADCRUMB
+======================================== */
+
+.atasan-team-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    color: #94a3b8;
+    font-size: 12px;
 }
+
+.atasan-team-breadcrumb a {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--team-muted);
+}
+
+.atasan-team-breadcrumb a:hover {
+    color: var(--team-primary);
+}
+
+.atasan-team-breadcrumb > i {
+    font-size: 9px;
+}
+
+.atasan-team-breadcrumb > span {
+    color: var(--team-primary);
+    font-weight: 700;
+}
+
+/* ========================================
+   HEADER
+======================================== */
+
+.atasan-team-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 22px;
+}
+
+.atasan-team-header-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.atasan-team-kicker {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--team-primary);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.atasan-team-header h1 {
+    color: var(--team-dark);
+    font-size: clamp(24px, 2.5vw, 30px);
+    font-weight: 800;
+    letter-spacing: -0.6px;
+}
+
+.atasan-team-header p,
+.atasan-team-directory-heading p {
+    margin-top: 8px;
+    color: var(--team-muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* ========================================
+   TOTAL BAWAHAN
+======================================== */
+
+.atasan-team-header-badge {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 13px;
+    flex: 0 0 auto;
+    min-width: 175px;
+    padding: 14px 18px;
+    border: 1px solid var(--team-border);
+    border-radius: 16px;
+    background: #fff;
+}
+
+.atasan-team-header-badge-icon {
+    display: grid;
+    place-items: center;
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: #e8f5fc;
+    color: var(--team-primary);
+    font-size: 19px;
+}
+
+.atasan-team-header-badge-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    min-width: 0;
+}
+
+.atasan-team-header-badge-info strong {
+    color: var(--team-dark);
+    font-size: 25px;
+    line-height: 1;
+    font-weight: 800;
+}
+
+.atasan-team-header-badge-info small {
+    color: var(--team-muted);
+    font-size: 11px;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
+/* ========================================
+   SUMMARY
+======================================== */
 
 .atasan-team-summary {
-    padding: 1rem;
+    padding: 24px;
+    border: 1px solid var(--team-border);
+    border-radius: 22px;
     background: #fff;
-    border: 1px solid #dfe7f0;
-    border-radius: 20px;
-    box-shadow: 0 4px 14px rgba(30, 50, 80, .05)
+    box-shadow: 0 6px 24px rgba(31, 42, 55, 0.035);
 }
 
-.atasan-team-summary-heading,
-.atasan-team-list-heading {
+.atasan-team-summary-heading {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    gap: .5rem
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
 }
 
-.atasan-team-summary-heading span {
-    color: #078653;
-    background: #eafbf4;
-    border: 1px solid #9de7c4;
-    border-radius: 999px;
-    padding: .4rem .6rem;
-    font-size: .68rem;
-    font-weight: 700
+.atasan-team-summary-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: #087d58;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.6px;
 }
 
-.atasan-team-summary-heading span i {
-    font-size: .45rem
+.atasan-team-summary-label i {
+    color: #10b981;
+    font-size: 8px;
 }
 
-.atasan-team-summary-heading b {
-    padding: .35rem .55rem;
-    color: #526480;
-    background: #f4f7fa;
-    border-radius: 8px;
-    font-size: .62rem;
-    font-weight: 500
+.atasan-team-period {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 12px;
+    border-radius: 10px;
+    background: #f4f8fc;
+    color: var(--team-muted);
+    font-size: 11px;
+    font-weight: 700;
 }
+
+/* ========================================
+   RINGKASAN KINERJA
+======================================== */
 
 .atasan-team-summary-main {
     display: flex;
     align-items: center;
-    gap: .7rem;
-    margin-top: .8rem;
-    padding: .75rem;
-    background: #f8fafc;
-    border: 1px solid #edf1f5;
-    border-radius: 15px
+    gap: 26px;
+    margin-top: 22px;
+    padding: 22px;
+    border: 1px solid #e5edf5;
+    border-radius: 17px;
+    background: #f5f9fc;
 }
 
 .atasan-team-ring {
-    position: relative;
+    display: grid;
+    place-items: center;
+    flex: 0 0 122px;
+    width: 122px;
+    height: 122px;
+    border-radius: 50%;
+    background: conic-gradient(
+        #087bb7 0deg var(--progress),
+        #dbe5ef var(--progress) 360deg
+    );
+}
+
+.atasan-team-ring-inner {
     display: flex;
-    flex: 0 0 72px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 72px;
-    height: 72px;
-    background: conic-gradient(#079ed7 var(--progress), #e5f2f8 0);
-    border-radius: 50%
-}
-
-.atasan-team-ring::after {
-    position: absolute;
-    width: 54px;
-    height: 54px;
-    content: "";
+    gap: 6px;
+    width: 94px;
+    height: 94px;
+    border-radius: 50%;
     background: #fff;
-    border-radius: 50%
+    text-align: center;
 }
 
-.atasan-team-ring strong,
-.atasan-team-ring small {
-    position: relative;
-    z-index: 1
+.atasan-team-ring-inner strong {
+    color: var(--team-dark);
+    font-size: 24px;
+    line-height: 1;
+    font-weight: 800;
 }
 
-.atasan-team-ring strong {
-    color: #26344d;
-    font-size: .95rem;
-    line-height: 1
+.atasan-team-ring-inner small {
+    max-width: 72px;
+    color: var(--team-muted);
+    font-size: 8px;
+    font-weight: 700;
+    line-height: 1.3;
 }
 
-.atasan-team-ring small {
-    margin-top: .2rem;
-    color: #078ac8;
-    font-size: .48rem
-}
-
-.atasan-team-summary-main>div:nth-child(2) {
+.atasan-team-summary-description {
+    flex: 1;
     min-width: 0;
-    flex: 1
 }
 
-.atasan-team-summary-main h2 {
-    margin: 0;
-    color: #26344d;
-    font-size: .85rem
+.atasan-team-summary-description h2 {
+    color: var(--team-dark);
+    font-size: 20px;
+    line-height: 1.35;
+    font-weight: 800;
 }
 
-.atasan-team-summary-main p {
-    margin: .3rem 0 0;
-    color: #71829c;
-    font-size: .65rem;
-    line-height: 1.4
+.atasan-team-summary-description p {
+    margin-top: 9px;
+    color: var(--team-muted);
+    font-size: 12px;
+    line-height: 1.6;
 }
 
-.atasan-team-grade {
-    padding: .35rem .45rem;
-    color: #08a77f;
-    background: #eafbf4;
-    border: 1px solid #9de7c4;
-    border-radius: 5px;
-    font-size: .58rem;
-    white-space: nowrap
-}
+/* ========================================
+   BADGE PENILAIAN
+======================================== */
 
-.atasan-team-trend {
-    display: flex;
+.atasan-team-page .atasan-team-grade {
+    display: inline-flex;
     align-items: center;
-    gap: .4rem;
-    margin-top: .7rem;
-    padding: .6rem 0;
-    color: #71829c;
-    border-bottom: 1px solid #edf1f5;
-    font-size: .62rem
+    justify-content: center;
+    gap: 7px;
+    align-self: flex-start;
+    flex: 0 0 auto;
+    padding: 10px 14px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.4;
+    text-align: center;
+    white-space: nowrap;
 }
 
-.atasan-team-trend span {
-    flex: 1
+/* Sangat Baik */
+.atasan-team-page .atasan-team-grade.is-excellent {
+    border-color: #a7f3d0;
+    background: #ecfdf5;
+    color: #047857;
 }
 
-.atasan-team-trend span i {
-    margin-right: .2rem;
-    color: #08a77f;
-    font-size: .4rem
+/* Baik */
+.atasan-team-page .atasan-team-grade.is-good {
+    border-color: #a7f3d0;
+    background: #ecfdf5;
+    color: #047857;
 }
 
-.atasan-team-trend strong {
-    color: #526480;
-    font-weight: 600
+/* Perlu Evaluasi - Merah */
+.atasan-team-page .atasan-team-grade.is-warning {
+    border-color: #fecaca;
+    background: #fef2f2;
+    color: #b91c1c;
 }
 
-.atasan-team-trend b {
-    color: #08a77f;
-    font-size: .65rem
+/* Belum Dinilai */
+.atasan-team-page .atasan-team-grade.is-neutral {
+    border-color: #e2e8f0;
+    background: #f1f5f9;
+    color: #64748b;
 }
+
+/* ========================================
+   STATISTIK
+======================================== */
 
 .atasan-team-summary-stats {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: .5rem;
-    margin-top: .7rem
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 18px;
 }
 
-.atasan-team-summary-stats strong {
-    display: block;
-    padding: .7rem .3rem;
-    color: #26344d;
-    background: #f8fafc;
-    border: 1px solid #edf1f5;
-    border-radius: 13px;
-    text-align: center;
-    font-size: 1.05rem;
-    line-height: 1
+.atasan-team-summary-stat {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+    padding: 17px;
+    border: 1px solid #e5edf5;
+    border-radius: 14px;
+    background: #f8fbfd;
 }
 
-.atasan-team-summary-stats strong:nth-child(2) {
-    color: #08a77f;
-    background: #f2fff9;
-    border-color: #b8f1d8
+.atasan-team-summary-stat-icon {
+    display: grid;
+    place-items: center;
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: #e8f5fc;
+    color: var(--team-primary);
+    font-size: 18px;
 }
 
-.atasan-team-summary-stats strong:nth-child(3) {
-    color: #526480
+.atasan-team-summary-stat > div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
 }
 
-.atasan-team-summary-stats strong>i {
-    display: block;
-    margin-bottom: .3rem;
-    color: #078dcc;
-    font-size: .7rem
+.atasan-team-summary-stat strong {
+    color: var(--team-dark);
+    font-size: 24px;
+    line-height: 1;
+    font-weight: 800;
 }
 
-.atasan-team-summary-stats small {
-    display: block;
-    margin-top: .2rem;
-    color: #71829c;
-    font-size: .58rem;
-    font-weight: 500;
-    line-height: 1.2
+.atasan-team-summary-stat small {
+    color: var(--team-muted);
+    font-size: 11px;
+    line-height: 1.4;
 }
+
+/* ========================================
+   DIREKTORI PEGAWAI
+======================================== */
+
+.atasan-team-directory {
+    margin-top: 24px;
+    padding: 24px;
+    border: 1px solid var(--team-border);
+    border-radius: 22px;
+    background: #fff;
+    box-shadow: 0 6px 24px rgba(31, 42, 55, 0.035);
+}
+
+.atasan-team-directory-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.atasan-team-directory-heading > div {
+    min-width: 0;
+}
+
+.atasan-team-directory-heading h2 {
+    color: var(--team-dark);
+    font-size: 21px;
+    font-weight: 800;
+}
+
+.atasan-team-result-count {
+    flex: 0 0 auto;
+    padding: 9px 12px;
+    border-radius: 10px;
+    background: #e8f5fc;
+    color: var(--team-primary);
+    font-size: 11px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+/* ========================================
+   LIVE SEARCH
+======================================== */
 
 .atasan-team-search {
     display: flex;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.atasan-team-search-field {
+    display: flex;
     align-items: center;
-    gap: .6rem;
-    margin-top: 1rem;
-    padding: .75rem 1rem;
-    background: #fff;
-    border: 1px solid #dfe7f0;
-    border-radius: 15px
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+    min-height: 46px;
+    padding: 0 15px;
+    border: 1px solid var(--team-border);
+    border-radius: 12px;
+    background: #f8fbfd;
 }
 
-.atasan-team-search i {
-    color: #8fa1b9
+.atasan-team-search-field:focus-within {
+    border-color: var(--team-primary);
+    box-shadow: 0 0 0 3px rgba(8, 117, 173, 0.1);
 }
 
-.atasan-team-search input {
+.atasan-team-search-field > i {
+    color: #94a3b8;
+}
+
+.atasan-team-search-field input {
     width: 100%;
+    min-width: 0;
     border: 0;
     outline: 0;
-    color: #27344c;
-    font-size: .8rem
+    background: transparent;
+    color: var(--team-dark);
+    font: inherit;
+    font-size: 12px;
 }
+
+.atasan-team-search button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 46px;
+    padding: 0 20px;
+    border: 0;
+    border-radius: 12px;
+    background: var(--team-primary);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.atasan-team-search button:hover {
+    background: #066493;
+}
+
+.atasan-team-reset {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 14px;
+    border: 1px solid var(--team-border);
+    border-radius: 12px;
+    color: var(--team-muted);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* ========================================
+   FILTER
+======================================== */
 
 .atasan-team-tabs {
     display: flex;
-    gap: .45rem;
-    margin: 1rem 0;
-    overflow-x: auto
+    gap: 10px;
+    margin-bottom: 20px;
+    overflow-x: auto;
+    padding-bottom: 4px;
 }
 
-.atasan-team-tabs span {
+.atasan-team-tabs a {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
     flex: 0 0 auto;
-    padding: .55rem .7rem;
-    color: #536682;
+    padding: 10px 14px;
+    border: 1px solid var(--team-border);
+    border-radius: 11px;
     background: #fff;
-    border: 1px solid #dfe7f0;
-    border-radius: 10px;
-    font-size: .68rem;
-    white-space: nowrap
+    color: var(--team-muted);
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
 }
 
-.atasan-team-tabs .active {
-    color: #fff;
-    background: #078ac8;
-    border-color: #078ac8
+.atasan-team-tabs a b {
+    padding: 3px 7px;
+    border-radius: 7px;
+    background: #f1f5f9;
+    font-size: 10px;
 }
+
+.atasan-team-tabs a.active {
+    border-color: var(--team-primary);
+    background: var(--team-primary);
+    color: #fff;
+}
+
+.atasan-team-tabs a.active b {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* ========================================
+   TABLE
+======================================== */
 
 .atasan-team-list-heading {
-    margin-bottom: .7rem;
-    padding: 0 .15rem
-}
-
-.atasan-team-list-heading h2 {
-    margin: 0;
-    color: #667994;
-    font-size: .78rem;
-    text-transform: uppercase
-}
-
-.atasan-team-list-heading span {
-    color: #8a9ab4;
-    font-size: .68rem
-}
-
-.atasan-team-list {
-    display: grid;
-    gap: .75rem
-}
-
-.atasan-employee-card {
-    overflow: hidden;
-    background: #fff;
-    border: 1px solid #dfe7f0;
-    border-radius: 19px;
-    box-shadow: 0 4px 12px #2434550b
-}
-
-.atasan-employee-top {
     display: flex;
     align-items: center;
-    gap: .7rem;
-    padding: 1rem
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+    color: var(--team-muted);
+    font-size: 11px;
 }
 
-.atasan-employee-avatar {
+.atasan-team-list-heading i {
+    margin-right: 6px;
+    color: var(--team-primary);
+}
+
+.atasan-team-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--team-border);
+    border-radius: 15px;
+}
+
+.atasan-team-table {
+    width: 100%;
+    min-width: 850px;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.atasan-team-table thead {
+    background: #f4f8fc;
+}
+
+.atasan-team-table th {
+    padding: 16px 14px;
+    border-bottom: 1px solid var(--team-border);
+    color: var(--team-muted);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.atasan-team-table td {
+    padding: 16px 14px;
+    border-bottom: 1px solid #e8eef5;
+    vertical-align: middle;
+    font-size: 12px;
+}
+
+.atasan-team-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.atasan-team-table tbody tr:hover {
+    background: #fafcfe;
+}
+
+.atasan-team-table-number {
     display: grid;
     place-items: center;
-    width: 54px;
-    height: 54px;
-    flex: 0 0 54px;
-    color: #fff;
-    background: linear-gradient(145deg, #4f46e5, #0ea5e9);
-    border-radius: 14px;
-    font-weight: 800
-}
-
-.atasan-employee-top>div {
-    min-width: 0;
-    flex: 1
-}
-
-.atasan-employee-top h3 {
-    margin: 0;
-    font-size: .9rem
-}
-
-.atasan-employee-top h3 em {
-    margin-left: .25rem;
-    padding: .25rem .45rem;
-    color: #6b7f98;
+    width: 29px;
+    height: 29px;
+    border-radius: 9px;
     background: #f1f5f9;
-    border-radius: 10px;
-    font-size: .6rem;
-    font-style: normal
+    color: var(--team-muted);
+    font-size: 11px;
+    font-weight: 800;
 }
 
-.atasan-employee-top h3 em.is-active {
-    color: #07966b;
-    background: #eafbf4
-}
-
-.atasan-employee-top p,
-.atasan-employee-top small {
-    display: block;
-    margin: .2rem 0 0;
-    color: #078ac8;
-    font-size: .72rem
-}
-
-.atasan-employee-top small {
-    color: #8a9ab4
-}
-
-.atasan-employee-number {
-    align-self: flex-start;
-    color: #c0cada
-}
-
-.atasan-employee-meta {
+.atasan-team-table-person {
     display: flex;
-    justify-content: space-between;
-    gap: .6rem;
-    padding: .55rem 1rem;
-    border-top: 1px solid #edf1f6;
-    color: #93a3bb;
-    font-size: .72rem
+    align-items: center;
+    gap: 12px;
+    min-width: 175px;
 }
 
-.atasan-employee-meta span {
-    white-space: nowrap
-}
-
-.atasan-employee-meta i {
-    width: 16px
-}
-
-.atasan-employee-meta strong {
+.atasan-team-table-avatar,
+.atasan-employee-avatar {
+    position: relative;
+    display: grid;
+    place-items: center;
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
     overflow: hidden;
-    color: #34435b;
-    font-weight: 500;
-    text-align: right;
-    text-overflow: ellipsis;
-    white-space: nowrap
-}
-
-.atasan-employee-meta .approval-ok {
-    padding: .25rem .45rem;
-    color: #07966b;
-    background: #eafbf4;
-    border-radius: 7px;
-    font-weight: 700
-}
-
-.atasan-employee-actions {
-    display: flex;
-    gap: .55rem;
-    padding: .8rem;
-    border-top: 1px solid #edf1f6
-}
-
-.atasan-employee-actions a {
-    flex: 1;
-    padding: .7rem .4rem;
-    border-radius: 12px;
-    text-align: center;
-    text-decoration: none;
-    font-size: .7rem;
-    font-weight: 700
-}
-
-.atasan-employee-actions .secondary {
-    color: #078ac8;
-    background: #eef9ff
-}
-
-.atasan-employee-actions .primary {
+    border-radius: 13px;
+    background: linear-gradient(135deg, #0875ad, #0b94c6);
     color: #fff;
-    background: #078ac8
+    font-size: 12px;
+    font-weight: 800;
 }
 
-.atasan-team-empty {
-    padding: 2rem;
-    text-align: center;
-    color: #8494ab
+.atasan-team-table-avatar img,
+.atasan-employee-avatar img {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
+
+.atasan-team-person-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+}
+
+.atasan-team-person-copy strong {
+    color: var(--team-dark);
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.atasan-team-person-copy small {
+    color: var(--team-primary);
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+.atasan-team-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-width: 220px;
+    overflow-wrap: anywhere;
+}
+
+.atasan-team-contact strong {
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.atasan-team-contact small {
+    color: var(--team-muted);
+    font-size: 11px;
+}
+
+.atasan-team-table-division {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 8px;
+    color: var(--team-muted);
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.atasan-team-table-division i {
+    margin-top: 2px;
+    color: #94a3b8;
+}
+
+.atasan-team-table-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 10px;
+    border-radius: 9px;
+    background: #f1f5f9;
+    color: #64748b;
+    font-size: 10px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.atasan-team-table-status i {
+    font-size: 7px;
+}
+
+.atasan-team-table-status.is-active {
+    background: #e8f9f0;
+    color: #087d58;
+}
+
+.atasan-team-table-actions-heading {
+    text-align: center;
+}
+
+.atasan-team-table-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.atasan-team-table-actions a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 36px;
+    padding: 9px 12px;
+    border-radius: 9px;
+    background: #e8f5fc;
+    color: var(--team-primary);
+    font-size: 10px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.atasan-team-table-actions a.primary {
+    background: var(--team-primary);
+    color: #fff;
+}
+
+.atasan-team-table-actions a:hover {
+    filter: brightness(0.95);
+}
+
+.atasan-team-table-empty {
+    padding: 55px 20px !important;
+    text-align: center;
+}
+
+.atasan-team-table-empty > i,
+.atasan-team-table-empty strong,
+.atasan-team-table-empty span {
+    display: block;
+}
+
+.atasan-team-table-empty > i {
+    margin-bottom: 12px;
+    color: #94a3b8;
+    font-size: 28px;
+}
+
+.atasan-team-table-empty strong {
+    font-size: 14px;
+}
+
+.atasan-team-table-empty span {
+    margin-top: 7px;
+    color: var(--team-muted);
+    font-size: 11px;
+}
+
+/* ========================================
+   MOBILE CARDS
+======================================== */
+
+.atasan-team-list {
+    display: none;
+}
+
+/* ========================================
+   PAGINATION
+======================================== */
 
 .atasan-team-pagination {
-    margin-top: 1rem
+    margin-top: 22px;
 }
 
 .atasan-team-pagination .pagination {
-    justify-content: center;
-    gap: .2rem
+    justify-content: flex-end;
+    gap: 5px;
+    flex-wrap: wrap;
 }
 
 .atasan-team-pagination .page-link {
-    font-size: .7rem;
-    border-radius: 8px
+    border-radius: 9px;
+    color: var(--team-primary);
+    font-size: 12px;
 }
+
+.atasan-team-pagination .page-item.active .page-link {
+    border-color: var(--team-primary);
+    background: var(--team-primary);
+}
+
+/* ========================================
+   INFORMATION
+======================================== */
 
 .atasan-team-info {
     display: flex;
-    gap: .7rem;
-    margin-top: 1rem;
-    padding: 1rem;
-    color: #526480;
-    background: #eef7ff;
-    border: 1px solid #cfe8ff;
-    border-radius: 16px;
-    font-size: .72rem
+    align-items: flex-start;
+    gap: 13px;
+    margin-top: 20px;
+    padding: 17px 20px;
+    border: 1px solid #d4e9f7;
+    border-radius: 15px;
+    background: #eef8fe;
 }
 
-.atasan-team-info>i {
-    color: #078ac8;
-    font-size: 1rem
+.atasan-team-info > i {
+    margin-top: 2px;
+    color: var(--team-primary);
+    font-size: 17px;
 }
 
 .atasan-team-info strong,
 .atasan-team-info span {
-    display: block
+    display: block;
 }
 
 .atasan-team-info strong {
     color: #14527c;
-    font-size: .76rem
+    font-size: 12px;
 }
 
 .atasan-team-info span {
-    margin-top: .25rem;
-    line-height: 1.5
+    margin-top: 5px;
+    color: #526480;
+    font-size: 11px;
+    line-height: 1.6;
 }
 
-.atasan-team-table-wrap {
-    display: none;
+/* ========================================
+   AJAX LOADING
+======================================== */
+
+#atasan-team-results {
+    position: relative;
+    min-height: 100px;
+    transition: opacity 0.2s ease;
 }
 
-@media (min-width: 992px) {
+#atasan-team-results.is-loading {
+    opacity: 0.45;
+    pointer-events: none;
+}
+
+#atasan-team-results[aria-busy="true"] {
+    cursor: progress;
+}
+
+.atasan-team-search-field input::-webkit-search-cancel-button {
+    cursor: pointer;
+}
+
+.atasan-team-search button,
+.atasan-team-tabs a,
+.atasan-team-table-actions a,
+.atasan-employee-actions a {
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+/* ========================================
+   TABLET
+======================================== */
+
+@media (max-width: 1199px) {
+    .atasan-team-page {
+        padding: 18px;
+    }
+
+    .atasan-team-summary-main {
+        gap: 18px;
+    }
+}
+
+@media (max-width: 991px) {
+    .atasan-team-summary-main {
+        flex-wrap: wrap;
+    }
+
+    .atasan-team-grade {
+        margin-left: auto;
+    }
+
     .atasan-team-table-wrap {
-        display: block;
-        width: 100%;
-        overflow-x: auto;
-        background: #fff;
-        border: 1px solid #dfe7f0;
-        border-radius: 8px;
-    }
-
-    .atasan-team-table {
-        width: 100%;
-        min-width: 760px;
-        table-layout: fixed;
-        border-collapse: separate;
-        border-spacing: 0;
-        color: #334155;
-        font-size: .68rem;
-    }
-
-    .atasan-team-table th {
-        padding: .65rem .55rem;
-        color: #617185;
-        background: #f7f9fb;
-        border-bottom: 1px solid #e2e8ef;
-        font-size: .57rem;
-        font-weight: 700;
-        text-align: left;
-        text-transform: uppercase;
-        white-space: nowrap;
-    }
-
-    .atasan-team-table th:nth-child(1) {
-        width: 42px;
-    }
-
-    .atasan-team-table th:nth-child(2) {
-        width: 19%;
-    }
-
-    .atasan-team-table th:nth-child(3) {
-        width: 21%;
-    }
-
-    .atasan-team-table th:nth-child(4) {
-        width: 19%;
-    }
-
-    .atasan-team-table th:nth-child(5) {
-        width: 15%;
-    }
-
-    .atasan-team-table th:nth-child(6) {
-        width: 190px;
-    }
-
-    .atasan-team-table td {
-        padding: .6rem .55rem;
-        border-bottom: 1px solid #edf1f5;
-        vertical-align: middle;
-    }
-
-    .atasan-team-table tbody tr:last-child td {
-        border-bottom: 0;
-    }
-
-    .atasan-team-table tbody tr:hover {
-        background: #fafcfe;
-    }
-
-    .atasan-team-table-number {
-        display: grid;
-        place-items: center;
-        width: 22px;
-        height: 22px;
-        color: #526480;
-        background: #f0f4f8;
-        border-radius: 50%;
-        font-size: .62rem;
-    }
-
-    .atasan-team-table-person {
-        display: flex;
-        align-items: center;
-        gap: .45rem;
-        min-width: 0;
-    }
-
-    .atasan-team-table-avatar {
-        display: grid;
-        place-items: center;
-        width: 32px;
-        height: 32px;
-        flex: 0 0 32px;
-        color: #fff;
-        background: #078ac8;
-        border-radius: 50%;
-        font-size: .58rem;
-        font-weight: 700;
-    }
-
-    .atasan-team-table-person>span:last-child {
-        display: block;
-        min-width: 0;
-    }
-
-    .atasan-team-table-person strong,
-    .atasan-team-table-person small {
-        display: block;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-
-    .atasan-team-table-person strong {
-        color: #26344d;
-        font-size: .66rem;
-    }
-
-    .atasan-team-table-person small {
-        margin-top: .12rem;
-        color: #078ac8;
-        font-size: .58rem;
-    }
-
-    .atasan-team-table-email,
-    .atasan-team-table-division {
-        display: flex;
-        align-items: center;
-        gap: .3rem;
-        min-width: 0;
-        color: #64748b;
-        font-size: .61rem;
-    }
-
-    .atasan-team-table-email i,
-    .atasan-team-table-division i {
-        flex: 0 0 auto;
-        color: #91a1b8;
-        font-size: .6rem;
-    }
-
-    .atasan-team-table-status {
-        display: inline-flex;
-        align-items: center;
-        gap: .28rem;
-        padding: .25rem .4rem;
-        color: #64748b;
-        background: #f1f5f9;
-        border-radius: 999px;
-        font-size: .59rem;
-        white-space: nowrap;
-    }
-
-    .atasan-team-table-status i {
-        font-size: .38rem;
-    }
-
-    .atasan-team-table-status.is-active {
-        color: #07966b;
-        background: #eafbf4;
-    }
-
-    .atasan-team-table-actions-heading {
-        text-align: center !important;
-    }
-
-    .atasan-team-table-actions {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: .3rem;
-        white-space: nowrap;
-    }
-
-    .atasan-team-table-actions a {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: .25rem;
-        min-height: 29px;
-        padding: .28rem .4rem;
-        color: #078ac8;
-        background: #eef9ff;
-        border-radius: 4px;
-        font-size: .58rem;
-        font-weight: 700;
-        text-decoration: none;
-    }
-
-    .atasan-team-table-actions a.primary {
-        color: #fff;
-        background: #078ac8;
-    }
-
-    .atasan-team-table-empty {
-        height: 95px;
-        color: #8494ab;
-        text-align: center;
+        display: none;
     }
 
     .atasan-team-list {
-        display: none !important;
+        display: grid;
+        gap: 12px;
     }
 
-    .atasan-team-summary {
-        border-radius: 8px;
-        box-shadow: none;
+    .atasan-employee-card {
+        overflow: hidden;
+        border: 1px solid var(--team-border);
+        border-radius: 16px;
+        background: #fff;
     }
 
+    .atasan-employee-top {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        padding: 17px;
+    }
+
+    .atasan-employee-avatar {
+        flex-basis: 54px;
+        width: 54px;
+        height: 54px;
+        border-radius: 15px;
+        font-size: 14px;
+    }
+
+    .atasan-employee-identity {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .atasan-employee-identity h3 {
+        font-size: 14px;
+        font-weight: 800;
+    }
+
+    .atasan-employee-identity p {
+        margin: 5px 0 8px;
+        color: var(--team-primary);
+        font-size: 11px;
+    }
+
+    .atasan-employee-meta {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px 17px;
+        border-top: 1px solid #edf1f6;
+        font-size: 11px;
+    }
+
+    .atasan-employee-meta > span {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        flex: 0 0 auto;
+        color: var(--team-muted);
+    }
+
+    .atasan-employee-meta > strong {
+        min-width: 0;
+        color: var(--team-dark);
+        font-weight: 700;
+        text-align: right;
+        overflow-wrap: anywhere;
+    }
+
+    .atasan-employee-actions {
+        display: flex;
+        gap: 10px;
+        padding: 14px 17px;
+        border-top: 1px solid #edf1f6;
+    }
+
+    .atasan-employee-actions a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        flex: 1;
+        min-height: 40px;
+        padding: 10px;
+        border-radius: 10px;
+        font-size: 11px;
+        font-weight: 800;
+    }
+
+    .atasan-employee-actions a.secondary {
+        background: #e8f5fc;
+        color: var(--team-primary);
+    }
+
+    .atasan-employee-actions a.primary {
+        background: var(--team-primary);
+        color: #fff;
+    }
+
+    .atasan-team-empty {
+        padding: 35px 15px;
+        border: 1px dashed var(--team-border);
+        border-radius: 15px;
+        text-align: center;
+    }
+
+    .atasan-team-empty > i {
+        display: block;
+        margin-bottom: 12px;
+        color: #94a3b8;
+        font-size: 26px;
+    }
+
+    .atasan-team-empty strong {
+        font-size: 13px;
+    }
+
+    .atasan-team-empty p {
+        margin-top: 6px;
+        color: var(--team-muted);
+        font-size: 11px;
+    }
+}
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 600px) {
+    .atasan-team-page {
+        padding: 12px 12px 28px;
+    }
+
+    .atasan-team-breadcrumb {
+        margin-bottom: 18px;
+        font-size: 11px;
+    }
+
+    /* Header tidak memaksa kartu total menjadi sempit */
+    .atasan-team-header {
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .atasan-team-header-content {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    .atasan-team-header h1 {
+        font-size: 21px;
+        line-height: 1.25;
+    }
+
+    .atasan-team-header p {
+        font-size: 11px;
+        line-height: 1.55;
+    }
+
+    .atasan-team-kicker {
+        font-size: 10px;
+    }
+
+    /* Total bawahan: horizontal dan proporsional */
+    .atasan-team-header-badge {
+        flex: 0 0 auto;
+        min-width: 0;
+        gap: 8px;
+        padding: 10px 11px;
+        border-radius: 13px;
+    }
+
+    .atasan-team-header-badge-icon {
+        flex: 0 0 34px;
+        width: 34px;
+        height: 34px;
+        border-radius: 9px;
+        font-size: 14px;
+    }
+
+    .atasan-team-header-badge-info {
+        gap: 3px;
+    }
+
+    .atasan-team-header-badge-info strong {
+        font-size: 20px;
+    }
+
+    .atasan-team-header-badge-info small {
+        font-size: 9px;
+        white-space: nowrap;
+    }
+
+    /* Summary */
+    .atasan-team-summary,
+    .atasan-team-directory {
+        padding: 17px;
+        border-radius: 18px;
+    }
+
+    .atasan-team-summary-heading {
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .atasan-team-summary-label {
+        font-size: 10px;
+    }
+
+    .atasan-team-period {
+        padding: 8px 10px;
+        font-size: 10px;
+    }
+
+    .atasan-team-summary-main {
+        gap: 15px;
+        padding: 16px;
+    }
+
+    .atasan-team-ring {
+        flex: 0 0 94px;
+        width: 94px;
+        height: 94px;
+    }
+
+    .atasan-team-ring-inner {
+        width: 72px;
+        height: 72px;
+    }
+
+    .atasan-team-ring-inner strong {
+        font-size: 19px;
+    }
+
+    .atasan-team-ring-inner small {
+        font-size: 7px;
+    }
+
+    .atasan-team-summary-description {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .atasan-team-summary-description h2 {
+        font-size: 15px;
+    }
+
+    .atasan-team-summary-description p {
+        font-size: 10px;
+    }
+
+    /* Badge evaluasi tetap merah di mobile */
+    .atasan-team-page .atasan-team-grade {
+        width: 100%;
+        margin-left: 0;
+        padding: 10px;
+        font-size: 11px;
+        white-space: normal;
+    }
+
+    .atasan-team-summary-stats {
+        grid-template-columns: 1fr;
+        gap: 9px;
+    }
+
+    .atasan-team-summary-stat {
+        padding: 12px;
+    }
+
+    .atasan-team-summary-stat strong {
+        font-size: 20px;
+    }
+
+    /* Direktori */
+    .atasan-team-directory {
+        margin-top: 16px;
+    }
+
+    .atasan-team-directory-heading {
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .atasan-team-directory-heading h2 {
+        font-size: 18px;
+    }
+
+    .atasan-team-result-count {
+        padding: 7px 9px;
+        font-size: 10px;
+    }
+
+    /* Search */
     .atasan-team-search {
-        border-radius: 6px;
+        flex-wrap: wrap;
     }
 
-    .atasan-team-tabs span {
-        border-radius: 5px;
+    .atasan-team-search-field {
+        flex-basis: 100%;
+        min-height: 48px;
+    }
+
+    .atasan-team-search-field input {
+        font-size: 13px;
+    }
+
+    .atasan-team-search button {
+        flex: 1;
+        min-height: 42px;
+    }
+
+    .atasan-team-list-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 6px;
     }
 
     .atasan-team-pagination .pagination {
-        justify-content: flex-end;
+        justify-content: center;
     }
+}
+
+/* ========================================
+   MOBILE KECIL
+======================================== */
+
+@media (max-width: 380px) {
+    /* Pada layar sangat sempit, kartu turun
+       ke baris sendiri agar tidak bertumpuk. */
+    .atasan-team-header {
+        flex-wrap: wrap;
+    }
+
+    .atasan-team-header-content {
+        flex: 1 1 100%;
+    }
+
+    .atasan-team-header-badge {
+        min-width: 145px;
+    }
+
+    .atasan-team-summary-main {
+        gap: 12px;
+        padding: 13px;
+    }
+
+    .atasan-team-ring {
+        flex-basis: 82px;
+        width: 82px;
+        height: 82px;
+    }
+
+    .atasan-team-ring-inner {
+        width: 64px;
+        height: 64px;
+    }
+
+    .atasan-team-ring-inner strong {
+        font-size: 16px;
+    }
+
+    .atasan-team-summary-description h2 {
+        font-size: 13px;
+    }
+}
+
+.atasan-team-kicker i {
+    font-size: 7px;
+    color: #10b981;
 }

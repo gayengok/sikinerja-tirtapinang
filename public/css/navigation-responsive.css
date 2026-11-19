@@ -1,0 +1,430 @@
+/* Navigasi bersama SIKINERJA. Dimuat SETELAH CSS halaman. */
+:root {
+    --sk-nav-height: 64px;
+    --sk-sidebar-width: 250px;
+    --sk-sidebar-compact: 72px;
+}
+.navbar-sikinerja {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: var(--sk-nav-height);
+    z-index: 1040;
+    background: #fff;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 20px;
+    transform: none;
+}
+.navbar-sikinerja .navbar-start,
+.navbar-sikinerja .navbar-end {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    gap: 10px;
+}
+.navbar-sikinerja .navbar-end {
+    margin-left: auto;
+}
+.navbar-sikinerja .navbar-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+}
+.navbar-sikinerja .brand-badge-icon {
+    width: 76px;
+    height: 36px;
+    flex: 0 0 76px;
+    display: grid;
+    place-items: center;
+    background: #fff;
+    border-radius: 10px;
+    padding: 3px;
+    box-shadow: 0 2px 8px #0875ad16;
+}
+.navbar-sikinerja .brand-badge-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.navbar-sikinerja .brand-caption {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+    min-width: 0;
+}
+.navbar-sikinerja .brand-caption-title {
+    font-size: 14px;
+    color: #026aa7;
+    font-weight: 800;
+}
+.navbar-sikinerja .brand-caption-subtitle {
+    margin-top: 3px;
+    color: #64748b;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.1px;
+}
+.navbar-sikinerja .sidebar-toggle-button {
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    padding: 0;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: #526174;
+    cursor: pointer;
+    place-items: center;
+}
+.navbar-sikinerja .sidebar-toggle-button:hover {
+    background: #eaf5fb;
+    color: #026aa7;
+}
+.navbar-sikinerja .btn-icon-circle {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #f1f5f9;
+    display: inline-grid;
+    place-items: center;
+    border: 0;
+    color: #475569;
+    position: relative;
+}
+.navbar-sikinerja .notif-dot-badge {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ef4444;
+    border: 2px solid white;
+}
+.navbar-sikinerja .navbar-user-toggle {
+    border: 0;
+    background: transparent;
+    padding: 0;
+}
+.navbar-sikinerja .user-avatar {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    color: #fff;
+    font-weight: 700;
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+}
+.notification-dropdown {
+    width: min(360px, calc(100vw - 24px));
+    max-height: min(480px, 75vh);
+    overflow-y: auto;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+}
+.notification-dropdown-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 10px 8px 12px;
+    border-bottom: 1px solid #edf2f7;
+    font-size: 13px;
+}
+.notification-count {
+    background: #fff1f2;
+    color: #be123c;
+    border-radius: 20px;
+    padding: 4px 8px;
+    font-size: 11px;
+    font-weight: 700;
+}
+.notification-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 8px;
+    border-bottom: 1px solid #f1f5f9;
+}
+.notification-item:last-child {
+    border-bottom: 0;
+}
+.notification-item.is-unread {
+    background: #f0f9ff;
+    border-radius: 9px;
+}
+.notification-item-icon {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+    background: #e0f2fe;
+    color: #0284c7;
+    border-radius: 10px;
+}
+.notification-item-content {
+    min-width: 0;
+}
+.notification-item-content strong {
+    display: block;
+    color: #1e293b;
+    font-size: 12px;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+.notification-item-content p {
+    margin: 3px 0;
+    color: #64748b;
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+.notification-item-content small {
+    color: #94a3b8;
+    font-size: 11px;
+}
+.notification-empty {
+    padding: 26px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    color: #94a3b8;
+    font-size: 12px;
+}
+.notification-empty i {
+    font-size: 23px;
+}
+.profile-dropdown {
+    width: 220px;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+}
+/* Semua peran selain pegawai menggunakan sidebar desktop dan bottom nav mobile. */
+@media (min-width: 768px) {
+    body.role-atasan .mobile-app-shell,
+    body.role-master .mobile-app-shell {
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        min-height: 100vh;
+        overflow: visible;
+    }
+    body.role-atasan .navbar-sikinerja,
+    body.role-master .navbar-sikinerja {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        transform: none !important;
+    }
+    body.role-atasan .sidebar,
+    body.role-master .sidebar {
+        display: block !important;
+        position: fixed;
+        top: var(--sk-nav-height);
+        bottom: 0;
+        left: 0;
+        width: var(--sk-sidebar-width);
+        transform: translateX(0) !important;
+        background: #0f2a2c;
+        overflow-y: auto;
+        z-index: 1030;
+    }
+    body.role-atasan .sidebar-brand,
+    body.role-master .sidebar-brand {
+        display: none !important;
+    }
+    body.role-atasan .sidebar-overlay,
+    body.role-master .sidebar-overlay,
+    body.role-atasan .mobile-bottom-nav,
+    body.role-master .mobile-bottom-nav {
+        display: none !important;
+    }
+    body.role-atasan .main-content,
+    body.role-master .main-content {
+        margin-left: var(--sk-sidebar-width) !important;
+        margin-top: var(--sk-nav-height) !important;
+        width: auto !important;
+        max-width: none !important;
+        min-height: calc(100vh - var(--sk-nav-height));
+        padding-bottom: 2rem !important;
+    }
+    body.role-atasan.sidebar-collapsed .sidebar,
+    body.role-master.sidebar-collapsed .sidebar {
+        width: var(--sk-sidebar-compact) !important;
+        transform: translateX(0) !important;
+    }
+    body.role-atasan.sidebar-collapsed .main-content,
+    body.role-master.sidebar-collapsed .main-content {
+        margin-left: var(--sk-sidebar-compact) !important;
+    }
+    body.role-atasan.sidebar-collapsed .sidebar-nav,
+    body.role-master.sidebar-collapsed .sidebar-nav {
+        padding: 10px 6px;
+    }
+    body.role-atasan.sidebar-collapsed .sidebar-link,
+    body.role-master.sidebar-collapsed .sidebar-link {
+        justify-content: center;
+        gap: 0;
+        margin: 3px 0;
+        padding: 12px 0;
+        border-left: 0;
+        border-radius: 9px;
+    }
+    body.role-atasan.sidebar-collapsed .sidebar-link span,
+    body.role-master.sidebar-collapsed .sidebar-link span,
+    body.role-atasan.sidebar-collapsed .sidebar-section-title,
+    body.role-master.sidebar-collapsed .sidebar-section-title {
+        display: none !important;
+    }
+    body.role-atasan.sidebar-collapsed .sidebar-link i,
+    body.role-master.sidebar-collapsed .sidebar-link i {
+        width: auto;
+    }
+    .sidebar-toggle-desktop {
+        display: grid !important;
+    }
+    .sidebar-toggle-mobile {
+        display: none !important;
+    }
+}
+@media (max-width: 767.98px) {
+    body.role-atasan .mobile-app-shell,
+    body.role-master .mobile-app-shell,
+    body.role-pegawai .mobile-app-shell {
+        width: 100% !important;
+        max-width: none !important;
+        min-height: 100dvh;
+        margin: 0 !important;
+        overflow-x: clip;
+    }
+    body.role-atasan .navbar-sikinerja,
+    body.role-master .navbar-sikinerja,
+    body.role-pegawai .navbar-sikinerja {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        transform: none !important;
+        padding: 8px 12px;
+    }
+    body.role-atasan .main-content,
+    body.role-master .main-content,
+    body.role-pegawai .main-content {
+        width: 100% !important;
+        max-width: none !important;
+        margin-left: 0 !important;
+        margin-top: var(--sk-nav-height) !important;
+        padding-bottom: calc(80px + env(safe-area-inset-bottom)) !important;
+    }
+    body.role-atasan .sidebar,
+    body.role-master .sidebar {
+        display: block;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: min(280px, 85vw);
+        transform: translateX(-110%);
+        z-index: 1065;
+        transition: transform 0.25s ease;
+    }
+    body.role-atasan .sidebar.show,
+    body.role-master .sidebar.show {
+        transform: translateX(0) !important;
+    }
+    body.role-atasan .sidebar-brand,
+    body.role-master .sidebar-brand {
+        display: flex !important;
+    }
+    body.role-atasan .sidebar-overlay.show,
+    body.role-master .sidebar-overlay.show {
+        display: block;
+        z-index: 1060;
+    }
+    body.role-atasan .mobile-bottom-nav,
+    body.role-master .mobile-bottom-nav,
+    body.role-pegawai .mobile-bottom-nav {
+        display: flex !important;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: calc(64px + env(safe-area-inset-bottom));
+        padding-bottom: env(safe-area-inset-bottom);
+        background: #fff;
+        z-index: 1050;
+    }
+    .mobile-bottom-nav .container-fluid,
+    .mobile-bottom-nav .nav {
+        width: 100%;
+    }
+    .mobile-bottom-nav .nav-item {
+        min-width: 0;
+    }
+    .mobile-bottom-nav .mobile-nav-link {
+        width: 100%;
+        min-height: 55px;
+        padding: 6px 2px;
+        font-size: 10px;
+        line-height: 1.25;
+        text-align: center;
+        border-radius: 11px;
+    }
+    .mobile-bottom-nav .mobile-nav-link .nav-icon-wrapper {
+        font-size: 17px;
+        margin-bottom: 4px;
+    }
+    .mobile-bottom-nav .mobile-nav-link.active {
+        color: #027db8;
+        background: #eaf6fc;
+    }
+    .sidebar-toggle-desktop {
+        display: none !important;
+    }
+    .sidebar-toggle-mobile {
+        display: grid !important;
+    }
+}
+@media (max-width: 380px) {
+    .navbar-sikinerja .brand-badge-icon {
+        width: 53px !important;
+        flex-basis: 53px !important;
+        height: 32px;
+    }
+    .navbar-sikinerja .brand-caption-title {
+        font-size: 12px;
+    }
+    .navbar-sikinerja .brand-caption-subtitle {
+        font-size: 7px;
+    }
+    .navbar-sikinerja .navbar-start,
+    .navbar-sikinerja .navbar-end {
+        gap: 5px;
+    }
+    .navbar-sikinerja .sidebar-toggle-button,
+    .navbar-sikinerja .btn-icon-circle,
+    .navbar-sikinerja .user-avatar {
+        width: 32px;
+        height: 32px;
+        flex-basis: 32px;
+    }
+}

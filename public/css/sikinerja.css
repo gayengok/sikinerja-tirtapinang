@@ -4757,35 +4757,803 @@ body.role-pegawai .navbar-sikinerja .brand-badge-icon {
     }
 }
 
-@media (min-width: 992px) {
-    body.desktop-atasan-attendance.role-atasan .navbar-sikinerja {
+/* ================================================================
+   NAVIGATION FIX — responsive desktop / mobile, all existing pages
+   ================================================================ */
+:root {
+    --sikinerja-sidebar-bg: #102c3b;
+    --sikinerja-sidebar-active: #164b66;
+}
+html,
+body {
+    max-width: 100%;
+}
+.navbar-sikinerja {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 64px;
+    z-index: 1040;
+    transform: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    background: #fff;
+}
+.navbar-sikinerja .navbar-start {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+.navbar-sikinerja .navbar-end {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+}
+.navbar-sikinerja .navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    margin: 0;
+}
+.navbar-sikinerja .brand-badge-icon {
+    flex: 0 0 72px;
+    width: 72px;
+    height: 38px;
+    padding: 2px;
+}
+.navbar-sikinerja .brand-caption {
+    display: flex;
+    flex-direction: column;
+    max-width: 110px;
+    white-space: nowrap;
+}
+.navbar-sikinerja .sidebar-toggle-button {
+    display: none;
+    flex: 0 0 36px;
+    width: 36px;
+    height: 36px;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 0;
+    border-radius: 10px;
+    color: #526174;
+    cursor: pointer;
+}
+.navbar-sikinerja .sidebar-toggle-button:hover {
+    background: #eaf5fc;
+    color: #026aa7;
+}
+.navbar-sikinerja .btn-icon-circle,
+.navbar-sikinerja .user-avatar {
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+}
+.navbar-sikinerja .notification-menu {
+    width: min(330px, calc(100vw - 24px));
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 10px;
+    box-shadow: 0 16px 38px rgba(16, 42, 59, 0.12);
+}
+.navbar-sikinerja .notification-empty {
+    padding: 20px 12px;
+    text-align: center;
+    color: #64748b;
+    font-size: 13px;
+}
+.navbar-sikinerja .notification-empty i {
+    display: block;
+    margin-bottom: 8px;
+    color: #9bb3c7;
+    font-size: 23px;
+}
+.navbar-sikinerja .notif-dot-badge {
+    display: none;
+}
+body.role-atasan .mobile-app-shell,
+body.role-master .mobile-app-shell {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    margin: 0;
+    overflow-x: clip;
+}
+body.role-atasan .navbar-sikinerja,
+body.role-master .navbar-sikinerja {
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: none;
+    transform: none;
+    margin: 0;
+}
+body.role-atasan .main-content,
+body.role-master .main-content {
+    min-width: 0;
+}
+body.role-atasan .sidebar,
+body.role-master .sidebar {
+    background: var(--sikinerja-sidebar-bg);
+}
+body.role-atasan .sidebar-link.active,
+body.role-master .sidebar-link.active {
+    background: var(--sikinerja-sidebar-active);
+    border-left-color: #38bdf8;
+}
+@media (min-width: 768px) {
+    body.role-atasan .navbar-sikinerja .sidebar-toggle-desktop,
+    body.role-master .navbar-sikinerja .sidebar-toggle-desktop {
+        display: inline-flex;
+    }
+    body.role-atasan .navbar-sikinerja .sidebar-toggle-mobile,
+    body.role-master .navbar-sikinerja .sidebar-toggle-mobile {
+        display: none;
+    }
+    body.role-atasan .mobile-bottom-nav,
+    body.role-master .mobile-bottom-nav {
+        display: none !important;
+    }
+    body.role-atasan .sidebar,
+    body.role-master .sidebar {
+        display: block !important;
+        top: 64px;
+        width: var(--sidebar-width);
+        transform: translateX(0);
+    }
+    body.role-atasan .main-content,
+    body.role-master .main-content {
+        margin-left: var(--sidebar-width);
+        margin-top: 64px;
+        width: auto;
+        padding-top: 0;
+    }
+    body.role-atasan.sidebar-collapsed .sidebar,
+    body.role-master.sidebar-collapsed .sidebar {
+        width: 72px;
+        transform: translateX(0);
+    }
+    body.role-atasan.sidebar-collapsed .main-content,
+    body.role-master.sidebar-collapsed .main-content {
+        margin-left: 72px;
+    }
+}
+@media (max-width: 767.98px) {
+    :root {
+        --bottom-nav-height: 68px;
+    }
+    body.role-atasan .navbar-sikinerja,
+    body.role-master .navbar-sikinerja {
+        height: 64px;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        max-width: none;
+        transform: none;
+        padding: 0 12px;
+        gap: 8px;
+    }
+    body.role-atasan .navbar-sikinerja .navbar-start,
+    body.role-master .navbar-sikinerja .navbar-start {
+        flex: 1 1 auto;
+        min-width: 0;
+        gap: 4px;
+    }
+    body.role-atasan .navbar-sikinerja .navbar-brand,
+    body.role-master .navbar-sikinerja .navbar-brand {
+        flex: 0 1 auto;
+        min-width: 0;
+        gap: 6px;
+    }
+    body.role-atasan .navbar-sikinerja .brand-badge-icon,
+    body.role-master .navbar-sikinerja .brand-badge-icon {
+        width: 62px;
+        height: 34px;
+        flex: 0 0 62px;
+    }
+    body.role-atasan .navbar-sikinerja .brand-caption,
+    body.role-master .navbar-sikinerja .brand-caption {
+        max-width: 100px;
+    }
+    body.role-atasan .navbar-sikinerja .brand-caption-title,
+    body.role-master .navbar-sikinerja .brand-caption-title {
+        font-size: 13px;
+    }
+    body.role-atasan .navbar-sikinerja .brand-caption-subtitle,
+    body.role-master .navbar-sikinerja .brand-caption-subtitle {
+        font-size: 8px;
+        letter-spacing: 0.06em;
+    }
+    body.role-atasan .navbar-sikinerja .navbar-end,
+    body.role-master .navbar-sikinerja .navbar-end {
+        flex: 0 0 auto;
+        gap: 7px;
+    }
+    body.role-atasan .navbar-sikinerja .btn-icon-circle,
+    body.role-master .navbar-sikinerja .btn-icon-circle,
+    body.role-atasan .navbar-sikinerja .user-avatar,
+    body.role-master .navbar-sikinerja .user-avatar {
+        width: 36px;
+        height: 36px;
+        flex: 0 0 36px;
+    }
+    body.role-atasan .navbar-sikinerja .sidebar-toggle-button,
+    body.role-master .navbar-sikinerja .sidebar-toggle-button {
+        display: none !important;
+    }
+    body.role-atasan .sidebar,
+    body.role-master .sidebar {
+        display: none !important;
+    }
+    body.role-atasan .sidebar-overlay,
+    body.role-master .sidebar-overlay {
+        display: none !important;
+    }
+    body.role-atasan .main-content,
+    body.role-master .main-content {
+        margin: 64px 0 0 !important;
+        width: 100%;
+        max-width: none;
+        min-width: 0;
+        padding-top: 0 !important;
+        padding-bottom: calc(
+            var(--bottom-nav-height) + 24px + env(safe-area-inset-bottom)
+        ) !important;
+    }
+    body.role-atasan .mobile-bottom-nav,
+    body.role-master .mobile-bottom-nav {
         position: fixed !important;
-        top: 0 !important;
-        right: 0 !important;
+        display: flex !important;
+        align-items: stretch;
+        top: auto !important;
+        bottom: 0 !important;
         left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        max-width: none !important;
+        min-width: 0 !important;
+        height: calc(
+            var(--bottom-nav-height) + env(safe-area-inset-bottom)
+        ) !important;
+        transform: none !important;
+        margin: 0 !important;
+        padding: 0 0 env(safe-area-inset-bottom) !important;
+        z-index: 1050;
+        background: #fff;
+        box-shadow: 0 -6px 24px rgba(15, 42, 59, 0.07);
+    }
+    body.role-atasan .mobile-bottom-nav .container-fluid,
+    body.role-master .mobile-bottom-nav .container-fluid {
+        display: flex;
+        width: 100%;
+        max-width: none;
+        min-width: 0;
+        padding: 0 4px !important;
+        margin: 0;
+    }
+    body.role-atasan .mobile-bottom-nav .nav,
+    body.role-master .mobile-bottom-nav .nav {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        align-items: stretch !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+        min-width: 0;
+        margin: 0;
+        padding: 0;
+    }
+    body.role-atasan .mobile-bottom-nav .nav-item,
+    body.role-master .mobile-bottom-nav .nav-item {
+        display: flex;
+        flex: 1 1 0 !important;
+        width: 0 !important;
+        min-width: 0 !important;
+        max-width: none !important;
+        margin: 0;
+        padding: 0 2px;
+    }
+    body.role-atasan .mobile-bottom-nav .mobile-nav-link,
+    body.role-master .mobile-bottom-nav .mobile-nav-link {
+        display: flex !important;
+        flex: 1 1 auto;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        width: 100%;
+        min-width: 0;
+        min-height: 58px;
+        padding: 5px 1px !important;
+        border-radius: 12px;
+        font-size: 10px;
+        line-height: 1.15;
+        white-space: nowrap;
+        text-align: center;
+    }
+    body.role-atasan .mobile-bottom-nav .nav-icon-wrapper,
+    body.role-master .mobile-bottom-nav .nav-icon-wrapper {
+        display: grid;
+        place-items: center;
+        width: 32px;
+        height: 30px;
+        margin: 0;
+        font-size: 18px;
+        transform: none;
+    }
+    body.role-atasan .mobile-bottom-nav .mobile-nav-link.active,
+    body.role-master .mobile-bottom-nav .mobile-nav-link.active {
+        color: #027ab6;
+        background: #eaf6fd;
+    }
+    body.role-atasan
+        .mobile-bottom-nav
+        .mobile-nav-link.active
+        .nav-icon-wrapper,
+    body.role-master
+        .mobile-bottom-nav
+        .mobile-nav-link.active
+        .nav-icon-wrapper {
+        transform: none;
+    }
+    body.role-atasan .mobile-bottom-nav .mobile-nav-link span,
+    body.role-master .mobile-bottom-nav .mobile-nav-link span {
+        display: block;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+@media (max-width: 360px) {
+    body.role-atasan .navbar-sikinerja .brand-badge-icon,
+    body.role-master .navbar-sikinerja .brand-badge-icon {
+        width: 48px;
+        flex-basis: 48px;
+    }
+    body.role-atasan .navbar-sikinerja .brand-caption,
+    body.role-master .navbar-sikinerja .brand-caption {
+        max-width: 76px;
+    }
+    body.role-atasan .mobile-bottom-nav .mobile-nav-link,
+    body.role-master .mobile-bottom-nav .mobile-nav-link {
+        font-size: 9px;
+    }
+}
+
+/* =============================================================
+   SIKINERJA - NAVIGATION VISUAL REDESIGN 2026
+   Hanya komponen navigasi, tanpa mengubah konten halaman.
+   ============================================================= */
+body.role-atasan {
+    --nav-accent: #0875ad;
+    --nav-ink: #18324b;
+    --nav-line: #e2eaf2;
+    --nav-sidebar: #102b3b;
+}
+body.role-atasan .navbar-sikinerja {
+    background: rgba(255, 255, 255, 0.98) !important;
+    border-bottom: 1px solid var(--nav-line) !important;
+    box-shadow: 0 3px 20px rgba(15, 43, 65, 0.045) !important;
+    min-height: 72px !important;
+    padding-inline: clamp(14px, 2vw, 28px) !important;
+}
+body.role-atasan .navbar-sikinerja .brand-badge-icon {
+    background: #fff !important;
+    box-shadow: none !important;
+    border: 1px solid #e6edf4 !important;
+    border-radius: 12px !important;
+    width: 64px !important;
+    height: 42px !important;
+    flex-basis: 64px !important;
+}
+body.role-atasan .navbar-sikinerja .brand-caption-title {
+    color: #0875ad !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.02em !important;
+}
+body.role-atasan .navbar-sikinerja .brand-caption-subtitle {
+    color: #8091a7 !important;
+    letter-spacing: 0.12em !important;
+}
+body.role-atasan .navbar-sikinerja .sidebar-toggle-button {
+    border: 1px solid #e6edf4 !important;
+    background: #f6f9fc !important;
+    color: #58738b !important;
+    border-radius: 11px !important;
+    width: 38px !important;
+    height: 38px !important;
+}
+body.role-atasan .navbar-sikinerja .sidebar-toggle-button:hover {
+    background: #e8f5fc !important;
+    color: #0875ad !important;
+}
+body.role-atasan .navbar-sikinerja .btn-icon-circle,
+body.role-atasan .navbar-sikinerja .navbar-user-toggle {
+    background: #f2f7fb !important;
+    border: 1px solid #e3edf5 !important;
+    border-radius: 13px !important;
+    box-shadow: none !important;
+    color: #375e7a !important;
+}
+body.role-atasan .navbar-sikinerja .user-avatar {
+    background: #0875ad !important;
+    color: #fff !important;
+    box-shadow: none !important;
+}
+body.role-atasan .navbar-sikinerja .notification-menu {
+    width: min(320px, calc(100vw - 24px));
+    border: 1px solid #e2eaf2;
+    border-radius: 16px;
+    padding: 12px;
+    box-shadow: 0 16px 42px rgba(16, 43, 59, 0.13);
+}
+body.role-atasan .navbar-sikinerja .notification-empty {
+    padding: 22px 12px;
+    text-align: center;
+    color: #7d91a5;
+    font-size: 12px;
+}
+body.role-atasan .navbar-sikinerja .notification-empty i {
+    display: block;
+    font-size: 25px;
+    margin-bottom: 12px;
+    color: #8ab4ce;
+}
+@media (min-width: 768px) {
+    body.role-atasan .sidebar {
+        background: linear-gradient(
+            180deg,
+            #102e3c 0%,
+            #0c2735 100%
+        ) !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.07) !important;
+        box-shadow: 4px 0 24px rgba(13, 43, 58, 0.05) !important;
+    }
+    body.role-atasan .sidebar .sidebar-nav {
+        padding: 18px 12px !important;
+    }
+    body.role-atasan .sidebar .sidebar-link {
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        min-height: 46px !important;
+        margin: 4px 0 !important;
+        padding: 11px 13px !important;
+        border-radius: 12px !important;
+        border-left: 0 !important;
+        color: #b8d0dc !important;
+        background: transparent !important;
+        transition:
+            background 0.18s ease,
+            color 0.18s ease !important;
+    }
+    body.role-atasan .sidebar .sidebar-link i {
+        width: 21px !important;
+        min-width: 21px !important;
+        text-align: center !important;
+        font-size: 15px !important;
+    }
+    body.role-atasan .sidebar .sidebar-link:hover {
+        background: rgba(255, 255, 255, 0.08) !important;
+        color: #fff !important;
+    }
+    body.role-atasan .sidebar .sidebar-link.active {
+        background: linear-gradient(90deg, #0875ad, #0a86bd) !important;
+        color: #fff !important;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.13) !important;
+        font-weight: 700 !important;
+    }
+    body.role-atasan .sidebar .sidebar-section-title {
+        color: #829dad !important;
+    }
+    body.role-atasan .mobile-bottom-nav {
+        display: none !important;
+    }
+}
+@media (max-width: 767.98px) {
+    body.role-atasan .navbar-sikinerja {
+        min-height: 62px !important;
+        height: 62px !important;
+        padding-inline: 12px !important;
+    }
+    body.role-atasan .navbar-sikinerja .brand-badge-icon {
+        width: 52px !important;
+        flex-basis: 52px !important;
+        height: 35px !important;
+    }
+    body.role-atasan .navbar-sikinerja .sidebar-toggle-button {
+        display: none !important;
+    }
+    body.role-atasan .mobile-bottom-nav {
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        border-top: 1px solid #e2eaf2 !important;
+        border-radius: 18px 18px 0 0 !important;
+        background: #fff !important;
+        box-shadow: 0 -8px 28px rgba(16, 43, 59, 0.1) !important;
+        padding: 5px 5px env(safe-area-inset-bottom) !important;
+        height: calc(69px + env(safe-area-inset-bottom)) !important;
+    }
+    body.role-atasan .mobile-bottom-nav .container-fluid {
+        padding: 0 !important;
+        width: 100% !important;
+    }
+    body.role-atasan .mobile-bottom-nav .nav {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        width: 100% !important;
+    }
+    body.role-atasan .mobile-bottom-nav .nav-item {
+        flex: 1 1 0 !important;
+        width: 0 !important;
+        min-width: 0 !important;
+        padding: 0 2px !important;
+    }
+    body.role-atasan .mobile-bottom-nav .mobile-nav-link {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 3px !important;
+        min-width: 0 !important;
+        width: 100% !important;
+        min-height: 58px !important;
+        padding: 5px 0 !important;
+        border-radius: 12px !important;
+        background: transparent !important;
+        color: #8295a8 !important;
+        font-size: 10px !important;
+        font-weight: 600 !important;
+        text-align: center !important;
+    }
+    body.role-atasan .mobile-bottom-nav .mobile-nav-link .nav-icon-wrapper {
+        width: 31px !important;
+        height: 29px !important;
+        display: grid !important;
+        place-items: center !important;
+        background: transparent !important;
+        color: inherit !important;
+        font-size: 18px !important;
+    }
+    body.role-atasan .mobile-bottom-nav .mobile-nav-link.active {
+        background: #e8f5fc !important;
+        color: #0875ad !important;
+    }
+    body.role-atasan
+        .mobile-bottom-nav
+        .mobile-nav-link.active
+        .nav-icon-wrapper {
+        background: transparent !important;
+        color: #0875ad !important;
+    }
+    body.role-atasan .mobile-bottom-nav .mobile-nav-link span {
+        display: block !important;
+        max-width: 100% !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+    }
+    body.role-atasan .main-content {
+        padding-bottom: calc(90px + env(safe-area-inset-bottom)) !important;
+    }
+}
+
+/* ==========================================================
+   SIKINERJA | FLOATING NAVIGATION — ROLE ATASAN
+   Visual override only. Existing navigation IDs/routes remain.
+   ========================================================== */
+@media (min-width: 768px) {
+    body.role-atasan {
+        --float-gap: 18px;
+        --float-header: 74px;
+        --float-sidebar: 244px;
+        --float-collapsed: 76px;
+    }
+    body.role-atasan .mobile-app-shell {
         width: 100% !important;
         max-width: none !important;
         margin: 0 !important;
-        padding-right: 1rem !important;
-        padding-left: 1rem !important;
+        overflow: visible !important;
+    }
+    body.role-atasan .navbar-sikinerja {
+        position: fixed !important;
+        z-index: 1040 !important;
+        top: var(--float-gap) !important;
+        left: var(--float-gap) !important;
+        right: var(--float-gap) !important;
+        width: auto !important;
+        max-width: none !important;
+        height: var(--float-header) !important;
+        min-height: var(--float-header) !important;
+        margin: 0 !important;
+        padding: 0 20px !important;
+        border: 1px solid #e0eaf3 !important;
+        border-radius: 24px !important;
+        background: rgba(255, 255, 255, 0.98) !important;
+        box-shadow: 0 12px 34px rgba(22, 61, 91, 0.1) !important;
         transform: none !important;
-        box-sizing: border-box !important;
-        justify-content: space-between !important;
+        backdrop-filter: blur(14px);
     }
-
-    body.desktop-atasan-attendance.role-atasan .navbar-sikinerja .navbar-start {
-        flex: 0 0 auto !important;
-        justify-content: flex-start !important;
-        gap: 0.2rem !important;
+    body.role-atasan .navbar-sikinerja .navbar-start {
+        gap: 16px !important;
     }
-
-    body.desktop-atasan-attendance.role-atasan .navbar-sikinerja .navbar-brand {
-        flex: 0 0 auto !important;
-        gap: 0.55rem !important;
+    body.role-atasan .navbar-sikinerja .navbar-brand {
+        gap: 10px !important;
     }
-
-    body.desktop-atasan-attendance.role-atasan .navbar-sikinerja .navbar-end {
-        flex: 0 0 auto !important;
-        margin-left: auto !important;
+    body.role-atasan .navbar-sikinerja .brand-badge-icon {
+        width: 65px !important;
+        height: 42px !important;
+        flex: 0 0 65px !important;
+    }
+    body.role-atasan .navbar-sikinerja .brand-caption {
+        max-width: 132px !important;
+        opacity: 1;
+    }
+    body.role-atasan .navbar-sikinerja .sidebar-toggle-desktop {
+        display: grid !important;
+        place-items: center;
+        width: 40px !important;
+        height: 40px !important;
+        border-radius: 12px !important;
+        background: #f1f7fb !important;
+        color: #0875ad !important;
+    }
+    body.role-atasan .navbar-sikinerja .sidebar-toggle-mobile {
+        display: none !important;
+    }
+    body.role-atasan .sidebar {
+        position: fixed !important;
+        z-index: 1030 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        top: calc(var(--float-gap) + var(--float-header) + 14px) !important;
+        bottom: var(--float-gap) !important;
+        left: var(--float-gap) !important;
+        right: auto !important;
+        width: var(--float-sidebar) !important;
+        height: auto !important;
+        max-height: none !important;
+        padding: 14px 10px !important;
+        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        border-radius: 23px !important;
+        background: linear-gradient(
+            170deg,
+            #123b51 0%,
+            #102c3d 100%
+        ) !important;
+        box-shadow: 0 15px 35px rgba(16, 49, 70, 0.16) !important;
+        transform: none !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+    }
+    body.role-atasan .sidebar .sidebar-brand {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 8px 10px 16px !important;
+        margin-bottom: 10px;
+    }
+    body.role-atasan .sidebar .sidebar-link {
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        margin: 4px 0 !important;
+        padding: 12px 13px !important;
+        border-radius: 13px !important;
+        border-left: 0 !important;
+        transition:
+            background 0.2s ease,
+            color 0.2s ease;
+    }
+    body.role-atasan .sidebar .sidebar-link.active {
+        background: #0875ad !important;
+        color: #fff !important;
+        box-shadow: 0 5px 16px rgba(0, 0, 0, 0.14) !important;
+    }
+    body.role-atasan .main-content {
+        width: auto !important;
+        max-width: none !important;
+        min-width: 0 !important;
+        margin: calc(var(--float-gap) + var(--float-header) + 14px)
+            var(--float-gap) 0 calc(var(--float-gap) * 2 + var(--float-sidebar)) !important;
+        padding-top: 0 !important;
+    }
+    body.role-atasan.sidebar-collapsed .sidebar {
+        width: var(--float-collapsed) !important;
+        padding: 14px 8px !important;
+        transform: none !important;
+    }
+    body.role-atasan.sidebar-collapsed .sidebar .sidebar-link {
+        justify-content: center !important;
+        padding: 12px 8px !important;
+    }
+    body.role-atasan.sidebar-collapsed .sidebar .sidebar-link span,
+    body.role-atasan.sidebar-collapsed .sidebar .sidebar-brand-text,
+    body.role-atasan.sidebar-collapsed .sidebar .sidebar-section-title {
+        display: none !important;
+    }
+    body.role-atasan.sidebar-collapsed .main-content {
+        margin-left: calc(
+            var(--float-gap) * 2 + var(--float-collapsed)
+        ) !important;
+    }
+    body.role-atasan .mobile-bottom-nav {
+        display: none !important;
+    }
+}
+@media (max-width: 767.98px) {
+    body.role-atasan .mobile-app-shell {
+        width: 100% !important;
+        max-width: none !important;
+        overflow: visible !important;
+    }
+    body.role-atasan .navbar-sikinerja {
+        position: fixed !important;
+        top: 10px !important;
+        left: 10px !important;
+        right: 10px !important;
+        width: auto !important;
+        height: 60px !important;
+        min-height: 60px !important;
+        margin: 0 !important;
+        padding: 0 12px !important;
+        border: 1px solid #e0eaf3 !important;
+        border-radius: 20px !important;
+        background: #fff !important;
+        box-shadow: 0 9px 28px rgba(22, 61, 91, 0.12) !important;
+        transform: none !important;
+        z-index: 1040 !important;
+    }
+    body.role-atasan .navbar-sikinerja .sidebar-toggle-button {
+        display: none !important;
+    }
+    body.role-atasan .sidebar {
+        display: none !important;
+    }
+    body.role-atasan .main-content {
+        margin: 84px 0 0 !important;
+        width: 100% !important;
+        padding-bottom: calc(92px + env(safe-area-inset-bottom)) !important;
+    }
+    body.role-atasan .mobile-bottom-nav {
+        position: fixed !important;
+        z-index: 1040 !important;
+        display: block !important;
+        left: 10px !important;
+        right: 10px !important;
+        bottom: calc(8px + env(safe-area-inset-bottom)) !important;
+        width: auto !important;
+        max-width: none !important;
+        height: 68px !important;
+        padding: 5px !important;
+        border: 1px solid #e0eaf3 !important;
+        border-radius: 21px !important;
+        background: #fff !important;
+        box-shadow: 0 9px 28px rgba(22, 61, 91, 0.14) !important;
+    }
+    body.role-atasan .mobile-bottom-nav .nav-item {
+        min-width: 0 !important;
+        flex: 1 1 0 !important;
+    }
+}
+@media print {
+    body.role-atasan .navbar-sikinerja,
+    body.role-atasan .sidebar,
+    body.role-atasan .mobile-bottom-nav {
+        display: none !important;
+    }
+    body.role-atasan .main-content {
+        margin: 0 !important;
+        width: 100% !important;
+        padding: 0 !important;
     }
 }

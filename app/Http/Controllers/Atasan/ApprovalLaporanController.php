@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ApprovalLaporanController extends Controller
 {
+    // GANTI HANYA method index() di ApprovalLaporanController.php dengan method ini.
     public function index(Request $request, TeamVisibilityService $teamVisibility)
     {
         $bawahanIds = $teamVisibility->reportEmployeeIds($request->user());
@@ -24,67 +25,92 @@ class ApprovalLaporanController extends Controller
         $filters = $request->validate([
             'q' => ['nullable', 'string', 'max:100'],
             'bulan' => ['nullable', 'date_format:Y-m'],
+            'tanggal' => ['nullable', 'integer', 'between:1,31'],
         ]);
+
         $bulanAktif = $filters['bulan'] ?? now()->format('Y-m');
         $awalBulan = Carbon::createFromFormat('!Y-m', $bulanAktif)->startOfMonth();
+        $akhirBulan = $awalBulan->copy()->endOfMonth();
+        $jumlahHari = $awalBulan->daysInMonth;
+        $tanggalAktif = isset($filters['tanggal']) && (int) $filters['tanggal'] <= $jumlahHari
+            ? (int) $filters['tanggal']
+            : null;
 
         $status = $request->query('status', 'diajukan');
-
-        if (! in_array($status, ['draft', 'diajukan', 'disetujui', 'ditolak'])) {
+        if (! in_array($status, ['draft', 'diajukan', 'disetujui', 'ditolak'], true)) {
             $status = 'diajukan';
         }
 
-        $laporanQuery = LaporanHarian::whereIn('pegawai_id', $bawahanIds)
-            ->where('status', $status)
-            ->whereYear('tanggal', $awalBulan->year)
-            ->whereMonth('tanggal', $awalBulan->month);
+        // Query dasar khusus bulan aktif; tidak mengikuti filter status / tanggal.
+        $periodeQuery = LaporanHarian::query()
+            ->whereIn('pegawai_id', $bawahanIds)
+            ->whereBetween('tanggal', [$awalBulan->toDateString(), $akhirBulan->toDateString()]);
+
+        $statusCounts = (clone $periodeQuery)
+            ->select('status', DB::raw('COUNT(*) as total'))
+            ->groupBy('status')
+            ->pluck('total', 'status');
+
+        $activityCounts = (clone $periodeQuery)
+            ->select('tanggal', DB::raw('COUNT(*) as total'))
+            ->groupBy('tanggal')
+            ->pluck('total', 'tanggal');
+
+        // Distribusi status per tanggal untuk grafik batang bertumpuk.
+        $activityStatusCounts = (clone $periodeQuery)
+            ->select('tanggal', 'status', DB::raw('COUNT(*) as total'))
+            ->groupBy('tanggal', 'status')
+            ->get()
+            ->groupBy(fn($row) => Carbon::parse($row->tanggal)->toDateString())
+            ->map(fn($rows) => $rows->pluck('total', 'status')->map(fn($total) => (int) $total)->all())
+            ->all();
+
+        // Daftar laporan mengikuti status, pencarian, dan tanggal yang diklik.
+        $laporanQuery = (clone $periodeQuery)->where('status', $status);
+
+        if ($tanggalAktif !== null) {
+            $laporanQuery->whereDate('tanggal', $awalBulan->copy()->day($tanggalAktif)->toDateString());
+        }
 
         if (! empty($filters['q'])) {
             $search = trim($filters['q']);
-
             $laporanQuery->where(function ($query) use ($search) {
                 $query->where('catatan', 'like', "%{$search}%")
                     ->orWhereHas('pegawai', function ($pegawaiQuery) use ($search) {
                         $pegawaiQuery->where('nama', 'like', "%{$search}%")
                             ->orWhereHas('jabatan', function ($jabatanQuery) use ($search) {
                                 $jabatanQuery->where('nama_jabatan', 'like', "%{$search}%")
-                                    ->orWhereHas('divisi', fn ($divisiQuery) => $divisiQuery->where('nama_divisi', 'like', "%{$search}%"));
+                                    ->orWhereHas('divisi', fn($divisiQuery) => $divisiQuery->where('nama_divisi', 'like', "%{$search}%"));
                             });
                     })
-                    ->orWhereHas('details.templateLaporan', fn ($templateQuery) => $templateQuery->where('nama_field', 'like', "%{$search}%"));
+                    ->orWhereHas('details.templateLaporan', fn($templateQuery) => $templateQuery->where('nama_field', 'like', "%{$search}%"));
             });
         }
 
         $laporans = $laporanQuery
             ->with(['pegawai.jabatan.divisi'])
             ->orderByDesc('tanggal')
+            ->orderByDesc('id')
             ->paginate(10)
             ->withQueryString();
-
-        $statusCounts = LaporanHarian::whereIn('pegawai_id', $bawahanIds)
-            ->select('status', DB::raw('COUNT(*) as total'))
-            ->groupBy('status')
-            ->pluck('total', 'status');
-
-        $activityStart = Carbon::today()->subDays(6);
-        $activityCounts = LaporanHarian::whereIn('pegawai_id', $bawahanIds)
-            ->whereDate('tanggal', '>=', $activityStart)
-            ->select('tanggal', DB::raw('COUNT(*) as total'))
-            ->groupBy('tanggal')
-            ->pluck('total', 'tanggal');
 
         return view('atasan.laporan.index', [
             'laporans' => $laporans,
             'statusAktif' => $status,
             'statusCounts' => $statusCounts,
-            'activityStart' => $activityStart,
             'activityCounts' => $activityCounts,
+            'activityStatusCounts' => $activityStatusCounts,
             'filters' => $filters,
             'bulanAktif' => $bulanAktif,
-            'bulanLabel' => $awalBulan->translatedFormat('F Y'),
+            'bulanLabel' => $awalBulan->copy()->locale('id')->translatedFormat('F Y'),
+            'awalBulan' => $awalBulan,
+            'jumlahHari' => $jumlahHari,
+            'tanggalAktif' => $tanggalAktif,
             'routePrefix' => $teamVisibility->routePrefix($request->user()),
         ]);
     }
+
+
 
     public function show(Request $request, LaporanHarian $laporanHarian, TeamVisibilityService $teamVisibility)
     {
@@ -129,7 +155,7 @@ class ApprovalLaporanController extends Controller
 
         if ($laporanHarian->status !== 'diajukan') {
             return redirect()
-                ->route($teamVisibility->routePrefix($request->user()).'.laporan.show', $laporanHarian)
+                ->route($teamVisibility->routePrefix($request->user()) . '.laporan.show', $laporanHarian)
                 ->with('error', 'Hanya laporan berstatus "diajukan" yang dapat disetujui.');
         }
 
@@ -154,7 +180,7 @@ class ApprovalLaporanController extends Controller
         });
 
         return redirect()
-            ->route($teamVisibility->routePrefix($request->user()).'.laporan.index')
+            ->route($teamVisibility->routePrefix($request->user()) . '.laporan.index')
             ->with('success', 'Laporan berhasil disetujui.');
     }
 
@@ -265,7 +291,7 @@ class ApprovalLaporanController extends Controller
 
         if ($laporanHarian->status !== 'diajukan') {
             return redirect()
-                ->route($teamVisibility->routePrefix($request->user()).'.laporan.show', $laporanHarian)
+                ->route($teamVisibility->routePrefix($request->user()) . '.laporan.show', $laporanHarian)
                 ->with('error', 'Hanya laporan berstatus "diajukan" yang dapat ditolak.');
         }
 
@@ -285,8 +311,8 @@ class ApprovalLaporanController extends Controller
             'direktur' => 'Direktur',
             default => 'atasan',
         };
-        $catatanBaru = trim(($laporanHarian->catatan ? $laporanHarian->catatan."\n\n" : '')
-            .'[Ditolak oleh '.$penolak.']: '.$validated['alasan_penolakan']);
+        $catatanBaru = trim(($laporanHarian->catatan ? $laporanHarian->catatan . "\n\n" : '')
+            . '[Ditolak oleh ' . $penolak . ']: ' . $validated['alasan_penolakan']);
 
         DB::transaction(function () use ($laporanHarian, $atasan, $catatanBaru, $validated, $notifications) {
             $laporanHarian->update([
@@ -309,7 +335,7 @@ class ApprovalLaporanController extends Controller
         });
 
         return redirect()
-            ->route($teamVisibility->routePrefix($request->user()).'.laporan.index')
+            ->route($teamVisibility->routePrefix($request->user()) . '.laporan.index')
             ->with('success', 'Laporan berhasil ditolak.');
     }
 }

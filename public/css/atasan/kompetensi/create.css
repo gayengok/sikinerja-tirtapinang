@@ -1,449 +1,1218 @@
 body.role-atasan .kompetensi-form-page {
+    --kompetensi-primary: #0875ad;
+    --kompetensi-primary-light: #0b94c6;
+    --kompetensi-text: #1f2a37;
+    --kompetensi-muted: #64748b;
+    --kompetensi-border: #dce5ef;
+    --kompetensi-surface: #ffffff;
+
     box-sizing: border-box;
     width: 100%;
-    max-width: 560px;
-    margin: auto;
-    padding: 1rem 1rem 0;
-    color: #17213b
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 24px;
+    color: var(--kompetensi-text);
+    font-family: "Inter", sans-serif;
 }
 
-.kompetensi-form-top {
+.kompetensi-form-page *,
+.kompetensi-form-page *::before,
+.kompetensi-form-page *::after {
+    box-sizing: border-box;
+}
+
+.kompetensi-mobile-navigation {
+    display: none;
+}
+
+.kompetensi-form-breadcrumb {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 18px;
+    color: #94a3b8;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.kompetensi-form-breadcrumb a {
+    color: #64748b;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.kompetensi-form-breadcrumb a:hover,
+.kompetensi-form-breadcrumb > span {
+    color: #0875ad;
+}
+
+.kompetensi-form-breadcrumb i {
+    font-size: 9px;
+}
+
+.kompetensi-page-hero {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: .5rem;
-    margin: .8rem 0 1rem
+    gap: 30px;
+    min-width: 0;
+    padding: 30px 34px;
+    color: #ffffff;
+    background: linear-gradient(115deg, #086b9f 0%, #087fb5 55%, #0b94c6 100%);
+    border-radius: 22px;
+    box-shadow: 0 12px 28px rgba(8, 117, 173, 0.12);
 }
 
-.kompetensi-form-top h1 {
-    margin: 0;
-    font-size: 1rem
+.kompetensi-hero-content {
+    min-width: 0;
+    flex: 1;
 }
 
-.kompetensi-form-top a {
-    padding: .55rem .7rem;
-    color: #526480;
-    background: #eef4fa;
-    border-radius: 9px;
-    text-decoration: none;
-    font-size: .68rem
-}
-
-.kompetensi-form-person {
+.kompetensi-hero-eyebrow {
     display: flex;
     align-items: center;
-    gap: .7rem;
-    padding: 1rem;
-    background: #fff;
-    border: 1px solid #dfe7f0;
-    border-radius: 17px
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+    color: #d7f2ff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.25px;
 }
 
-.kompetensi-form-person>div {
-    min-width: 0;
-    flex: 1
+.kompetensi-hero-dot {
+    width: 9px;
+    height: 9px;
+    background: #20d6a0;
+    border-radius: 50%;
 }
 
-.kompetensi-form-person small {
-    color: #91a1b8;
-    font-size: .59rem
+.kompetensi-hero-divider {
+    width: 1px;
+    height: 15px;
+    background: rgba(255, 255, 255, 0.35);
 }
 
-.kompetensi-form-person h2 {
-    margin: .2rem 0;
-    font-size: .9rem
-}
-
-.kompetensi-form-person p {
+.kompetensi-page-hero h1 {
     margin: 0;
-    color: #078ac8;
-    font-size: .67rem
+    color: #ffffff;
+    font-size: clamp(23px, 2.3vw, 32px);
+    font-weight: 800;
+    line-height: 1.3;
+    letter-spacing: -0.7px;
 }
 
-.kompetensi-form-person>b {
-    padding: .4rem .5rem;
-    color: #0875ad;
-    background: #eff9ff;
-    border-radius: 8px;
-    font-size: .6rem
+.kompetensi-page-hero p {
+    max-width: 650px;
+    margin: 10px 0 0;
+    color: #d9f0fb;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.kompetensi-hero-period {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    width: 100%;
+    max-width: 330px;
+    padding: 17px;
+    background: rgba(255, 255, 255, 0.13);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 15px;
+}
+
+.kompetensi-hero-period-icon {
+    display: grid;
+    place-items: center;
+    width: 47px;
+    height: 47px;
+    flex: 0 0 47px;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    font-size: 19px;
+}
+
+.kompetensi-hero-period > div {
+    min-width: 0;
+}
+
+.kompetensi-hero-period small,
+.kompetensi-hero-period strong,
+.kompetensi-hero-period > div > span {
+    display: block;
+}
+
+.kompetensi-hero-period small {
+    color: #d7f2ff;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.kompetensi-hero-period strong {
+    margin-top: 5px;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1.45;
+}
+
+.kompetensi-hero-period > div > span {
+    margin-top: 5px;
+    color: #e1f4ff;
+    font-size: 10px;
+}
+
+.kompetensi-person-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-top: 20px;
+    padding: 20px 24px;
+    background: #ffffff;
+    border: 1px solid #dce5ef;
+    border-radius: 18px;
+    box-shadow: 0 5px 18px rgba(31, 42, 55, 0.035);
+}
+
+.kompetensi-person-main {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+    flex: 1;
 }
 
 .kompetensi-avatar {
     display: grid;
     place-items: center;
-    width: 45px;
-    height: 45px;
-    flex: 0 0 45px;
-    color: #fff;
-    background: linear-gradient(145deg, #1676df, #08a5c9);
-    border-radius: 13px;
-    font-weight: 700
+    width: 65px;
+    height: 65px;
+    flex: 0 0 65px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #0875ad, #0b94c6);
+    border-radius: 17px;
+    font-size: 19px;
+    font-weight: 800;
 }
 
-.kompetensi-form-intro {
+.kompetensi-person-info {
+    min-width: 0;
+}
+
+.kompetensi-person-label {
+    display: block;
+    margin-bottom: 5px;
+    color: #0875ad;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.65px;
+}
+
+.kompetensi-person-info h2 {
+    margin: 0 0 7px;
+    color: #1f2a37;
+    font-size: 18px;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.kompetensi-person-info p {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 4px 0 0;
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.kompetensi-person-info p i {
+    width: 14px;
+    color: #0875ad;
+    text-align: center;
+}
+
+.kompetensi-person-side {
+    min-width: 155px;
+    padding: 13px 18px;
+    background: #f3f9fd;
+    border: 1px solid #e0edf6;
+    border-radius: 13px;
+    text-align: center;
+}
+
+.kompetensi-person-side-label {
+    display: block;
+    color: #64748b;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.kompetensi-person-side-label i {
+    margin-right: 5px;
+    color: #0875ad;
+}
+
+.kompetensi-person-side > strong {
+    display: block;
+    margin-top: 5px;
+    color: #0875ad;
+    font-size: 25px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.kompetensi-person-side > small {
+    display: block;
+    margin-top: 3px;
+    color: #64748b;
+    font-size: 10px;
+}
+
+.kompetensi-progress-card {
+    margin-top: 20px;
+    padding: 20px 24px;
+    background: #ffffff;
+    border: 1px solid #dce5ef;
+    border-radius: 18px;
+}
+
+.kompetensi-progress-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.kompetensi-progress-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.kompetensi-progress-icon {
+    display: grid;
+    place-items: center;
+    width: 43px;
+    height: 43px;
+    flex: 0 0 43px;
+    color: #0875ad;
+    background: #e8f5fc;
+    border-radius: 12px;
+    font-size: 17px;
+}
+
+.kompetensi-progress-title > div > span {
+    color: #0875ad;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+}
+
+.kompetensi-progress-title h2 {
+    margin: 4px 0 0;
+    color: #1f2a37;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.kompetensi-progress-percentage {
+    text-align: right;
+}
+
+.kompetensi-progress-percentage strong {
+    display: block;
+    color: #0875ad;
+    font-size: 23px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.kompetensi-progress-percentage span {
+    color: #64748b;
+    font-size: 10px;
+}
+
+.kompetensi-progress-track {
+    height: 10px;
+    margin-top: 17px;
+    overflow: hidden;
+    background: #e2ebf3;
+    border-radius: 999px;
+}
+
+.kompetensi-progress-track > div {
+    height: 100%;
+    background: linear-gradient(90deg, #0875ad, #0b94c6);
+    border-radius: inherit;
+    transition: width 0.25s ease;
+}
+
+.kompetensi-progress-footer {
     display: flex;
     justify-content: space-between;
-    gap: .5rem;
-    margin: 1rem 0 .7rem;
-    padding: .85rem;
-    color: #0875ad;
-    background: #eff9ff;
-    border: 1px solid #c7eaff;
-    border-radius: 13px;
-    font-size: .66rem
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    margin-top: 13px;
+    color: #64748b;
+    font-size: 11px;
 }
 
-.kompetensi-form-intro span {
-    color: #71829c
+.kompetensi-progress-footer i {
+    margin-right: 4px;
+    color: #10b981;
+}
+
+.kompetensi-progress-footer strong {
+    color: #1f2a37;
+    font-weight: 800;
+}
+
+.kompetensi-section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin: 26px 0 16px;
+}
+
+.kompetensi-section-kicker {
+    color: #0875ad;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+}
+
+.kompetensi-section-heading h2 {
+    margin: 6px 0 5px;
+    color: #1f2a37;
+    font-size: 21px;
+    font-weight: 800;
+}
+
+.kompetensi-section-heading p {
+    margin: 0;
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.65;
+}
+
+.kompetensi-weight-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex: 0 0 auto;
+    padding: 10px 13px;
+    color: #0875ad;
+    background: #e8f5fc;
+    border: 1px solid #cce9f8;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.kompetensi-indicator-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    align-items: stretch;
 }
 
 .kompetensi-indicator {
-    margin-bottom: .75rem;
-    padding: 1rem;
-    background: #fff;
-    border: 1px solid #dfe7f0;
-    border-radius: 16px
+    min-width: 0;
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid #dce5ef;
+    border-radius: 17px;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.kompetensi-indicator:hover {
+    border-color: #b7d9eb;
+    box-shadow: 0 5px 18px rgba(8, 117, 173, 0.045);
+}
+
+.kompetensi-indicator.is-filled {
+    border-color: #c7e4f2;
+}
+
+.kompetensi-indicator-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
 }
 
 .kompetensi-indicator-title {
     display: flex;
-    gap: .65rem
+    align-items: flex-start;
+    gap: 11px;
+    min-width: 0;
+    flex: 1;
 }
 
-.kompetensi-indicator-title>span {
+.kompetensi-indicator-number {
     display: grid;
     place-items: center;
-    width: 28px;
-    height: 28px;
-    flex: 0 0 28px;
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
     color: #0875ad;
-    background: #eaf7ff;
-    border-radius: 8px;
-    font-size: .7rem;
-    font-weight: 700
-}
-
-.kompetensi-indicator-title h2 {
-    margin: 0;
-    font-size: .82rem
-}
-
-.kompetensi-indicator-title p {
-    margin: .3rem 0 .8rem;
-    color: #71829c;
-    font-size: .68rem;
-    line-height: 1.45
-}
-
-.kompetensi-indicator label {
-    display: block;
-    margin-top: .65rem;
-    color: #526480;
-    font-size: .68rem;
-    font-weight: 600
-}
-
-.kompetensi-indicator input,
-.kompetensi-indicator textarea {
-    box-sizing: border-box;
-    width: 100%;
-    margin-top: .35rem;
-    padding: .65rem;
-    color: #17213b;
-    background: #fff;
-    border: 1px solid #cbd9e7;
-    border-radius: 10px;
-    font: inherit;
-    font-size: .75rem;
-    outline: 0
-}
-
-.kompetensi-indicator input {
-    max-width: 110px
-}
-
-.kompetensi-indicator textarea {
-    resize: vertical
-}
-
-.kompetensi-form-actions {
-    display: flex;
-    gap: .6rem;
-    margin-top: 1rem
-}
-
-.kompetensi-form-actions a,
-.kompetensi-form-actions button {
-    padding: .78rem;
-    text-align: center;
+    background: #e8f5fc;
     border-radius: 11px;
-    font: inherit;
-    font-size: .72rem;
-    text-decoration: none
+    font-size: 13px;
+    font-weight: 800;
 }
 
-.kompetensi-form-actions a {
-    min-width: 90px;
-    color: #526480;
-    background: #fff;
-    border: 1px solid #cbd9e7
+.kompetensi-indicator-title > div {
+    min-width: 0;
 }
 
-.kompetensi-form-actions button {
-    flex: 1;
-    color: #fff;
-    background: #078ac8;
-    border: 0;
-    font-weight: 700
+.kompetensi-indicator-kicker {
+    display: block;
+    margin-bottom: 5px;
+    color: #94a3b8;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.6px;
 }
 
-.kompetensi-form-breadcrumb {
-    display: none;
+.kompetensi-indicator-title h3 {
+    margin: 0;
+    color: #1f2a37;
+    font-size: 14px;
+    font-weight: 800;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.kompetensi-indicator-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    flex: 0 0 auto;
+    padding: 6px 9px;
+    color: #64748b;
+    background: #f1f5f9;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.kompetensi-indicator-status.is-complete {
+    color: #059669;
+    background: #e7f9f1;
+}
+
+.kompetensi-indicator-description {
+    min-height: 42px;
+    margin: 14px 0 0;
+    padding: 12px 13px;
+    color: #64748b;
+    background: #f7fafd;
+    border: 1px solid #edf2f7;
+    border-radius: 10px;
+    font-size: 11px;
+    line-height: 1.7;
 }
 
 .kompetensi-score-field {
     min-width: 0;
-    margin: .55rem 0 0;
+    margin: 19px 0 0;
     padding: 0;
     border: 0;
 }
 
 .kompetensi-score-field legend {
-    margin-bottom: .35rem;
-    color: #526480;
-    font-size: .68rem;
-    font-weight: 600;
+    float: none;
+    width: auto;
+    margin: 0 0 11px;
+    padding: 0;
+    color: #334155;
+    font-size: 12px;
+    font-weight: 800;
 }
 
-.kompetensi-score-field legend em {
-    color: #e54862;
-    font-style: normal;
+.kompetensi-required {
+    color: #ef4444;
 }
 
 .kompetensi-score-options {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: .35rem;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 9px;
 }
 
-.kompetensi-score-options label {
+.kompetensi-score-option {
     position: relative;
-    display: inline-flex;
+    display: block;
+    min-width: 0;
     margin: 0;
     cursor: pointer;
 }
 
-.kompetensi-score-options input {
+.kompetensi-score-option input {
     position: absolute;
     width: 1px;
     height: 1px;
     margin: 0;
-    overflow: hidden;
     opacity: 0;
 }
 
-.kompetensi-score-options label>span {
+.kompetensi-score-option > span {
     display: grid;
     place-items: center;
-    width: 32px;
-    height: 30px;
-    color: #526480;
-    background: #fff;
-    border: 1px solid #dfe7f0;
-    border-radius: 5px;
-    font-size: .68rem;
-    font-weight: 700;
-    transition: color .15s ease, background .15s ease, border-color .15s ease;
+    width: 100%;
+    min-height: 45px;
+    color: #475569;
+    background: #ffffff;
+    border: 1px solid #dce5ef;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 800;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
 }
 
-.kompetensi-score-options input:checked+span {
-    color: #fff;
-    background: #0b8db3;
-    border-color: #0b8db3;
+.kompetensi-score-option:hover > span {
+    color: #0875ad;
+    background: #eef8fd;
+    border-color: #91cbe9;
 }
 
-.kompetensi-score-options input:focus-visible+span {
-    outline: 2px solid #1769d2;
+.kompetensi-score-option input:checked + span {
+    color: #ffffff;
+    background: #0875ad;
+    border-color: #0875ad;
+    box-shadow: 0 4px 10px rgba(8, 117, 173, 0.15);
+}
+
+.kompetensi-score-option input:focus-visible + span {
+    outline: 3px solid rgba(8, 117, 173, 0.25);
     outline-offset: 2px;
 }
 
-.kompetensi-score-options>small {
-    margin-left: .35rem;
-    color: #8290a0;
-    font-size: .58rem;
+.kompetensi-score-scale {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 9px;
+    color: #94a3b8;
+    font-size: 10px;
 }
 
-@media (min-width: 992px) {
-    body.role-atasan .kompetensi-form-page {
-        width: 100%;
-        max-width: 1120px;
-        margin: 0 auto;
-        padding: 1.4rem 1.5rem 2rem;
-        color: #1b2938;
-    }
+.kompetensi-note-field {
+    margin-top: 20px;
+}
 
-    .atasan-mobile-breadcrumb {
-        display: none;
-    }
+.kompetensi-note-field > label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 9px;
+    color: #334155;
+    font-size: 12px;
+    font-weight: 800;
+}
 
-    .kompetensi-form-breadcrumb {
-        display: flex;
-        align-items: center;
-        gap: .4rem;
-        margin-bottom: .4rem;
-        color: #718092;
-        font-size: .64rem;
-    }
+.kompetensi-note-field > label i {
+    color: #0875ad;
+}
 
-    .kompetensi-form-breadcrumb a {
-        color: #718092;
-        text-decoration: none;
-    }
+.kompetensi-note-field > label > span {
+    margin-left: auto;
+    color: #94a3b8;
+    font-size: 10px;
+    font-weight: 500;
+}
 
-    .kompetensi-form-breadcrumb>span,
-    .kompetensi-form-breadcrumb a:hover {
-        color: #1769d2;
-    }
+.kompetensi-note-field textarea {
+    display: block;
+    width: 100%;
+    min-height: 92px;
+    padding: 12px 13px;
+    color: #1f2a37;
+    background: #fbfdff;
+    border: 1px solid #dce5ef;
+    border-radius: 11px;
+    outline: none;
+    resize: vertical;
+    font: inherit;
+    font-size: 12px;
+    line-height: 1.65;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
 
-    .kompetensi-form-breadcrumb i {
-        color: #a0acb9;
-        font-size: .48rem;
-    }
+.kompetensi-note-field textarea::placeholder {
+    color: #a0aec0;
+}
 
-    .kompetensi-form-person {
-        gap: .7rem;
-        margin-bottom: .75rem;
-        padding: .75rem .9rem;
-        border-color: #e2e8ef;
-        border-radius: 8px;
-        box-shadow: none;
-    }
+.kompetensi-note-field textarea:focus {
+    background: #ffffff;
+    border-color: #0b94c6;
+    box-shadow: 0 0 0 3px rgba(11, 148, 198, 0.1);
+}
 
-    .kompetensi-avatar {
-        width: 40px;
-        height: 40px;
-        flex-basis: 40px;
-        border-radius: 7px;
-        font-size: .7rem;
-    }
+.kompetensi-note-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 7px;
+    color: #94a3b8;
+    font-size: 10px;
+}
 
-    .kompetensi-form-person small {
-        font-size: .57rem;
-    }
+.kompetensi-field-error {
+    display: block;
+    margin-top: 7px;
+    color: #dc2626;
+    font-size: 11px;
+    font-weight: 600;
+}
 
-    .kompetensi-form-person h2 {
-        font-size: .8rem;
-    }
+.kompetensi-validation-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding: 14px 16px;
+    color: #9f1239;
+    background: #fff1f2;
+    border: 1px solid #fecdd3;
+    border-radius: 12px;
+}
 
-    .kompetensi-form-person p {
-        font-size: .61rem;
-    }
+.kompetensi-validation-alert > i {
+    margin-top: 2px;
+    font-size: 17px;
+}
 
-    .kompetensi-form-person>b {
-        padding: .3rem .42rem;
-        border-radius: 5px;
-        font-size: .57rem;
-    }
+.kompetensi-validation-alert strong {
+    display: block;
+    font-size: 12px;
+}
 
-    .kompetensi-form-intro {
-        align-items: center;
-        margin: .65rem 0 .55rem;
-        padding: .6rem .75rem;
-        border-radius: 6px;
-        font-size: .62rem;
+.kompetensi-validation-alert p {
+    margin: 4px 0 0;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.kompetensi-form-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-top: 20px;
+    padding: 20px 24px;
+    background: #ffffff;
+    border: 1px solid #dce5ef;
+    border-radius: 17px;
+}
+
+.kompetensi-form-bottom-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.kompetensi-form-bottom-icon {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+    color: #0875ad;
+    background: #e8f5fc;
+    border-radius: 11px;
+    font-size: 17px;
+}
+
+.kompetensi-form-bottom-info strong {
+    display: block;
+    color: #1f2a37;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.kompetensi-form-bottom-info p {
+    margin: 5px 0 0;
+    color: #64748b;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.kompetensi-form-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 0 0 auto;
+}
+
+.kompetensi-form-actions a,
+.kompetensi-form-actions button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 43px;
+    padding: 11px 17px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 800;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.kompetensi-form-actions a {
+    color: #475569;
+    background: #ffffff;
+    border: 1px solid #dce5ef;
+}
+
+.kompetensi-form-actions a:hover {
+    background: #f1f5f9;
+}
+
+.kompetensi-form-actions button {
+    color: #ffffff;
+    background: #0875ad;
+    border: 1px solid #0875ad;
+    cursor: pointer;
+}
+
+.kompetensi-form-actions button:hover:not(:disabled) {
+    background: #065f91;
+    transform: translateY(-1px);
+}
+
+.kompetensi-form-actions button:disabled {
+    opacity: 0.7;
+    cursor: wait;
+}
+
+.kompetensi-empty-state {
+    margin-top: 20px;
+    padding: 45px 24px;
+    background: #ffffff;
+    border: 1px solid #dce5ef;
+    border-radius: 18px;
+    text-align: center;
+}
+
+.kompetensi-empty-icon {
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 17px;
+    color: #0875ad;
+    background: #e8f5fc;
+    border-radius: 18px;
+    font-size: 25px;
+}
+
+.kompetensi-empty-state h2 {
+    margin: 0;
+    color: #1f2a37;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.kompetensi-empty-state p {
+    max-width: 450px;
+    margin: 10px auto 20px;
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.kompetensi-empty-state a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 16px;
+    color: #ffffff;
+    background: #0875ad;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+@media (max-width: 1199px) {
+    .kompetensi-indicator-grid {
+        gap: 13px;
     }
 
     .kompetensi-indicator {
+        padding: 17px;
+    }
+
+    .kompetensi-indicator-header {
+        flex-wrap: wrap;
+    }
+
+    .kompetensi-indicator-status {
+        margin-left: 49px;
+    }
+}
+
+@media (max-width: 991px) {
+    body.role-atasan .kompetensi-form-page {
+        max-width: 720px;
+        padding: 16px 15px 28px;
+    }
+
+    .kompetensi-form-breadcrumb {
+        display: none;
+    }
+
+    .kompetensi-mobile-navigation {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 15px;
+    }
+
+    .kompetensi-mobile-navigation > a {
         display: grid;
+        place-items: center;
+        width: 40px;
+        height: 40px;
+        flex: 0 0 40px;
+        color: #0875ad;
+        background: #ffffff;
+        border: 1px solid #dce5ef;
+        border-radius: 12px;
+        text-decoration: none;
+    }
+
+    .kompetensi-mobile-navigation > div > span,
+    .kompetensi-mobile-navigation > div > strong {
+        display: block;
+    }
+
+    .kompetensi-mobile-navigation > div > span {
+        color: #64748b;
+        font-size: 10px;
+    }
+
+    .kompetensi-mobile-navigation > div > strong {
+        margin-top: 2px;
+        color: #1f2a37;
+        font-size: 13px;
+        font-weight: 800;
+    }
+
+    .kompetensi-page-hero {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 20px;
+        padding: 23px 21px;
+        border-radius: 18px;
+    }
+
+    .kompetensi-page-hero h1 {
+        font-size: 24px;
+    }
+
+    .kompetensi-page-hero p {
+        font-size: 12px;
+    }
+
+    .kompetensi-hero-period {
+        max-width: none;
+    }
+
+    .kompetensi-indicator-grid {
         grid-template-columns: minmax(0, 1fr);
-        gap: .1rem;
-        margin-bottom: .6rem;
-        padding: .8rem .9rem;
-        border-color: #e2e8ef;
-        border-radius: 7px;
-        box-shadow: none;
     }
 
-    .kompetensi-indicator-title {
-        gap: .5rem;
+    .kompetensi-indicator-header {
+        flex-wrap: nowrap;
     }
 
-    .kompetensi-indicator-title>span {
-        width: 26px;
-        height: 26px;
-        flex-basis: 26px;
-        border-radius: 5px;
-        font-size: .63rem;
+    .kompetensi-indicator-status {
+        margin-left: 0;
     }
 
-    .kompetensi-indicator-title h2 {
-        color: #25364a;
-        font-size: .73rem;
-    }
-
-    .kompetensi-indicator-title p {
-        margin: .2rem 0 .25rem;
-        font-size: .62rem;
-    }
-
-    .kompetensi-score-field {
-        margin-top: .35rem;
-    }
-
-    .kompetensi-score-field legend {
-        margin-bottom: .28rem;
-        font-size: .62rem;
-    }
-
-    .kompetensi-score-options {
-        gap: .3rem;
-    }
-
-    .kompetensi-score-options label>span {
-        width: 30px;
-        height: 28px;
-        border-radius: 4px;
-        font-size: .62rem;
-    }
-
-    .kompetensi-score-options>small {
-        font-size: .56rem;
-    }
-
-    .kompetensi-indicator>label {
-        margin-top: .45rem;
-        font-size: .62rem;
-    }
-
-    .kompetensi-indicator textarea {
-        min-height: 34px;
-        margin-top: .25rem;
-        padding: .45rem .55rem;
-        border-radius: 5px;
-        font-size: .62rem;
-    }
-
-    .kompetensi-indicator>.text-danger {
-        margin-top: .3rem;
-        font-size: .59rem;
+    .kompetensi-form-bottom {
+        flex-direction: column;
+        align-items: stretch;
     }
 
     .kompetensi-form-actions {
-        justify-content: flex-end;
-        gap: .5rem;
-        margin-top: .75rem;
+        width: 100%;
+    }
+
+    .kompetensi-form-actions a {
+        flex: 0 0 32%;
+    }
+
+    .kompetensi-form-actions button {
+        flex: 1;
+    }
+}
+
+@media (max-width: 575px) {
+    body.role-atasan .kompetensi-form-page {
+        padding: 12px 12px 26px;
+    }
+
+    .kompetensi-page-hero {
+        gap: 17px;
+        padding: 21px 18px;
+        border-radius: 17px;
+    }
+
+    .kompetensi-hero-eyebrow {
+        gap: 7px;
+        margin-bottom: 12px;
+        font-size: 9px;
+    }
+
+    .kompetensi-page-hero h1 {
+        font-size: 22px;
+    }
+
+    .kompetensi-page-hero p {
+        font-size: 11px;
+    }
+
+    .kompetensi-hero-period {
+        padding: 12px;
+        border-radius: 12px;
+    }
+
+    .kompetensi-hero-period-icon {
+        width: 41px;
+        height: 41px;
+        flex-basis: 41px;
+        font-size: 17px;
+    }
+
+    .kompetensi-hero-period strong {
+        font-size: 12px;
+    }
+
+    .kompetensi-person-card {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 13px;
+        padding: 16px;
+        border-radius: 15px;
+    }
+
+    .kompetensi-person-main {
+        width: 100%;
+        gap: 12px;
+    }
+
+    .kompetensi-avatar {
+        width: 53px;
+        height: 53px;
+        flex-basis: 53px;
+        border-radius: 13px;
+        font-size: 15px;
+    }
+
+    .kompetensi-person-info h2 {
+        font-size: 15px;
+    }
+
+    .kompetensi-person-info p {
+        font-size: 10px;
+    }
+
+    .kompetensi-person-side {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        width: 100%;
+        min-width: 0;
+        padding: 10px 12px;
+        text-align: left;
+    }
+
+    .kompetensi-person-side-label {
+        font-size: 10px;
+    }
+
+    .kompetensi-person-side > strong {
+        margin: 0 0 0 auto;
+        font-size: 20px;
+    }
+
+    .kompetensi-person-side > small {
+        display: none;
+    }
+
+    .kompetensi-progress-card {
+        margin-top: 13px;
+        padding: 15px;
+        border-radius: 15px;
+    }
+
+    .kompetensi-progress-title {
+        gap: 10px;
+    }
+
+    .kompetensi-progress-icon {
+        width: 38px;
+        height: 38px;
+        flex-basis: 38px;
+        font-size: 15px;
+    }
+
+    .kompetensi-progress-title h2 {
+        font-size: 12px;
+    }
+
+    .kompetensi-progress-percentage strong {
+        font-size: 19px;
+    }
+
+    .kompetensi-progress-footer {
+        font-size: 10px;
+    }
+
+    .kompetensi-section-heading {
+        align-items: flex-start;
+        gap: 10px;
+        margin: 21px 0 13px;
+    }
+
+    .kompetensi-section-heading h2 {
+        font-size: 17px;
+    }
+
+    .kompetensi-section-heading p {
+        font-size: 10px;
+    }
+
+    .kompetensi-weight-badge {
+        padding: 7px 9px;
+        font-size: 10px;
+        white-space: nowrap;
+    }
+
+    .kompetensi-indicator-grid {
+        gap: 12px;
+    }
+
+    .kompetensi-indicator {
+        padding: 15px;
+        border-radius: 15px;
+    }
+
+    .kompetensi-indicator-title {
+        gap: 9px;
+    }
+
+    .kompetensi-indicator-number {
+        width: 34px;
+        height: 34px;
+        flex-basis: 34px;
+        border-radius: 9px;
+        font-size: 11px;
+    }
+
+    .kompetensi-indicator-title h3 {
+        font-size: 12px;
+    }
+
+    .kompetensi-indicator-status {
+        padding: 5px 7px;
+        font-size: 9px;
+    }
+
+    .kompetensi-indicator-description {
+        min-height: 0;
+        padding: 10px 11px;
+        font-size: 10px;
+    }
+
+    .kompetensi-score-field {
+        margin-top: 15px;
+    }
+
+    .kompetensi-score-options {
+        gap: 7px;
+    }
+
+    .kompetensi-score-option > span {
+        min-height: 43px;
+        font-size: 14px;
+    }
+
+    .kompetensi-note-field {
+        margin-top: 17px;
+    }
+
+    .kompetensi-note-field textarea {
+        min-height: 85px;
+        font-size: 11px;
+    }
+
+    .kompetensi-form-bottom {
+        gap: 16px;
+        margin-top: 14px;
+        padding: 15px;
+        border-radius: 15px;
+    }
+
+    .kompetensi-form-bottom-info strong {
+        font-size: 11px;
+    }
+
+    .kompetensi-form-bottom-info p {
+        font-size: 10px;
+    }
+
+    .kompetensi-form-actions {
+        gap: 8px;
     }
 
     .kompetensi-form-actions a,
     .kompetensi-form-actions button {
-        min-height: 38px;
-        padding: .5rem .75rem;
-        border-radius: 5px;
-        font-size: .67rem;
+        min-height: 43px;
+        padding: 10px 12px;
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 360px) {
+    .kompetensi-indicator-header {
+        flex-wrap: wrap;
     }
 
-    .kompetensi-form-actions a {
-        min-width: 92px;
+    .kompetensi-indicator-status {
+        margin-left: 43px;
+    }
+
+    .kompetensi-section-heading {
+        flex-wrap: wrap;
     }
 }

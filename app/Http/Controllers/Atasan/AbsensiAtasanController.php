@@ -11,49 +11,119 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class AbsensiAtasanController extends Controller
 {
     public function index(Request $request, TeamVisibilityService $teamVisibility)
     {
         $pegawaiIds = $teamVisibility->attendanceEmployeeIds($request->user());
-        $jenisPegawai = $request->user()->role === 'kepala_bagian' ? 'Atasan' : 'Pegawai';
 
-        $bulan = (int) $request->query('bulan', now()->month);
-        $tahun = (int) $request->query('tahun', now()->year);
-        $status = $request->query('status');
-        $search = trim((string) $request->query('search', ''));
+        $jenisPegawai = $request->user()->role === 'kepala_bagian'
+            ? 'Atasan'
+            : 'Pegawai';
 
-        $query = Pegawai::whereIn('id', $pegawaiIds)
-            ->with(['jabatan.divisi', 'absensis' => function ($absensiQuery) use ($bulan, $tahun, $status) {
-                $absensiQuery->whereMonth('tanggal', $bulan)
-                    ->whereYear('tanggal', $tahun)
-                    ->when($status, fn($query) => $query->where('status', $status))
-                    ->latest('tanggal');
-            }])
-            ->when($status, function ($query) use ($bulan, $tahun, $status) {
-                $query->whereHas('absensis', function ($absensiQuery) use ($bulan, $tahun, $status) {
-                    $absensiQuery->whereMonth('tanggal', $bulan)
-                        ->whereYear('tanggal', $tahun)
-                        ->where('status', $status);
-                });
+        $validated = $request->validate([
+            'bulan' => ['nullable', 'integer', 'between:1,12'],
+            'tahun' => ['nullable', 'integer', 'between:2000,2100'],
+            'tanggal' => ['nullable', 'integer', 'between:1,31'],
+            'status' => [
+                'nullable',
+                Rule::in([
+                    'hadir',
+                    'izin',
+                    'sakit',
+                    'alpa',
+                    'tidak_hadir',
+                    'cuti',
+                    'dinas_luar',
+                ]),
+            ],
+            'search' => ['nullable', 'string', 'max:150'],
+        ]);
+
+        $bulan = (int) ($validated['bulan'] ?? now()->month);
+        $tahun = (int) ($validated['tahun'] ?? now()->year);
+        $status = $validated['status'] ?? null;
+        $search = trim((string) ($validated['search'] ?? ''));
+
+        $awalPeriode = Carbon::create($tahun, $bulan, 1)->startOfDay();
+        $jumlahHari = $awalPeriode->daysInMonth;
+
+        $tanggalDefault = $bulan === now()->month && $tahun === now()->year
+            ? now()->day
+            : 1;
+
+        $tanggal = min(
+            max((int) ($validated['tanggal'] ?? $tanggalDefault), 1),
+            $jumlahHari
+        );
+
+        $tanggalDipilih = Carbon::create(
+            $tahun,
+            $bulan,
+            $tanggal
+        )->startOfDay();
+
+        /*
+         * Data tabel hanya untuk tanggal terpilih.
+         * Status juga difilter berdasarkan tanggal tersebut.
+         */
+        $query = Pegawai::query()
+            ->whereIn('id', $pegawaiIds)
+            ->with([
+                'jabatan.divisi',
+                'absensis' => function ($absensiQuery) use ($tanggalDipilih) {
+                    $absensiQuery
+                        ->whereDate('tanggal', $tanggalDipilih->toDateString())
+                        ->orderByDesc('id');
+                },
+            ])
+            ->when($status, function ($pegawaiQuery) use ($tanggalDipilih, $status) {
+                $pegawaiQuery->whereHas(
+                    'absensis',
+                    function ($absensiQuery) use ($tanggalDipilih, $status) {
+                        $absensiQuery
+                            ->whereDate('tanggal', $tanggalDipilih->toDateString())
+                            ->where('status', $status);
+                    }
+                );
             })
-            ->when($search, function ($query) use ($search) {
-                $query->where(function ($employeeQuery) use ($search) {
-                    $employeeQuery->where('nama', 'like', "%{$search}%")
-                        ->orWhere('nip', 'like', "%{$search}%");
+            ->when($search !== '', function ($pegawaiQuery) use ($search) {
+                $pegawaiQuery->where(function ($employeeQuery) use ($search) {
+                    $employeeQuery
+                        ->where('nama', 'like', '%' . $search . '%')
+                        ->orWhere('nip', 'like', '%' . $search . '%')
+                        ->orWhereHas('jabatan', function ($jabatanQuery) use ($search) {
+                            $jabatanQuery
+                                ->where('nama_jabatan', 'like', '%' . $search . '%')
+                                ->orWhereHas('divisi', function ($divisiQuery) use ($search) {
+                                    $divisiQuery->where(
+                                        'nama_divisi',
+                                        'like',
+                                        '%' . $search . '%'
+                                    );
+                                });
+                        });
                 });
             })
             ->orderBy('nama');
 
         $pegawais = $query->paginate(10)->withQueryString();
 
-        $pegawaiRingkasan = Pegawai::whereIn('id', $pegawaiIds)
+        /*
+         * Ringkasan bulanan tetap berdasarkan seluruh pegawai
+         * yang boleh dilihat oleh atasan.
+         */
+        $pegawaiRingkasan = Pegawai::query()
+            ->whereIn('id', $pegawaiIds)
             ->with([
                 'jabatan.jamKerjas',
-                'absensis' => fn($absensiQuery) => $absensiQuery
-                    ->whereMonth('tanggal', $bulan)
-                    ->whereYear('tanggal', $tahun),
+                'absensis' => function ($absensiQuery) use ($bulan, $tahun) {
+                    $absensiQuery
+                        ->whereMonth('tanggal', $bulan)
+                        ->whereYear('tanggal', $tahun);
+                },
             ])
             ->get();
 
@@ -64,71 +134,147 @@ class AbsensiAtasanController extends Controller
             'sakit' => 0,
             'alpa' => 0,
             'telat' => 0,
+            'cuti' => 0,
+            'dinas_luar' => 0,
         ];
-        $namaHari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+
+        $namaHari = [
+            'Minggu',
+            'Senin',
+            'Selasa',
+            'Rabu',
+            'Kamis',
+            'Jumat',
+            'Sabtu',
+        ];
+
+        // Sediakan seluruh tanggal kalender, termasuk hari tanpa presensi.
+        $grafikHarian = [];
+        for ($hari = 1; $hari <= $jumlahHari; $hari++) {
+            $grafikHarian[$hari] = [
+                'day' => $hari,
+                'counts' => [
+                    'hadir' => 0,
+                    'izin' => 0,
+                    'sakit' => 0,
+                    'alpa' => 0,
+                    'telat' => 0,
+                ],
+            ];
+        }
 
         foreach ($pegawaiRingkasan as $pegawai) {
+            $jamKerjas = $pegawai->jabatan?->jamKerjas ?? collect();
+
             foreach ($pegawai->absensis as $absensi) {
                 $ringkasan['total']++;
+                $hariAbsensi = Carbon::parse($absensi->tanggal)->day;
 
                 if (in_array($absensi->status, ['alpa', 'tidak_hadir'], true)) {
                     $ringkasan['alpa']++;
-
+                    $grafikHarian[$hariAbsensi]['counts']['alpa']++;
                     continue;
                 }
 
                 if ($absensi->status !== 'hadir') {
-                    if (isset($ringkasan[$absensi->status])) {
+                    if (array_key_exists($absensi->status, $ringkasan)) {
                         $ringkasan[$absensi->status]++;
+                        if (array_key_exists($absensi->status, $grafikHarian[$hariAbsensi]['counts'])) {
+                            $grafikHarian[$hariAbsensi]['counts'][$absensi->status]++;
+                        }
                     }
 
                     continue;
                 }
 
-                $jamKerjas = $pegawai->jabatan?->jamKerjas ?? collect();
-                $jadwal = $jamKerjas->firstWhere('hari', $namaHari[$absensi->tanggal->dayOfWeek])
-                    ?? $jamKerjas->firstWhere('hari', 'Kerja');
+                $tanggalAbsensi = Carbon::parse($absensi->tanggal);
+
+                $jadwal = $jamKerjas->firstWhere(
+                    'hari',
+                    $namaHari[$tanggalAbsensi->dayOfWeek]
+                ) ?? $jamKerjas->firstWhere('hari', 'Kerja');
 
                 $terlambat = false;
+
                 if ($jadwal && $absensi->jam_masuk) {
                     $batasMasuk = Carbon::parse($jadwal->jam_masuk)
-                        ->addMinutes((int) $jadwal->toleransi_menit);
-                    $terlambat = Carbon::parse($absensi->jam_masuk)->gt($batasMasuk);
+                        ->addMinutes((int) ($jadwal->toleransi_menit ?? 0));
+
+                    $terlambat = Carbon::parse($absensi->jam_masuk)
+                        ->gt($batasMasuk);
                 }
 
-                $ringkasan[$terlambat ? 'telat' : 'hadir']++;
+                $kategori = $terlambat ? 'telat' : 'hadir';
+                $ringkasan[$kategori]++;
+                $grafikHarian[$hariAbsensi]['counts'][$kategori]++;
             }
         }
 
-        $awalPeriode = Carbon::create($tahun, $bulan, 1)->startOfDay();
-        $akhirPeriode = $awalPeriode->copy()->endOfMonth()->min(now()->startOfDay());
+        $akhirPeriode = $awalPeriode->copy()->endOfMonth();
         $hariKerja = 0;
-        for ($tanggal = $awalPeriode->copy(); $tanggal->lte($akhirPeriode); $tanggal->addDay()) {
-            if ($tanggal->isWeekday()) {
-                $hariKerja++;
+
+        if ($awalPeriode->lte(now())) {
+            if ($akhirPeriode->gt(now())) {
+                $akhirPeriode = now()->startOfDay();
+            }
+
+            for (
+                $hari = $awalPeriode->copy();
+                $hari->lte($akhirPeriode);
+                $hari->addDay()
+            ) {
+                if ($hari->isWeekday()) {
+                    $hariKerja++;
+                }
             }
         }
 
-        return view('atasan.absensi.data-absensi', [
+        $data = [
             'pegawais' => $pegawais,
             'bulan' => $bulan,
             'tahun' => $tahun,
+            'tanggal' => $tanggal,
+            'tanggalDipilih' => $tanggalDipilih,
+            'jumlahHari' => $jumlahHari,
             'status' => $status,
             'search' => $search,
             'ringkasan' => $ringkasan,
+            'grafikHarian' => array_values($grafikHarian),
             'hariKerja' => $hariKerja,
             'jumlahPegawai' => $pegawaiRingkasan->count(),
             'jenisPegawai' => $jenisPegawai,
             'routePrefix' => $teamVisibility->routePrefix($request->user()),
-        ]);
+        ];
+
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'html' => view('atasan.absensi.partials.list', $data)->render(),
+                'total' => $pegawais->total(),
+                'tanggal' => $tanggal,
+                'tanggal_label' => $tanggalDipilih->translatedFormat('l, d F Y'),
+            ]);
+        }
+
+        return view('atasan.absensi.data-absensi', $data);
     }
 
-    public function show(Request $request, Absensi $absensi, TeamVisibilityService $teamVisibility)
-    {
+    public function show(
+        Request $request,
+        Absensi $absensi,
+        TeamVisibilityService $teamVisibility
+    ) {
         $dataAbsensi = Absensi::query()
             ->whereKey($absensi->getKey())
-            ->whereIn('pegawai_id', $teamVisibility->attendanceEmployeeIds($request->user()))
-            ->with(['pegawai.jabatan.divisi', 'pegawai.jabatan.jamKerjas', 'diverifikasiOleh'])
+            ->whereIn(
+                'pegawai_id',
+                $teamVisibility->attendanceEmployeeIds($request->user())
+            )
+            ->with([
+                'pegawai.jabatan.divisi',
+                'pegawai.jabatan.jamKerjas',
+                'diverifikasiOleh',
+            ])
             ->firstOrFail();
 
         $fotoTersedia = $dataAbsensi->foto_path
@@ -141,25 +287,32 @@ class AbsensiAtasanController extends Controller
         ]);
     }
 
-
-    public function foto(Request $request, Absensi $absensi, TeamVisibilityService $teamVisibility)
-    {
+    public function foto(
+        Request $request,
+        Absensi $absensi,
+        TeamVisibilityService $teamVisibility
+    ) {
         $dataAbsensi = Absensi::query()
             ->whereKey($absensi->getKey())
-            ->whereIn('pegawai_id', $teamVisibility->attendanceEmployeeIds($request->user()))
+            ->whereIn(
+                'pegawai_id',
+                $teamVisibility->attendanceEmployeeIds($request->user())
+            )
             ->firstOrFail();
 
         abort_if(
-            ! $dataAbsensi->foto_path || ! Storage::disk('public')->exists($dataAbsensi->foto_path),
+            ! $dataAbsensi->foto_path
+                || ! Storage::disk('public')->exists($dataAbsensi->foto_path),
             404,
             'Foto bukti absensi tidak ditemukan.'
         );
 
         $disk = Storage::disk('public');
 
-        return response()->file($disk->path($dataAbsensi->foto_path), [
-            'Cache-Control' => 'private, max-age=300',
-        ]);
+        return response()->file(
+            $disk->path($dataAbsensi->foto_path),
+            ['Cache-Control' => 'private, max-age=300']
+        );
     }
 
 
@@ -172,19 +325,36 @@ class AbsensiAtasanController extends Controller
     ) {
         $atasan = $request->user()->pegawai;
 
-        abort_if(! $atasan, 403, 'Data pegawai untuk akun Anda tidak ditemukan.');
+        abort_if(
+            ! $atasan,
+            403,
+            'Data pegawai untuk akun Anda tidak ditemukan.'
+        );
 
         $dataAbsensi = Absensi::query()
             ->whereKey($absensi->getKey())
-            ->whereIn('pegawai_id', $teamVisibility->attendanceEmployeeIds($request->user()))
+            ->whereIn(
+                'pegawai_id',
+                $teamVisibility->attendanceEmployeeIds($request->user())
+            )
             ->firstOrFail();
 
         $validated = $request->validate([
-            'keputusan' => ['required', 'in:terverifikasi,perlu_klarifikasi'],
-            'catatan_verifikasi' => ['nullable', 'required_if:keputusan,perlu_klarifikasi', 'string', 'max:1000'],
+            'keputusan' => [
+                'required',
+                'in:terverifikasi,perlu_klarifikasi',
+            ],
+            'catatan_verifikasi' => [
+                'nullable',
+                'required_if:keputusan,perlu_klarifikasi',
+                'string',
+                'max:1000',
+            ],
         ], [
-            'catatan_verifikasi.required_if' => 'Catatan wajib diisi jika absensi perlu diklarifikasi.',
-            'catatan_verifikasi.max' => 'Catatan verifikasi maksimal 1000 karakter.',
+            'catatan_verifikasi.required_if' =>
+            'Catatan wajib diisi jika absensi perlu diklarifikasi.',
+            'catatan_verifikasi.max' =>
+            'Catatan verifikasi maksimal 1000 karakter.',
         ]);
 
         $statusVerifikasiSebelumnya = $dataAbsensi->status_verifikasi;
@@ -226,6 +396,9 @@ class AbsensiAtasanController extends Controller
             ? 'Data absensi berhasil diverifikasi.'
             : 'Data absensi ditandai perlu klarifikasi.';
 
-        return to_route($teamVisibility->routePrefix($request->user()) . '.absensi.show', $dataAbsensi)->with('success', $pesan);
+        return to_route(
+            $teamVisibility->routePrefix($request->user()) . '.absensi.show',
+            $dataAbsensi
+        )->with('success', $pesan);
     }
 }

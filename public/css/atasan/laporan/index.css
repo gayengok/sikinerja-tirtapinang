@@ -1,746 +1,1307 @@
-body.role-atasan .atasan-approval-page {
-    padding: 1rem;
-    color: #17213b
+.atasan-approval-page {
+    --ap-blue: #0875ad;
+    --ap-dark: #075e91;
+    --ap-text: #1f2a37;
+    --ap-muted: #64748b;
+    --ap-border: #dce5ef;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 20px 24px 40px;
+    color: var(--ap-text);
 }
-
-.atasan-approval-heading h1 {
-    margin: 0;
-    font-size: 1.3rem;
-    font-weight: 800
+.atasan-approval-page *,
+.atasan-approval-page *::before,
+.atasan-approval-page *::after {
+    box-sizing: border-box;
 }
-
-.atasan-approval-heading h1 span {
-    margin-left: .3rem;
-    padding: .35rem .55rem;
-    color: #a85b00;
-    background: #fff1bf;
-    border-radius: 14px;
-    font-size: .7rem;
-    vertical-align: middle
+.atasan-approval-breadcrumb {
+    display: none;
 }
-
-.atasan-approval-heading p {
-    margin: .35rem 0 1rem;
-    color: #71839e;
-    font-size: .78rem;
-    line-height: 1.5
-}
-
-.atasan-approval-summary {
-    margin-bottom: 1rem;
-    padding: 1rem;
-    background: #fff;
-    border: 1px solid #dfe7f0;
-    border-radius: 20px;
-    box-shadow: 0 4px 14px rgba(30, 50, 80, .05)
-}
-
+.atasan-approval-page-heading,
 .atasan-approval-summary-heading,
-.atasan-approval-activity-heading {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: .6rem
-}
-
-.atasan-approval-summary-heading {
-    padding-bottom: .75rem;
-    border-bottom: 1px solid #edf1f5
-}
-
-.atasan-approval-summary-heading h1 {
-    margin: 0;
-    font-size: .92rem
-}
-
-.atasan-approval-summary-heading p {
-    margin: .2rem 0 0;
-    color: #91a1b8;
-    font-size: .68rem
-}
-
-.atasan-approval-summary-heading>span {
-    padding: .4rem .55rem;
-    color: #08a77f;
-    background: #effcf7;
-    border: 1px solid #9de7c4;
-    border-radius: 999px;
-    font-size: .62rem;
-    font-weight: 700;
-    white-space: nowrap
-}
-
-.atasan-approval-summary-heading>span i {
-    font-size: .4rem
-}
-
-.atasan-approval-summary-progress {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-top: .85rem;
-    padding: .75rem;
-    background: #f8fafc;
-    border: 1px solid #edf1f5;
-    border-radius: 15px
-}
-
-.atasan-approval-ring {
-    position: relative;
-    display: flex;
-    flex: 0 0 82px;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 82px;
-    height: 82px;
-    background: conic-gradient(#079ed7 var(--progress), #e5f2f8 0);
-    border-radius: 50%
-}
-
-.atasan-approval-ring::after {
-    position: absolute;
-    width: 62px;
-    height: 62px;
-    content: "";
-    background: #fff;
-    border-radius: 50%
-}
-
-.atasan-approval-ring strong,
-.atasan-approval-ring small {
-    position: relative;
-    z-index: 1
-}
-
-.atasan-approval-ring strong {
-    color: #26344d;
-    font-size: 1.15rem;
-    line-height: 1
-}
-
-.atasan-approval-ring small {
-    margin-top: .2rem;
-    color: #078ac8;
-    font-size: .52rem
-}
-
-.atasan-approval-breakdown {
-    display: grid;
-    flex: 1;
-    gap: .65rem;
-    min-width: 0;
-    color: #526480;
-    font-size: .7rem
-}
-
-.atasan-approval-breakdown div {
-    display: flex;
-    align-items: center;
-    gap: .4rem
-}
-
-.atasan-approval-breakdown i {
-    width: 8px;
-    height: 8px;
-    background: #079ed7;
-    border-radius: 50%
-}
-
-.atasan-approval-breakdown i.pending {
-    background: #f5b51b
-}
-
-.atasan-approval-breakdown span {
-    flex: 1
-}
-
-.atasan-approval-breakdown b {
-    color: #26344d;
-    white-space: nowrap
-}
-
-.atasan-approval-activity {
-    margin-top: .75rem;
-    padding: .7rem;
-    background: #f8fafc;
-    border: 1px solid #edf1f5;
-    border-radius: 14px
-}
-
-.atasan-approval-activity-heading {
-    align-items: center
-}
-
-.atasan-approval-activity-heading strong {
-    color: #71829c;
-    font-size: .6rem
-}
-
-.atasan-approval-activity-heading span {
-    color: #078ac8;
-    font-size: .62rem
-}
-
-.atasan-approval-bars {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-around;
-    height: 67px;
-    margin-top: .35rem
-}
-
-.atasan-approval-bars>div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
-    gap: .25rem;
-    height: 100%
-}
-
-.atasan-approval-bars span {
-    display: block;
-    width: 14px;
-    min-height: 5px;
-    background: #079ed7;
-    border-radius: 3px 3px 0 0
-}
-
-.atasan-approval-bars>div.is-today span {
-    background: #078ac8
-}
-
-.atasan-approval-bars>div:not(.has-activity):not(.is-today) span {
-    background: #dfe7ef
-}
-
-.atasan-approval-bars small {
-    color: #71829c;
-    font-size: .55rem
-}
-
-.atasan-approval-bars>div.is-today small {
-    color: #078ac8;
-    font-weight: 700
-}
-
-.atasan-approval-statuses {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: .5rem;
-    margin-top: .75rem
-}
-
-.atasan-approval-statuses>div {
-    padding: .55rem;
-    text-align: center;
-    background: #fffdf5;
-    border: 1px solid #f7dfa1;
-    border-radius: 12px
-}
-
-.atasan-approval-statuses>div:nth-child(2) {
-    background: #f2fff9;
-    border-color: #b8efd8
-}
-
-.atasan-approval-statuses>div:nth-child(3) {
-    background: #fff6f7;
-    border-color: #ffd9df
-}
-
-.atasan-approval-statuses small,
-.atasan-approval-statuses strong {
-    display: block
-}
-
-.atasan-approval-statuses small {
-    color: #71829c;
-    font-size: .6rem
-}
-
-.atasan-approval-statuses strong {
-    margin-top: .2rem;
-    color: #b57900;
-    font-size: .95rem
-}
-
-.atasan-approval-statuses>div:nth-child(2) strong {
-    color: #08a77f
-}
-
-.atasan-approval-statuses>div:nth-child(3) strong {
-    color: #e2465d
-}
-
-.atasan-approval-tabs {
-    display: flex;
-    gap: .45rem;
-    margin-bottom: .8rem;
-    overflow-x: auto
-}
-
-.atasan-approval-tabs a {
-    flex: 0 0 auto;
-    padding: .6rem .8rem;
-    color: #536682;
-    background: #fff;
-    border: 1px solid #dfe7f0;
-    border-radius: 20px;
-    text-decoration: none;
-    font-size: .72rem
-}
-
-.atasan-approval-tabs a.active {
-    color: #fff;
-    background: #078ac8;
-    border-color: #078ac8
-}
-
-.atasan-approval-tabs a span {
-    margin-left: .2rem
-}
-
-.atasan-approval-search {
-    display: flex;
-    align-items: center;
-    gap: .5rem;
-    padding: .65rem .75rem;
-    background: #fff;
-    border: 1px solid #dfe7f0;
-    border-radius: 14px
-}
-
-.atasan-approval-search-field,
-.atasan-approval-date {
-    display: flex;
-    align-items: center;
-    gap: .5rem;
-    min-width: 0;
-}
-
-.atasan-approval-search-field {
-    flex: 1;
-}
-
-.atasan-approval-search i {
-    color: #8fa1b9
-}
-
-.atasan-approval-search-field input {
-    min-width: 0;
-    flex: 1;
-    border: 0;
-    outline: 0;
-    font-size: .76rem
-}
-
-.atasan-approval-date {
-    padding: .4rem .5rem;
-    border: 1px solid #dfe7f0;
-    border-radius: 8px;
-}
-
-.atasan-approval-date input {
-    width: 120px;
-    min-width: 0;
-    padding: 0;
-    color: #536682;
-    background: transparent;
-    border: 0;
-    outline: 0;
-    font-size: .65rem;
-}
-
-.atasan-approval-search button,
-.atasan-approval-clear {
-    padding: .45rem .55rem;
-    color: #fff;
-    background: #078ac8;
-    border: 1px solid #dfe7f0;
-    border-radius: 8px;
-    font-size: .65rem;
-    font-weight: 700;
-    text-decoration: none;
-    white-space: nowrap;
-}
-
-.atasan-approval-search button {
-    border-color: #078ac8;
-}
-
-.atasan-approval-clear {
-    color: #536682;
-    background: #fff;
-}
-
+.atasan-approval-directory-heading,
 .atasan-approval-list-heading {
     display: flex;
     justify-content: space-between;
-    margin: 1.2rem .1rem .65rem
+    align-items: flex-start;
+    gap: 16px;
 }
-
-.atasan-approval-list-heading h2 {
+.atasan-approval-page-heading {
+    align-items: center;
+    margin-bottom: 22px;
+}
+.atasan-approval-eyebrow,
+.atasan-approval-section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--ap-blue);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.075em;
+}
+.atasan-approval-eyebrow i {
+    font-size: 7px;
+    color: #10b981;
+}
+.atasan-approval-page-heading h1 {
+    margin: 8px 0 5px;
+    font-size: clamp(22px, 2vw, 27px);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+}
+.atasan-approval-page-heading p,
+.atasan-approval-summary-heading p,
+.atasan-approval-directory-heading p,
+.atasan-approval-list-heading p {
     margin: 0;
-    font-size: .82rem;
-    text-transform: uppercase
+    color: var(--ap-muted);
+    font-size: 13px;
+    line-height: 1.65;
 }
-
-.atasan-approval-list-heading span {
-    color: #8a9ab4;
-    font-size: .68rem
+.atasan-approval-heading-count,
+.atasan-approval-directory-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 12px;
+    border: 1px solid #cfeafa;
+    border-radius: 10px;
+    background: #eaf7fd;
+    color: var(--ap-blue);
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
 }
-
+.atasan-approval-summary,
+.atasan-approval-directory {
+    padding: 22px;
+    background: #fff;
+    border: 1px solid var(--ap-border);
+    border-radius: 18px;
+    box-shadow: 0 5px 20px rgba(15, 42, 75, 0.035);
+}
+.atasan-approval-summary-heading,
+.atasan-approval-directory-heading {
+    margin-bottom: 18px;
+}
+.atasan-approval-summary-heading h2,
+.atasan-approval-directory-heading h2 {
+    margin: 5px 0;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+}
+.atasan-approval-summary-tag {
+    padding: 7px 10px;
+    background: #f1f7fb;
+    border-radius: 8px;
+    color: #526480;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+.atasan-approval-stats {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
+}
+.atasan-approval-stat {
+    --stat: #0875ad;
+    --stat-bg: #eaf7fd;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: 14px;
+    background: #fff;
+    border: 1px solid #e2eaf2;
+    border-top: 3px solid var(--stat);
+    border-radius: 12px;
+}
+.atasan-approval-stat.is-waiting {
+    --stat: #e4a12d;
+    --stat-bg: #fff7e6;
+}
+.atasan-approval-stat.is-approved {
+    --stat: #10a779;
+    --stat-bg: #e9fbf4;
+}
+.atasan-approval-stat.is-rejected {
+    --stat: #e85d75;
+    --stat-bg: #fff0f3;
+}
+.atasan-approval-stat.is-draft {
+    --stat: #8a98ac;
+    --stat-bg: #f1f5f9;
+}
+.atasan-approval-stat-icon {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    margin-bottom: 12px;
+    border-radius: 9px;
+    color: var(--stat);
+    background: var(--stat-bg);
+    font-size: 13px;
+}
+.atasan-approval-stat > strong {
+    font-size: clamp(21px, 2vw, 28px);
+    font-weight: 800;
+    line-height: 1.1;
+}
+.atasan-approval-stat > span:not(.atasan-approval-stat-icon) {
+    margin-top: 7px;
+    color: #34435b;
+    font-size: 12px;
+    font-weight: 800;
+}
+.atasan-approval-stat small {
+    margin-top: 5px;
+    color: #8290a4;
+    font-size: 10px;
+}
+.atasan-approval-insights {
+    display: grid;
+    grid-template-columns: minmax(250px, 0.85fr) minmax(0, 1.35fr);
+    gap: 14px;
+    margin-top: 15px;
+}
+.atasan-approval-progress-card,
+.atasan-approval-activity-card {
+    min-width: 0;
+    padding: 16px;
+    background: #f8fbfe;
+    border: 1px solid #e4edf5;
+    border-radius: 14px;
+}
+.atasan-approval-insight-title {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.atasan-approval-insight-title strong {
+    font-size: 13px;
+    font-weight: 800;
+}
+.atasan-approval-insight-title > span {
+    color: #7b8da3;
+    font-size: 11px;
+}
+.atasan-approval-progress-content {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-top: 18px;
+}
+.atasan-approval-ring {
+    position: relative;
+    display: flex;
+    flex: 0 0 106px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 106px;
+    height: 106px;
+    border-radius: 50%;
+    background: conic-gradient(#0875ad var(--progress), #e5edf5 0);
+}
+.atasan-approval-ring:before {
+    position: absolute;
+    inset: 10px;
+    border-radius: 50%;
+    background: #fff;
+    content: "";
+}
+.atasan-approval-ring strong,
+.atasan-approval-ring small {
+    position: relative;
+}
+.atasan-approval-ring strong {
+    font-size: 23px;
+    font-weight: 800;
+}
+.atasan-approval-ring small {
+    color: #7b8da3;
+    font-size: 10px;
+}
+.atasan-approval-breakdown {
+    display: grid;
+    flex: 1;
+    gap: 12px;
+    min-width: 0;
+}
+.atasan-approval-breakdown > div {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 11px;
+}
+.atasan-approval-breakdown i {
+    width: 8px;
+    height: 8px;
+    flex: 0 0 8px;
+    border-radius: 50%;
+    background: #0875ad;
+}
+.atasan-approval-breakdown i.is-pending {
+    background: #e4a12d;
+}
+.atasan-approval-breakdown i.is-submitted {
+    background: #94a3b8;
+}
+.atasan-approval-breakdown span {
+    flex: 1;
+    color: #64748b;
+}
+.atasan-approval-breakdown b {
+    color: #26354b;
+    font-size: 12px;
+}
+.atasan-approval-bars {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 12px;
+    height: 133px;
+    margin-top: 15px;
+}
+.atasan-approval-bar-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+}
+.atasan-approval-bar-item > strong {
+    font-size: 10px;
+    color: #526480;
+}
+.atasan-approval-bar-track {
+    position: relative;
+    width: min(100%, 32px);
+    flex: 1;
+    min-height: 50px;
+    overflow: hidden;
+    background: #e9eff6;
+    border-radius: 7px;
+}
+.atasan-approval-bar-track span {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #0b94c6;
+    border-radius: 7px 7px 0 0;
+}
+.atasan-approval-bar-item.is-today .atasan-approval-bar-track span {
+    background: #0875ad;
+}
+.atasan-approval-bar-item small {
+    color: #718096;
+    font-size: 10px;
+    font-weight: 700;
+}
+.atasan-approval-bar-item.is-today small {
+    color: #0875ad;
+}
+.atasan-approval-directory {
+    margin-top: 18px;
+}
+.atasan-approval-tabs {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 3px;
+    margin-bottom: 15px;
+    scrollbar-width: thin;
+}
+.atasan-approval-tabs a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex: 0 0 auto;
+    padding: 10px 14px;
+    border: 1px solid #e1eaf2;
+    border-radius: 10px;
+    background: #f8fafc;
+    color: #526480;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+    transition: 0.15s;
+}
+.atasan-approval-tabs a:hover {
+    border-color: #b9dbea;
+    color: #0875ad;
+}
+.atasan-approval-tabs a.active {
+    color: #fff;
+    background: #0875ad;
+    border-color: #0875ad;
+}
+.atasan-approval-tabs a span {
+    padding: 2px 7px;
+    border-radius: 7px;
+    background: #e9eff6;
+    color: #526480;
+    font-size: 10px;
+}
+.atasan-approval-tabs a.active span {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+.atasan-approval-search {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(170px, 210px) auto auto;
+    gap: 10px;
+    align-items: end;
+    padding: 15px;
+    background: #f8fbfe;
+    border: 1px solid #e3eaf3;
+    border-radius: 13px;
+}
+.atasan-approval-search-field,
+.atasan-approval-date {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-width: 0;
+}
+.atasan-approval-search-field > span:first-child,
+.atasan-approval-date > span:first-child {
+    font-size: 11px;
+    font-weight: 700;
+    color: #526480;
+}
+.atasan-approval-input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    height: 40px;
+    padding: 0 12px;
+    background: #fff;
+    border: 1px solid #dce5ef;
+    border-radius: 9px;
+}
+.atasan-approval-input-wrap:focus-within {
+    border-color: #0b94c6;
+    box-shadow: 0 0 0 3px rgba(11, 148, 198, 0.1);
+}
+.atasan-approval-input-wrap i {
+    color: #8b9bb0;
+    font-size: 13px;
+}
+.atasan-approval-input-wrap input {
+    width: 100%;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #26354b;
+    font: inherit;
+    font-size: 12px;
+}
+.atasan-approval-input-wrap input::placeholder {
+    color: #a0aec0;
+}
+.atasan-approval-apply,
+.atasan-approval-clear {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    height: 40px;
+    padding: 0 13px;
+    border-radius: 9px;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.atasan-approval-apply {
+    color: #fff;
+    background: #0875ad;
+    border: 1px solid #0875ad;
+}
+.atasan-approval-apply:hover {
+    background: #075e91;
+}
+.atasan-approval-clear {
+    color: #64748b;
+    background: #fff;
+    border: 1px solid #dce5ef;
+}
+.atasan-approval-clear:hover {
+    color: #0875ad;
+}
+.atasan-approval-list-heading {
+    align-items: end;
+    margin: 23px 0 13px;
+}
+.atasan-approval-list-heading h3 {
+    margin: 0 0 4px;
+    font-size: 15px;
+    font-weight: 800;
+}
+.atasan-approval-list-heading > span {
+    padding: 7px 10px;
+    background: #f1f5f9;
+    border-radius: 8px;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+}
 .atasan-approval-list {
     display: grid;
-    gap: .75rem
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 13px;
 }
-
 .atasan-report-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
     overflow: hidden;
     background: #fff;
-    border: 1px solid #dfe7f0;
-    border-radius: 19px;
-    box-shadow: 0 4px 12px #2434550b
+    border: 1px solid #e2eaf2;
+    border-radius: 13px;
+    transition:
+        border-color 0.15s,
+        box-shadow 0.15s;
 }
-
+.atasan-report-card:hover {
+    border-color: #b9dbea;
+    box-shadow: 0 5px 16px rgba(15, 42, 75, 0.05);
+}
 .atasan-report-top {
     display: flex;
     align-items: center;
-    gap: .65rem;
-    padding: 1rem
+    gap: 10px;
+    padding: 15px;
 }
-
 .atasan-report-avatar {
     display: grid;
     place-items: center;
-    width: 44px;
-    height: 44px;
-    flex: 0 0 44px;
-    color: #078ac8;
-    background: #eef8ff;
-    border-radius: 50%;
-    font-weight: 800
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    border-radius: 11px;
+    background: linear-gradient(145deg, #0875ad, #0b94c6);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
 }
-
-.atasan-report-top div {
+.atasan-report-identity {
+    flex: 1;
     min-width: 0;
-    flex: 1
 }
-
-.atasan-report-top h3 {
+.atasan-report-identity h3 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     margin: 0;
-    font-size: .84rem
+    color: #26354b;
+    font-size: 13px;
+    font-weight: 800;
 }
-
-.atasan-report-top p {
-    margin: .2rem 0 0;
-    color: #7789a4;
-    font-size: .68rem
+.atasan-report-identity p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 4px 0 0;
+    color: #75859a;
+    font-size: 11px;
 }
-
 .atasan-report-status {
-    padding: .3rem .5rem;
-    border-radius: 9px;
-    font-size: .62rem;
-    font-weight: 700
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 8px;
+    border-radius: 7px;
+    font-size: 10px;
+    font-weight: 700;
+    white-space: nowrap;
 }
-
-.status-diajukan {
-    color: #a85b00;
-    background: #fff4ca
+.atasan-report-status i {
+    font-size: 6px;
 }
-
-.status-disetujui {
+.atasan-report-status.status-diajukan {
+    color: #a16207;
+    background: #fff7df;
+}
+.atasan-report-status.status-disetujui {
     color: #078653;
-    background: #eafbf4
+    background: #e9fbf4;
 }
-
-.status-ditolak {
-    color: #c6314a;
-    background: #fff0f3
+.atasan-report-status.status-ditolak {
+    color: #d94464;
+    background: #fff0f3;
 }
-
-.status-draft {
-    color: #667994;
-    background: #f1f5f9
+.atasan-report-status.status-draft {
+    color: #64748b;
+    background: #f1f5f9;
 }
-
 .atasan-report-body {
-    margin: 0 1rem;
-    padding: .7rem;
-    background: #f8fafc;
-    border: 1px solid #edf1f6;
-    border-radius: 13px
+    flex: 1;
+    min-width: 0;
+    margin: 0 15px;
+    padding: 13px;
+    background: #f8fbfe;
+    border: 1px solid #e8eef5;
+    border-radius: 10px;
 }
-
-.atasan-report-body>div {
+.atasan-report-meta {
+    display: grid;
+    gap: 10px;
+}
+.atasan-report-meta > div {
     display: flex;
     justify-content: space-between;
-    gap: .5rem;
-    font-size: .7rem
+    gap: 12px;
+    min-width: 0;
 }
-
-.atasan-report-body>div+div {
-    margin-top: .45rem
+.atasan-report-meta span {
+    flex: 0 0 120px;
+    color: #75859a;
+    font-size: 11px;
 }
-
-.atasan-report-body span {
-    color: #7789a4
+.atasan-report-meta span i {
+    width: 15px;
+    color: #93a6b9;
 }
-
-.atasan-report-body strong {
-    color: #27344c;
-    text-align: right
+.atasan-report-meta strong {
+    min-width: 0;
+    color: #34435b;
+    font-size: 11px;
+    font-weight: 700;
+    text-align: right;
+    overflow-wrap: anywhere;
 }
-
-.atasan-report-body p {
-    margin: .65rem 0 0;
+.atasan-report-description {
+    margin-top: 13px;
+    padding-top: 12px;
+    border-top: 1px solid #e6edf4;
+}
+.atasan-report-description > span {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: #75859a;
+}
+.atasan-report-description p {
+    margin: 6px 0 0;
     color: #526480;
-    font-size: .74rem;
-    line-height: 1.5
+    font-size: 12px;
+    line-height: 1.65;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
 }
-
 .atasan-report-footer {
     display: flex;
     align-items: center;
-    gap: .5rem;
-    padding: .8rem 1rem
+    gap: 8px;
+    padding: 13px 15px;
 }
-
 .atasan-report-footer a,
 .atasan-report-footer button {
-    padding: .5rem .65rem;
-    border: 0;
-    border-radius: 9px;
-    color: #078ac8;
-    background: #eef8ff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 35px;
+    padding: 8px 11px;
+    border-radius: 8px;
+    font: inherit;
+    font-size: 11px;
+    font-weight: 700;
     text-decoration: none;
-    font-size: .68rem;
-    font-weight: 700
+    white-space: nowrap;
+    cursor: pointer;
 }
-
-.atasan-report-footer a:first-child {
+.atasan-report-detail {
     margin-right: auto;
-    background: none
+    color: #0875ad;
+    background: #edf8fe;
+    border: 1px solid #d4edf9;
 }
-
-.atasan-report-footer button {
+.atasan-report-approve {
     color: #fff;
-    background: #078ac8
+    background: #0875ad;
+    border: 1px solid #0875ad;
 }
-
-.atasan-report-footer .reject {
-    color: #d63752;
-    background: #fff0f3
+.atasan-report-approve:hover {
+    background: #075e91;
 }
-
+.atasan-report-reject {
+    color: #d94464;
+    background: #fff0f3;
+    border: 1px solid #ffe1e6;
+}
 .atasan-approval-empty {
-    padding: 2rem 1rem;
-    text-align: center;
-    background: #fff;
-    border: 1px solid #dfe7f0;
-    border-radius: 20px
-}
-
-.atasan-approval-empty>i {
-    display: grid;
-    place-items: center;
-    width: 72px;
-    height: 72px;
-    margin: 0 auto .8rem;
-    color: #078ac8;
-    background: #eef8ff;
-    border-radius: 20px;
-    font-size: 2rem
-}
-
-.atasan-approval-empty h3 {
-    margin: 0;
-    font-size: 1rem
-}
-
-.atasan-approval-empty p {
-    color: #71839e;
-    font-size: .78rem;
-    line-height: 1.5
-}
-
-.atasan-approval-empty a {
-    display: block;
-    margin: 1rem auto .8rem;
-    padding: .75rem;
-    color: #078ac8;
-    background: #eef8ff;
+    grid-column: 1/-1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 42px 20px;
+    border: 1px dashed #cbd8e6;
     border-radius: 12px;
+    text-align: center;
+}
+.atasan-approval-empty > i {
+    font-size: 30px;
+    color: #a5b6ca;
+}
+.atasan-approval-empty h3 {
+    margin: 14px 0 6px;
+    font-size: 14px;
+}
+.atasan-approval-empty p {
+    max-width: 440px;
+    margin: 0;
+    color: #75859a;
+    font-size: 12px;
+    line-height: 1.7;
+}
+.atasan-approval-empty a {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    margin-top: 15px;
+    color: #0875ad;
+    font-size: 12px;
+    font-weight: 700;
     text-decoration: none;
-    font-size: .75rem;
-    font-weight: 700
 }
-
-.atasan-approval-empty span {
-    color: #9aabc1;
-    font-size: .72rem
+.atasan-approval-pagination {
+    margin-top: 20px;
 }
-
-@media (max-width: 520px) {
-    .atasan-approval-search {
-        flex-wrap: wrap;
-    }
-
-    .atasan-approval-search-field {
-        flex-basis: 100%;
-    }
-
-    .atasan-approval-date {
-        flex: 1;
-    }
-
-    .atasan-approval-date input {
-        width: 100%;
-    }
+.atasan-approval-alert {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 16px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 12px;
 }
-
-@media (min-width: 768px) {
-    body.role-atasan .atasan-approval-page {
-        width: 100%;
-        max-width: 1480px;
-        margin: 0 auto;
-        padding: 1.25rem clamp(1.25rem, 2vw, 2rem) 2rem;
-    }
-
-    .atasan-approval-summary {
-        display: grid;
-        grid-template-columns: minmax(230px, .75fr) minmax(0, 1.5fr);
-        gap: .75rem;
-        padding: 1rem;
-        border-radius: 12px;
-    }
-
-    .atasan-approval-summary-heading,
-    .atasan-approval-statuses {
-        grid-column: 1 / -1;
-    }
-
-    .atasan-approval-summary-progress,
-    .atasan-approval-activity {
-        min-width: 0;
-        margin: 0;
-    }
-
-    .atasan-approval-summary-progress {
-        justify-content: center;
-    }
-
-    .atasan-approval-activity {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-
-    .atasan-approval-bars {
-        flex: 1;
-        min-height: 67px;
-    }
-
-    .atasan-approval-statuses {
-        margin-top: 0;
-    }
-
-    .atasan-approval-statuses>div {
-        padding: .75rem;
-        border-radius: 10px;
-    }
-
-    .atasan-approval-tabs {
-        margin-bottom: .65rem;
-    }
-
-    .atasan-approval-tabs a {
-        padding: .5rem .75rem;
-        border-radius: 999px;
-    }
-
-    .atasan-approval-search {
-        border-radius: 10px;
-    }
-
-    .atasan-approval-list {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        grid-auto-rows: 310px;
-        align-items: stretch;
-    }
-
-    body.role-atasan .atasan-report-card {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        min-height: 0;
-        border-radius: 12px;
-    }
-
-    .atasan-report-top {
-        min-height: 62px;
-        padding: .85rem;
-    }
-
-    .atasan-report-top h3,
-    .atasan-report-top p {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-
-    .atasan-report-avatar {
-        width: 38px;
-        height: 38px;
-        flex-basis: 38px;
-        border-radius: 12px;
-    }
-
-    .atasan-report-body {
-        flex: 1;
-        min-height: 0;
-        margin: 0 .85rem;
-        border-radius: 10px;
-    }
-
-    .atasan-report-body strong {
-        display: -webkit-box;
-        overflow: hidden;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
-    }
-
-    .atasan-report-body p {
-        display: -webkit-box;
-        overflow: hidden;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 3;
-    }
-
-    .atasan-report-footer {
-        min-height: 58px;
-        margin-top: auto;
-        padding: .7rem .85rem;
-    }
-
-    .atasan-report-footer a,
-    .atasan-report-footer button {
-        border-radius: 7px;
-    }
+.atasan-approval-alert.is-success {
+    color: #078653;
+    background: #e9fbf4;
+    border: 1px solid #c6efdc;
 }
-
+.atasan-approval-alert.is-error {
+    color: #c6314a;
+    background: #fff0f3;
+    border: 1px solid #ffd9df;
+}
 @media (min-width: 1200px) {
     .atasan-approval-list {
         grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: .85rem;
     }
+}
+@media (max-width: 1050px) {
+    .atasan-approval-insights {
+        grid-template-columns: 1fr 1fr;
+    }
+    .atasan-approval-progress-content {
+        gap: 10px;
+    }
+    .atasan-approval-ring {
+        width: 88px;
+        height: 88px;
+        flex-basis: 88px;
+    }
+    .atasan-approval-ring strong {
+        font-size: 19px;
+    }
+    .atasan-approval-stats {
+        gap: 7px;
+    }
+    .atasan-approval-stat {
+        padding: 11px;
+    }
+}
+@media (max-width: 767px) {
+    .atasan-approval-page {
+        padding: 14px 14px calc(var(--bottom-nav-height, 70px) + 24px);
+    }
+    .atasan-approval-breadcrumb {
+        display: flex;
+        margin: -14px -14px 18px;
+    }
+    .atasan-approval-page-heading {
+        align-items: flex-start;
+    }
+    .atasan-approval-page-heading h1 {
+        font-size: 21px;
+    }
+    .atasan-approval-heading-count {
+        display: none;
+    }
+    .atasan-approval-summary,
+    .atasan-approval-directory {
+        padding: 16px;
+        border-radius: 14px;
+    }
+    .atasan-approval-summary-heading h2,
+    .atasan-approval-directory-heading h2 {
+        font-size: 16px;
+    }
+    .atasan-approval-summary-tag {
+        display: none;
+    }
+    .atasan-approval-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .atasan-approval-stat.is-total {
+        grid-column: 1/-1;
+    }
+    .atasan-approval-stat {
+        padding: 12px;
+    }
+    .atasan-approval-stat-icon {
+        margin-bottom: 8px;
+    }
+    .atasan-approval-insights {
+        grid-template-columns: 1fr;
+    }
+    .atasan-approval-list {
+        grid-template-columns: 1fr;
+    }
+    .atasan-approval-search {
+        grid-template-columns: 1fr 1fr;
+    }
+    .atasan-approval-search-field {
+        grid-column: 1/-1;
+    }
+    .atasan-approval-apply,
+    .atasan-approval-clear {
+        grid-column: auto;
+    }
+    .atasan-approval-directory-heading {
+        align-items: center;
+    }
+    .atasan-approval-directory-count {
+        font-size: 10px;
+    }
+    .atasan-approval-tabs a {
+        padding: 9px 11px;
+        font-size: 11px;
+    }
+}
+@media (max-width: 420px) {
+    .atasan-approval-page {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+    .atasan-approval-breadcrumb {
+        margin-left: -12px;
+        margin-right: -12px;
+    }
+    .atasan-approval-summary,
+    .atasan-approval-directory {
+        padding: 13px;
+    }
+    .atasan-approval-page-heading p {
+        font-size: 12px;
+    }
+    .atasan-approval-search {
+        grid-template-columns: 1fr;
+    }
+    .atasan-approval-search-field,
+    .atasan-approval-date,
+    .atasan-approval-apply,
+    .atasan-approval-clear {
+        grid-column: 1/-1;
+    }
+    .atasan-approval-progress-content {
+        flex-wrap: wrap;
+    }
+    .atasan-approval-breakdown {
+        min-width: 150px;
+    }
+    .atasan-report-top {
+        flex-wrap: wrap;
+    }
+    .atasan-report-status {
+        margin-left: auto;
+    }
+    .atasan-report-footer {
+        flex-wrap: wrap;
+    }
+    .atasan-report-detail {
+        flex: 1;
+    }
+    .atasan-report-meta > div {
+        flex-direction: column;
+        gap: 3px;
+    }
+    .atasan-report-meta span {
+        flex-basis: auto;
+    }
+    .atasan-report-meta strong {
+        text-align: left;
+    }
+}
 
-    .atasan-approval-summary {
-        grid-template-columns: minmax(250px, .7fr) minmax(0, 1.5fr);
-        gap: .85rem;
-        padding: 1.1rem;
+/* Ringkasan bulanan: warna dan bentuk mengikuti kartu presensi */
+.atasan-approval-stats {
+    gap: 12px;
+}
+.atasan-approval-stat {
+    position: relative;
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
+    align-content: center;
+    column-gap: 12px;
+    min-height: 112px;
+    padding: 16px;
+    background: var(--stat-bg);
+    border: 1px solid #e1eaf2;
+    border-left: 4px solid var(--stat);
+    border-top: 1px solid #e1eaf2;
+    border-radius: 14px;
+}
+.atasan-approval-stat.is-waiting {
+    --stat: #eaa52b;
+    --stat-bg: #fff6e3;
+}
+.atasan-approval-stat.is-approved {
+    --stat: #10aa7a;
+    --stat-bg: #e8faf3;
+}
+.atasan-approval-stat.is-rejected {
+    --stat: #ef5c7a;
+    --stat-bg: #fff0f4;
+}
+.atasan-approval-stat.is-draft {
+    --stat: #8c9bb0;
+    --stat-bg: #f1f5f9;
+}
+.atasan-approval-stat.is-total {
+    --stat: #0b94c6;
+    --stat-bg: #e8f6fc;
+}
+.atasan-approval-stat-icon {
+    grid-column: 1;
+    grid-row: 1/4;
+    align-self: center;
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    margin: 0;
+    background: #fff;
+    border-radius: 13px;
+    font-size: 18px;
+}
+.atasan-approval-stat > strong {
+    grid-column: 2;
+    grid-row: 2;
+    margin: 3px 0;
+    font-size: clamp(23px, 2.2vw, 32px);
+    line-height: 1.1;
+    color: #1d3048;
+}
+.atasan-approval-stat > span:not(.atasan-approval-stat-icon) {
+    grid-column: 2;
+    grid-row: 1;
+    margin: 0;
+    font-size: 13px;
+    color: #526480;
+    font-weight: 800;
+}
+.atasan-approval-stat > small {
+    grid-column: 2;
+    grid-row: 3;
+    margin: 0;
+    font-size: 11px;
+    color: #8495ab;
+}
+/* Grafik tanggal penuh, dapat digeser dan dipilih */
+.atasan-approval-chart-scroll {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 8px 2px 12px;
+    scrollbar-width: thin;
+    scrollbar-color: #bdd4e5 #eaf0f6;
+    scroll-behavior: smooth;
+}
+.atasan-approval-chart-scroll::-webkit-scrollbar {
+    height: 7px;
+}
+.atasan-approval-chart-scroll::-webkit-scrollbar-thumb {
+    background: #bdd4e5;
+    border-radius: 20px;
+}
+.atasan-approval-bars {
+    display: flex;
+    align-items: stretch;
+    gap: 9px;
+    width: max-content;
+    min-width: 100%;
+    height: 188px;
+    margin-top: 12px;
+}
+.atasan-approval-bar-item {
+    display: flex;
+    flex: 0 0 42px;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 4px 5px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+        background 0.15s,
+        border-color 0.15s;
+}
+.atasan-approval-bar-item:hover {
+    background: #eaf6fd;
+    border-color: #c5e6f7;
+}
+.atasan-approval-bar-item.is-selected {
+    background: #e4f5fd;
+    border-color: #0b94c6;
+}
+.atasan-approval-bar-item > strong {
+    font-size: 11px;
+    color: #344c68;
+}
+.atasan-approval-bar-track {
+    width: 28px;
+    min-height: 70px;
+    flex: 1;
+    border-radius: 7px;
+    background: #e8eef5;
+}
+.atasan-approval-bar-track span {
+    background: #0b94c6;
+}
+.atasan-approval-bar-item.is-selected .atasan-approval-bar-track span {
+    background: #0875ad;
+}
+.atasan-approval-bar-item small {
+    font-size: 11px;
+    color: #61748d;
+}
+.atasan-approval-bar-item.is-selected small {
+    color: #0875ad;
+    font-weight: 800;
+}
+.atasan-approval-chart-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 4px;
+    padding-top: 10px;
+    border-top: 1px solid #e6edf4;
+    color: #8092a8;
+    font-size: 11px;
+}
+.atasan-approval-chart-footer i {
+    color: #0875ad;
+    margin-right: 5px;
+}
+.atasan-approval-remove-day {
+    display: inline-block;
+    margin-left: 10px;
+    color: #0875ad;
+    text-decoration: none;
+    font-weight: 750;
+}
+@media (max-width: 767px) {
+    .atasan-approval-stat {
+        grid-template-columns: 38px minmax(0, 1fr);
+        column-gap: 9px;
+        min-height: 98px;
+        padding: 11px;
+    }
+    .atasan-approval-stat-icon {
+        width: 37px;
+        height: 37px;
+        font-size: 15px;
+    }
+    .atasan-approval-stat > strong {
+        font-size: 24px;
+    }
+    .atasan-approval-stat > span:not(.atasan-approval-stat-icon) {
+        font-size: 11px;
+    }
+    .atasan-approval-stat > small {
+        font-size: 10px;
+    }
+    .atasan-approval-bars {
+        height: 168px;
+    }
+    .atasan-approval-bar-item {
+        flex-basis: 40px;
+    }
+    .atasan-approval-chart-footer {
+        font-size: 10px;
+    }
+}
+
+/* Grafik laporan: batang bertumpuk sesuai status, bukan satu warna total */
+.atasan-approval-progress-card {
+    display: flex;
+    flex-direction: column;
+}
+.atasan-approval-progress-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0;
+    min-height: 195px;
+}
+.atasan-approval-chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 16px;
+    margin-top: 12px;
+}
+.atasan-approval-chart-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #61748d;
+    font-size: 11px;
+    font-weight: 700;
+}
+.atasan-approval-chart-legend span::before {
+    content: "";
+    width: 9px;
+    height: 9px;
+    border-radius: 3px;
+    background: #e4a12d;
+}
+.atasan-approval-chart-legend .is-approved::before {
+    background: #10aa7a;
+}
+.atasan-approval-chart-legend .is-rejected::before {
+    background: #ef5c7a;
+}
+.atasan-approval-chart-legend .is-draft::before {
+    background: #94a3b8;
+}
+.atasan-approval-bar-track {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+}
+.atasan-approval-bar-stack {
+    position: relative;
+    display: flex;
+    flex-direction: column-reverse;
+    width: 100%;
+    min-height: 0;
+    overflow: hidden;
+    border-radius: 7px 7px 0 0;
+}
+.atasan-approval-bar-track .atasan-approval-bar-segment {
+    position: relative;
+    display: block;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    width: 100%;
+    flex: 0 0 auto;
+    border-radius: 0;
+    background: #e4a12d;
+}
+.atasan-approval-bar-track .segment-disetujui {
+    background: #10aa7a;
+}
+.atasan-approval-bar-track .segment-ditolak {
+    background: #ef5c7a;
+}
+.atasan-approval-bar-track .segment-draft {
+    background: #94a3b8;
+}
+.atasan-approval-bar-track .segment-diajukan {
+    background: #e4a12d;
+}
+.atasan-approval-bar-item.is-selected
+    .atasan-approval-bar-track
+    .atasan-approval-bar-segment,
+.atasan-approval-bar-item.is-today
+    .atasan-approval-bar-track
+    .atasan-approval-bar-segment {
+    filter: none;
+}
+@media (max-width: 767px) {
+    .atasan-approval-progress-content {
+        min-height: 140px;
+        padding: 12px 0;
+    }
+    .atasan-approval-chart-legend {
+        gap: 8px 12px;
+    }
+}
+
+/* Prioritas warna status pada tanggal terpilih / hari ini. */
+.atasan-approval-bars
+    .atasan-approval-bar-item.is-selected
+    .atasan-approval-bar-track
+    .atasan-approval-bar-stack
+    > .atasan-approval-bar-segment.segment-diajukan,
+.atasan-approval-bars
+    .atasan-approval-bar-item.is-today
+    .atasan-approval-bar-track
+    .atasan-approval-bar-stack
+    > .atasan-approval-bar-segment.segment-diajukan {
+    background: #e4a12d;
+}
+.atasan-approval-bars
+    .atasan-approval-bar-item.is-selected
+    .atasan-approval-bar-track
+    .atasan-approval-bar-stack
+    > .atasan-approval-bar-segment.segment-disetujui,
+.atasan-approval-bars
+    .atasan-approval-bar-item.is-today
+    .atasan-approval-bar-track
+    .atasan-approval-bar-stack
+    > .atasan-approval-bar-segment.segment-disetujui {
+    background: #10aa7a;
+}
+.atasan-approval-bars
+    .atasan-approval-bar-item.is-selected
+    .atasan-approval-bar-track
+    .atasan-approval-bar-stack
+    > .atasan-approval-bar-segment.segment-ditolak,
+.atasan-approval-bars
+    .atasan-approval-bar-item.is-today
+    .atasan-approval-bar-track
+    .atasan-approval-bar-stack
+    > .atasan-approval-bar-segment.segment-ditolak {
+    background: #ef5c7a;
+}
+.atasan-approval-bars
+    .atasan-approval-bar-item.is-selected
+    .atasan-approval-bar-track
+    .atasan-approval-bar-stack
+    > .atasan-approval-bar-segment.segment-draft,
+.atasan-approval-bars
+    .atasan-approval-bar-item.is-today
+    .atasan-approval-bar-track
+    .atasan-approval-bar-stack
+    > .atasan-approval-bar-segment.segment-draft {
+    background: #94a3b8;
+}
+/* Isi tambahan berbasis data pada kartu progres. */
+.atasan-approval-progress-card {
+    gap: 14px;
+}
+.atasan-approval-progress-content {
+    flex: 1;
+    min-height: 155px;
+}
+.atasan-approval-decision-summary {
+    padding: 14px;
+    background: #fff;
+    border: 1px solid #e3edf5;
+    border-radius: 11px;
+}
+.atasan-approval-decision-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+.atasan-approval-decision-heading strong {
+    font-size: 12px;
+    color: #24364c;
+}
+.atasan-approval-decision-heading > span {
+    font-size: 11px;
+    color: #8092a8;
+}
+.atasan-approval-decision-track {
+    display: flex;
+    width: 100%;
+    height: 12px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #e8eef5;
+}
+.atasan-approval-decision-track > span {
+    display: block;
+    height: 100%;
+    flex: 0 0 auto;
+}
+.atasan-approval-decision-track .is-approved {
+    background: #10aa7a;
+}
+.atasan-approval-decision-track .is-rejected {
+    background: #ef5c7a;
+}
+.atasan-approval-decision-track .is-waiting {
+    background: #e4a12d;
+}
+.atasan-approval-decision-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 13px;
+}
+.atasan-approval-decision-grid > div {
+    display: grid;
+    gap: 5px;
+    min-width: 0;
+}
+.atasan-approval-decision-grid > div > span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    color: #64748b;
+}
+.atasan-approval-decision-grid i {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    flex: 0 0 8px;
+    border-radius: 3px;
+}
+.atasan-approval-decision-grid i.is-approved {
+    background: #10aa7a;
+}
+.atasan-approval-decision-grid i.is-rejected {
+    background: #ef5c7a;
+}
+.atasan-approval-decision-grid i.is-waiting {
+    background: #e4a12d;
+}
+.atasan-approval-decision-grid strong {
+    font-size: 18px;
+    color: #24364c;
+}
+.atasan-approval-decision-summary p {
+    margin: 12px 0 0;
+    padding-top: 10px;
+    border-top: 1px solid #edf2f7;
+    color: #72859c;
+    font-size: 11px;
+    line-height: 1.5;
+}
+@media (max-width: 767px) {
+    .atasan-approval-progress-content {
+        min-height: 125px;
+    }
+    .atasan-approval-decision-summary {
+        padding: 12px;
     }
 }

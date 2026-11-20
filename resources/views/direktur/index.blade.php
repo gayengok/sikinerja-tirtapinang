@@ -60,14 +60,14 @@
 
             <div class="direktur-dashboard-quick-links">
                 <a class="direktur-dashboard-quick-link"
-                    href="{{ route('direktur.rekap-data.index') }}">
+                    href="{{ route('direktur.absensi.index') }}">
                     <span class="direktur-dashboard-quick-icon">
                         <i class="fa-solid fa-calendar-check"></i>
                     </span>
 
                     <span class="direktur-dashboard-quick-copy">
-                        <strong>Data Absensi</strong>
-                        <small>Pantau rekap kehadiran pegawai seluruh divisi.</small>
+                        <strong>Verifikasi Absensi Harian</strong>
+                        <small>Periksa dan verifikasi absensi Kepala Bagian.</small>
                     </span>
 
                     <span class="direktur-dashboard-quick-arrow">

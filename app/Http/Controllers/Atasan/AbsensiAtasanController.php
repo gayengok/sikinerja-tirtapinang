@@ -19,9 +19,11 @@ class AbsensiAtasanController extends Controller
     {
         $pegawaiIds = $teamVisibility->attendanceEmployeeIds($request->user());
 
-        $jenisPegawai = $request->user()->role === 'kepala_bagian'
-            ? 'Atasan'
-            : 'Pegawai';
+        $jenisPegawai = match ($request->user()->role) {
+            'kepala_bagian' => 'Atasan',
+            'direktur' => 'Kepala Bagian',
+            default => 'Pegawai',
+        };
 
         $validated = $request->validate([
             'bulan' => ['nullable', 'integer', 'between:1,12'],
@@ -284,6 +286,11 @@ class AbsensiAtasanController extends Controller
             'absensi' => $dataAbsensi,
             'fotoTersedia' => $fotoTersedia,
             'routePrefix' => $teamVisibility->routePrefix($request->user()),
+            'reviewerLabel' => match ($request->user()->role) {
+                'direktur' => 'Direktur',
+                'kepala_bagian' => 'Kepala Bagian',
+                default => 'Atasan',
+            },
         ]);
     }
 
@@ -358,11 +365,17 @@ class AbsensiAtasanController extends Controller
         ]);
 
         $statusVerifikasiSebelumnya = $dataAbsensi->status_verifikasi;
+        $reviewerLabel = match ($request->user()->role) {
+            'direktur' => 'Direktur',
+            'kepala_bagian' => 'Kepala Bagian',
+            default => 'Atasan',
+        };
 
         DB::transaction(function () use (
             $dataAbsensi,
             $validated,
             $atasan,
+            $reviewerLabel,
             $statusVerifikasiSebelumnya,
             $notifications
         ) {
@@ -380,15 +393,21 @@ class AbsensiAtasanController extends Controller
             $tanggal = $dataAbsensi->tanggal->translatedFormat('d F Y');
             $terverifikasi = $validated['keputusan'] === 'terverifikasi';
             $pesan = $terverifikasi
-                ? "Absensi tanggal {$tanggal} telah diverifikasi atasan."
-                : "Absensi tanggal {$tanggal} perlu klarifikasi. Catatan: {$validated['catatan_verifikasi']}";
+                ? "Absensi tanggal {$tanggal} telah diverifikasi {$reviewerLabel}."
+                : "Absensi tanggal {$tanggal} perlu klarifikasi dari {$reviewerLabel}. Catatan: {$validated['catatan_verifikasi']}";
+            $dataAbsensi->loadMissing('pegawai.user');
+            $routeAbsensiPenerima = match ($dataAbsensi->pegawai->user?->role) {
+                'atasan' => 'atasan.absensi-saya.show',
+                'kepala_bagian' => 'kepala_bagian.absensi-saya.show',
+                default => 'pegawai.absensi.show',
+            };
 
             $notifications->send(
                 $dataAbsensi->pegawai,
                 'absensi',
                 $terverifikasi ? 'Absensi terverifikasi' : 'Absensi perlu diperbaiki',
                 $pesan,
-                route('pegawai.absensi.show', $dataAbsensi, false)
+                route($routeAbsensiPenerima, $dataAbsensi, false)
             );
         });
 

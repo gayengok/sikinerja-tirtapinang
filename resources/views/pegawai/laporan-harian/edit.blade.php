@@ -6,7 +6,7 @@
     <div class="pegawai-page daily-report-form-page">
         <div class="daily-report-breadcrumb"><a href="{{ route($routePrefix . '.laporan-harian.create', ['tanggal' => $laporan->tanggal->toDateString()]) }}"><i class="fa-solid fa-chevron-left"></i> Kembali ke Laporan</a> <span>/ Edit Laporan</span></div>
         <div class="daily-report-banner">
-            <span>EDIT LAPORAN <i>â€¢</i> {{ auth()->user()->pegawai->jabatan->divisi->nama_divisi ?? 'Laporan Pegawai' }}</span>
+            <span>EDIT LAPORAN <i>â€¢</i> {{ auth()->user()->pegawai->jabatan->divisi->nama_divisi ?? (auth()->user()->role === 'kepala_bagian' ? 'Laporan Kepala Bagian' : 'Laporan Pegawai') }}</span>
             <h1>Edit Laporan Harian</h1>
             <p>Perbarui catatan kegiatan dan realisasi laporan harian Anda.</p>
             <i class="fa-solid fa-pen-to-square daily-report-banner-icon"></i>

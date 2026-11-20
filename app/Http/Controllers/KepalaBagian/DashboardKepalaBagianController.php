@@ -22,6 +22,13 @@ class DashboardKepalaBagianController extends Controller
             ->pluck('id');
 
         $pegawaiIds = $teamVisibility->reportEmployeeIds($request->user());
+        $tanggalHariIni = now()->toDateString();
+        $laporanKepalaBagianHariIni = $kepalaBagian->laporanHarians()
+            ->whereDate('tanggal', $tanggalHariIni)
+            ->first();
+        $absensiKepalaBagianHariIni = $kepalaBagian->absensis()
+            ->whereDate('tanggal', $tanggalHariIni)
+            ->first();
 
         $laporanMenunggu = LaporanHarian::whereIn('pegawai_id', $pegawaiIds)
             ->where('status', 'diajukan')
@@ -42,6 +49,8 @@ class DashboardKepalaBagianController extends Controller
             'laporanMenunggu' => $laporanMenunggu,
             'laporanDisetujui' => $laporanDisetujui,
             'laporanDitolak' => $laporanDitolak,
+            'laporanKepalaBagianHariIni' => $laporanKepalaBagianHariIni,
+            'absensiKepalaBagianHariIni' => $absensiKepalaBagianHariIni,
             'periodeAktif' => $periodeAktif,
         ]);
     }

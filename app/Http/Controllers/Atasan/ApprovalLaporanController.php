@@ -54,7 +54,10 @@ class ApprovalLaporanController extends Controller
         $activityCounts = (clone $periodeQuery)
             ->select('tanggal', DB::raw('COUNT(*) as total'))
             ->groupBy('tanggal')
-            ->pluck('total', 'tanggal');
+            ->get()
+            ->mapWithKeys(fn ($row) => [
+                Carbon::parse($row->tanggal)->toDateString() => (int) $row->total,
+            ]);
 
         // Distribusi status per tanggal untuk grafik batang bertumpuk.
         $activityStatusCounts = (clone $periodeQuery)

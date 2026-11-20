@@ -98,7 +98,7 @@
                                     <div class="atasan-approval-bar-stack" style="height: {{ $count > 0 ? round($count / $maxActivity * 100, 2) : 0 }}%">
                                         @foreach ($chartStatuses as $chartStatus => $chartLabel)
                                             @php $statusCount = (int) ($dayStatuses[$chartStatus] ?? 0); @endphp
-                                            @if ($statusCount > 0)
+                                            @if ($statusCount > 0 && $count > 0)
                                                 <span class="atasan-approval-bar-segment segment-{{ $chartStatus }}" style="height: {{ round($statusCount / $count * 100, 2) }}%" title="{{ $chartLabel }}: {{ $statusCount }}"></span>
                                             @endif
                                         @endforeach

@@ -59,7 +59,7 @@ class AbsensiController extends Controller
         $hariLiburHariIni = HariLibur::detail($tanggal);
         $attendanceCalendarMonth = now()->copy()->startOfMonth();
 
-        $attendanceCalendar = $request->user()->role === 'atasan'
+        $attendanceCalendar = in_array($request->user()->role, ['atasan', 'kepala_bagian'], true)
             ? $pegawai->absensis()
             ->whereBetween('tanggal', [
                 $attendanceCalendarMonth->toDateString(),
@@ -82,9 +82,8 @@ class AbsensiController extends Controller
             'attendanceCalendarMonth' => $attendanceCalendarMonth,
             'attendanceCalendar' => $attendanceCalendar,
             'attendanceRoute' => $this->attendanceRoute($request),
-            'dashboardRoute' => $request->user()->role === 'atasan'
-                ? 'atasan.dashboard'
-                : 'pegawai.dashboard',
+            'attendanceLabel' => $this->attendanceLabel($request),
+            'dashboardRoute' => $this->dashboardRoute($request),
             'geofence' => $this->loadGeofence(),
         ]);
     }
@@ -201,6 +200,10 @@ class AbsensiController extends Controller
                 'jarak_lokasi' => round($distance, 2),
                 'di_luar_kantor' => false,
                 'akurasi_gps' => round((float) $validated['accuracy'], 2),
+                'status_verifikasi' => null,
+                'catatan_verifikasi' => null,
+                'diverifikasi_oleh' => null,
+                'diverifikasi_pada' => null,
             ];
 
             if ($absensiHariIni) {
@@ -247,17 +250,36 @@ class AbsensiController extends Controller
         return view('pegawai.absensi.show', [
             'absensi' => $data,
             'attendanceRoute' => $this->attendanceRoute($request),
-            'dashboardRoute' => $request->user()->role === 'atasan'
-                ? 'atasan.dashboard'
-                : 'pegawai.dashboard',
+            'attendanceLabel' => $this->attendanceLabel($request),
+            'dashboardRoute' => $this->dashboardRoute($request),
         ]);
     }
 
     private function attendanceRoute(Request $request): string
     {
-        return $request->user()->role === 'atasan'
-            ? 'atasan.absensi-saya'
-            : 'pegawai.absensi';
+        return match ($request->user()->role) {
+            'atasan' => 'atasan.absensi-saya',
+            'kepala_bagian' => 'kepala_bagian.absensi-saya',
+            default => 'pegawai.absensi',
+        };
+    }
+
+    private function attendanceLabel(Request $request): string
+    {
+        return match ($request->user()->role) {
+            'atasan' => 'Atasan',
+            'kepala_bagian' => 'Kepala Bagian',
+            default => 'Pegawai',
+        };
+    }
+
+    private function dashboardRoute(Request $request): string
+    {
+        return match ($request->user()->role) {
+            'atasan' => 'atasan.dashboard',
+            'kepala_bagian' => 'kepala_bagian.dashboard',
+            default => 'pegawai.dashboard',
+        };
     }
 
     private function pegawaiLogin(Request $request)

@@ -36,6 +36,9 @@ class KepalaBagianDashboardTest extends TestCase
             ->assertSee('Atasan yang Dinilai')
             ->assertSee(route('kepala_bagian.absensi.index'), false)
             ->assertSee(route('kepala_bagian.laporan.index', ['status' => 'diajukan']), false)
+            ->assertSee(route('kepala_bagian.laporan-harian.create'), false)
+            ->assertSee(route('kepala_bagian.absensi-saya.index'), false)
+            ->assertSee('Input Data Harian')
             ->assertSee('Pegawai Atasan');
 
         $this->get(route('kepala_bagian.penilaian-atasan.index'))

@@ -71,6 +71,7 @@ class LaporanHarianController extends Controller
             'laporanHariIni' => $laporanHariIni,
             'nilaiTersimpan' => $laporanHariIni?->details->keyBy('master_template_laporan_id') ?? collect(),
             'routePrefix' => $this->routePrefix($request),
+            'reviewerLabel' => $this->reviewerLabel($request),
         ]);
     }
 
@@ -110,7 +111,7 @@ class LaporanHarianController extends Controller
                 ->with('error', 'Laporan untuk tanggal tersebut sudah ada. Silakan edit laporan yang sudah dibuat.');
         }
 
-        $isAtasan = $request->user()->role === 'atasan';
+        $role = $request->user()->role;
 
         DB::transaction(function () use ($validated, $pegawai, $request) {
             $buktiGambar = $request->hasFile('bukti_gambar')
@@ -136,10 +137,10 @@ class LaporanHarianController extends Controller
         $redirect = redirect()
             ->route($this->routePrefix($request) . '.laporan-harian.create');
 
-        if ($isAtasan) {
+        if (in_array($role, ['atasan', 'kepala_bagian'], true)) {
             return $redirect->with(
                 'success',
-                'Laporan harian berhasil dikirim kepada Kepala Bagian untuk ditinjau.'
+                'Laporan harian berhasil dikirim kepada ' . $this->reviewerLabel($request) . ' untuk diverifikasi.'
             );
         }
 
@@ -154,7 +155,7 @@ class LaporanHarianController extends Controller
             return redirect()->route('atasan.dashboard');
         }
 
-        return redirect()->route('pegawai.laporan-harian.create', [
+        return redirect()->route($this->routePrefix($request) . '.laporan-harian.create', [
             'tanggal' => $laporan->tanggal->toDateString(),
         ]);
     }
@@ -326,7 +327,7 @@ class LaporanHarianController extends Controller
 
         $laporan->update(['status' => 'diajukan']);
 
-        $reviewerLabel = $request->user()->role === 'atasan' ? 'Kepala Bagian' : 'Atasan';
+        $reviewerLabel = $this->reviewerLabel($request);
 
         return redirect()
             ->route($this->routePrefix($request) . '.laporan-harian.show', $laporan)
@@ -344,7 +345,20 @@ class LaporanHarianController extends Controller
 
     private function routePrefix(Request $request): string
     {
-        return $request->user()->role === 'atasan' ? 'atasan' : 'pegawai';
+        return match ($request->user()->role) {
+            'atasan' => 'atasan',
+            'kepala_bagian' => 'kepala_bagian',
+            default => 'pegawai',
+        };
+    }
+
+    private function reviewerLabel(Request $request): string
+    {
+        return match ($request->user()->role) {
+            'atasan' => 'Kepala Bagian',
+            'kepala_bagian' => 'Direktur',
+            default => 'Atasan',
+        };
     }
 
     private function templatesForPegawai(\App\Models\Pegawai $pegawai): Builder

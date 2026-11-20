@@ -121,6 +121,8 @@
                         </span>
                     </a>
                 </div>
+
+                @include('kepala_bagian.partials.dashboard-actions')
             </div>
         </section>
 

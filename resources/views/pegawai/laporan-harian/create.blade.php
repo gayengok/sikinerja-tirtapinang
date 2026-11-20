@@ -1,4 +1,4 @@
-@extends($routePrefix === 'atasan' ? 'layouts.app' : 'layouts.apps')
+@extends(in_array($routePrefix, ['atasan', 'kepala_bagian'], true) ? 'layouts.app' : 'layouts.apps')
 
 @section('title', 'Buat Laporan Harian')
 
@@ -7,7 +7,7 @@
 
         <div class="daily-report-banner">
             <span><i class="fa-solid fa-circle" aria-hidden="true"></i> INPUT HARIAN <b aria-hidden="true">·</b>
-                {{ auth()->user()->pegawai->jabatan->divisi->nama_divisi ?? (auth()->user()->role === 'atasan' ? 'Laporan Atasan' : 'Laporan Pegawai') }}</span>
+                {{ auth()->user()->pegawai->jabatan->divisi->nama_divisi ?? (auth()->user()->role === 'kepala_bagian' ? 'Laporan Kepala Bagian' : (auth()->user()->role === 'atasan' ? 'Laporan Atasan' : 'Laporan Pegawai')) }}</span>
             <h1>Buat Laporan Harian</h1>
             <p>Isi catatan kegiatan tugas dan realisasi laporan harian secara akurat.</p>
             <i class="fa-regular fa-file-lines daily-report-banner-icon"></i>
@@ -30,7 +30,7 @@
                 role="status">
                 <i class="fa-solid fa-circle-check me-2 fs-5 text-success"></i>
                 <div>
-                    Laporan sudah diverifikasi oleh Kepala Bagian. Laporan ini sudah disetujui dan hanya dapat dilihat.
+                    Laporan sudah diverifikasi oleh {{ $reviewerLabel }}. Laporan ini sudah disetujui dan hanya dapat dilihat.
                 </div>
                 <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert"
                     aria-label="Tutup pemberitahuan"></button>
@@ -46,10 +46,10 @@
                     aria-hidden="true"></i>
                 <span>
                     @if ($laporanHariIni->status === 'diajukan')
-                        Laporan sudah dikirim dan menunggu persetujuan atasan. Data masih dapat diperbarui sebelum
+                        Laporan sudah dikirim dan menunggu verifikasi {{ $reviewerLabel }}. Data masih dapat diperbarui sebelum
                         disetujui.
                     @elseif (in_array($laporanHariIni->status, ['disetujui', 'diverifikasi']))
-                        Laporan sudah diverifikasi oleh Kepala Bagian.
+                        Laporan sudah diverifikasi oleh {{ $reviewerLabel }}.
                     @elseif ($laporanHariIni->status === 'ditolak')
                         Laporan perlu diperbaiki sebelum dikirim kembali.
                     @else

@@ -1,4 +1,4 @@
-@extends('layouts.apps')
+@extends(in_array($attendanceRoute, ['atasan.absensi-saya', 'kepala_bagian.absensi-saya'], true) ? 'layouts.app' : 'layouts.apps')
 
 @section('title', 'Detail Absensi')
 

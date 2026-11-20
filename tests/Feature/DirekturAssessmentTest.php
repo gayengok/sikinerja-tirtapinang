@@ -3,8 +3,10 @@
 namespace Tests\Feature;
 
 use App\Models\Divisi;
+use App\Models\Absensi;
 use App\Models\Jabatan;
 use App\Models\LaporanHarian;
+use App\Models\MasterTemplateLaporan;
 use App\Models\MasterKompetensi;
 use App\Models\MasterKpi;
 use App\Models\Pegawai;
@@ -134,13 +136,22 @@ class DirekturAssessmentTest extends TestCase
             'status' => 'diajukan',
         ]);
 
-        $this->actingAs($direkturUser)
+        $dashboard = $this->actingAs($direkturUser)
             ->get(route('direktur.dashboard'))
             ->assertOk()
             ->assertSee(route('direktur.rekap-data.index'), false)
             ->assertSee(route('direktur.laporan.index', ['status' => 'diajukan']), false)
-            ->assertSee('Data Absensi')
+            ->assertSee('Verifikasi Absensi Harian')
             ->assertSee('Approval Laporan');
+
+        preg_match(
+            '/<aside class="sidebar" id="sidebar">(.*?)<\/aside>/s',
+            $dashboard->getContent(),
+            $sidebar
+        );
+        $this->assertNotEmpty($sidebar);
+        $this->assertStringNotContainsString(route('direktur.laporan.index'), $sidebar[1]);
+        $this->assertStringNotContainsString(route('direktur.absensi.index'), $sidebar[1]);
 
         $this->get(route('direktur.laporan.index'))
             ->assertOk()
@@ -157,6 +168,79 @@ class DirekturAssessmentTest extends TestCase
             'id' => $laporanKepalaBagian->id,
             'status' => 'disetujui',
             'disetujui_oleh' => $direkturUser->pegawai->id,
+        ]);
+    }
+
+    public function test_kepala_bagian_can_submit_daily_data_for_director_verification(): void
+    {
+        [$direkturUser, $kepalaBagian] = $this->createHierarchy();
+        $template = MasterTemplateLaporan::create([
+            'divisi_id' => $kepalaBagian->jabatan->divisi_id,
+            'nama_field' => 'Jumlah pekerjaan selesai',
+            'tipe_field' => 'angka',
+            'satuan' => 'pekerjaan',
+        ]);
+        $kepalaBagianUser = $kepalaBagian->user;
+
+        $this->actingAs($kepalaBagianUser)
+            ->get(route('kepala_bagian.laporan-harian.create'))
+            ->assertOk()
+            ->assertSee('Buat Laporan Harian')
+            ->assertSee('Jumlah pekerjaan selesai')
+            ->assertSee(route('kepala_bagian.laporan-harian.store'), false);
+
+        $this->get(route('kepala_bagian.absensi-saya.index'))
+            ->assertOk()
+            ->assertSee('Presensi Kepala Bagian')
+            ->assertSee(route('kepala_bagian.absensi-saya.store'), false);
+
+        $this->post(route('kepala_bagian.laporan-harian.store'), [
+            'tanggal' => now()->toDateString(),
+            'catatan' => 'Laporan kegiatan Kepala Bagian.',
+            'detail' => [[
+                'master_template_laporan_id' => $template->id,
+                'nilai' => '5',
+            ]],
+        ])
+            ->assertRedirect(route('kepala_bagian.laporan-harian.create'))
+            ->assertSessionHas(
+                'success',
+                'Laporan harian berhasil dikirim kepada Direktur untuk diverifikasi.'
+            );
+
+        $laporan = LaporanHarian::where('pegawai_id', $kepalaBagian->id)->firstOrFail();
+        $this->assertSame('diajukan', $laporan->status);
+
+        $this->actingAs($direkturUser)
+            ->get(route('direktur.laporan.index'))
+            ->assertOk()
+            ->assertSee('Laporan kegiatan Kepala Bagian.');
+
+        $this->post(route('direktur.laporan.approve', $laporan))
+            ->assertRedirect(route('direktur.laporan.index'));
+
+        $absensi = Absensi::create([
+            'pegawai_id' => $kepalaBagian->id,
+            'tanggal' => now()->toDateString(),
+            'jam_masuk' => '08:00:00',
+            'jam_pulang' => '16:00:00',
+            'status' => 'hadir',
+        ]);
+
+        $this->get(route('direktur.absensi.index'))
+            ->assertOk()
+            ->assertSee('Data Absensi Kepala Bagian')
+            ->assertSee($kepalaBagian->nama);
+
+        $this->post(route('direktur.absensi.verifikasi', $absensi), [
+            'keputusan' => 'terverifikasi',
+        ])
+            ->assertRedirect(route('direktur.absensi.show', $absensi));
+
+        $this->assertDatabaseHas('absensis', [
+            'id' => $absensi->id,
+            'status_verifikasi' => 'terverifikasi',
+            'diverifikasi_oleh' => $direkturUser->pegawai->id,
         ]);
     }
 

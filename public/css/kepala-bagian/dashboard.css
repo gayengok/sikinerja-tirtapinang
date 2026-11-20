@@ -265,6 +265,111 @@ body.role-kepala_bagian .kb-quick-arrow {
     font-size: 13px;
 }
 
+body.role-kepala_bagian .kb-daily-entry {
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.17);
+}
+
+body.role-kepala_bagian .kb-daily-entry-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+body.role-kepala_bagian .kb-daily-entry-heading h3 {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+body.role-kepala_bagian .kb-daily-entry-heading > span {
+    color: #cdeafa;
+    font-size: 10px;
+}
+
+body.role-kepala_bagian .kb-daily-entry-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+body.role-kepala_bagian .kb-daily-entry-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    padding: 14px;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.19);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 15px;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+body.role-kepala_bagian .kb-daily-entry-card:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.27);
+    transform: translateY(-2px);
+}
+
+body.role-kepala_bagian .kb-daily-entry-card:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+}
+
+body.role-kepala_bagian .kb-daily-entry-icon {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    font-size: 17px;
+}
+
+body.role-kepala_bagian .kb-daily-entry-copy {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+    gap: 4px;
+}
+
+body.role-kepala_bagian .kb-daily-entry-copy strong {
+    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+body.role-kepala_bagian .kb-daily-entry-copy small {
+    color: #e1f3ff;
+    font-size: 10px;
+    line-height: 1.45;
+}
+
+body.role-kepala_bagian .kb-daily-entry-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    flex: 0 0 auto;
+    padding: 8px 10px;
+    color: #087db9;
+    background: #fff;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 800;
+}
+
 body.role-kepala_bagian .kb-period-panel,
 body.role-kepala_bagian .kb-stat-card,
 body.role-kepala_bagian .kb-analysis-card {
@@ -790,6 +895,17 @@ body.role-kepala_bagian .kb-assessment-button:hover {
     }
 
     body.role-kepala_bagian .kb-quick-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    body.role-kepala_bagian .kb-daily-entry-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    body.role-kepala_bagian .kb-daily-entry-grid {
         grid-template-columns: 1fr;
         gap: 10px;
     }

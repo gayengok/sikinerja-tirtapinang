@@ -1,6 +1,6 @@
-@extends($attendanceRoute === 'atasan.absensi-saya' ? 'layouts.app' : 'layouts.apps')
+@extends(in_array($attendanceRoute, ['atasan.absensi-saya', 'kepala_bagian.absensi-saya'], true) ? 'layouts.app' : 'layouts.apps')
 
-@section('title', $attendanceRoute === 'atasan.absensi-saya' ? 'Presensi Atasan' : 'Presensi Pegawai')
+@section('title', 'Presensi ' . $attendanceLabel)
 
 @push('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
@@ -17,7 +17,7 @@
                 <i class="fa-solid fa-arrow-left"></i>
             </button>
             <div>
-                <h1>{{ $attendanceRoute === 'atasan.absensi-saya' ? 'Presensi Atasan' : 'Presensi Pegawai' }}</h1>
+                <h1>Presensi {{ $attendanceLabel }}</h1>
                 <p>Rekam kehadiran dengan verifikasi GPS dan Foto</p>
             </div>
             <div class="attendance-header-clock" id="attendanceClock"

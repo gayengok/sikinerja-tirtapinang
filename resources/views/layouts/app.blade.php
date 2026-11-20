@@ -13,7 +13,7 @@
     <link href="{{ asset('css/sikinerja.css') }}?v={{ file_exists(public_path('css/sikinerja.css')) ? filemtime(public_path('css/sikinerja.css')) : '1' }}" rel="stylesheet">
     @stack('styles')
 </head>
-<body class="mobile-only-mode role-{{ auth()->user()->role ?? 'guest' }} {{ in_array(auth()->user()?->role, ['kepala_bagian', 'direktur'], true) ? 'role-atasan' : '' }} {{ request()->routeIs('atasan.absensi.*', 'atasan.absensi-saya.*', 'kepala_bagian.absensi.*') ? 'desktop-atasan-attendance' : '' }}">
+<body class="mobile-only-mode role-{{ auth()->user()->role ?? 'guest' }} {{ in_array(auth()->user()?->role, ['kepala_bagian', 'direktur'], true) ? 'role-atasan' : '' }} {{ request()->routeIs('atasan.absensi.*', 'atasan.absensi-saya.*', 'kepala_bagian.absensi.*', 'kepala_bagian.absensi-saya.*', 'direktur.absensi.*') ? 'desktop-atasan-attendance' : '' }}">
     <div class="mobile-app-shell">
         @include('components.navbar')
         <main class="main-content" id="mainContent">

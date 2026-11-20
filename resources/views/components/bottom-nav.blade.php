@@ -81,6 +81,20 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="{{ route('direktur.laporan.index') }}"
+                            class="mobile-nav-link {{ request()->routeIs('direktur.laporan.*') ? 'active' : '' }}">
+                            <div class="nav-icon-wrapper"><i class="fa-solid fa-file-circle-check"></i></div>
+                            <span>Laporan</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('direktur.absensi.index') }}"
+                            class="mobile-nav-link {{ request()->routeIs('direktur.absensi.*') ? 'active' : '' }}">
+                            <div class="nav-icon-wrapper"><i class="fa-solid fa-calendar-check"></i></div>
+                            <span>Absensi</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="{{ route('direktur.penilaian-kepala-bagian.index') }}"
                             class="mobile-nav-link {{ request()->routeIs('direktur.penilaian-kepala-bagian.*') ? 'active' : '' }}">
                             <div class="nav-icon-wrapper"><i class="fa-solid fa-chart-line"></i></div>

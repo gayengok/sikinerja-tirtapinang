@@ -154,6 +154,23 @@ Route::middleware(['auth', 'role:kepala_bagian'])
         Route::post('absensi/{absensi}/verifikasi', [AbsensiAtasanController::class, 'verifikasi'])->name('absensi.verifikasi');
         Route::get('absensi/{absensi}', [AbsensiAtasanController::class, 'show'])->name('absensi.show');
 
+        Route::prefix('laporan-harian')->name('laporan-harian.')->group(function () {
+            Route::get('/create', [LaporanHarianController::class, 'create'])->name('create');
+            Route::post('/', [LaporanHarianController::class, 'store'])->name('store');
+            Route::get('/{laporanHarian}/image', [LaporanHarianController::class, 'image'])->name('image');
+            Route::get('/{laporanHarian}', [LaporanHarianController::class, 'show'])->name('show');
+            Route::get('/{laporanHarian}/edit', [LaporanHarianController::class, 'edit'])->name('edit');
+            Route::put('/{laporanHarian}', [LaporanHarianController::class, 'update'])->name('update');
+            Route::delete('/{laporanHarian}', [LaporanHarianController::class, 'destroy'])->name('destroy');
+            Route::post('/{laporanHarian}/ajukan', [LaporanHarianController::class, 'ajukan'])->name('ajukan');
+        });
+
+        Route::prefix('absensi-saya')->name('absensi-saya.')->group(function () {
+            Route::get('/', [AbsensiController::class, 'index'])->name('index');
+            Route::post('/', [AbsensiController::class, 'store'])->name('store');
+            Route::get('/{absensi}', [AbsensiController::class, 'show'])->name('show');
+        });
+
         Route::prefix('laporan')->name('laporan.')->group(function () {
             Route::get('/', [ApprovalLaporanController::class, 'index'])->name('index');
             Route::get('/{laporanHarian}/image', [ApprovalLaporanController::class, 'image'])->name('image');
@@ -178,6 +195,10 @@ Route::middleware(['auth', 'role:direktur'])
     ->name('direktur.')
     ->group(function () {
         Route::get('dashboard', [DashboardDirekturController::class, 'index'])->name('dashboard');
+        Route::get('absensi', [AbsensiAtasanController::class, 'index'])->name('absensi.index');
+        Route::get('absensi/{absensi}/foto', [AbsensiAtasanController::class, 'foto'])->name('absensi.foto');
+        Route::post('absensi/{absensi}/verifikasi', [AbsensiAtasanController::class, 'verifikasi'])->name('absensi.verifikasi');
+        Route::get('absensi/{absensi}', [AbsensiAtasanController::class, 'show'])->name('absensi.show');
         Route::prefix('laporan')->name('laporan.')->group(function () {
             Route::get('/', [ApprovalLaporanController::class, 'index'])->name('index');
             Route::get('/{laporanHarian}/image', [ApprovalLaporanController::class, 'image'])->name('image');

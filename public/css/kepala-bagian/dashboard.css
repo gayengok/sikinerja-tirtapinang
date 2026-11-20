@@ -1,352 +1,969 @@
 body.role-kepala_bagian .kepala-bagian-dashboard {
+    --kb-blue: #087db9;
+    --kb-text: #1e293b;
+    --kb-muted: #7185a1;
+    --kb-border: #dfe8f2;
+    --kb-surface: #f4f8fc;
     display: grid;
-    gap: 12px;
-    width: min(1280px, 100%);
+    gap: 24px;
+    width: 100%;
+    min-width: 0;
     margin: 0 auto;
-    padding: 16px 20px 24px;
-    color: #17213b;
+    padding: 18px 0 32px;
+    color: var(--kb-text);
+    font-family: "Inter", sans-serif;
 }
 
-body.role-kepala_bagian .kepala-bagian-welcome,
-body.role-kepala_bagian .kepala-bagian-progress,
-body.role-kepala_bagian .kepala-bagian-action {
-    padding: 22px;
-    background: #fff;
-    border: 1px solid #dfe7f0;
-    border-radius: 16px;
+body.role-kepala_bagian .kepala-bagian-dashboard *,
+body.role-kepala_bagian .kepala-bagian-dashboard *::before,
+body.role-kepala_bagian .kepala-bagian-dashboard *::after {
+    box-sizing: border-box;
 }
 
-body.role-kepala_bagian .kepala-bagian-welcome {
-    position: relative;
+body.role-kepala_bagian .kb-hero {
     overflow: hidden;
+    padding: 32px;
+    color: #fff;
+    background: linear-gradient(112deg, #08699e 0%, #087fb4 56%, #079bc4 100%);
+    border-radius: 24px;
+    box-shadow: 0 12px 30px rgba(8, 105, 158, 0.1);
+}
+
+body.role-kepala_bagian .kb-hero-top {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 20px;
-    min-height: 104px;
-    padding: 20px 22px;
-    color: #fff;
-    background: linear-gradient(110deg, #0784c4 0%, #078dc3 55%, #149fae 100%);
-    border: 0;
-    border-radius: 12px;
-    box-shadow: 0 7px 16px rgba(7, 124, 177, .12);
+    gap: 28px;
+    min-width: 0;
 }
 
-body.role-kepala_bagian .kepala-bagian-eyebrow {
+body.role-kepala_bagian .kb-hero-intro {
+    min-width: 0;
+    flex: 1;
+}
+
+body.role-kepala_bagian .kb-hero-eyebrow {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+body.role-kepala_bagian .kb-status-dot {
+    width: 10px;
+    height: 10px;
+    flex: 0 0 10px;
+    background: #20dfab;
+    border-radius: 50%;
+}
+
+body.role-kepala_bagian .kb-eyebrow-divider {
+    width: 1px;
+    height: 18px;
+    margin: 0 4px;
+    background: rgba(255, 255, 255, 0.45);
+}
+
+body.role-kepala_bagian .kb-hero h1 {
+    margin: 22px 0 14px;
+    color: #fff;
+    font-size: clamp(24px, 2.4vw, 34px);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.035em;
+    overflow-wrap: anywhere;
+}
+
+body.role-kepala_bagian .kb-hero-intro > p {
+    max-width: 800px;
+    margin: 0;
+    color: #e1f3ff;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+body.role-kepala_bagian .kb-hero-period {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 340px;
+    max-width: 100%;
+    flex: 0 0 auto;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.13);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 18px;
+}
+
+body.role-kepala_bagian .kb-period-icon {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 14px;
+    font-size: 21px;
+}
+
+body.role-kepala_bagian .kb-period-info {
+    min-width: 0;
+    flex: 1;
+}
+
+body.role-kepala_bagian .kb-period-info small,
+body.role-kepala_bagian .kb-period-info strong {
+    display: block;
+}
+
+body.role-kepala_bagian .kb-period-info small {
+    margin-bottom: 7px;
+    color: #e3f5ff;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+body.role-kepala_bagian .kb-period-info strong {
+    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+body.role-kepala_bagian .kb-period-status {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 4px 9px;
-    color: #e2f5fc;
-    background: rgba(255, 255, 255, .16);
-    border: 1px solid rgba(255, 255, 255, .13);
-    border-radius: 999px;
-    font-size: .64rem;
-    font-weight: 700;
-    letter-spacing: .035em;
-}
-
-body.role-kepala_bagian .kepala-bagian-eyebrow i {
-    color: #4be0b1;
-    font-size: .4rem;
-}
-
-body.role-kepala_bagian .kepala-bagian-welcome h1 {
-    margin: 7px 0 4px;
-    font-size: clamp(1.2rem, 2.4vw, 1.65rem);
+    gap: 7px;
+    flex: 0 0 auto;
+    padding: 11px 12px;
+    color: #047857;
+    background: #d4fae9;
+    border-radius: 12px;
+    font-size: 11px;
     font-weight: 800;
-    letter-spacing: -.025em;
+    white-space: nowrap;
 }
 
-body.role-kepala_bagian .kepala-bagian-welcome p {
-    margin: 0;
-    color: #e0f2fe;
-    font-size: .72rem;
-    line-height: 1.5;
+body.role-kepala_bagian .kb-period-status span {
+    width: 8px;
+    height: 8px;
+    background: #0cba8b;
+    border-radius: 50%;
 }
 
-body.role-kepala_bagian .kepala-bagian-period {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    min-width: 174px;
-    padding: 10px 12px;
-    background: rgba(255, 255, 255, .16);
-    border: 1px solid rgba(255, 255, 255, .13);
-    border-radius: 10px;
+body.role-kepala_bagian .kb-hero-activities {
+    margin-top: 30px;
+    padding-top: 23px;
+    border-top: 1px solid rgba(255, 255, 255, 0.17);
 }
 
-body.role-kepala_bagian .kepala-bagian-period i {
-    display: grid;
-    place-items: center;
-    width: 30px;
-    height: 30px;
-    flex: 0 0 30px;
-    color: #e8f7fd;
-    background: rgba(255, 255, 255, .18);
-    border-radius: 8px;
-    font-size: .8rem;
-}
-
-body.role-kepala_bagian .kepala-bagian-period small,
-body.role-kepala_bagian .kepala-bagian-period strong {
-    display: block;
-}
-
-body.role-kepala_bagian .kepala-bagian-period small {
-    margin-bottom: 2px;
-    color: #d6effb;
-    font-size: .55rem;
-    font-weight: 700;
-}
-
-body.role-kepala_bagian .kepala-bagian-period strong {
-    color: #fff;
-    font-size: .68rem;
-}
-
-body.role-kepala_bagian .kepala-bagian-stats {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
-}
-
-body.role-kepala_bagian .kepala-bagian-stats article {
-    display: grid;
-    gap: 4px;
-    min-width: 0;
-    padding: 12px;
-    background: #fff;
-    border: 1px solid #dfe7f0;
-    border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(35, 52, 85, .025);
-}
-
-body.role-kepala_bagian .kepala-bagian-stats article > span {
-    display: grid;
-    place-items: center;
-    width: 30px;
-    height: 30px;
-    color: #078ac8;
-    background: #e8f6fc;
-    border-radius: 9px;
-    font-size: .78rem;
-}
-
-body.role-kepala_bagian .kepala-bagian-stats strong {
-    color: #111827;
-    font-size: 1.3rem;
-    line-height: 1.1;
-}
-
-body.role-kepala_bagian .kepala-bagian-stats b {
-    color: #17213b;
-    font-size: .72rem;
-}
-
-body.role-kepala_bagian .kepala-bagian-stats small,
-body.role-kepala_bagian .kepala-bagian-progress small {
-    color: #71829c;
-    font-size: .62rem;
-    line-height: 1.4;
-}
-
-body.role-kepala_bagian .kepala-bagian-stats .is-approved > span {
-    color: #2563eb;
-    background: #edf4ff;
-}
-
-body.role-kepala_bagian .kepala-bagian-stats .is-pending > span {
-    color: #d97706;
-    background: #fff4ca;
-}
-
-body.role-kepala_bagian .kepala-bagian-progress {
-    padding: 12px;
-    border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(35, 52, 85, .025);
-}
-
-body.role-kepala_bagian .kepala-bagian-progress > div:first-child {
+body.role-kepala_bagian .kb-activities-heading {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    margin-bottom: 8px;
-    color: #17213b;
-    font-size: .7rem;
-    font-weight: 700;
+    margin-bottom: 16px;
 }
 
-body.role-kepala_bagian .kepala-bagian-progress > div:first-child strong {
-    padding: 4px 8px;
-    color: #075985;
-    background: #edf7fc;
-    border: 1px solid #d5edf7;
-    border-radius: 999px;
-    font-size: .58rem;
-    font-weight: 700;
-}
-
-body.role-kepala_bagian .kepala-bagian-progress-track {
-    height: 7px;
-    margin-bottom: 7px;
-    overflow: hidden;
-    background: #e8eef5;
-    border-radius: 99px;
-}
-
-body.role-kepala_bagian .kepala-bagian-progress-track span {
-    display: block;
-    height: 100%;
-    background: #0bb887;
-    border-radius: inherit;
-}
-
-body.role-kepala_bagian .kepala-bagian-action {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 14px;
-    border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(35, 52, 85, .025);
-}
-
-body.role-kepala_bagian .kepala-bagian-tools {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
-}
-
-body.role-kepala_bagian .kepala-bagian-tools a {
+body.role-kepala_bagian .kb-activities-heading h2 {
     display: flex;
     align-items: center;
     gap: 10px;
-    min-width: 0;
-    padding: 12px;
-    color: #17213b;
-    background: #fff;
-    border: 1px solid #dfe7f0;
-    border-radius: 12px;
-    text-decoration: none;
-    transition: border-color .2s, transform .2s;
+    margin: 0;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 800;
 }
 
-body.role-kepala_bagian .kepala-bagian-tools a:hover {
-    border-color: #078ac8;
+body.role-kepala_bagian .kb-activities-heading > span {
+    color: #cdeafa;
+    font-size: 11px;
+}
+
+body.role-kepala_bagian .kb-quick-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+body.role-kepala_bagian .kb-quick-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+    padding: 16px;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 16px;
+    text-decoration: none;
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+body.role-kepala_bagian .kb-quick-card:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.22);
     transform: translateY(-2px);
 }
 
-body.role-kepala_bagian .kepala-bagian-tools a > i:first-child,
-body.role-kepala_bagian .kepala-bagian-tools a > i:last-child {
-    color: #078ac8;
+body.role-kepala_bagian .kb-quick-card:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
 }
 
-body.role-kepala_bagian .kepala-bagian-tools a > i:first-child {
+body.role-kepala_bagian .kb-quick-icon {
     display: grid;
     place-items: center;
-    width: 30px;
-    height: 30px;
-    flex: 0 0 30px;
-    background: #edf7fc;
-    border-radius: 9px;
-    font-size: .75rem;
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 13px;
+    font-size: 19px;
 }
 
-body.role-kepala_bagian .kepala-bagian-tools a > i:last-child {
-    margin-left: auto;
+body.role-kepala_bagian .kb-quick-content {
+    min-width: 0;
+    flex: 1;
 }
 
-body.role-kepala_bagian .kepala-bagian-tools strong,
-body.role-kepala_bagian .kepala-bagian-tools small {
+body.role-kepala_bagian .kb-quick-content strong,
+body.role-kepala_bagian .kb-quick-content small {
     display: block;
 }
 
-body.role-kepala_bagian .kepala-bagian-tools small {
-    margin-top: 3px;
-    color: #64748b;
-    font-size: .61rem;
-    line-height: 1.4;
+body.role-kepala_bagian .kb-quick-content strong {
+    margin-bottom: 6px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
 }
 
-body.role-kepala_bagian .kepala-bagian-tools strong {
-    font-size: .7rem;
+body.role-kepala_bagian .kb-quick-content small {
+    color: #e0f2fe;
+    font-size: 11px;
+    line-height: 1.6;
 }
 
-body.role-kepala_bagian .kepala-bagian-action-icon {
+body.role-kepala_bagian .kb-quick-arrow {
     display: grid;
     place-items: center;
     width: 34px;
     height: 34px;
     flex: 0 0 34px;
-    color: #078ac8;
-    background: #e8f6fc;
-    border-radius: 9px;
-    font-size: .85rem;
+    color: #0877b2;
+    background: #fff;
+    border-radius: 10px;
+    font-size: 13px;
 }
 
-body.role-kepala_bagian .kepala-bagian-action h2 {
-    margin: 0 0 3px;
-    font-size: .75rem;
+body.role-kepala_bagian .kb-period-panel,
+body.role-kepala_bagian .kb-stat-card,
+body.role-kepala_bagian .kb-analysis-card {
+    background: #fff;
+    border: 1px solid var(--kb-border);
+    border-radius: 22px;
+    box-shadow: 0 8px 26px rgba(24, 49, 78, 0.035);
 }
 
-body.role-kepala_bagian .kepala-bagian-action p {
+body.role-kepala_bagian .kb-period-panel {
+    padding: 24px;
+}
+
+body.role-kepala_bagian .kb-panel-heading,
+body.role-kepala_bagian .kb-overview-heading,
+body.role-kepala_bagian .kb-analysis-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+body.role-kepala_bagian .kb-panel-title-group {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+}
+
+body.role-kepala_bagian .kb-panel-icon,
+body.role-kepala_bagian .kb-analysis-icon,
+body.role-kepala_bagian .kb-stat-icon {
+    display: grid;
+    place-items: center;
+    color: #087db9;
+    background: #e8f5fc;
+    border-radius: 13px;
+}
+
+body.role-kepala_bagian .kb-panel-icon {
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+    font-size: 20px;
+}
+
+body.role-kepala_bagian .kb-section-eyebrow {
+    display: block;
+    margin-bottom: 8px;
+    color: #087db9;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.075em;
+}
+
+body.role-kepala_bagian .kb-panel-heading h2,
+body.role-kepala_bagian .kb-overview-heading h2,
+body.role-kepala_bagian .kb-analysis-heading h2 {
+    margin: 0 0 7px;
+    color: #1c293a;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+}
+
+body.role-kepala_bagian .kb-panel-heading p,
+body.role-kepala_bagian .kb-overview-heading p,
+body.role-kepala_bagian .kb-analysis-heading p {
     margin: 0;
-    color: #71829c;
-    font-size: .62rem;
-    line-height: 1.4;
+    color: var(--kb-muted);
+    font-size: 12px;
+    line-height: 1.6;
 }
 
-body.role-kepala_bagian .kepala-bagian-action a {
+body.role-kepala_bagian .kb-panel-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    color: #48647f;
+    background: var(--kb-surface);
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    text-align: right;
+}
+
+body.role-kepala_bagian .kb-period-summary {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f3f7fb;
+    border: 1px solid #e7eef6;
+    border-radius: 16px;
+}
+
+body.role-kepala_bagian .kb-period-summary-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+body.role-kepala_bagian .kb-summary-label {
+    color: #607895;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+body.role-kepala_bagian .kb-period-summary-head p {
+    margin: 7px 0 0;
+    color: var(--kb-muted);
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+body.role-kepala_bagian .kb-period-summary-head > strong {
+    color: #087db9;
+    font-size: 25px;
+    font-weight: 800;
+}
+
+body.role-kepala_bagian .kb-progress-track {
+    height: 10px;
+    overflow: hidden;
+    background: #dbe6f0;
+    border-radius: 999px;
+}
+
+body.role-kepala_bagian .kb-progress-track > span {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, #0877b3, #0ba1c9);
+    border-radius: inherit;
+    transition: width 0.3s ease;
+}
+
+body.role-kepala_bagian .kb-progress-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 12px;
+    color: #7185a1;
+    font-size: 11px;
+}
+
+body.role-kepala_bagian .kb-overview {
+    min-width: 0;
+    padding-top: 4px;
+}
+
+body.role-kepala_bagian .kb-overview-heading {
+    align-items: flex-end;
+    margin-bottom: 18px;
+}
+
+body.role-kepala_bagian .kb-overview-note {
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    margin-left: auto;
-    padding: 8px 11px;
-    color: #fff;
-    background: #078ac8;
-    border-radius: 9px;
-    font-size: .64rem;
-    font-weight: 700;
-    text-decoration: none;
+    color: #7185a1;
+    font-size: 11px;
     white-space: nowrap;
-    box-shadow: 0 3px 8px rgba(7, 138, 200, .15);
+}
+
+body.role-kepala_bagian .kb-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+body.role-kepala_bagian .kb-stat-card {
+    min-width: 0;
+    padding: 20px;
+}
+
+body.role-kepala_bagian .kb-stat-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+body.role-kepala_bagian .kb-stat-icon {
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
+    font-size: 19px;
+}
+
+body.role-kepala_bagian .kb-stat-tag {
+    color: #6e829e;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+body.role-kepala_bagian .kb-stat-number {
+    display: block;
+    margin-bottom: 7px;
+    color: #1c293a;
+    font-size: 34px;
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+body.role-kepala_bagian .kb-stat-card h3 {
+    margin: 0 0 8px;
+    color: #1c293a;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+body.role-kepala_bagian .kb-stat-card p {
+    margin: 0;
+    color: var(--kb-muted);
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+body.role-kepala_bagian .kb-analysis-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 18px;
+}
+
+body.role-kepala_bagian .kb-analysis-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: 24px;
+}
+
+body.role-kepala_bagian .kb-analysis-heading {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #edf1f6;
+}
+
+body.role-kepala_bagian .kb-analysis-icon {
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+    font-size: 21px;
+}
+
+body.role-kepala_bagian .kb-analysis-content {
+    display: grid;
+    grid-template-columns: minmax(160px, 0.85fr) minmax(0, 1.15fr);
+    align-items: center;
+    gap: 24px;
+    flex: 1;
+    padding: 32px 0;
+}
+
+body.role-kepala_bagian .kb-donut {
+    display: grid;
+    place-items: center;
+    width: min(100%, 230px);
+    aspect-ratio: 1;
+    margin: 0 auto;
+    padding: 30px;
+    background: conic-gradient(
+        #10b981 0 var(--approved),
+        #f59e0b var(--approved) calc(var(--approved) + var(--pending)),
+        #fb647e calc(var(--approved) + var(--pending)) 100%
+    );
+    border-radius: 50%;
+}
+
+body.role-kepala_bagian .kb-donut-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    min-height: 100px;
+    background: #fff;
+    border-radius: 50%;
+}
+
+body.role-kepala_bagian .kb-donut-center strong {
+    color: #1c293a;
+    font-size: 34px;
+    font-weight: 800;
+}
+
+body.role-kepala_bagian .kb-donut-center span {
+    color: #7185a1;
+    font-size: 11px;
+}
+
+body.role-kepala_bagian .kb-analysis-legend {
+    min-width: 0;
+}
+
+body.role-kepala_bagian .kb-legend-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 17px 0;
+    border-bottom: 1px solid #edf1f6;
+    font-size: 12px;
+}
+
+body.role-kepala_bagian .kb-legend-row > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: #475569;
+}
+
+body.role-kepala_bagian .kb-legend-row strong {
+    color: #1e293b;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+body.role-kepala_bagian .kb-legend-row strong small {
+    margin-left: 6px;
+    color: #8da0b8;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+body.role-kepala_bagian .kb-legend-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    flex: 0 0 10px;
+    border-radius: 50%;
+}
+
+body.role-kepala_bagian .kb-legend-dot.is-approved {
+    background: #10b981;
+}
+
+body.role-kepala_bagian .kb-legend-dot.is-pending {
+    background: #f59e0b;
+}
+
+body.role-kepala_bagian .kb-legend-dot.is-rejected {
+    background: #fb647e;
+}
+
+body.role-kepala_bagian .kb-analysis-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: auto;
+    padding-top: 17px;
+    border-top: 1px solid #edf1f6;
+}
+
+body.role-kepala_bagian .kb-analysis-footer > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: #7185a1;
+    font-size: 11px;
+}
+
+body.role-kepala_bagian .kb-analysis-footer a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #087db9;
+    font-size: 11px;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+body.role-kepala_bagian .kb-assessment-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 20px;
+    padding-top: 24px;
+}
+
+body.role-kepala_bagian .kb-assessment-highlight {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 24px;
+    background: #f3f8fc;
+    border: 1px solid #e5eef7;
+    border-radius: 16px;
+}
+
+body.role-kepala_bagian .kb-assessment-highlight-icon {
+    display: grid;
+    place-items: center;
+    width: 68px;
+    height: 68px;
+    flex: 0 0 68px;
+    color: #087db9;
+    background: #e2f2fc;
+    border-radius: 18px;
+    font-size: 27px;
+}
+
+body.role-kepala_bagian .kb-assessment-highlight > div {
+    min-width: 0;
+}
+
+body.role-kepala_bagian .kb-assessment-highlight > div > span,
+body.role-kepala_bagian .kb-assessment-highlight > div > small {
+    display: block;
+    color: #7185a1;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+body.role-kepala_bagian .kb-assessment-highlight strong {
+    display: block;
+    margin: 7px 0;
+    color: #1e293b;
+    font-size: 36px;
+    font-weight: 800;
+}
+
+body.role-kepala_bagian .kb-assessment-description h3 {
+    margin: 0 0 10px;
+    color: #1e293b;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+body.role-kepala_bagian .kb-assessment-description p {
+    margin: 0;
+    color: #7185a1;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+body.role-kepala_bagian .kb-assessment-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    align-self: flex-start;
+    margin-top: auto;
+    padding: 13px 18px;
+    color: #fff;
+    background: #087db9;
+    border-radius: 11px;
+    font-size: 12px;
+    font-weight: 800;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+body.role-kepala_bagian .kb-assessment-button:hover {
+    color: #fff;
+    background: #06699e;
+}
+
+@media (max-width: 1199.98px) {
+    body.role-kepala_bagian .kb-hero-top {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    body.role-kepala_bagian .kb-hero-period {
+        width: auto;
+        max-width: 100%;
+    }
+
+    body.role-kepala_bagian .kb-stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    body.role-kepala_bagian .kb-analysis-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 767.98px) {
     body.role-kepala_bagian .kepala-bagian-dashboard {
+        gap: 16px;
+        padding: 12px 0 24px;
+    }
+
+    body.role-kepala_bagian .kb-hero {
+        padding: 20px 16px;
+        border-radius: 18px;
+    }
+
+    body.role-kepala_bagian .kb-hero h1 {
+        margin: 16px 0 10px;
+        font-size: 24px;
+    }
+
+    body.role-kepala_bagian .kb-hero-intro > p {
+        font-size: 12px;
+    }
+
+    body.role-kepala_bagian .kb-hero-period {
+        width: 100%;
+        padding: 12px;
+    }
+
+    body.role-kepala_bagian .kb-period-icon {
+        width: 40px;
+        height: 40px;
+        flex-basis: 40px;
+        font-size: 17px;
+    }
+
+    body.role-kepala_bagian .kb-hero-activities {
+        margin-top: 22px;
+        padding-top: 18px;
+    }
+
+    body.role-kepala_bagian .kb-activities-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    body.role-kepala_bagian .kb-quick-grid {
+        grid-template-columns: 1fr;
         gap: 10px;
+    }
+
+    body.role-kepala_bagian .kb-quick-card {
+        padding: 12px;
+    }
+
+    body.role-kepala_bagian .kb-quick-icon {
+        width: 42px;
+        height: 42px;
+        flex-basis: 42px;
+        font-size: 17px;
+    }
+
+    body.role-kepala_bagian .kb-period-panel,
+    body.role-kepala_bagian .kb-analysis-card {
+        padding: 17px;
+        border-radius: 17px;
+    }
+
+    body.role-kepala_bagian .kb-panel-heading,
+    body.role-kepala_bagian .kb-overview-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    body.role-kepala_bagian .kb-panel-chip {
+        align-self: flex-start;
+    }
+
+    body.role-kepala_bagian .kb-period-summary {
         padding: 14px;
     }
 
-    body.role-kepala_bagian .kepala-bagian-welcome {
-        align-items: stretch;
-        flex-direction: column;
-        padding: 18px;
-    }
-
-    body.role-kepala_bagian .kepala-bagian-period {
-        min-width: 0;
-    }
-
-    body.role-kepala_bagian .kepala-bagian-stats {
-        grid-template-columns: 1fr;
-    }
-
-    body.role-kepala_bagian .kepala-bagian-tools {
-        grid-template-columns: 1fr;
-        gap: 8px;
-    }
-
-    body.role-kepala_bagian .kepala-bagian-action {
+    body.role-kepala_bagian .kb-period-summary-head {
         align-items: flex-start;
+    }
+
+    body.role-kepala_bagian .kb-progress-footer {
         flex-wrap: wrap;
+    }
+
+    body.role-kepala_bagian .kb-overview-heading h2,
+    body.role-kepala_bagian .kb-panel-heading h2,
+    body.role-kepala_bagian .kb-analysis-heading h2 {
+        font-size: 18px;
+    }
+
+    body.role-kepala_bagian .kb-stats-grid {
+        gap: 10px;
+    }
+
+    body.role-kepala_bagian .kb-stat-card {
+        padding: 15px;
+        border-radius: 16px;
+    }
+
+    body.role-kepala_bagian .kb-stat-icon {
+        width: 40px;
+        height: 40px;
+        flex-basis: 40px;
+        font-size: 17px;
+    }
+
+    body.role-kepala_bagian .kb-stat-number {
+        font-size: 29px;
+    }
+
+    body.role-kepala_bagian .kb-analysis-content {
+        grid-template-columns: 1fr;
+        gap: 18px;
+        padding: 24px 0;
+    }
+
+    body.role-kepala_bagian .kb-donut {
+        width: min(100%, 200px);
+    }
+
+    body.role-kepala_bagian .kb-assessment-highlight {
+        gap: 14px;
         padding: 16px;
     }
 
-    body.role-kepala_bagian .kepala-bagian-action a {
+    body.role-kepala_bagian .kb-assessment-highlight-icon {
+        width: 52px;
+        height: 52px;
+        flex-basis: 52px;
+        font-size: 22px;
+    }
+
+    body.role-kepala_bagian .kb-assessment-button {
         width: 100%;
-        justify-content: center;
-        margin-left: 0;
+    }
+}
+
+@media (max-width: 389.98px) {
+    body.role-kepala_bagian .kb-stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    body.role-kepala_bagian .kb-hero-eyebrow {
+        gap: 7px;
+        font-size: 10px;
+    }
+
+    body.role-kepala_bagian .kb-period-status {
+        padding: 8px;
+        font-size: 10px;
+    }
+
+    body.role-kepala_bagian .kb-analysis-footer {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.role-kepala_bagian .kb-quick-card,
+    body.role-kepala_bagian .kb-progress-track > span,
+    body.role-kepala_bagian .kb-assessment-button {
+        transition: none;
+    }
+}
+
+body.role-kepala_bagian .kepala-bagian-dashboard {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 18px 20px 28px;
+}
+
+body.role-kepala_bagian .kepala-bagian-dashboard > * {
+    min-width: 0;
+    max-width: 100%;
+}
+
+@media (min-width: 768px) {
+    body.role-kepala_bagian .kepala-bagian-dashboard {
+        padding: 18px 20px 32px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    body.role-kepala_bagian .kepala-bagian-dashboard {
+        width: 100%;
+        margin: 0;
+        padding: 16px 16px 100px;
+        gap: 16px;
+    }
+
+    body.role-kepala_bagian .kepala-bagian-welcome,
+    body.role-kepala_bagian .kepala-bagian-progress,
+    body.role-kepala_bagian .kepala-bagian-action {
+        max-width: 100%;
+        border-radius: 16px;
+    }
+
+    body.role-kepala_bagian .kepala-bagian-welcome {
+        padding: 20px 18px;
+    }
+
+    body.role-kepala_bagian .kepala-bagian-stats,
+    body.role-kepala_bagian .kepala-bagian-tools {
+        min-width: 0;
+        width: 100%;
+    }
+}
+
+@media (max-width: 375px) {
+    body.role-kepala_bagian .kepala-bagian-dashboard {
+        padding-right: 14px;
+        padding-left: 14px;
     }
 }

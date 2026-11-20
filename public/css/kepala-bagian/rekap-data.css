@@ -1,187 +1,311 @@
 body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap {
     display: grid;
-    gap: 16px;
-    width: min(1280px, 100%);
+    gap: 22px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
     margin: 0 auto;
-    padding: 18px 20px 28px;
+    padding: 18px 20px 32px;
     color: #17213b;
+}
+
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap *,
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap *::before,
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap *::after {
+    box-sizing: border-box;
 }
 
 body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-heading {
     display: flex;
-    align-items: end;
+    align-items: center;
     justify-content: space-between;
-    gap: 20px;
-    padding: 22px 24px;
+    gap: 26px;
+    min-width: 0;
+    padding: 28px 30px;
     background: #fff;
-    border: 1px solid #dfe7f0;
-    border-radius: 14px;
+    border: 1px solid #dfe9f3;
+    border-radius: 22px;
+    box-shadow: 0 8px 25px rgba(18, 52, 82, 0.035);
 }
 
-body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-eyebrow {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-heading-copy {
+    min-width: 0;
+}
+
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-eyebrow,
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-eyebrow {
     display: inline-flex;
     align-items: center;
-    gap: 7px;
-    color: #0784c4;
-    font-size: .65rem;
+    gap: 8px;
+    color: #087db8;
+    font-size: 0.72rem;
     font-weight: 800;
-    letter-spacing: .08em;
+    letter-spacing: 0.065em;
 }
 
 body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-heading h1 {
-    margin: 7px 0 4px;
-    font-size: clamp(1.25rem, 2.4vw, 1.7rem);
+    margin: 10px 0 8px;
+    color: #14263e;
+    font-size: clamp(1.4rem, 2.5vw, 1.9rem);
     font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1.3;
 }
 
 body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-heading p {
     margin: 0;
-    color: #64748b;
-    font-size: .82rem;
+    color: #7186a2;
+    font-size: 0.85rem;
+    line-height: 1.6;
 }
 
 body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter {
     display: flex;
-    align-items: end;
-    gap: 9px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 12px;
+    min-width: 0;
 }
 
 body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter label {
     display: grid;
-    gap: 4px;
-    color: #64748b;
-    font-size: .68rem;
+    gap: 7px;
+    min-width: 0;
+    color: #607590;
+    font-size: 0.72rem;
     font-weight: 700;
 }
 
 body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter select,
 body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter input {
-    min-height: 38px;
-    padding: 0 10px;
-    color: #17213b;
+    min-height: 44px;
+    padding: 0 13px;
+    color: #263e59;
     background: #fff;
-    border: 1px solid #d7e0ea;
-    border-radius: 8px;
-    font: inherit;
+    border: 1px solid #dce6f0;
+    border-radius: 11px;
+    outline: none;
+    font-family: inherit;
+    font-size: 0.8rem;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter select {
-    min-width: 126px;
+    min-width: 145px;
 }
 
 body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter input {
-    width: 92px;
+    width: 100px;
+}
+
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter select:focus,
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter input:focus {
+    border-color: #0891c8;
+    box-shadow: 0 0 0 3px rgba(8, 145, 200, 0.1);
 }
 
 body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter button,
-body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter .kepala-rekap-print {
-    min-height: 38px;
-    padding: 0 13px;
-    color: #fff;
-    background: #0784c4;
-    border: 0;
-    border-radius: 8px;
-    font-size: .75rem;
+body:is(.role-kepala_bagian, .role-direktur)
+    .kepala-rekap-filter
+    .kepala-rekap-print {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: 11px;
+    font-family: inherit;
+    font-size: 0.8rem;
     font-weight: 700;
-}
-
-body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter .kepala-rekap-print {
-    display: grid;
-    width: 38px;
-    place-items: center;
-    padding: 0;
-    color: #64748b;
-    background: #fff;
-    border: 1px solid #d7e0ea;
-}
-
-body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter button,
-body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter .kepala-rekap-print {
+    text-decoration: none;
     cursor: pointer;
-    transition: background-color .18s ease, border-color .18s ease;
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter button {
+    color: #fff;
+    background: #087db8;
+    border: 1px solid #087db8;
 }
 
 body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter button:hover {
-    background-color: #0876ad;
+    background: #06699e;
+    border-color: #06699e;
 }
 
-body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter .kepala-rekap-print:hover {
-    color: #0784c4;
+body:is(.role-kepala_bagian, .role-direktur)
+    .kepala-rekap-filter
+    .kepala-rekap-print {
+    flex: 0 0 44px;
+    width: 44px;
+    padding: 0;
+    color: #607590;
+    background: #fff;
+    border: 1px solid #dce6f0;
+}
+
+body:is(.role-kepala_bagian, .role-direktur)
+    .kepala-rekap-filter
+    .kepala-rekap-print:hover {
+    color: #087db8;
     background: #f0f9ff;
     border-color: #9bd5f1;
 }
 
 body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-notice {
     display: flex;
-    align-items: center;
-    gap: 9px;
-    padding: 12px 15px;
-    color: #79550b;
-    background: #fff8e6;
-    border: 1px solid #f1dfaa;
-    border-radius: 10px;
-    font-size: .78rem;
-}
-
-body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card {
-    overflow: hidden;
-    background: #fff;
-    border: 1px solid #dfe7f0;
+    align-items: flex-start;
+    gap: 13px;
+    padding: 16px 18px;
+    color: #875a0d;
+    background: #fffbeb;
+    border: 1px solid #f5dfaa;
     border-radius: 14px;
 }
 
-body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-heading,
-body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 13px 16px;
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-notice-icon {
+    display: grid;
+    flex: 0 0 34px;
+    width: 34px;
+    height: 34px;
+    place-items: center;
+    color: #b7791f;
+    background: #fef3c7;
+    border-radius: 10px;
+}
+
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-notice strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 0.8rem;
+}
+
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-notice p {
+    margin: 0;
+    color: #926d2e;
+    font-size: 0.75rem;
+    line-height: 1.6;
+}
+
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card {
+    min-width: 0;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #dfe9f3;
+    border-radius: 22px;
+    box-shadow: 0 10px 28px rgba(18, 52, 82, 0.035);
 }
 
 body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-heading {
-    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    min-width: 0;
+    padding: 24px 26px;
+    border-bottom: 1px solid #e7edf4;
+}
+
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-title {
+    min-width: 0;
+}
+
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-eyebrow {
+    font-size: 0.66rem;
 }
 
 body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-heading h2 {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin: 0;
-    font-size: .82rem;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 8px 0 6px;
+    color: #14263e;
+    font-size: 1.1rem;
     font-weight: 800;
+    line-height: 1.4;
 }
 
-body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-heading h2 span {
-    padding: 3px 7px;
-    color: #285077;
-    background: #eff6ff;
-    border-radius: 999px;
-    font-size: .63rem;
+body:is(.role-kepala_bagian, .role-direktur)
+    .kepala-rekap-card-heading
+    h2
+    span {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 10px;
+    color: #0875ad;
+    background: #eaf5fc;
+    border-radius: 99px;
+    font-size: 0.68rem;
     font-weight: 700;
 }
 
 body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-heading p {
     margin: 0;
-    color: #64748b;
-    font-size: .68rem;
+    color: #8295ad;
+    font-size: 0.75rem;
+    line-height: 1.5;
 }
 
-body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-heading p i {
-    margin-right: 4px;
-    color: #94a3b8;
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-period {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+    padding: 12px 15px;
+    background: #f4f8fc;
+    border: 1px solid #e7eef5;
+    border-radius: 13px;
+}
+
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-period-icon {
+    display: grid;
+    flex: 0 0 38px;
+    width: 38px;
+    height: 38px;
+    place-items: center;
+    color: #087db8;
+    background: #e2f2fb;
+    border-radius: 10px;
+    font-size: 0.9rem;
+}
+
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-period div {
+    display: grid;
+    gap: 4px;
+}
+
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-period small {
+    color: #8295ad;
+    font-size: 0.58rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+}
+
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-period strong {
+    color: #254361;
+    font-size: 0.75rem;
+    white-space: nowrap;
 }
 
 body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table-wrap {
+    width: 100%;
     overflow-x: auto;
 }
 
 body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table {
     width: 100%;
-    min-width: 1100px;
+    min-width: 1080px;
     table-layout: fixed;
     border-collapse: collapse;
-    font-size: .84rem;
+    font-size: 0.82rem;
 }
 
 body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-col-number {
@@ -201,102 +325,144 @@ body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-col-division {
 }
 
 body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-col-date {
-    width: 21%;
+    width: 16%;
 }
 
 body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-col-attendance {
-    width: 11%;
+    width: 12%;
 }
 
 body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-col-tukin {
-    width: 10%;
+    width: 14%;
 }
 
 body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table th,
 body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table td {
-    padding: 12px 14px;
     vertical-align: middle;
-    text-align: left;
-    border-bottom: 1px solid #e8edf3;
+    border-bottom: 1px solid #edf1f6;
 }
 
 body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table thead th {
-    color: #526174;
-    background: #f7f9fc;
-    font-size: .7rem;
+    padding: 20px 15px;
+    color: #5c7391;
+    background: #f2f7fb;
+    font-size: 0.68rem;
     font-weight: 800;
-    letter-spacing: .035em;
+    letter-spacing: 0.035em;
+    text-align: center;
     white-space: nowrap;
 }
 
-body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table th:first-child,
-body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table td:first-child,
-body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table th:nth-child(6),
-body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table td:nth-child(6) {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table tbody tr {
+    transition: background-color 0.18s ease;
+}
+
+body:is(.role-kepala_bagian, .role-direktur)
+    .kepala-rekap-table
+    tbody
+    tr:hover {
+    background: #f8fbfe;
+}
+
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table tbody td {
+    padding: 23px 15px;
+    color: #40546e;
+    font-size: 0.77rem;
+    line-height: 1.6;
+    text-align: left;
+    overflow-wrap: anywhere;
+}
+
+body:is(.role-kepala_bagian, .role-direktur)
+    .kepala-rekap-table
+    tbody
+    td:nth-child(1),
+body:is(.role-kepala_bagian, .role-direktur)
+    .kepala-rekap-table
+    tbody
+    td:nth-child(5),
+body:is(.role-kepala_bagian, .role-direktur)
+    .kepala-rekap-table
+    tbody
+    td:nth-child(6),
+body:is(.role-kepala_bagian, .role-direktur)
+    .kepala-rekap-table
+    tbody
+    td:nth-child(7) {
     text-align: center;
 }
 
-body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table th:nth-child(5),
-body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table td:nth-child(5) {
-    text-align: center;
-}
-
-body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table th:nth-child(7),
-body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table td:nth-child(7) {
-    text-align: right;
-}
-
-body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table tbody tr:last-child td {
-    border-bottom: 0;
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-number {
+    display: inline-grid;
+    width: 30px;
+    height: 30px;
+    place-items: center;
+    color: #60758f;
+    background: #f0f5fa;
+    border-radius: 8px;
+    font-size: 0.72rem;
+    font-weight: 700;
 }
 
 body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-person {
     display: flex;
     align-items: center;
-    gap: 9px;
+    gap: 12px;
     min-width: 0;
 }
 
 body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-avatar {
     display: grid;
-    flex: 0 0 30px;
-    width: 30px;
-    height: 30px;
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
     place-items: center;
-    color: #4f46e5;
-    background: #eef2ff;
-    border-radius: 50%;
-    font-size: .68rem;
+    color: #fff;
+    background: linear-gradient(135deg, #087eb9, #09a2ce);
+    border-radius: 11px;
+    font-size: 0.88rem;
     font-weight: 800;
 }
 
 body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-person-copy {
     display: grid;
-    gap: 2px;
+    gap: 4px;
     min-width: 0;
 }
 
 body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-person-copy strong {
+    color: #14263e;
+    font-size: 0.8rem;
+    font-weight: 800;
+    line-height: 1.5;
     overflow-wrap: anywhere;
-    color: #17213b;
-    font-size: .78rem;
-    font-weight: 750;
 }
 
 body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-person-copy small {
-    color: #94a3b8;
-    font-size: .64rem;
+    color: #8a9db5;
+    font-size: 0.67rem;
 }
 
-body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table .kepala-rekap-date {
-    color: #526174;
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    font-size: .69rem;
-    white-space: nowrap;
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-cell-value {
+    display: block;
+    color: #354d68;
+    font-size: 0.77rem;
+    font-weight: 600;
+    line-height: 1.6;
 }
 
-body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table .kepala-rekap-money {
-    font-weight: 700;
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-date-value {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    color: #607590;
+    font-size: 0.72rem;
+}
+
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-date-value small {
+    color: #9aabc0;
+    font-size: 0.61rem;
 }
 
 body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-attendance,
@@ -304,17 +470,22 @@ body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-tukin {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 4px 8px;
+    gap: 7px;
+    max-width: 100%;
+    min-height: 32px;
+    padding: 7px 10px;
     color: #64748b;
     background: #f1f5f9;
-    border: 1px solid transparent;
-    border-radius: 6px;
-    font-size: .68rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 9px;
+    font-size: 0.7rem;
     font-weight: 700;
-    white-space: nowrap;
+    line-height: 1.4;
+    text-align: center;
 }
 
-body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-attendance.is-present {
+body:is(.role-kepala_bagian, .role-direktur)
+    .kepala-rekap-attendance.is-present {
     color: #047857;
     background: #ecfdf5;
     border-color: #bbf7d0;
@@ -333,86 +504,523 @@ body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-tukin.is-calculated {
 }
 
 body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table tfoot th {
-    background: #f7f9fc;
-    border-top: 1px solid #dfe7f0;
+    padding: 20px 15px;
+    color: #153b5c;
+    background: #edf6fc;
+    border-top: 1px solid #d9e8f3;
     border-bottom: 0;
+    font-size: 0.8rem;
     font-weight: 800;
 }
 
-body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table tfoot th[colspan="5"] {
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-total-label {
     text-align: left;
 }
 
-body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table .kepala-rekap-empty {
-    padding: 36px 16px;
-    color: #64748b;
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-total-label span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-total-label i {
+    color: #087db8;
+}
+
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-total-attendance,
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-total-money {
     text-align: center;
 }
 
-body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-footer {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    color: #94a3b8;
-    border-top: 1px solid #edf1f5;
-    font-size: .65rem;
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-empty {
+    padding: 45px 20px;
+    text-align: center;
 }
 
-body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-footer strong {
-    margin-left: 4px;
-    color: #64748b;
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-empty-content {
+    display: grid;
+    justify-items: center;
+    gap: 10px;
+}
+
+body:is(.role-kepala_bagian, .role-direktur)
+    .kepala-rekap-empty-content
+    > span {
+    display: grid;
+    width: 55px;
+    height: 55px;
+    place-items: center;
+    color: #087db8;
+    background: #eaf5fc;
+    border-radius: 16px;
+    font-size: 1.3rem;
+}
+
+body:is(.role-kepala_bagian, .role-direktur)
+    .kepala-rekap-empty-content
+    strong {
+    color: #263e59;
+    font-size: 0.9rem;
+}
+
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-empty-content p {
+    margin: 0;
+    color: #8295ad;
+    font-size: 0.75rem;
+    line-height: 1.6;
+}
+
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 18px 26px;
+    color: #8295ad;
+    background: #fff;
+    border-top: 1px solid #edf1f6;
+    font-size: 0.73rem;
+}
+
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-footer-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-footer-count i {
+    color: #087db8;
+}
+
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-footer-count strong {
+    color: #354d68;
+}
+
+body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-footer-status {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+body:is(.role-kepala_bagian, .role-direktur)
+    .kepala-rekap-footer-status
+    strong {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 99px;
+    font-size: 0.68rem;
     font-weight: 700;
 }
 
-body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-footer strong i {
-    margin-right: 3px;
-    font-size: .48rem;
+body:is(.role-kepala_bagian, .role-direktur)
+    .kepala-rekap-footer-status
+    strong
+    i {
+    font-size: 0.42rem;
 }
 
-body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-footer strong.is-available i {
-    color: #16a34a;
+body:is(.role-kepala_bagian, .role-direktur)
+    .kepala-rekap-footer-status
+    strong.is-available {
+    color: #047857;
+    background: #e8fbf2;
 }
 
-body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-footer strong.is-pending i {
-    color: #94a3b8;
+body:is(.role-kepala_bagian, .role-direktur)
+    .kepala-rekap-footer-status
+    strong.is-pending {
+    color: #a16207;
+    background: #fff7df;
+}
+
+@media (max-width: 1100px) {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-heading {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter {
+        justify-content: flex-start;
+    }
 }
 
 @media (max-width: 720px) {
     body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap {
-        padding: 12px 12px 22px;
+        gap: 15px;
+        width: 100%;
+        padding: 12px 14px 28px;
     }
 
     body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-heading {
-        align-items: stretch;
-        flex-direction: column;
-        padding: 18px;
+        gap: 20px;
+        padding: 22px 18px;
+        border-radius: 18px;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-heading h1 {
+        font-size: 1.35rem;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-heading p {
+        font-size: 0.77rem;
     }
 
     body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(78px, .55fr) auto 38px;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 0.75fr);
+        gap: 12px;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter label {
+        min-width: 0;
     }
 
     body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter select,
     body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter input {
         width: 100%;
         min-width: 0;
+        font-size: 0.76rem;
     }
 
-    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-heading,
-    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-footer {
-        align-items: flex-start;
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter button {
+        width: 100%;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur)
+        .kepala-rekap-filter
+        .kepala-rekap-print {
+        width: 100%;
+        flex-basis: auto;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-notice {
+        padding: 14px;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card {
+        overflow: visible;
+        background: transparent;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-heading {
         flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+        margin-bottom: 12px;
+        padding: 20px 18px;
+        background: #fff;
+        border: 1px solid #dfe9f3;
+        border-radius: 17px;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-heading h2 {
+        font-size: 1rem;
     }
 
     body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-heading p {
-        font-size: .64rem;
+        font-size: 0.73rem;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-period {
+        width: 100%;
+        padding: 11px 13px;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table-wrap {
+        width: 100%;
+        overflow: visible;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table {
+        display: block;
+        width: 100%;
+        min-width: 0;
+        table-layout: auto;
+        border-collapse: separate;
+        font-size: 0.8rem;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table colgroup,
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table thead {
+        display: none;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table tbody {
+        display: grid;
+        gap: 12px;
+        width: 100%;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur)
+        .kepala-rekap-table
+        tbody
+        tr.kepala-rekap-data-row {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: stretch;
+        gap: 12px;
+        width: 100%;
+        min-width: 0;
+        padding: 17px;
+        background: #fff;
+        border: 1px solid #dfe9f3;
+        border-radius: 17px;
+        box-shadow: 0 5px 18px rgba(18, 52, 82, 0.035);
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur)
+        .kepala-rekap-table
+        tbody
+        tr.kepala-rekap-data-row
+        > td {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 8px;
+        min-width: 0;
+        padding: 13px;
+        color: #40546e;
+        background: #f4f8fc;
+        border: 1px solid #edf1f6;
+        border-radius: 11px;
+        text-align: left;
+        overflow-wrap: anywhere;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur)
+        .kepala-rekap-table
+        tbody
+        tr.kepala-rekap-data-row
+        > td::before {
+        content: attr(data-label);
+        display: block;
+        color: #8195ae;
+        font-size: 0.64rem;
+        font-weight: 800;
+        letter-spacing: 0.035em;
+        text-transform: uppercase;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur)
+        .kepala-rekap-table
+        tbody
+        tr.kepala-rekap-data-row
+        > td:nth-child(1) {
+        display: none;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur)
+        .kepala-rekap-table
+        tbody
+        tr.kepala-rekap-data-row
+        > td:nth-child(2) {
+        grid-column: 1 / -1;
+        flex-direction: row;
+        align-items: center;
+        padding: 0 0 14px;
+        background: transparent;
+        border: 0;
+        border-bottom: 1px solid #edf1f6;
+        border-radius: 0;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur)
+        .kepala-rekap-table
+        tbody
+        tr.kepala-rekap-data-row
+        > td:nth-child(2)::before {
+        display: none;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur)
+        .kepala-rekap-table
+        tbody
+        tr.kepala-rekap-data-row
+        > td:nth-child(5) {
+        grid-column: 1 / -1;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-person {
+        gap: 12px;
+        width: 100%;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-avatar {
+        flex-basis: 44px;
+        width: 44px;
+        height: 44px;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur)
+        .kepala-rekap-person-copy
+        strong {
+        font-size: 0.85rem;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-cell-value {
+        font-size: 0.76rem;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-date-value {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 6px;
+        font-size: 0.76rem;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur)
+        .kepala-rekap-date-value
+        small {
+        font-size: 0.67rem;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-attendance,
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-tukin {
+        justify-content: flex-start;
+        max-width: 100%;
+        font-size: 0.69rem;
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table tfoot {
+        display: block;
+        width: 100%;
+        margin-top: 12px;
+        padding: 17px;
+        background: #eaf5fc;
+        border: 1px solid #d3e9f8;
+        border-radius: 15px;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table tfoot tr {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table tfoot th {
+        display: block;
+        min-width: 0;
+        padding: 0;
+        background: transparent;
+        border: 0;
+        text-align: left;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur)
+        .kepala-rekap-table
+        tfoot
+        .kepala-rekap-total-label {
+        grid-column: 1 / -1;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #d3e9f8;
+        font-size: 0.8rem;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur)
+        .kepala-rekap-table
+        tfoot
+        .kepala-rekap-total-attendance,
+    body:is(.role-kepala_bagian, .role-direktur)
+        .kepala-rekap-table
+        tfoot
+        .kepala-rekap-total-money {
+        padding: 12px;
+        background: #fff;
+        border: 1px solid #dcebf6;
+        border-radius: 10px;
+        font-size: 0.78rem;
+        overflow-wrap: anywhere;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur)
+        .kepala-rekap-table
+        tbody
+        tr.kepala-rekap-empty-row {
+        display: block;
+        padding: 0;
+        background: #fff;
+        border: 1px solid #dfe9f3;
+        border-radius: 17px;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur)
+        .kepala-rekap-table
+        tbody
+        tr.kepala-rekap-empty-row
+        td {
+        display: block;
+        padding: 35px 16px;
+        border: 0;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        margin-top: 12px;
+        padding: 17px 18px;
+        background: #fff;
+        border: 1px solid #dfe9f3;
+        border-radius: 15px;
+        font-size: 0.72rem;
+    }
+}
+
+@media (max-width: 390px) {
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap {
+        padding-right: 12px;
+        padding-left: 12px;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur)
+        .kepala-rekap-table
+        tbody
+        tr.kepala-rekap-data-row {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 14px;
+        gap: 10px;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur)
+        .kepala-rekap-table
+        tbody
+        tr.kepala-rekap-data-row
+        > td:nth-child(n) {
+        grid-column: 1 / -1;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur)
+        .kepala-rekap-table
+        tbody
+        tr.kepala-rekap-data-row
+        > td:nth-child(1) {
+        display: none;
     }
 }
 
 @media print {
     body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap {
         width: 100%;
+        max-width: none;
         padding: 0;
+        gap: 12px;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-heading {
+        padding: 12px;
+        border-radius: 0;
+        box-shadow: none;
     }
 
     body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-filter,
@@ -421,23 +1029,98 @@ body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-footer strong.is
     }
 
     body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card {
-        break-inside: avoid;
-        border-color: #cbd5e1;
+        overflow: visible;
+        background: #fff;
+        border: 1px solid #cbd5e1;
+        border-radius: 0;
         box-shadow: none;
     }
 
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table-wrap {
+        overflow: visible;
+    }
+
     body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table {
+        display: table;
+        width: 100%;
         min-width: 0;
+        table-layout: auto;
+        border-collapse: collapse;
         font-size: 9pt;
     }
 
-    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table th,
-    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table td {
-        padding: 8px;
-        white-space: normal;
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table colgroup {
+        display: table-column-group;
     }
 
-    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table .kepala-rekap-date {
-        white-space: normal;
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table thead {
+        display: table-header-group;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table tbody {
+        display: table-row-group;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur)
+        .kepala-rekap-table
+        tbody
+        tr.kepala-rekap-data-row {
+        display: table-row;
+        border: 0;
+        box-shadow: none;
+        break-inside: avoid;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur)
+        .kepala-rekap-table
+        tbody
+        tr.kepala-rekap-data-row
+        > td,
+    body:is(.role-kepala_bagian, .role-direktur)
+        .kepala-rekap-table
+        tbody
+        tr.kepala-rekap-data-row
+        > td:nth-child(1),
+    body:is(.role-kepala_bagian, .role-direktur)
+        .kepala-rekap-table
+        tbody
+        tr.kepala-rekap-data-row
+        > td:nth-child(2) {
+        display: table-cell;
+        padding: 8px;
+        background: transparent;
+        border: 0;
+        border-bottom: 1px solid #e2e8f0;
+        border-radius: 0;
+        font-size: 8pt;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur)
+        .kepala-rekap-table
+        tbody
+        td::before {
+        display: none !important;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table tfoot {
+        display: table-footer-group;
+        padding: 0;
+        border: 0;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table tfoot tr {
+        display: table-row;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-table tfoot th {
+        display: table-cell;
+        padding: 8px;
+        background: #edf6fc;
+        border-top: 1px solid #cbd5e1;
+        border-radius: 0;
+    }
+
+    body:is(.role-kepala_bagian, .role-direktur) .kepala-rekap-card-footer {
+        border-radius: 0;
     }
 }

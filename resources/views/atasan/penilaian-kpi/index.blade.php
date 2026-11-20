@@ -18,16 +18,28 @@
         @endphp
         <main class="kepala-kpi-page">
             <header class="kepala-kpi-header">
-                <a class="kepala-kpi-back" href="{{ route($dashboardRoute) }}" aria-label="Kembali ke dashboard">
-                    <i class="fa-solid fa-arrow-left"></i>
-                </a>
-                <div class="kepala-kpi-title">
-                    <span>{{ $isDirectorAssessment ? 'DIREKTUR' : 'KEPALA BAGIAN' }}</span>
-                    <h1>Penilaian KPI
-                        @if ($periodeAktif)
-                            <small>{{ $periodeAktif->nama_periode }}</small>
-                        @endif
-                    </h1>
+                <div class="kepala-kpi-header-top">
+                    <div class="kepala-kpi-title">
+                        <span><i class="fa-solid fa-circle"></i> {{ $isDirectorAssessment ? 'DIREKTUR / PENILAI' : 'KEPALA BAGIAN / PENILAI' }}</span>
+                        <h1>Penilaian KPI {{ $isDirectorAssessment ? 'Kepala Bagian' : 'Atasan' }}</h1>
+                        <p>Pantau progres penilaian, kelola indikator KPI, dan evaluasi kinerja {{ $isDirectorAssessment ? 'Kepala Bagian' : 'Atasan' }} dalam satu halaman.</p>
+                    </div>
+                    <div class="kepala-kpi-header-period">
+                        <span class="kepala-kpi-period-icon"><i class="fa-regular fa-calendar-check"></i></span>
+                        <div>
+                            <small>PERIODE PENILAIAN</small>
+                            <strong>{{ $periodeAktif?->nama_periode ?? 'Belum tersedia' }}</strong>
+                        </div>
+                        <span class="kepala-kpi-period-state"><i class="fa-solid fa-circle"></i> {{ $periodeAktif ? 'Aktif' : 'Belum Aktif' }}</span>
+                    </div>
+                </div>
+                <div class="kepala-kpi-header-progress">
+                    <div class="kepala-kpi-header-progress-heading">
+                        <span><i class="fa-solid fa-chart-line"></i> Progres Penilaian Tim</span>
+                        <strong>{{ $ratingPercent }}% Selesai</strong>
+                    </div>
+                    <div class="kepala-kpi-header-track"><span style="width: {{ $ratingPercent }}%"></span></div>
+                    <small>{{ $ratedCount }} dari {{ $headCount }} {{ $isDirectorAssessment ? 'Kepala Bagian' : 'Atasan' }} telah dinilai</small>
                 </div>
             </header>
 

@@ -187,3 +187,6 @@
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/kepala-bagian/pegawai/index.css') }}">
 @endpush
+@push('scripts')
+    <script src="{{ asset('js/kepala-bagian/pegawai/live-search.js') }}" defer></script>
+@endpush

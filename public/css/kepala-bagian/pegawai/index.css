@@ -1,332 +1,345 @@
 body.role-kepala_bagian .kepala-bagian-team-page {
+    box-sizing: border-box;
     display: grid;
-    gap: 16px;
-    width: min(1280px, 100%);
-    margin: 0 auto;
-    padding: 18px 20px 30px;
-    color: #17213b;
+    gap: 22px;
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    margin: 0;
+    padding: 18px 20px 36px;
+    color: #1e293b;
+    font-family: Inter, sans-serif;
 }
-
+body.role-kepala_bagian .kepala-bagian-team-page *,
+body.role-kepala_bagian .kepala-bagian-team-page *::before,
+body.role-kepala_bagian .kepala-bagian-team-page *::after {
+    box-sizing: border-box;
+}
 body.role-kepala_bagian .team-overview {
     display: grid;
-    gap: 16px;
-    padding: 20px;
-    background: linear-gradient(140deg, #fff 0%, #f5fbff 100%);
-    border: 1px solid #dfe8f3;
-    border-radius: 17px;
+    gap: 22px;
+    min-width: 0;
+    padding: 30px;
+    background: linear-gradient(112deg, #09699f 0%, #087faf 55%, #079dc2 100%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 24px;
+    box-shadow: 0 12px 28px rgba(13, 105, 151, 0.1);
 }
-
 body.role-kepala_bagian .team-heading {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
-    gap: 16px;
+    gap: 18px;
+    min-width: 0;
 }
-
+body.role-kepala_bagian .team-heading > div {
+    min-width: 0;
+}
 body.role-kepala_bagian .team-heading-eyebrow {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    color: #078ac8;
-    font-size: .68rem;
-    font-weight: 700;
+    gap: 9px;
+    color: #e1f7ff;
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
 }
-
+body.role-kepala_bagian .team-heading-eyebrow i {
+    color: #2ce4b2;
+}
 body.role-kepala_bagian .team-heading h1 {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 9px;
-    margin: 5px 0;
-    font-size: clamp(1.2rem, 2.3vw, 1.65rem);
+    gap: 12px;
+    margin: 14px 0 9px;
+    color: #fff;
+    font-size: clamp(1.45rem, 2.3vw, 2rem);
     font-weight: 800;
-    letter-spacing: -.025em;
+    line-height: 1.25;
+    letter-spacing: -0.035em;
 }
-
 body.role-kepala_bagian .team-heading p {
-    max-width: 720px;
+    max-width: 850px;
     margin: 0;
-    color: #64748b;
-    font-size: .8rem;
-    line-height: 1.55;
+    color: #dceefa;
+    font-size: 0.86rem;
+    line-height: 1.65;
 }
-
 body.role-kepala_bagian .team-active-pill {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
-    padding: 5px 9px;
-    color: #0875ad;
-    background: #e0f2fe;
-    border-radius: 99px;
-    font-size: .61rem;
-    font-weight: 700;
+    gap: 7px;
+    padding: 7px 11px;
+    color: #075d55;
+    background: #d6faef;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 800;
     letter-spacing: 0;
-}
-
-body.role-kepala_bagian .team-active-pill i {
-    color: #10b981;
-    font-size: .42rem;
-}
-
-body.role-kepala_bagian .team-back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 11px;
-    color: #0875ad;
-    background: #fff;
-    border: 1px solid #dce8f3;
-    border-radius: 9px;
-    font-size: .72rem;
-    font-weight: 700;
-    text-decoration: none;
     white-space: nowrap;
 }
-
+body.role-kepala_bagian .team-active-pill i {
+    color: #0eaf7e;
+    font-size: 0.48rem;
+}
+body.role-kepala_bagian .team-back-link {
+    display: none;
+}
 body.role-kepala_bagian .team-summary {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 10px;
+    gap: 14px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
-
 body.role-kepala_bagian .team-stat {
     min-width: 0;
-    padding: 13px;
-    background: rgba(255, 255, 255, .9);
-    border: 1px solid #e3ebf4;
-    border-radius: 13px;
+    min-height: 155px;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #e0eaf3;
+    border-radius: 17px;
+    box-shadow: 0 3px 10px rgba(22, 53, 83, 0.035);
 }
-
 body.role-kepala_bagian .team-stat-heading {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 8px;
-    color: #526783;
-    font-size: .65rem;
+    gap: 12px;
+    color: #61758f;
+    font-size: 0.75rem;
+    font-weight: 750;
 }
-
 body.role-kepala_bagian .team-stat-heading i {
     display: grid;
-    width: 25px;
-    height: 25px;
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
     place-items: center;
     color: #078ac8;
-    background: #e9f7ff;
-    border-radius: 8px;
-    font-size: .68rem;
+    background: #e9f6fd;
+    border-radius: 12px;
+    font-size: 1rem;
 }
-
 body.role-kepala_bagian .team-stat-skp .team-stat-heading i {
-    color: #059669;
-    background: #e9fbf4;
+    color: #0ba876;
+    background: #e5f9f1;
 }
-
+body.role-kepala_bagian .team-stat-reports .team-stat-heading i {
+    color: #df920d;
+    background: #fff5df;
+}
 body.role-kepala_bagian .team-stat-unit .team-stat-heading i {
-    color: #8b5cf6;
-    background: #f3edff;
+    color: #805bd3;
+    background: #f1ecfc;
 }
-
 body.role-kepala_bagian .team-stat > strong {
     display: block;
-    margin-top: 6px;
-    color: #10233f;
-    font-size: 1.08rem;
+    overflow-wrap: anywhere;
+    margin-top: 15px;
+    color: #152b45;
+    font-size: clamp(1.1rem, 1.7vw, 1.65rem);
+    font-weight: 800;
     line-height: 1.3;
 }
-
 body.role-kepala_bagian .team-stat-skp > strong {
-    color: #059669;
+    color: #079b74;
 }
-
 body.role-kepala_bagian .team-stat > strong span {
     display: inline-block;
-    padding: 3px 6px;
+    margin-left: 3px;
+    padding: 4px 7px;
     color: #047857;
-    background: #e8fbf2;
-    border-radius: 6px;
-    font-size: .56rem;
+    background: #e7f9f0;
+    border-radius: 7px;
+    font-size: 0.65rem;
     vertical-align: middle;
 }
-
 body.role-kepala_bagian .team-stat > strong.team-stat-unavailable {
+    font-size: 0.95rem;
     color: #64748b;
-    font-size: .85rem;
 }
-
 body.role-kepala_bagian .team-stat > small {
     display: block;
-    margin-top: 5px;
-    color: #71829c;
-    font-size: .58rem;
-    line-height: 1.45;
+    margin-top: 8px;
+    color: #778aa4;
+    font-size: 0.72rem;
+    line-height: 1.5;
 }
-
 body.role-kepala_bagian .team-stat-unit > strong {
-    overflow: hidden;
-    font-size: .82rem;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    font-size: 1rem;
 }
-
 body.role-kepala_bagian .team-stat-progress,
 body.role-kepala_bagian .team-member-progress {
-    height: 5px;
-    margin-top: 8px;
+    height: 8px;
+    margin-top: 11px;
     overflow: hidden;
-    background: #edf2f7;
+    background: #e7eef5;
     border-radius: 99px;
 }
-
 body.role-kepala_bagian .team-stat-progress span,
 body.role-kepala_bagian .team-member-progress span {
     display: block;
     height: 100%;
-    background: linear-gradient(90deg, #10b981, #059669);
+    background: linear-gradient(90deg, #0bb985, #079d77);
     border-radius: inherit;
 }
-
 body.role-kepala_bagian .team-toolbar {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
-    gap: 10px;
+    gap: 14px;
     min-width: 0;
-    padding: 10px;
+    padding: 20px;
     background: #fff;
-    border: 1px solid #e0e8f1;
-    border-radius: 13px;
+    border: 1px solid #e0e9f2;
+    border-radius: 20px;
+    box-shadow: 0 5px 18px rgba(18, 54, 88, 0.035);
 }
-
 body.role-kepala_bagian .team-search {
     display: flex;
     align-items: center;
-    flex: 1 1 280px;
-    gap: 8px;
-    min-width: 170px;
-    padding: 0 9px;
-    background: #f8fafc;
-    border: 1px solid #e5ebf2;
-    border-radius: 9px;
+    grid-column: 1/-1;
+    gap: 12px;
+    min-width: 0;
+    min-height: 52px;
+    padding: 5px 9px 5px 16px;
+    background: #fff;
+    border: 1px solid #dce7f1;
+    border-radius: 12px;
 }
-
+body.role-kepala_bagian .team-search:focus-within {
+    border-color: #0796d0;
+    box-shadow: 0 0 0 3px rgba(7, 150, 208, 0.1);
+}
 body.role-kepala_bagian .team-search label {
     margin: 0;
     color: #8ba0b8;
-    font-size: .72rem;
+    font-size: 1rem;
 }
-
 body.role-kepala_bagian .team-search input {
-    width: 100%;
+    flex: 1;
     min-width: 0;
-    height: 34px;
+    height: 38px;
     padding: 0;
-    color: #263653;
+    color: #243750;
     background: transparent;
     border: 0;
     outline: 0;
     font: inherit;
-    font-size: .67rem;
+    font-size: 0.83rem;
 }
-
+body.role-kepala_bagian .team-search input::placeholder {
+    color: #8ca0b9;
+}
 body.role-kepala_bagian .team-search button {
-    padding: 5px 8px;
+    flex: 0 0 auto;
+    padding: 10px 17px;
     color: #fff;
-    background: #078ac8;
+    background: #087eb6;
     border: 0;
-    border-radius: 6px;
-    font-size: .62rem;
-    font-weight: 700;
+    border-radius: 9px;
+    font-size: 0.78rem;
+    font-weight: 750;
+    cursor: pointer;
 }
-
 body.role-kepala_bagian .team-filters {
     display: flex;
     align-items: center;
-    gap: 5px;
-    white-space: nowrap;
+    gap: 7px;
+    min-width: 0;
+    flex-wrap: wrap;
 }
-
 body.role-kepala_bagian .team-filters a {
-    padding: 7px 9px;
-    color: #526783;
-    background: #f6f9fc;
-    border: 1px solid #e7edf4;
-    border-radius: 7px;
-    font-size: .62rem;
-    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding: 9px 14px;
+    color: #536b87;
+    background: #f5f8fc;
+    border: 1px solid #e2eaf3;
+    border-radius: 9px;
+    font-size: 0.76rem;
+    font-weight: 700;
     text-decoration: none;
+    transition:
+        background 0.2s,
+        color 0.2s;
 }
-
+body.role-kepala_bagian .team-filters a:hover {
+    color: #0877ad;
+    background: #eaf5fc;
+}
 body.role-kepala_bagian .team-filters a.is-active {
     color: #fff;
-    background: #15213a;
-    border-color: #15213a;
+    background: #087eb6;
+    border-color: #087eb6;
+    box-shadow: 0 3px 8px rgba(8, 126, 182, 0.15);
 }
-
 body.role-kepala_bagian .team-sort {
     display: flex;
     align-items: center;
-    gap: 5px;
-    color: #64748b;
-    font-size: .64rem;
-    white-space: nowrap;
+    justify-self: end;
+    gap: 9px;
+    min-width: 0;
+    color: #627790;
+    font-size: 0.76rem;
+    font-weight: 700;
 }
-
 body.role-kepala_bagian .team-sort select {
-    max-width: 175px;
-    height: 34px;
-    padding: 0 7px;
-    color: #526783;
-    background: #f8fafc;
-    border: 1px solid #e5ebf2;
-    border-radius: 8px;
+    max-width: 220px;
+    min-height: 39px;
+    padding: 0 12px;
+    color: #39536f;
+    background: #fff;
+    border: 1px solid #dce7f1;
+    border-radius: 9px;
     font: inherit;
+    font-weight: 600;
+    cursor: pointer;
 }
-
 body.role-kepala_bagian .kepala-bagian-team-list {
     display: grid;
-    gap: 10px;
+    gap: 14px;
+    min-width: 0;
 }
-
 body.role-kepala_bagian .team-member-card {
     display: grid;
-    grid-template-columns: minmax(190px, 1.3fr) minmax(155px, 1fr) minmax(155px, 1fr) minmax(140px, .75fr) auto;
+    grid-template-columns:
+        minmax(185px, 1.25fr) minmax(145px, 1fr) minmax(145px, 1fr)
+        minmax(145px, 0.85fr) minmax(105px, 0.65fr);
     align-items: center;
-    gap: 13px;
+    gap: 16px;
     min-width: 0;
-    padding: 15px;
+    padding: 20px;
     background: #fff;
-    border: 1px solid #e1e9f2;
-    border-radius: 14px;
-    box-shadow: 0 3px 10px rgba(27, 55, 87, .025);
+    border: 1px solid #dfe9f2;
+    border-radius: 18px;
+    box-shadow: 0 5px 18px rgba(20, 51, 82, 0.035);
 }
-
 body.role-kepala_bagian .team-person {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     min-width: 0;
 }
-
 body.role-kepala_bagian .team-avatar {
     position: relative;
     display: grid;
-    flex: 0 0 42px;
-    width: 42px;
-    height: 42px;
+    flex: 0 0 46px;
+    width: 46px;
+    height: 46px;
     place-items: center;
     color: #fff;
-    background: linear-gradient(145deg, #15b9e8, #0879bf);
+    background: linear-gradient(145deg, #08a5d9, #087cb5);
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(7, 137, 200, .2);
-    font-size: .88rem;
+    font-size: 1rem;
     font-weight: 800;
 }
-
-body.role-kepala_bagian .team-person:nth-child(odd) .team-avatar {
-    background: linear-gradient(145deg, #8173f6, #4266df);
-}
-
 body.role-kepala_bagian .team-online-dot {
     position: absolute;
     right: -2px;
@@ -337,361 +350,657 @@ body.role-kepala_bagian .team-online-dot {
     border: 2px solid #fff;
     border-radius: 50%;
 }
-
 body.role-kepala_bagian .team-person-copy {
     min-width: 0;
 }
-
 body.role-kepala_bagian .team-person-copy strong,
 body.role-kepala_bagian .team-person-copy span {
     display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    overflow-wrap: anywhere;
 }
-
 body.role-kepala_bagian .team-person-copy strong {
-    color: #10233f;
-    font-size: .8rem;
+    color: #1a2c44;
+    font-size: 0.86rem;
+    font-weight: 800;
+    line-height: 1.45;
 }
-
 body.role-kepala_bagian .team-person-copy span {
     margin-top: 4px;
-    color: #64748b;
-    font-size: .67rem;
-    white-space: nowrap;
+    color: #788aa2;
+    font-size: 0.72rem;
+    line-height: 1.5;
 }
-
 body.role-kepala_bagian .team-member-detail {
     min-width: 0;
-    padding: 9px 10px;
-    background: #f9fbfd;
+    padding: 12px;
+    background: #f5f8fc;
     border: 1px solid #edf1f6;
-    border-radius: 9px;
+    border-radius: 11px;
 }
-
 body.role-kepala_bagian .team-member-detail small,
 body.role-kepala_bagian .team-member-detail strong,
 body.role-kepala_bagian .team-member-detail > span {
     display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    overflow-wrap: anywhere;
 }
-
 body.role-kepala_bagian .team-member-detail small {
-    color: #8293aa;
-    font-size: .53rem;
-    font-weight: 700;
+    color: #7c91aa;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.025em;
 }
-
 body.role-kepala_bagian .team-member-detail small i {
-    margin-right: 3px;
-    color: #8ba0b8;
+    margin-right: 5px;
+    color: #087eb6;
 }
-
 body.role-kepala_bagian .team-member-detail strong {
-    margin-top: 5px;
-    color: #263653;
-    font-size: .66rem;
+    margin-top: 9px;
+    color: #273d56;
+    font-size: 0.79rem;
+    font-weight: 750;
+    line-height: 1.45;
 }
-
 body.role-kepala_bagian .team-member-detail > span {
-    margin-top: 3px;
-    color: #8293aa;
-    font-size: .56rem;
+    margin-top: 4px;
+    color: #8193aa;
+    font-size: 0.7rem;
+    line-height: 1.45;
 }
-
 body.role-kepala_bagian .team-member-skp {
     min-width: 0;
+    padding: 12px;
+    background: #f5f8fc;
+    border: 1px solid #edf1f6;
+    border-radius: 11px;
 }
-
 body.role-kepala_bagian .team-member-skp > div:first-child {
     display: flex;
     justify-content: space-between;
-    gap: 5px;
-    color: #526783;
-    font-size: .59rem;
+    gap: 8px;
+    color: #667c96;
+    font-size: 0.72rem;
 }
-
 body.role-kepala_bagian .team-member-skp > div:first-child strong {
-    color: #059669;
+    color: #087eb6;
+    font-size: 0.82rem;
 }
-
 body.role-kepala_bagian .team-member-progress {
-    height: 5px;
-    margin-top: 5px;
+    height: 7px;
+    margin-top: 10px;
 }
-
 body.role-kepala_bagian .team-member-progress span {
-    background: linear-gradient(90deg, #12b8ec, #08a3d8);
+    background: linear-gradient(90deg, #0a84bf, #08b0d5);
 }
-
 body.role-kepala_bagian .team-member-skp > small {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-    gap: 4px;
-    margin-top: 4px;
+    gap: 6px;
+    margin-top: 9px;
     color: #8293aa;
-    font-size: .5rem;
+    font-size: 0.66rem;
+    line-height: 1.45;
 }
-
 body.role-kepala_bagian .team-member-skp > small b {
     color: #059669;
-    font-weight: 600;
+    font-weight: 750;
 }
-
 body.role-kepala_bagian .team-member-actions {
-    display: grid;
-    justify-items: end;
-    gap: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    min-width: 0;
 }
-
 body.role-kepala_bagian .team-status,
 body.role-kepala_bagian .team-review-badge {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 6px 9px;
-    color: #64748b;
+    max-width: 100%;
+    padding: 8px 11px;
+    color: #66778e;
     background: #f1f5f9;
-    border-radius: 99px;
-    font-size: .6rem;
-    white-space: nowrap;
+    border: 1px solid #e5ebf2;
+    border-radius: 9px;
+    font-size: 0.7rem;
+    font-weight: 750;
+    text-align: center;
+    overflow-wrap: anywhere;
 }
-
 body.role-kepala_bagian .team-status.is-active {
-    color: #047857;
-    background: #d1fae5;
+    color: #087b57;
+    background: #e7f9f0;
+    border-color: #c7efdc;
 }
-
 body.role-kepala_bagian .team-review-badge {
-    color: #9a5b05;
-    background: #fff6db;
+    color: #996000;
+    background: #fff5df;
+    border-color: #ffe3aa;
 }
-
 body.role-kepala_bagian .team-empty {
-    padding: 40px 20px;
+    padding: 50px 22px;
     background: #fff;
     border: 1px dashed #cbd5e1;
-    border-radius: 14px;
+    border-radius: 18px;
     text-align: center;
 }
-
 body.role-kepala_bagian .team-empty i {
     color: #078ac8;
-    font-size: 1.8rem;
+    font-size: 2rem;
 }
-
 body.role-kepala_bagian .team-empty h2 {
-    margin: 9px 0 5px;
-    font-size: 1rem;
+    margin: 12px 0 7px;
+    font-size: 1.1rem;
 }
-
 body.role-kepala_bagian .team-empty p {
     margin: 0;
     color: #64748b;
-    font-size: .78rem;
+    font-size: 0.82rem;
+    line-height: 1.6;
 }
-
+body.role-kepala_bagian .team-pagination {
+    min-width: 0;
+}
 body.role-kepala_bagian .team-pagination nav {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
 }
-
 body.role-kepala_bagian .team-footer-panels {
     display: grid;
-    grid-template-columns: minmax(0, 2fr) minmax(240px, 1fr);
-    gap: 12px;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: 14px;
+    min-width: 0;
 }
-
 body.role-kepala_bagian .team-guidance,
 body.role-kepala_bagian .team-deadline {
-    display: flex;
-    gap: 11px;
     min-width: 0;
-    padding: 16px;
-    border-radius: 13px;
+    padding: 22px;
+    border-radius: 17px;
 }
-
 body.role-kepala_bagian .team-guidance {
+    display: flex;
+    gap: 14px;
     color: #12426a;
-    background: #f4faff;
-    border: 1px solid #d2eaff;
+    background: #eff8ff;
+    border: 1px solid #d3eaff;
 }
-
 body.role-kepala_bagian .team-guidance > span {
     display: grid;
-    flex: 0 0 30px;
-    width: 30px;
-    height: 30px;
+    flex: 0 0 38px;
+    width: 38px;
+    height: 38px;
     place-items: center;
     color: #fff;
-    background: #12a9df;
-    border-radius: 9px;
+    background: #078ac8;
+    border-radius: 11px;
 }
-
 body.role-kepala_bagian .team-guidance strong {
-    font-size: .72rem;
+    font-size: 0.86rem;
 }
-
 body.role-kepala_bagian .team-guidance p {
-    margin: 5px 0 8px;
-    color: #526783;
-    font-size: .63rem;
-    line-height: 1.55;
+    margin: 9px 0 12px;
+    color: #58738f;
+    font-size: 0.77rem;
+    line-height: 1.7;
 }
-
 body.role-kepala_bagian .team-guidance a {
     color: #0875ad;
-    font-size: .61rem;
-    font-weight: 700;
+    font-size: 0.77rem;
+    font-weight: 800;
     text-decoration: none;
 }
-
 body.role-kepala_bagian .team-deadline {
-    display: block;
     color: #fff;
-    background: linear-gradient(135deg, #111b31, #173955);
-    box-shadow: 0 4px 10px rgba(17, 27, 49, .12);
+    background: linear-gradient(135deg, #123951, #0e293c);
 }
-
 body.role-kepala_bagian .team-deadline-label,
 body.role-kepala_bagian .team-deadline > small {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 8px;
+    flex-wrap: wrap;
+    gap: 9px;
 }
-
 body.role-kepala_bagian .team-deadline-label {
     color: #9edbff;
-    font-size: .53rem;
-    font-weight: 700;
+    font-size: 0.7rem;
+    font-weight: 800;
 }
-
 body.role-kepala_bagian .team-deadline-label b {
-    padding: 3px 6px;
-    color: #9edbff;
-    background: #173a58;
-    border: 1px solid #285577;
-    border-radius: 99px;
-    font-size: .5rem;
+    padding: 6px 9px;
+    color: #d7f4ff;
+    background: #21526b;
+    border: 1px solid #356c86;
+    border-radius: 8px;
+    font-size: 0.67rem;
 }
-
 body.role-kepala_bagian .team-deadline > strong {
     display: block;
-    margin-top: 10px;
-    font-size: .75rem;
-}
-
-body.role-kepala_bagian .team-deadline p {
-    margin: 5px 0 10px;
-    color: #c4d2e0;
-    font-size: .59rem;
+    margin-top: 18px;
+    font-size: 0.96rem;
     line-height: 1.5;
 }
-
+body.role-kepala_bagian .team-deadline p {
+    margin: 9px 0 15px;
+    color: #c5d8e4;
+    font-size: 0.76rem;
+    line-height: 1.6;
+}
 body.role-kepala_bagian .team-deadline > small {
-    color: #a7b8ca;
-    font-size: .55rem;
+    color: #adc5d4;
+    font-size: 0.7rem;
 }
-
 body.role-kepala_bagian .team-deadline > small b {
-    color: #61e2b2;
-    font-weight: 600;
+    color: #6be7b9;
 }
-
 body.role-kepala_bagian .team-deadline > small b i {
-    margin-right: 3px;
+    margin-right: 4px;
 }
-
-@media (max-width: 1050px) {
-    body.role-kepala_bagian .team-toolbar {
+@media (max-width: 1350px) {
+    body.role-kepala_bagian .team-summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    body.role-kepala_bagian .team-member-card {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: stretch;
+    }
+    body.role-kepala_bagian .team-person {
+        grid-column: 1/-1;
+        padding-bottom: 14px;
+        border-bottom: 1px solid #e8eef5;
+    }
+    body.role-kepala_bagian .team-member-actions {
+        flex-direction: row;
+        align-items: center;
         flex-wrap: wrap;
     }
-
+}
+@media (max-width: 800px) {
+    body.role-kepala_bagian .kepala-bagian-team-page {
+        gap: 16px;
+        padding: 16px 16px 30px;
+    }
+    body.role-kepala_bagian .team-overview {
+        padding: 22px;
+        border-radius: 19px;
+    }
+    body.role-kepala_bagian .team-heading h1 {
+        font-size: 1.5rem;
+    }
+    body.role-kepala_bagian .team-summary {
+        gap: 10px;
+    }
+    body.role-kepala_bagian .team-stat {
+        padding: 15px;
+        min-height: 140px;
+    }
+    body.role-kepala_bagian .team-toolbar {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 14px;
+    }
     body.role-kepala_bagian .team-search {
-        flex-basis: 100%;
+        grid-column: auto;
+    }
+    body.role-kepala_bagian .team-filters {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 3px;
+    }
+    body.role-kepala_bagian .team-filters a {
+        flex: 0 0 auto;
+    }
+    body.role-kepala_bagian .team-sort {
+        justify-self: stretch;
+        justify-content: space-between;
+    }
+    body.role-kepala_bagian .team-sort select {
+        max-width: min(240px, 75%);
+    }
+    body.role-kepala_bagian .team-footer-panels {
+        grid-template-columns: 1fr;
+    }
+}
+@media (max-width: 575.98px) {
+    body.role-kepala_bagian .kepala-bagian-team-page {
+        gap: 14px;
+        padding: 16px 16px 26px;
+    }
+    body.role-kepala_bagian .team-overview {
+        gap: 18px;
+        padding: 20px 16px;
+        border-radius: 18px;
+    }
+    body.role-kepala_bagian .team-heading h1 {
+        display: block;
+        margin: 12px 0 9px;
+        font-size: 1.4rem;
+        line-height: 1.35;
+    }
+    body.role-kepala_bagian .team-active-pill {
+        display: table;
+        width: max-content;
+        max-width: 100%;
+        margin-top: 10px;
+        font-size: 0.68rem;
+    }
+    body.role-kepala_bagian .team-heading p {
+        font-size: 0.78rem;
+    }
+    body.role-kepala_bagian .team-summary {
+        grid-template-columns: 1fr;
+        gap: 9px;
+        padding-top: 16px;
+    }
+    body.role-kepala_bagian .team-stat {
+        min-height: 0;
+        padding: 16px;
+    }
+    body.role-kepala_bagian .team-stat > strong {
+        margin-top: 9px;
+        font-size: 1.3rem;
+    }
+    body.role-kepala_bagian .team-stat-unit > strong {
+        font-size: 1rem;
+    }
+    body.role-kepala_bagian .team-toolbar {
+        gap: 13px;
+        padding: 13px;
+        border-radius: 16px;
+    }
+    body.role-kepala_bagian .team-search {
+        gap: 8px;
+        min-height: 48px;
+        padding-left: 12px;
+    }
+    body.role-kepala_bagian .team-search input {
+        font-size: 0.77rem;
+    }
+    body.role-kepala_bagian .team-search button {
+        padding: 9px 12px;
+    }
+    body.role-kepala_bagian .team-filters a {
+        font-size: 0.7rem;
+        padding: 8px 10px;
+    }
+    body.role-kepala_bagian .team-member-card {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0;
+        padding: 16px;
+        border-radius: 17px;
+    }
+    body.role-kepala_bagian .team-person {
+        grid-column: auto;
+        padding: 0 0 16px;
+        margin-bottom: 3px;
+    }
+    body.role-kepala_bagian .team-member-detail,
+    body.role-kepala_bagian .team-member-skp {
+        padding: 13px 0;
+        background: transparent;
+        border: 0;
+        border-bottom: 1px solid #e8eef5;
+        border-radius: 0;
+    }
+    body.role-kepala_bagian .team-member-detail small {
+        font-size: 0.66rem;
+    }
+    body.role-kepala_bagian .team-member-detail strong {
+        margin-top: 6px;
+        font-size: 0.81rem;
+    }
+    body.role-kepala_bagian .team-member-detail > span {
+        font-size: 0.73rem;
+    }
+    body.role-kepala_bagian .team-member-skp > div:first-child {
+        font-size: 0.75rem;
+    }
+    body.role-kepala_bagian .team-member-actions {
+        grid-column: auto;
+        grid-row: auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 8px;
+        padding-top: 15px;
+    }
+    body.role-kepala_bagian .team-status,
+    body.role-kepala_bagian .team-review-badge {
+        font-size: 0.69rem;
+    }
+    body.role-kepala_bagian .team-guidance,
+    body.role-kepala_bagian .team-deadline {
+        padding: 17px;
+    }
+    body.role-kepala_bagian .team-guidance {
+        gap: 11px;
+    }
+    body.role-kepala_bagian .team-guidance > span {
+        flex-basis: 32px;
+        width: 32px;
+        height: 32px;
+    }
+}
+@media (max-width: 359px) {
+    body.role-kepala_bagian .kepala-bagian-team-page {
+        padding-right: 12px;
+        padding-left: 12px;
+    }
+    body.role-kepala_bagian .team-overview {
+        padding: 16px 13px;
+    }
+    body.role-kepala_bagian .team-toolbar {
+        padding: 10px;
+    }
+    body.role-kepala_bagian .team-member-card {
+        padding: 13px;
+    }
+}
+
+body.role-kepala_bagian .team-member-card {
+    column-gap: 22px;
+    row-gap: 18px;
+    padding: 22px 24px;
+}
+body.role-kepala_bagian .team-member-detail {
+    padding: 17px 18px;
+    min-height: 110px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+}
+body.role-kepala_bagian .team-member-detail strong {
+    margin-top: 5px;
+    line-height: 1.5;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+body.role-kepala_bagian .team-member-detail > span {
+    line-height: 1.45;
+    white-space: normal;
+}
+body.role-kepala_bagian .team-member-skp {
+    padding: 15px 16px;
+    min-height: 110px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 9px;
+    background: #f4f8fc;
+    border: 1px solid #eaf0f7;
+    border-radius: 12px;
+}
+body.role-kepala_bagian .team-member-progress {
+    margin-top: 0;
+}
+body.role-kepala_bagian .team-member-skp > small {
+    margin-top: 0;
+    flex-wrap: wrap;
+    line-height: 1.5;
+}
+body.role-kepala_bagian .team-deadline > small {
+    justify-content: flex-start;
+    gap: 9px;
+}
+body.role-kepala_bagian .team-deadline > small b {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+body.role-kepala_bagian .team-deadline > small b i {
+    margin-right: 0;
+}
+body.role-kepala_bagian .team-search input::-webkit-search-cancel-button {
+    cursor: pointer;
+}
+body.role-kepala_bagian .team-search.is-searching {
+    border-color: #0b89c5;
+    box-shadow: 0 0 0 3px rgba(11, 137, 197, 0.08);
+}
+@media (max-width: 1350px) {
+    body.role-kepala_bagian .team-member-card {
+        gap: 16px;
+        padding: 20px;
+    }
+    body.role-kepala_bagian .team-member-detail {
+        min-height: 0;
+    }
+}
+@media (max-width: 575.98px) {
+    body.role-kepala_bagian .team-member-card {
+        gap: 0;
+        padding: 16px;
+    }
+    body.role-kepala_bagian .team-member-detail {
+        padding: 15px 0;
+        min-height: 0;
+        display: block;
+        background: transparent;
+        border: 0;
+        border-bottom: 1px solid #e8eef5;
+        border-radius: 0;
+    }
+    body.role-kepala_bagian .team-member-skp {
+        min-height: 0;
+        padding: 15px 0;
+        gap: 8px;
+        background: transparent;
+        border: 0;
+        border-bottom: 1px solid #e8eef5;
+        border-radius: 0;
+    }
+    body.role-kepala_bagian .team-member-skp > small {
+        gap: 7px;
+    }
+}
+
+@media (min-width: 1051px) {
+    body.role-kepala_bagian .team-member-card {
+        grid-template-columns:
+            minmax(0, 1.35fr)
+            minmax(0, 1.15fr)
+            minmax(0, 1.15fr)
+            minmax(0, 1fr)
+            minmax(100px, 0.45fr);
+        gap: 20px;
+        padding: 24px 26px;
+        align-items: stretch;
     }
 
+    body.role-kepala_bagian .team-person,
+    body.role-kepala_bagian .team-member-detail,
+    body.role-kepala_bagian .team-member-skp,
+    body.role-kepala_bagian .team-member-actions {
+        min-width: 0;
+        width: 100%;
+    }
+
+    body.role-kepala_bagian .team-person {
+        align-self: center;
+    }
+
+    body.role-kepala_bagian .team-member-detail {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-height: 116px;
+        padding: 17px 18px;
+    }
+
+    body.role-kepala_bagian .team-member-detail strong,
+    body.role-kepala_bagian .team-member-detail > span {
+        overflow: visible;
+        text-overflow: clip;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        line-height: 1.5;
+    }
+
+    body.role-kepala_bagian .team-member-detail strong {
+        font-size: 0.78rem;
+    }
+
+    body.role-kepala_bagian .team-member-detail > span {
+        font-size: 0.68rem;
+    }
+
+    body.role-kepala_bagian .team-member-skp {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-height: 116px;
+        padding: 17px 18px;
+        background: #f4f8fc;
+        border: 1px solid #edf1f6;
+        border-radius: 12px;
+    }
+
+    body.role-kepala_bagian .team-member-actions {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    body.role-kepala_bagian .team-status,
+    body.role-kepala_bagian .team-review-badge {
+        min-width: 76px;
+        padding: 10px 12px;
+        font-size: 0.72rem;
+        font-weight: 700;
+    }
+}
+
+@media (min-width: 721px) and (max-width: 1050px) {
     body.role-kepala_bagian .team-member-card {
-        grid-template-columns: minmax(180px, 1.2fr) minmax(150px, 1fr) minmax(150px, 1fr) minmax(130px, .8fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+        padding: 20px;
+    }
+
+    body.role-kepala_bagian .team-person {
+        grid-column: 1 / -1;
     }
 
     body.role-kepala_bagian .team-member-actions {
         grid-column: 1 / -1;
         display: flex;
-        justify-content: flex-end;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 8px;
     }
 }
 
 @media (max-width: 720px) {
-    body.role-kepala_bagian .kepala-bagian-team-page {
-        gap: 12px;
-        padding: 12px;
-    }
-
-    body.role-kepala_bagian .team-overview {
-        gap: 13px;
-        padding: 14px;
-    }
-
-    body.role-kepala_bagian .team-heading {
-        align-items: flex-start;
-    }
-
-    body.role-kepala_bagian .team-heading h1 {
-        font-size: 1.2rem;
-    }
-
-    body.role-kepala_bagian .team-heading p {
-        font-size: .72rem;
-    }
-
-    body.role-kepala_bagian .team-back-link {
-        padding: 7px;
-        font-size: 0;
-    }
-
-    body.role-kepala_bagian .team-back-link i {
-        font-size: .8rem;
-    }
-
-    body.role-kepala_bagian .team-summary {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 8px;
-    }
-
-    body.role-kepala_bagian .team-stat {
-        padding: 10px;
-    }
-
-    body.role-kepala_bagian .team-stat > strong {
-        font-size: .95rem;
-    }
-
-    body.role-kepala_bagian .team-toolbar {
-        gap: 8px;
-        padding: 8px;
-    }
-
-    body.role-kepala_bagian .team-filters {
-        flex: 1 1 100%;
-        overflow-x: auto;
-    }
-
-    body.role-kepala_bagian .team-filters a {
-        padding: 6px 8px;
-    }
-
-    body.role-kepala_bagian .team-sort {
-        margin-left: auto;
-    }
-
     body.role-kepala_bagian .team-member-card {
-        grid-template-columns: minmax(0, 1fr) auto;
-        gap: 9px;
-        padding: 12px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: stretch;
+        gap: 12px;
+        padding: 16px;
     }
 
     body.role-kepala_bagian .team-person {
@@ -699,27 +1008,43 @@ body.role-kepala_bagian .team-deadline > small b i {
     }
 
     body.role-kepala_bagian .team-member-detail {
-        min-width: 0;
+        padding: 13px;
+    }
+
+    body.role-kepala_bagian .team-member-detail strong,
+    body.role-kepala_bagian .team-member-detail > span {
+        overflow: visible;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        line-height: 1.45;
     }
 
     body.role-kepala_bagian .team-member-skp {
-        grid-column: 1;
+        grid-column: 1 / -1;
+        padding: 14px;
+        background: #f4f8fc;
+        border: 1px solid #edf1f6;
+        border-radius: 10px;
     }
 
     body.role-kepala_bagian .team-member-actions {
-        grid-column: 2;
-        grid-row: 3;
-        display: grid;
-        align-self: end;
-    }
-
-    body.role-kepala_bagian .team-footer-panels {
-        grid-template-columns: 1fr;
+        grid-column: 1 / -1;
+        grid-row: auto;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 8px;
     }
 }
 
 @media (max-width: 390px) {
-    body.role-kepala_bagian .team-summary {
-        grid-template-columns: 1fr;
+    body.role-kepala_bagian .team-member-card {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    body.role-kepala_bagian .team-person,
+    body.role-kepala_bagian .team-member-skp,
+    body.role-kepala_bagian .team-member-actions {
+        grid-column: 1;
     }
 }

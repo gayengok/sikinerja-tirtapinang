@@ -56,7 +56,7 @@
                     {{ $initials }}
                 </span>
 
-                <div>
+                <div class="atasan-attendance-employee-info">
                     <h3>{{ $pegawai->nama }}</h3>
                     <p>{{ $pegawai->jabatan?->nama_jabatan ?? 'Jabatan belum tersedia' }}</p>
                     <small>

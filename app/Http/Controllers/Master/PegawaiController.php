@@ -54,6 +54,7 @@ class PegawaiController extends Controller
             Pegawai::create([
                 'user_id' => $user->id,
                 'nama' => $validated['nama'],
+                'nip' => $validated['nip'] ?? null,
                 'jabatan_id' => $validated['jabatan_id'],
                 'atasan_id' => $validated['atasan_id'] ?? null,
                 'tanggal_masuk' => $validated['tanggal_masuk'] ?? null,
@@ -102,6 +103,7 @@ class PegawaiController extends Controller
 
             $pegawai->update([
                 'nama' => $validated['nama'],
+                'nip' => $validated['nip'] ?? null,
                 'jabatan_id' => $validated['jabatan_id'],
                 'atasan_id' => $validated['atasan_id'] ?? null,
                 'tanggal_masuk' => $validated['tanggal_masuk'] ?? null,
@@ -148,10 +150,17 @@ class PegawaiController extends Controller
             ? Rule::unique('users', 'email')->ignore($pegawai->user_id)
             : 'unique:users,email';
 
+        $nipRule = Rule::unique('pegawais', 'nip');
+
+        if ($pegawai) {
+            $nipRule->ignore($pegawai->id);
+        }
+
         $atasanExcludeRule = $pegawai ? Rule::notIn([$pegawai->id]) : Rule::notIn([]);
 
         $rules = [
             'nama' => ['required', 'string', 'max:255'],
+            'nip' => ['nullable', 'string', 'max:50', $nipRule],
             'email' => ['required', 'email', 'max:255', $emailRule],
             'password' => [$pegawai ? 'nullable' : 'required', 'string', 'min:6'],
             'role' => ['required', Rule::in(['pegawai', 'atasan', 'kepala_bagian', 'direktur'])],
@@ -210,6 +219,7 @@ class PegawaiController extends Controller
 
         $messages = [
             'nama.required' => 'Nama wajib diisi.',
+            'nip.unique' => 'NIP sudah digunakan oleh pegawai lain.',
             'email.required' => 'Email wajib diisi.',
             'email.unique' => 'Email sudah digunakan oleh akun lain.',
             'password.required' => 'Password wajib diisi.',

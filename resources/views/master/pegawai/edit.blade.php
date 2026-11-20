@@ -73,6 +73,14 @@
                             <small class="edit-error">{{ $message }}</small>
                         @enderror
                     </div>
+                    <div class="master-edit-field"><label for="nip">NIP</label>
+                        <div class="edit-input-icon"><input type="text" name="nip" id="nip"
+                                value="{{ old('nip', $pegawai->nip) }}" placeholder="Masukkan NIP pegawai"
+                                class="@error('nip') invalid @enderror"><i class="fa-solid fa-id-card"></i></div>
+                        @error('nip')
+                            <small class="edit-error">{{ $message }}</small>
+                        @enderror
+                    </div>
                     <div class="master-edit-field"><label for="email">Email Perusahaan / Akun <em>*</em></label>
                         <div class="edit-input-icon"><i class="fa-regular fa-envelope"></i><input type="email"
                                 name="email" id="email" value="{{ old('email', $pegawai->user->email ?? '') }}"
@@ -81,13 +89,13 @@
                             <small class="edit-error">{{ $message }}</small>
                         @enderror
                     </div>
-                    <div class="master-edit-field"><label for="password">Password Baru
-                            <span>Opsional</span><small>Tersedia</small></label>
+                    <div class="master-edit-field"><label for="password">Reset Password
+                            <span>Opsional</span></label>
                         <div class="edit-input-icon password-input"><input type="password" name="password" id="password"
-                                placeholder="Kosongkan jika tidak diubah"
+                                placeholder="Isi untuk mengatur password baru"
                                 class="@error('password') invalid @enderror"><button type="button" id="togglePassword"><i
-                                    class="fa-regular fa-eye"></i></button></div><small class="edit-help">Jika dikosongkan,
-                            password lama tidak berubah.</small>
+                                    class="fa-regular fa-eye"></i></button></div><small class="edit-help">Isi password baru
+                            untuk membantu pegawai yang lupa password. Jika dikosongkan, password lama tidak berubah.</small>
                         @error('password')
                             <small class="edit-error">{{ $message }}</small>
                         @enderror

@@ -49,6 +49,7 @@
                 <thead>
                     <tr>
                         <th scope="col">Pegawai</th>
+                        <th scope="col">NIP</th>
                         <th scope="col">Peran</th>
                         <th scope="col">Divisi</th>
                         <th scope="col">Jabatan</th>
@@ -74,6 +75,7 @@
                                     </span>
                                 </div>
                             </td>
+                            <td>{{ $pegawai->nip ?: '-' }}</td>
                             <td><span
                                     class="master-pegawai-role {{ $isManager ? 'is-atasan' : 'is-staff' }}">{{ $roleLabel }}</span>
                             </td>
@@ -100,7 +102,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td class="master-pegawai-table-empty" colspan="6">Belum ada data pegawai.</td>
+                            <td class="master-pegawai-table-empty" colspan="7">Belum ada data pegawai.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -124,6 +126,7 @@
                                 class="fa-solid fa-ellipsis-vertical"></i></button>
                     </div>
                     <div class="master-pegawai-info">
+                        <div><span>NIP</span><strong>{{ $pegawai->nip ?: '-' }}</strong></div>
                         <div><span>Divisi</span><strong>{{ $pegawai->jabatan->divisi->nama_divisi ?? '-' }}</strong></div>
                         <div><span>Jabatan</span><strong>{{ $pegawai->jabatan->nama_jabatan ?? '-' }}</strong></div>
                         <div><span>Atasan Langsung</span><strong>{{ $pegawai->atasan->nama ?? '-' }}</strong></div>

@@ -34,7 +34,7 @@
                         <div><small>Nama</small><strong>{{ old('nama') ?: 'Belum diisi' }}</strong></div>
                         <div><small>Email Akun</small><strong>{{ old('email') ?: 'Belum diisi' }}</strong></div>
                         <div><small>Role
-                                Awal</small><strong>{{ match (old('role', 'pegawai')) { 'direktur' => 'Direktur', 'atasan' => 'Atasan', 'kepala_bagian' => 'Kepala Bagian', default => 'Pegawai' } }}</strong>
+                                Awal</small><strong>{{ match (old('role', 'pegawai')) {'direktur' => 'Direktur','atasan' => 'Atasan','kepala_bagian' => 'Kepala Bagian',default => 'Pegawai'} }}</strong>
                         </div>
                     </div>
                 </section>
@@ -75,6 +75,17 @@
                             <small class="field-error">{{ $message }}</small>
                         @enderror
                     </div>
+
+                    {{-- NIP PEGAWAI --}}
+                    <div class="master-field"><label for="nip">NIP</label>
+                        <div class="input-icon nip-input"><i class="fa-solid fa-id-card"></i><input type="text" name="nip"
+                                id="nip" value="{{ old('nip') }}" placeholder="Masukkan NIP pegawai"
+                                class="@error('nip') invalid @enderror"></div>
+                        @error('nip')
+                            <small class="field-error">{{ $message }}</small>
+                        @enderror
+                    </div>
+
                     <div class="master-field"><label for="email">Email Perusahaan / Akun <em>*</em></label>
                         <div class="input-icon"><i class="fa-regular fa-envelope"></i><input type="email" name="email"
                                 id="email" value="{{ old('email') }}" placeholder="nama@perusahaan.co.id"
@@ -90,23 +101,26 @@
                                 name="password" id="password" placeholder="Minimal 6 karakter"
                                 class="@error('password') invalid @enderror"><button type="button" id="togglePassword"><i
                                     class="fa-regular fa-eye"></i></button></div><small class="field-help">Minimal 6
-                            karakter
-                            (dapat diubah mandiri).</small>
+                            karakter (pegawai dapat mengubahnya setelah masuk; admin dapat mengatur ulang melalui Edit
+                            Pegawai).</small>
                         @error('password')
                             <small class="field-error">{{ $message }}</small>
                         @enderror
                     </div>
                     <div class="master-field"><label for="role">Peran Akun <em>*</em></label><select name="role"
                             id="role" class="@error('role') invalid @enderror">
-                            <option value="pegawai" {{ old('role', 'pegawai') === 'pegawai' ? 'selected' : '' }}>Pegawai</option>
+                            <option value="pegawai" {{ old('role', 'pegawai') === 'pegawai' ? 'selected' : '' }}>Pegawai
+                            </option>
                             <option value="atasan" {{ old('role') === 'atasan' ? 'selected' : '' }}>Atasan</option>
-                            <option value="kepala_bagian" {{ old('role') === 'kepala_bagian' ? 'selected' : '' }}>Kepala Bagian</option>
+                            <option value="kepala_bagian" {{ old('role') === 'kepala_bagian' ? 'selected' : '' }}>Kepala
+                                Bagian</option>
                             <option value="direktur" {{ old('role') === 'direktur' ? 'selected' : '' }}>Direktur</option>
                         </select>
                         @error('role')
                             <small class="field-error">{{ $message }}</small>
                         @enderror
-                        <small class="field-help">Admin tidak dibuat dari formulir pegawai; akun Admin dikelola terpisah.</small>
+                        <small class="field-help">Admin tidak dibuat dari formulir pegawai; akun Admin dikelola
+                            terpisah.</small>
                     </div>
                 </section>
                 <section class="master-form-card">
@@ -141,11 +155,14 @@
                             <small class="field-error">{{ $message }}</small>
                         @enderror
                     </div>
-                    <div class="master-field"><label for="atasan_id">Atasan Langsung <span>Wajib untuk Pegawai dan Atasan; opsional untuk Kepala Bagian</span></label><select name="atasan_id" id="atasan_id"
+                    <div class="master-field"><label for="atasan_id">Atasan Langsung <span>Wajib untuk Pegawai dan Atasan;
+                                opsional untuk Kepala Bagian</span></label><select name="atasan_id" id="atasan_id"
                             class="@error('atasan_id') invalid @enderror">
                             <option value="">-- Pilih atasan sesuai role dan divisi --</option>
                             @foreach ($atasans as $atasan)
-                                <option value="{{ $atasan->id }}" data-divisi="{{ $atasan->jabatan->divisi_id ?? '' }}" data-role="{{ $atasan->user->role ?? '' }}"
+                                <option value="{{ $atasan->id }}"
+                                    data-divisi="{{ $atasan->jabatan->divisi_id ?? '' }}"
+                                    data-role="{{ $atasan->user->role ?? '' }}"
                                     {{ old('atasan_id') == $atasan->id ? 'selected' : '' }}>{{ $atasan->nama }}
                                     @if ($atasan->jabatan)
                                         ({{ $atasan->jabatan->nama_jabatan }})
@@ -153,7 +170,8 @@
                                 </option>
                             @endforeach
                         </select>
-                        <small class="field-help italic">Pegawai memilih Atasan, Atasan memilih Kepala Bagian, dan Kepala Bagian dapat ditugaskan kepada Direktur. Direktur tidak memiliki atasan langsung.</small>
+                        <small class="field-help italic">Pegawai memilih Atasan, Atasan memilih Kepala Bagian, dan Kepala
+                            Bagian dapat ditugaskan kepada Direktur. Direktur tidak memiliki atasan langsung.</small>
                         @error('atasan_id')
                             <small class="field-error">{{ $message }}</small>
                         @enderror
@@ -397,8 +415,17 @@
             font-size: .8rem
         }
 
-        .input-icon input {
-            padding-left: 2.25rem
+        .master-field .input-icon input {
+            padding-left: 2.5rem
+        }
+
+        .master-field .nip-input>i {
+            z-index: 1;
+            pointer-events: none
+        }
+
+        .master-field .nip-input input {
+            padding-left: 42px
         }
 
         .password-input button {
@@ -884,13 +911,15 @@
 
             function applyFilter() {
                 const id = filter.value;
-                const supervisorRole = role.value === 'pegawai' ? 'atasan' : role.value === 'atasan' ? 'kepala_bagian' : role.value === 'kepala_bagian' ? 'direktur' : null;
+                const supervisorRole = role.value === 'pegawai' ? 'atasan' : role.value === 'atasan' ? 'kepala_bagian' :
+                    role.value === 'kepala_bagian' ? 'direktur' : null;
                 Array.from(jabatan.options).forEach(function(option) {
                     if (option.value) option.hidden = !!id && option.dataset.divisi !== id;
                 });
                 Array.from(atasan.options).forEach(function(option) {
                     const wrongDivision = supervisorRole !== 'direktur' && !!id && option.dataset.divisi !== id;
-                    option.hidden = !!option.value && (!supervisorRole || wrongDivision || option.dataset.role !== supervisorRole);
+                    option.hidden = !!option.value && (!supervisorRole || wrongDivision || option.dataset
+                        .role !== supervisorRole);
                 });
                 [jabatan, atasan].forEach(function(select) {
                     if (select.selectedOptions[0] && select.selectedOptions[0].hidden) select.value = '';

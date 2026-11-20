@@ -30,7 +30,6 @@ body {
     -webkit-tap-highlight-color: transparent;
 }
 
-/* NAVBAR */
 .navbar-sikinerja {
     background-color: #ffffff;
     border-bottom: 1px solid var(--sikinerja-border);
@@ -204,7 +203,6 @@ body {
     box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
 }
 
-/* SIDEBAR */
 .sidebar {
     position: fixed;
     top: 64px;
@@ -297,7 +295,6 @@ body {
     font-weight: 500;
 }
 
-/* MAIN CONTENT */
 .main-content {
     margin-left: var(--sidebar-width);
     margin-top: 64px;
@@ -316,7 +313,6 @@ body.sidebar-collapsed .main-content {
     margin-left: 0;
 }
 
-/* MOBILE APP VIEW CONTAINER */
 .mobile-app-container {
     max-width: 520px;
     margin: 0 auto;
@@ -329,7 +325,6 @@ body.sidebar-collapsed .main-content {
     }
 }
 
-/* GREETING CARD */
 .profile-greeting-card {
     background: #ffffff;
     border-radius: 20px;
@@ -396,7 +391,6 @@ body.sidebar-collapsed .main-content {
     border-radius: 50%;
 }
 
-/* PERFORMANCE CARD */
 .performance-card {
     background: linear-gradient(180deg, #ffffff 0%, #f0f7ff 100%);
     border: 1px solid #dbeafe;
@@ -428,7 +422,6 @@ body.sidebar-collapsed .main-content {
     font-weight: 500;
 }
 
-/* DONUT SCORE GAUGE */
 .donut-gauge-container {
     width: 100px;
     height: 100px;
@@ -506,7 +499,6 @@ body.sidebar-collapsed .main-content {
     color: #dc2626;
 }
 
-/* PROGRESS BARS */
 .kpi-progress-item {
     margin-bottom: 0.75rem;
 }
@@ -543,7 +535,6 @@ body.sidebar-collapsed .main-content {
     transition: width 0.6s ease;
 }
 
-/* SECTION TITLES */
 .section-heading-wrap {
     display: flex;
     justify-content: space-between;
@@ -571,7 +562,6 @@ body.sidebar-collapsed .main-content {
     color: #0284c7;
 }
 
-/* HERO ACTION CARD (INPUT LAPORAN) */
 .hero-action-card {
     background: linear-gradient(135deg, #0056b3 0%, #0077ff 100%);
     border-radius: 18px;
@@ -617,7 +607,6 @@ body.sidebar-collapsed .main-content {
     margin: 0;
 }
 
-/* QUICK ACTION MINI CARDS */
 .quick-action-card {
     background: #ffffff;
     border: 1px solid rgba(226, 232, 240, 0.9);
@@ -667,7 +656,6 @@ body.sidebar-collapsed .main-content {
     margin: 0;
 }
 
-/* WIDE SLIP TUKIN CARD */
 .wide-action-card {
     background: #ffffff;
     border: 1px solid rgba(226, 232, 240, 0.9);
@@ -691,7 +679,6 @@ body.sidebar-collapsed .main-content {
     box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08);
 }
 
-/* KPI 2X2 INDICATOR GRID */
 .indicator-card {
     background: #ffffff;
     border: 1px solid rgba(226, 232, 240, 0.9);
@@ -751,7 +738,6 @@ body.sidebar-collapsed .main-content {
     line-height: 1.25;
 }
 
-/* WORK DOCUMENTATION CARD */
 .work-doc-card {
     background: #ffffff;
     border: 1px solid rgba(226, 232, 240, 0.9);
@@ -832,7 +818,6 @@ body.sidebar-collapsed .main-content {
     border-radius: 12px;
 }
 
-/* NOTIFICATIONS & ACTIVITY */
 .activity-card-item {
     background: #ffffff;
     border: 1px solid rgba(226, 232, 240, 0.9);
@@ -878,7 +863,6 @@ body.sidebar-collapsed .main-content {
     gap: 0.3rem;
 }
 
-/* BOTTOM CTA BUTTON */
 .btn-soft-primary-pill {
     background-color: #e0f2fe;
     color: #0369a1;
@@ -903,7 +887,6 @@ body.sidebar-collapsed .main-content {
     color: #0284c7;
 }
 
-/* MOBILE BOTTOM NAVIGATION BAR */
 .mobile-bottom-nav {
     position: fixed;
     bottom: 0;
@@ -950,7 +933,6 @@ body.sidebar-collapsed .main-content {
     color: #0284c7;
 }
 
-/* PAGE HEADER & STAT CARDS (BACKWARD COMPATIBILITY) */
 .page-header {
     display: flex;
     flex-wrap: wrap;
@@ -998,13 +980,11 @@ body.sidebar-collapsed .main-content {
     font-size: 0.78rem;
 }
 
-/* CARD */
 .card {
     border-radius: 0.8rem;
     border: 1px solid var(--sikinerja-border);
 }
 
-/* TABLE */
 .table-responsive {
     border-radius: 0.5rem;
     overflow: hidden;
@@ -1030,7 +1010,6 @@ table.table td {
     font-size: 0.9rem;
 }
 
-/* BUTTON */
 .btn-primary {
     background-color: var(--sikinerja-primary);
     border-color: var(--sikinerja-primary);
@@ -1052,7 +1031,6 @@ table.table td {
     border-color: var(--sikinerja-primary);
 }
 
-/* FOOTER */
 .footer-sikinerja {
     background-color: #ffffff;
     border-top: 1px solid var(--sikinerja-border);
@@ -1061,7 +1039,6 @@ table.table td {
     margin-top: auto;
 }
 
-/* SIDEBAR OVERLAY (MOBILE) */
 .sidebar-overlay {
     display: none;
     position: fixed;
@@ -1075,7 +1052,6 @@ table.table td {
     display: block;
 }
 
-/* RESPONSIVE MEDIA QUERIES */
 @media (max-width: 991.98px) {
     .sidebar {
         transform: translateX(calc(-1 * var(--sidebar-width)));
@@ -1095,7 +1071,6 @@ table.table td {
     }
 }
 
-/* PEGAWAI MOBILE APP THEME */
 body.role-pegawai .mobile-app-shell {
     width: 100%;
     min-height: 100vh;
@@ -3361,7 +3336,6 @@ body.role-pegawai .card .row > .col-7 {
     }
 }
 
-/* Consistent compact header for every Pegawai mobile page. */
 @media (max-width: 991.98px) {
     body.role-pegawai .navbar-sikinerja {
         display: flex !important;
@@ -3438,7 +3412,6 @@ body.role-pegawai .card .row > .col-7 {
     }
 }
 
-/* Shared phone header layout for every Pegawai page. */
 @media (max-width: 767.98px) {
     body.role-pegawai .navbar-sikinerja {
         display: flex !important;
@@ -3528,7 +3501,6 @@ body.role-pegawai .card .row > .col-7 {
     }
 }
 
-/* One shared mobile navbar for Dashboard, Laporan, Absensi, Penilaian and Profil. */
 @media (max-width: 767.98px) {
     body.role-pegawai .navbar-sikinerja {
         width: 100% !important;
@@ -3612,7 +3584,6 @@ body.role-pegawai .card .row > .col-7 {
     }
 }
 
-/* Final mobile header sizing: keep every control inside the phone viewport. */
 @media (max-width: 767.98px) {
     body.role-pegawai .navbar-sikinerja {
         overflow: visible !important;
@@ -3679,7 +3650,6 @@ body.role-pegawai .card .row > .col-7 {
     }
 }
 
-/* Keep the compact arrangement active on tablets and narrow browser previews too. */
 @media (max-width: 991.98px) {
     body.role-pegawai .navbar-sikinerja {
         height: 64px !important;
@@ -3730,13 +3700,11 @@ body.role-pegawai .card .row > .col-7 {
     }
 }
 
-/* Atasan uses the same phone frame as Pegawai; never expose the desktop sidebar. */
 body.role-atasan .sidebar,
 body.role-atasan .sidebar-overlay {
     display: none !important;
 }
 
-/* Keep the employee header pinned to the viewport on mobile. */
 @media (max-width: 991.98px) {
     body.role-pegawai .navbar-sikinerja {
         position: fixed !important;
@@ -3863,7 +3831,6 @@ body.role-atasan .atasan-team-pagination .pagination {
     margin: 0;
 }
 
-/* Consistent mobile page heading for atasan screens. */
 body.role-atasan .atasan-mobile-breadcrumb {
     display: flex;
     align-items: center;
@@ -3913,7 +3880,7 @@ body.role-atasan .atasan-mobile-breadcrumb > div strong {
     overflow: hidden;
     color: #1f3552;
     font-size: 0.9rem;
-    /* font-weight: 300; */
+
     text-overflow: ellipsis;
     white-space: nowrap;
 }
@@ -4252,7 +4219,6 @@ body.role-atasan .atasan-work-list > div strong {
     }
 }
 
-/* Master dashboard uses the same centered mobile application frame. */
 body.role-master {
     background: #f6f9fc;
 }
@@ -4757,9 +4723,6 @@ body.role-pegawai .navbar-sikinerja .brand-badge-icon {
     }
 }
 
-/* ================================================================
-   NAVIGATION FIX — responsive desktop / mobile, all existing pages
-   ================================================================ */
 :root {
     --sikinerja-sidebar-bg: #102c3b;
     --sikinerja-sidebar-active: #164b66;
@@ -5128,10 +5091,6 @@ body.role-master .sidebar-link.active {
     }
 }
 
-/* =============================================================
-   SIKINERJA - NAVIGATION VISUAL REDESIGN 2026
-   Hanya komponen navigasi, tanpa mengubah konten halaman.
-   ============================================================= */
 body.role-atasan {
     --nav-accent: #0875ad;
     --nav-ink: #18324b;
@@ -5349,10 +5308,6 @@ body.role-atasan .navbar-sikinerja .notification-empty i {
     }
 }
 
-/* ==========================================================
-   SIKINERJA | FLOATING NAVIGATION — ROLE ATASAN
-   Visual override only. Existing navigation IDs/routes remain.
-   ========================================================== */
 @media (min-width: 768px) {
     body.role-atasan {
         --float-gap: 18px;
@@ -5555,5 +5510,966 @@ body.role-atasan .navbar-sikinerja .notification-empty i {
         margin: 0 !important;
         width: 100% !important;
         padding: 0 !important;
+    }
+}
+
+html body nav.navbar.navbar-sikinerja {
+    background: linear-gradient(
+        120deg,
+        rgba(3, 105, 161, 0.96),
+        rgba(8, 132, 187, 0.91),
+        rgba(14, 148, 190, 0.94)
+    ) !important;
+
+    background-color: #087db5 !important;
+
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+
+    border-radius: 50px !important;
+
+    backdrop-filter: blur(24px) saturate(170%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(170%) !important;
+
+    box-shadow:
+        0 10px 30px rgba(3, 105, 161, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.28) !important;
+
+    color: #ffffff !important;
+
+    transition:
+        width 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+        height 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+        border-radius 0.4s ease,
+        background 0.3s ease,
+        box-shadow 0.3s ease !important;
+}
+
+html body nav.navbar-sikinerja .navbar-brand,
+html body nav.navbar-sikinerja .brand-caption-title {
+    color: #ffffff !important;
+}
+
+html body nav.navbar-sikinerja .brand-caption-subtitle {
+    color: rgba(255, 255, 255, 0.75) !important;
+}
+
+html body nav.navbar-sikinerja .btn-icon-circle {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+html body nav.navbar-sikinerja .btn-icon-circle:hover {
+    background: rgba(255, 255, 255, 0.27) !important;
+}
+
+html body nav.navbar-sikinerja .user-avatar {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border: 2px solid rgba(255, 255, 255, 0.65) !important;
+    color: #ffffff !important;
+}
+
+@media (max-width: 767.98px) {
+    body.role-pegawai nav.navbar-sikinerja {
+        border-radius: 30px !important;
+    }
+}
+
+html body .navbar-sikinerja .navbar-user .dropdown-menu {
+    width: 320px !important;
+    max-width: calc(100vw - 24px) !important;
+    padding: 12px !important;
+
+    background: linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.98),
+        rgba(239, 248, 255, 0.97)
+    ) !important;
+
+    background-color: #f8fcff !important;
+
+    border: 1px solid rgba(186, 215, 235, 0.85) !important;
+    border-radius: 24px !important;
+
+    box-shadow:
+        0 20px 55px rgba(15, 55, 85, 0.2),
+        0 5px 15px rgba(15, 55, 85, 0.08),
+        inset 0 1px 0 #ffffff !important;
+
+    backdrop-filter: blur(24px) saturate(140%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(140%) !important;
+
+    overflow: hidden;
+    transform-origin: top right;
+}
+
+html body .navbar-sikinerja .navbar-user .dropdown-menu.show {
+    animation: profileDropdownEnter 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes profileDropdownEnter {
+    from {
+        opacity: 0;
+        transform: translateY(-12px) scale(0.96);
+        filter: blur(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+html
+    body
+    .navbar-sikinerja
+    .navbar-user
+    .dropdown-menu
+    .px-2.py-2.border-bottom {
+    padding: 16px 12px !important;
+    margin-bottom: 10px !important;
+    border-bottom: 1px solid #dceaf4 !important;
+    position: relative;
+}
+
+html body .navbar-sikinerja .navbar-user .dropdown-menu .fw-semibold {
+    color: #163b56 !important;
+    font-size: 16px;
+    font-weight: 800 !important;
+    letter-spacing: -0.3px;
+}
+
+html body .navbar-sikinerja .navbar-user .dropdown-menu .text-muted {
+    color: #7892a8 !important;
+    font-size: 12px;
+}
+
+html
+    body
+    .navbar-sikinerja
+    .navbar-user
+    .dropdown-menu
+    .text-muted.small:not(.fw-semibold) {
+    line-height: 1.6;
+}
+
+html body .navbar-sikinerja .navbar-user .dropdown-menu .dropdown-item {
+    min-height: 54px;
+    display: flex !important;
+    align-items: center;
+    gap: 12px !important;
+
+    padding: 10px 12px !important;
+    margin: 5px 0;
+
+    border-radius: 16px !important;
+    border: 1px solid transparent;
+
+    color: #35536b !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+
+    background: transparent !important;
+
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.25s ease,
+        color 0.25s ease !important;
+}
+
+html body .navbar-sikinerja .navbar-user .dropdown-menu .dropdown-item:hover {
+    background: linear-gradient(110deg, #e6f4fd, #f0f8ff) !important;
+
+    border-color: #d3eafa !important;
+    color: #087bb5 !important;
+    transform: translateX(3px);
+}
+
+html
+    body
+    .navbar-sikinerja
+    .navbar-user
+    .dropdown-menu
+    .dropdown-item
+    > i:first-child {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 14px;
+
+    color: #087db5;
+    background: #e3f3fc;
+
+    font-size: 16px;
+}
+
+html
+    body
+    .navbar-sikinerja
+    .navbar-user
+    .dropdown-menu
+    .dropdown-item
+    > i:last-child {
+    color: #91a8ba;
+    font-size: 11px;
+}
+
+html body .navbar-sikinerja .navbar-user .dropdown-menu .dropdown-item.active {
+    background: #e7f4fc !important;
+    color: #087bb5 !important;
+    border-color: #cfe7f7 !important;
+}
+
+html
+    body
+    .navbar-sikinerja
+    .navbar-user
+    .dropdown-menu
+    .dropdown-item.text-danger {
+    color: #dc4545 !important;
+}
+
+html
+    body
+    .navbar-sikinerja
+    .navbar-user
+    .dropdown-menu
+    .dropdown-item.text-danger
+    > i:first-child {
+    color: #e34d58;
+    background: #fff0f0;
+}
+
+html
+    body
+    .navbar-sikinerja
+    .navbar-user
+    .dropdown-menu
+    .dropdown-item.text-danger:hover {
+    background: #fff0f0 !important;
+    border-color: #ffdddd !important;
+    color: #c92d3c !important;
+}
+
+html body .navbar-sikinerja .navbar-user .dropdown-menu .dropdown-divider {
+    border-color: #e2edf5;
+    opacity: 0.8;
+    margin: 8px 4px !important;
+}
+
+@media (min-width: 992px) {
+    html body .sidebar {
+        transition:
+            transform 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+            width 0.72s cubic-bezier(0.22, 1, 0.36, 1) !important;
+
+        will-change: transform;
+    }
+
+    html body .main-content {
+        transition:
+            margin-left 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+            width 0.72s cubic-bezier(0.22, 1, 0.36, 1) !important;
+    }
+
+    html body nav.navbar-sikinerja {
+        width: calc(100% - 24px);
+        margin: 8px 12px;
+
+        min-height: 76px;
+        height: 76px;
+
+        transition:
+            width 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+            height 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+            min-height 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+            border-radius 0.65s ease,
+            padding 0.65s ease,
+            box-shadow 0.45s ease !important;
+    }
+
+    html body.sidebar-collapsed nav.navbar-sikinerja {
+        width: 78px;
+        min-height: 78px;
+        height: 78px;
+
+        margin-left: 12px;
+        margin-right: auto;
+
+        padding: 10px !important;
+
+        border-radius: 27px !important;
+    }
+
+    html body.sidebar-collapsed nav.navbar-sikinerja .navbar-brand {
+        justify-content: center;
+        gap: 0;
+        width: 100%;
+        transition: all 0.55s ease;
+    }
+
+    html body.sidebar-collapsed nav.navbar-sikinerja .brand-caption {
+        opacity: 0;
+        max-width: 0;
+        overflow: hidden;
+        transform: translateX(-10px);
+        transition:
+            opacity 0.25s ease,
+            max-width 0.55s ease,
+            transform 0.45s ease;
+    }
+
+    html body.sidebar-collapsed nav.navbar-sikinerja .navbar-end {
+        opacity: 0;
+        visibility: hidden;
+        width: 0;
+        overflow: hidden;
+        transform: scale(0.85);
+        transition:
+            opacity 0.25s ease,
+            transform 0.45s ease,
+            width 0.55s ease,
+            visibility 0s linear 0.55s;
+    }
+}
+
+@media (max-width: 575.98px) {
+    html body .navbar-sikinerja .navbar-user .dropdown-menu {
+        width: min(320px, calc(100vw - 20px)) !important;
+        border-radius: 21px !important;
+        padding: 10px !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html body .navbar-sikinerja,
+    html body .sidebar,
+    html body .main-content,
+    html body .navbar-sikinerja .dropdown-menu {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+body .sidebar {
+    background: linear-gradient(
+        110deg,
+        #0875ad 0%,
+        #0786b5 55%,
+        #0b9cba 100%
+    ) !important;
+}
+
+body .sidebar .sidebar-brand {
+    background: transparent !important;
+    border-color: rgba(255, 255, 255, 0.14) !important;
+}
+
+body .sidebar .sidebar-brand-text,
+body .sidebar .sidebar-brand-text span,
+body .sidebar .sidebar-brand-text small {
+    color: #ffffff !important;
+}
+
+body .sidebar .sidebar-section-title {
+    color: rgba(255, 255, 255, 0.72) !important;
+}
+
+body .sidebar .sidebar-link {
+    color: rgba(255, 255, 255, 0.82) !important;
+    background: transparent !important;
+}
+
+body .sidebar .sidebar-link i {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+body .sidebar .sidebar-link:hover {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.12) !important;
+}
+
+body .sidebar .sidebar-link.active {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.19) !important;
+}
+
+body .sidebar .sidebar-link.active i {
+    color: #ffffff !important;
+}
+
+body .sidebar .btn-close {
+    filter: brightness(0) invert(1);
+}
+
+body .sidebar .sidebar-nav {
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}
+
+body .sidebar .sidebar-nav::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+html body .mobile-app-shell ~ .sidebar,
+html body .sidebar {
+    background: linear-gradient(
+        110deg,
+        #0676ad 0%,
+        #0782b5 52%,
+        #0b8abb 100%
+    ) !important;
+
+    background-color: #087fb2 !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+html body .sidebar::before,
+html body .sidebar::after {
+    background: transparent !important;
+}
+
+html body .sidebar .sidebar-section-title,
+html body .sidebar .sidebar-menu-title,
+html body .sidebar .sidebar-nav-title,
+html body .sidebar .sidebar-nav > div:first-child {
+    color: rgba(255, 255, 255, 0.78) !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    letter-spacing: 1.3px !important;
+}
+
+html body .sidebar .sidebar-link,
+html body .sidebar .sidebar-link span {
+    color: rgba(255, 255, 255, 0.86) !important;
+}
+
+html body .sidebar .sidebar-link i {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+html body .sidebar .sidebar-link:hover {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.13) !important;
+}
+
+html body .sidebar .sidebar-link.active {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.19) !important;
+}
+
+html body .sidebar .sidebar-link.active i {
+    color: #ffffff !important;
+}
+
+html body .sidebar .sidebar-brand {
+    background: transparent !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+html body .sidebar .btn-close {
+    filter: brightness(0) invert(1);
+}
+
+@media (min-width: 768px) {
+    html body.role-atasan.sidebar-collapsed .sidebar,
+    html body.role-master.sidebar-collapsed .sidebar {
+        width: 76px !important;
+        min-width: 76px !important;
+        overflow-x: hidden !important;
+    }
+
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-section-title,
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-menu-title,
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-nav-title,
+    html
+        body.role-atasan.sidebar-collapsed
+        .sidebar
+        .sidebar-nav
+        > div:first-child,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-section-title,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-menu-title,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-nav-title,
+    html
+        body.role-master.sidebar-collapsed
+        .sidebar
+        .sidebar-nav
+        > div:first-child {
+        display: none !important;
+        visibility: hidden !important;
+        width: 0 !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+    }
+
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-brand-text,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-brand-text,
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-link span,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-link span {
+        display: none !important;
+        visibility: hidden !important;
+        width: 0 !important;
+        max-width: 0 !important;
+        opacity: 0 !important;
+        overflow: hidden !important;
+    }
+
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-nav,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-nav {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 6px !important;
+        width: 100% !important;
+        padding: 12px 7px !important;
+        margin: 0 !important;
+        overflow-x: hidden !important;
+    }
+
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-link,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-link {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        min-height: 48px !important;
+        height: 48px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        gap: 0 !important;
+        border: 0 !important;
+        border-radius: 12px !important;
+        font-size: 0 !important;
+        line-height: 1 !important;
+        text-align: center !important;
+        overflow: hidden !important;
+    }
+
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-link > i,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-link > i {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex: 0 0 24px !important;
+        width: 24px !important;
+        min-width: 24px !important;
+        height: 24px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        font-size: 17px !important;
+        line-height: 1 !important;
+        color: #ffffff !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        -webkit-text-fill-color: #ffffff !important;
+    }
+
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-link > i::before,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-link > i::before {
+        display: inline-block !important;
+        color: #ffffff !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-link.active,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-link.active {
+        background: rgba(255, 255, 255, 0.2) !important;
+        color: #ffffff !important;
+        box-shadow: none !important;
+    }
+
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-brand,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-brand {
+        display: none !important;
+    }
+
+    html body.role-atasan.sidebar-collapsed .main-content {
+        margin-left: calc(var(--float-gap, 18px) * 2 + 76px) !important;
+    }
+
+    html body.role-master.sidebar-collapsed .main-content {
+        margin-left: 76px !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html body .sidebar,
+    html body .main-content,
+    html body .navbar-sikinerja {
+        transition: none !important;
+    }
+}
+
+/* SIDEBAR COLLAPSED - FINAL RULES */
+@media (min-width: 768px) {
+    html body.role-atasan.sidebar-collapsed .sidebar,
+    html body.role-master.sidebar-collapsed .sidebar {
+        width: 76px !important;
+        min-width: 76px !important;
+        max-width: 76px !important;
+        transform: none !important;
+        overflow-x: hidden !important;
+    }
+
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-brand,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-brand,
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-brand-text,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-brand-text,
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-section-title,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-section-title,
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-menu-title,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-menu-title,
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-nav-title,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-nav-title,
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-link > span,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-link > span {
+        display: none !important;
+        visibility: hidden !important;
+        width: 0 !important;
+        max-width: 0 !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        opacity: 0 !important;
+        overflow: hidden !important;
+    }
+
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-nav,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-nav {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        width: 100% !important;
+        gap: 7px !important;
+        margin: 0 !important;
+        padding: 14px 8px !important;
+        overflow: visible !important;
+    }
+
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-link,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-link {
+        position: relative !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex: 0 0 48px !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        min-height: 48px !important;
+        height: 48px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        gap: 0 !important;
+        border: 0 !important;
+        border-radius: 12px !important;
+        font-size: 0 !important;
+        line-height: 1 !important;
+        text-align: center !important;
+        overflow: visible !important;
+        color: #ffffff !important;
+    }
+
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-link > i,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-link > i {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex: 0 0 24px !important;
+        position: static !important;
+        width: 24px !important;
+        min-width: 24px !important;
+        max-width: 24px !important;
+        height: 24px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        font-family: "Font Awesome 6 Free" !important;
+        font-weight: 900 !important;
+        font-style: normal !important;
+        font-size: 17px !important;
+        line-height: 1 !important;
+        text-align: center !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-link > i::before,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-link > i::before {
+        display: inline-block !important;
+        font-family: "Font Awesome 6 Free" !important;
+        font-weight: 900 !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-link.active,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-link.active {
+        background: rgba(255, 255, 255, 0.2) !important;
+        color: #ffffff !important;
+        box-shadow: none !important;
+    }
+
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-link:hover,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-link:hover {
+        background: rgba(255, 255, 255, 0.14) !important;
+        color: #ffffff !important;
+    }
+
+    html
+        body.role-atasan.sidebar-collapsed
+        .sidebar
+        .sidebar-link[title]:hover::after,
+    html
+        body.role-master.sidebar-collapsed
+        .sidebar
+        .sidebar-link[title]:hover::after {
+        content: attr(title);
+        position: absolute;
+        top: 50%;
+        left: calc(100% + 12px);
+        z-index: 2000;
+        transform: translateY(-50%);
+        padding: 8px 11px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 8px;
+        background: #075985;
+        color: #ffffff;
+        font-family: "Inter", sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 1.2;
+        white-space: nowrap;
+        pointer-events: none;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.16);
+    }
+
+    html body.role-atasan.sidebar-collapsed .main-content {
+        margin-left: calc(var(--float-gap, 18px) * 2 + 76px) !important;
+    }
+
+    html body.role-master.sidebar-collapsed .main-content {
+        margin-left: 76px !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+    html body.role-atasan.sidebar-collapsed .sidebar,
+    html body.role-master.sidebar-collapsed .sidebar {
+        width: var(--sidebar-width) !important;
+    }
+}
+
+/* FINAL SIDEBAR MINI FIX */
+@media (min-width: 768px) {
+    html body.role-atasan.sidebar-collapsed .sidebar,
+    html body.role-master.sidebar-collapsed .sidebar {
+        display: block !important;
+        position: fixed !important;
+        width: 76px !important;
+        min-width: 76px !important;
+        max-width: 76px !important;
+        transform: none !important;
+        overflow-x: visible !important;
+        overflow-y: auto !important;
+    }
+
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-brand,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-brand,
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-brand-text,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-brand-text,
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-menu-heading,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-menu-heading,
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-section-title,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-section-title,
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-menu-title,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-menu-title,
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-nav-title,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-nav-title,
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-link-text,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-link-text,
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-active-indicator,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-active-indicator {
+        display: none !important;
+        visibility: hidden !important;
+        width: 0 !important;
+        max-width: 0 !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        opacity: 0 !important;
+        overflow: hidden !important;
+    }
+
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-nav,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-nav {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 14px 8px !important;
+        gap: 8px !important;
+        overflow: visible !important;
+    }
+
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-link,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-link {
+        position: relative !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex: 0 0 48px !important;
+        width: 48px !important;
+        min-width: 48px !important;
+        max-width: 48px !important;
+        height: 48px !important;
+        min-height: 48px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        gap: 0 !important;
+        border: 0 !important;
+        border-radius: 12px !important;
+        font-size: 0 !important;
+        line-height: 1 !important;
+        text-align: center !important;
+        color: #ffffff !important;
+        overflow: visible !important;
+    }
+
+    html
+        body.role-atasan.sidebar-collapsed
+        .sidebar
+        .sidebar-link
+        > .sidebar-link-icon,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-link-icon {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex: 0 0 24px !important;
+        width: 24px !important;
+        min-width: 24px !important;
+        max-width: 24px !important;
+        height: 24px !important;
+        min-height: 24px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        overflow: visible !important;
+    }
+
+    html
+        body.role-atasan.sidebar-collapsed
+        .sidebar
+        .sidebar-link
+        > .sidebar-link-icon
+        i,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-link-icon i {
+        display: inline-block !important;
+        width: auto !important;
+        min-width: 0 !important;
+        height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        font-family: "Font Awesome 6 Free" !important;
+        font-weight: 900 !important;
+        font-style: normal !important;
+        font-size: 18px !important;
+        line-height: 1 !important;
+        text-align: center !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    html
+        body.role-atasan.sidebar-collapsed
+        .sidebar
+        .sidebar-link
+        > .sidebar-link-icon
+        i::before,
+    html
+        body.role-master.sidebar-collapsed
+        .sidebar
+        .sidebar-link-icon
+        i::before {
+        display: inline-block !important;
+        font-family: "Font Awesome 6 Free" !important;
+        font-weight: 900 !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-link.active,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-link.active {
+        background: rgba(255, 255, 255, 0.2) !important;
+        color: #ffffff !important;
+        box-shadow: none !important;
+    }
+
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-link:hover,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-link:hover {
+        background: rgba(255, 255, 255, 0.14) !important;
+        color: #ffffff !important;
+    }
+
+    html
+        body.role-atasan.sidebar-collapsed
+        .sidebar
+        .sidebar-link[title]:hover::after,
+    html
+        body.role-master.sidebar-collapsed
+        .sidebar
+        .sidebar-link[title]:hover::after {
+        content: attr(title);
+        position: absolute;
+        top: 50%;
+        left: calc(100% + 12px);
+        z-index: 2000;
+        transform: translateY(-50%);
+        padding: 8px 11px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 8px;
+        background: #075985;
+        color: #ffffff;
+        font-family: "Inter", sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 1.2;
+        white-space: nowrap;
+        pointer-events: none;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.16);
+    }
+
+    html body.role-atasan.sidebar-collapsed .main-content {
+        margin-left: calc(var(--float-gap, 18px) * 2 + 76px) !important;
+    }
+
+    html body.role-master.sidebar-collapsed .main-content {
+        margin-left: 76px !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+    html body.role-atasan.sidebar-collapsed .sidebar,
+    html body.role-master.sidebar-collapsed .sidebar {
+        width: var(--sidebar-width) !important;
+        max-width: var(--sidebar-width) !important;
     }
 }

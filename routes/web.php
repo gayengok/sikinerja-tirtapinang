@@ -288,3 +288,16 @@ Route::middleware(['auth', 'role:pegawai'])
                     ->name('foto');
             });
     });
+
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profil-akun', [\App\Http\Controllers\ProfileAkunController::class, 'index'])
+        ->name('profile.index');
+
+    Route::put('/profil-akun', [\App\Http\Controllers\ProfileAkunController::class, 'update'])
+        ->name('profile.update');
+
+    Route::post('/profil-akun/foto', [\App\Http\Controllers\ProfileAkunController::class, 'updatePhoto'])
+        ->name('profile.photo.update');
+});

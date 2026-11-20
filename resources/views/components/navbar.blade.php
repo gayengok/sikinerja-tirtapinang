@@ -1,6 +1,8 @@
+
 @php
     $user = auth()->user();
     $role = $user?->role;
+
     $labelRole = match ($role) {
         'master' => 'Admin',
         'kepala_bagian' => 'Kepala Bagian',
@@ -9,6 +11,7 @@
         'pegawai' => 'Pegawai',
         default => 'Pengguna',
     };
+
     $homeRoute = match ($role) {
         'master' => 'master.dashboard',
         'kepala_bagian' => 'kepala_bagian.dashboard',
@@ -17,64 +20,178 @@
         'pegawai' => 'pegawai.dashboard',
         default => null,
     };
-    $profileRoute = $role === 'pegawai' ? 'pegawai.profile.index' : null;
+
+    $hasSidebar = in_array($role, [
+        'master',
+        'atasan',
+        'kepala_bagian',
+        'direktur',
+    ], true);
+
+    $profileRoutes = match ($role) {
+        'pegawai' => [
+            'pegawai.profil.index',
+            'pegawai.profile.index',
+            'pegawai.profil',
+            'profile.edit',
+        ],
+        'master', 'atasan', 'kepala_bagian', 'direktur' => [
+            'profile.index',
+        ],
+        default => [],
+    };
+
+    $profileRoute = null;
+
+    foreach ($profileRoutes as $routeName) {
+        if (Route::has($routeName)) {
+            $profileRoute = $routeName;
+            break;
+        }
+    }
+
+    $profileActive = $role === 'pegawai'
+        ? request()->routeIs(
+            'pegawai.profil.*',
+            'pegawai.profile.*',
+            'pegawai.profil',
+            'profile.edit'
+        )
+        : request()->routeIs('profile.index');
+
+    $homeUrl = $homeRoute && Route::has($homeRoute)
+        ? route($homeRoute)
+        : url('/');
+
+    $logoutUrl = Route::has('logout')
+        ? route('logout')
+        : null;
 @endphp
-<nav class="navbar navbar-sikinerja navbar-expand" aria-label="Navigasi atas">
-    <div class="navbar-start">
-        <a href="{{ $homeRoute && Route::has($homeRoute) ? route($homeRoute) : url('/') }}" class="navbar-brand" aria-label="Beranda SIKINERJA">
-            <span class="brand-badge-icon"><img src="{{ asset('img/logo.png') }}" alt="Logo SIKINERJA"></span>
-            <span class="brand-caption">
-                <span class="brand-caption-title">SIKINERJA</span>
-                <span class="brand-caption-subtitle">TIRTA PINANG</span>
-            </span>
-        </a>
-        @if (in_array($role, ['master', 'atasan', 'kepala_bagian', 'direktur'], true))
-            <button type="button" class="sidebar-toggle-button sidebar-toggle-desktop" id="sidebarToggleDesktop"
-                aria-label="Ciutkan navigasi" aria-expanded="true" aria-controls="sidebar" title="Ciutkan navigasi">
-                <i class="fa-solid fa-bars"></i>
+
+<nav class="navbar navbar-sikinerja sikinerja-capsule-navbar"
+     aria-label="Navigasi atas">
+
+    {{-- BRAND --}}
+    <div class="sikinerja-capsule-start">
+
+        @if ($hasSidebar)
+            <button
+                type="button"
+                class="sikinerja-brand-toggle"
+                id="sikinerjaBrandToggle"
+                aria-label="Tutup sidebar"
+                aria-expanded="true"
+                aria-controls="sidebar"
+                title="Tutup sidebar"
+            >
+                <img src="{{ asset('img/logo.png') }}" alt="SIKINERJA">
             </button>
-            <button type="button" class="sidebar-toggle-button sidebar-toggle-mobile" id="sidebarToggleMobile"
-                aria-label="Buka navigasi" aria-expanded="false" aria-controls="sidebar" title="Buka navigasi">
+        @else
+            <a href="{{ $homeUrl }}"
+               class="sikinerja-brand-toggle"
+               aria-label="Beranda SIKINERJA">
+                <img src="{{ asset('img/logo.png') }}" alt="SIKINERJA">
+            </a>
+        @endif
+
+        <a href="{{ $homeUrl }}" class="sikinerja-capsule-brand-text">
+            <strong>SIKINERJA</strong>
+            <small>PDAM TIRTA PINANG</small>
+        </a>
+
+        @if ($hasSidebar)
+            <button
+                type="button"
+                class="sidebar-toggle-button sidebar-toggle-mobile"
+                id="sidebarToggleMobile"
+                aria-label="Buka navigasi"
+                aria-expanded="false"
+                aria-controls="sidebar"
+                title="Buka navigasi"
+            >
                 <i class="fa-solid fa-bars"></i>
             </button>
         @endif
     </div>
-    <div class="navbar-end">
-        <div class="dropdown">
-            <button type="button" class="btn btn-icon-circle" id="navNotifBtn" data-bs-toggle="dropdown"
-                aria-expanded="false" aria-label="Buka notifikasi" title="Notifikasi">
-                <i class="fa-regular fa-bell"></i>
-            </button>
-            <div class="dropdown-menu dropdown-menu-end notification-menu" aria-labelledby="navNotifBtn">
-                <div class="px-2 py-2 border-bottom fw-bold small">Aktivitas &amp; Notifikasi</div>
-                <div class="notification-empty">
-                    <i class="fa-regular fa-bell-slash"></i>
-                    <strong class="d-block text-dark mb-1">Belum ada notifikasi</strong>
-                    <span>Notifikasi akan tampil di sini saat fitur tersedia.</span>
-                </div>
-            </div>
-        </div>
+
+    {{-- ACTIONS --}}
+    <div class="sikinerja-capsule-end">
+
+        <button
+            type="button"
+            class="sikinerja-action-button sikinerja-notification-trigger"
+            id="navNotifBtn"
+            aria-label="Buka notifikasi"
+            aria-haspopup="dialog"
+            aria-controls="sikinerjaNotificationModal"
+            title="Notifikasi"
+        >
+            <i class="fa-regular fa-bell"></i>
+            <span class="sikinerja-notification-dot"></span>
+        </button>
+
+        {{-- PROFILE --}}
         <div class="navbar-user dropdown">
-            <button type="button" class="navbar-user-toggle" data-bs-toggle="dropdown" aria-expanded="false"
-                aria-label="Buka menu profil">
-                <span class="user-avatar">{{ mb_strtoupper(mb_substr($user?->name ?? '?', 0, 1)) }}</span>
+
+            <button
+                type="button"
+                class="sikinerja-profile-trigger {{ $profileActive ? 'is-active' : '' }}"
+                id="navbarProfileTrigger"
+                data-bs-toggle="dropdown"
+                data-bs-auto-close="outside"
+                aria-expanded="false"
+                aria-label="Menu profil"
+            >
+                <span class="user-avatar">
+                    {{ mb_strtoupper(mb_substr($user?->name ?? '?', 0, 1)) }}
+                </span>
+                <i class="fa-solid fa-chevron-down profile-chevron"></i>
             </button>
-            <div class="dropdown-menu dropdown-menu-end shadow-sm p-2" style="width:220px;border-radius:14px;border:1px solid #e2e8f0">
-                <div class="px-2 py-2 border-bottom mb-1">
-                    <div class="fw-semibold text-dark text-truncate">{{ $user?->name ?? 'Pengguna' }}</div>
-                    <div class="text-muted small">{{ $labelRole }}</div>
+
+            <div
+                class="dropdown-menu dropdown-menu-end sikinerja-profile-dropdown"
+                aria-labelledby="navbarProfileTrigger"
+            >
+                <div class="sikinerja-profile-header">
+                    <span class="sikinerja-profile-avatar">
+                        {{ mb_strtoupper(mb_substr($user?->name ?? '?', 0, 1)) }}
+                    </span>
+
+                    <div class="sikinerja-profile-info">
+                        <strong>{{ $user?->name ?? 'Pengguna' }}</strong>
+                        <span>{{ $labelRole }}</span>
+                        @if ($user?->email)
+                            <small>{{ $user->email }}</small>
+                        @endif
+                    </div>
                 </div>
-                @if ($profileRoute && Route::has($profileRoute))
-                    <a class="dropdown-item rounded-3 py-2 px-2 small" href="{{ route($profileRoute) }}">
-                        <i class="fa-solid fa-user me-2"></i>Profil
+
+                <div class="sikinerja-profile-divider"></div>
+
+                @if ($profileRoute)
+                    <a href="{{ route($profileRoute) }}"
+                       class="sikinerja-profile-item {{ $profileActive ? 'is-active' : '' }}">
+                        <span class="sikinerja-profile-item-icon">
+                            <i class="fa-regular fa-user"></i>
+                        </span>
+                        <span>Lihat Profil</span>
+                        <i class="fa-solid fa-chevron-right ms-auto"></i>
                     </a>
                 @endif
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="dropdown-item rounded-3 py-2 px-2 small text-danger">
-                        <i class="fa-solid fa-right-from-bracket me-2"></i>Keluar
-                    </button>
-                </form>
+
+                @if ($logoutUrl)
+                    <form method="POST" action="{{ $logoutUrl }}">
+                        @csrf
+                        <button type="submit"
+                                class="sikinerja-profile-item is-logout">
+                            <span class="sikinerja-profile-item-icon">
+                                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                            </span>
+                            <span>Keluar</span>
+                            <i class="fa-solid fa-chevron-right ms-auto"></i>
+                        </button>
+                    </form>
+                @endif
             </div>
         </div>
     </div>

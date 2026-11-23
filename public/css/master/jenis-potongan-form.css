@@ -1,0 +1,244 @@
+/* Jenis Potongan - Create & Edit | desktop only */
+@media (min-width: 768px) {
+    body.role-master .master-potongan-create-page,
+    body.role-master .master-potongan-edit-page {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        padding: 1rem clamp(1.25rem, 2.8vw, 3rem) 2rem;
+        box-sizing: border-box;
+        color: #24364b;
+    }
+    body.role-master .master-potongan-create-heading,
+    body.role-master .master-potongan-edit-heading {
+        margin-bottom: 1.35rem;
+    }
+    body.role-master .master-potongan-create-heading h1,
+    body.role-master .master-potongan-edit-heading h1 {
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        color: #1b2938;
+        font-size: 1.55rem;
+        font-weight: 750;
+    }
+    body.role-master .master-potongan-create-heading h1 i,
+    body.role-master .master-potongan-edit-heading h1 i {
+        display: grid;
+        place-items: center;
+        width: 43px;
+        height: 43px;
+        color: #078dcc;
+        background: #e8f7ff;
+        border-radius: 12px;
+        font-size: 1rem;
+    }
+    body.role-master .master-potongan-create-heading p,
+    body.role-master .master-potongan-edit-heading p {
+        max-width: none;
+        margin: 0.4rem 0 0 3.15rem;
+        color: #71829c;
+        font-size: 0.88rem;
+    }
+    body.role-master .master-potongan-create-card,
+    body.role-master .master-potongan-edit-card,
+    body.role-master .master-potongan-create-standard,
+    body.role-master .master-potongan-edit-note,
+    body.role-master .master-potongan-edit-standard {
+        width: 100%;
+        max-width: 1120px;
+        margin-right: auto;
+        margin-left: auto;
+        box-sizing: border-box;
+    }
+    body.role-master .master-potongan-create-card,
+    body.role-master .master-potongan-edit-card {
+        padding: 0;
+        background: #fff;
+        border: 1px solid #e1eaf3;
+        border-radius: 19px;
+        box-shadow: 0 4px 16px #23345508;
+        overflow: hidden;
+    }
+    body.role-master .master-potongan-create-card-header,
+    body.role-master .master-potongan-edit-card-title {
+        display: flex;
+        align-items: center;
+        gap: 0.85rem;
+        padding: 1.15rem 1.5rem;
+        background: #f7fafc;
+        border-bottom: 1px solid #e1eaf3;
+    }
+    body.role-master .master-potongan-create-card-header > span,
+    body.role-master .master-potongan-edit-card-title > span {
+        display: grid;
+        place-items: center;
+        width: 43px;
+        height: 43px;
+        flex: 0 0 43px;
+        color: #078dcc;
+        background: #e8f7ff;
+        border-radius: 12px;
+        font-size: 1rem;
+    }
+    body.role-master .master-potongan-create-card-header > div strong,
+    body.role-master .master-potongan-edit-card-title strong {
+        color: #25364a;
+        font-size: 0.88rem;
+        font-weight: 700;
+    }
+    body.role-master .master-potongan-create-card-header > div small {
+        margin-top: 0.25rem;
+        color: #8494a9;
+        font-size: 0.76rem;
+    }
+    body.role-master .master-potongan-create-card-header > b,
+    body.role-master .master-potongan-edit-mode {
+        margin-left: auto;
+        padding: 0.4rem 0.7rem;
+        border-radius: 999px;
+        font-size: 0.72rem;
+    }
+    body.role-master .master-potongan-create-card-header > b {
+        color: #087c50;
+        background: #e6f7ef;
+    }
+    body.role-master .master-potongan-edit-mode {
+        color: #a96800;
+        background: #fff5df;
+    }
+    body.role-master .master-potongan-create-card form,
+    body.role-master .master-potongan-edit-card form {
+        padding: 1.5rem;
+    }
+    body.role-master .master-potongan-create-field,
+    body.role-master .master-potongan-edit-field {
+        margin-bottom: 1.25rem;
+    }
+    body.role-master .master-potongan-create-field label,
+    body.role-master .master-potongan-edit-field label {
+        margin-bottom: 0.55rem;
+        color: #334155;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+    body.role-master .master-potongan-create-field label small,
+    body.role-master .master-potongan-create-field label em,
+    body.role-master .master-potongan-edit-field label small,
+    body.role-master .master-potongan-edit-field label a {
+        font-size: 0.75rem;
+    }
+    body.role-master .master-potongan-create-field input,
+    body.role-master .master-potongan-create-field select,
+    body.role-master .master-potongan-create-field textarea,
+    body.role-master .master-potongan-edit-field input,
+    body.role-master .master-potongan-edit-field select,
+    body.role-master .master-potongan-edit-field textarea {
+        min-height: 49px;
+        padding: 0.75rem 0.9rem;
+        border: 1px solid #d5e0eb;
+        border-radius: 11px;
+        background: #fff;
+        font-size: 0.86rem;
+    }
+    body.role-master .master-potongan-create-field textarea,
+    body.role-master .master-potongan-edit-field textarea {
+        min-height: 110px;
+        line-height: 1.6;
+    }
+    body.role-master .master-potongan-create-unit,
+    body.role-master .master-potongan-edit-percent {
+        border-color: #d5e0eb;
+        border-radius: 11px;
+    }
+    body.role-master .master-potongan-create-unit input,
+    body.role-master .master-potongan-edit-percent input {
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+    body.role-master .master-potongan-create-unit:focus-within,
+    body.role-master .master-potongan-edit-percent:focus-within {
+        border-color: #078dcc;
+        box-shadow: 0 0 0 3px #078dcc1a;
+    }
+    body.role-master .master-potongan-create-unit span,
+    body.role-master .master-potongan-edit-percent span {
+        padding: 0.4rem 0.65rem;
+        margin-right: 0.7rem;
+        border-radius: 7px;
+        font-size: 0.78rem;
+    }
+    body.role-master .master-potongan-create-range,
+    body.role-master .master-potongan-edit-range {
+        gap: 1.25rem;
+    }
+    body.role-master .master-potongan-create-section-title {
+        margin: 1.5rem 0 1rem;
+        padding-top: 1.2rem;
+        font-size: 0.82rem;
+    }
+    body.role-master .master-potongan-create-section-title span {
+        padding: 0.35rem 0.55rem;
+        border-radius: 7px;
+        font-size: 0.72rem;
+    }
+    body.role-master .master-potongan-create-help,
+    body.role-master .master-potongan-edit-help,
+    body.role-master .master-potongan-create-error,
+    body.role-master .master-potongan-edit-error {
+        margin-top: 0.4rem;
+        font-size: 0.75rem;
+    }
+    body.role-master .master-potongan-create-info,
+    body.role-master .master-potongan-edit-note {
+        gap: 0.8rem;
+        padding: 1rem 1.15rem;
+        border-radius: 12px;
+    }
+    body.role-master .master-potongan-create-info p,
+    body.role-master .master-potongan-edit-note p {
+        font-size: 0.82rem;
+        line-height: 1.6;
+    }
+    body.role-master .master-potongan-create-actions,
+    body.role-master .master-potongan-edit-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.75rem;
+        margin-top: 1.4rem;
+        padding-top: 1.25rem;
+        border-top: 1px solid #eaf0f6;
+    }
+    body.role-master .master-potongan-create-actions button,
+    body.role-master .master-potongan-create-actions a,
+    body.role-master .master-potongan-edit-actions button,
+    body.role-master .master-potongan-edit-actions a {
+        min-height: 45px;
+        min-width: 120px;
+        padding: 0.7rem 1.1rem;
+        border-radius: 10px;
+        font-size: 0.82rem;
+    }
+    body.role-master .master-potongan-create-actions button,
+    body.role-master .master-potongan-edit-actions button {
+        order: 2;
+        box-shadow: none;
+    }
+    body.role-master .master-potongan-create-actions a,
+    body.role-master .master-potongan-edit-actions a {
+        order: 1;
+    }
+    body.role-master .master-potongan-create-standard,
+    body.role-master .master-potongan-edit-standard {
+        margin-top: 1rem;
+        padding: 1.05rem 1.2rem;
+        border-radius: 12px;
+        font-size: 0.8rem;
+    }
+    body.role-master .master-potongan-create-standard p,
+    body.role-master .master-potongan-edit-standard p {
+        font-size: 0.8rem;
+        line-height: 1.55;
+    }
+}

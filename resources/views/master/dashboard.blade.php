@@ -104,14 +104,14 @@
                     </div>
                     <i class="fa-solid fa-chart-column"></i>
                 </div>
-                <div class="master-data-bars">
+                <div class="master-chart-container">
+                    <canvas id="masterOverviewChart" role="img" aria-label="Grafik batang jumlah data administrasi"></canvas>
+                </div>
+                <div class="master-chart-links" aria-label="Tautan pengelolaan kategori">
                     @foreach ($masterOverview as $item)
-                        <a href="{{ route($item['route']) }}" class="master-data-row">
-                            <span class="master-desktop-stat-icon {{ $item['tone'] }}"><i
-                                    class="fa-solid {{ $item['icon'] }}"></i></span>
-                            <span class="master-data-label">{{ $item['label'] }}</span>
-                            <span class="master-data-track"><span
-                                    style="width: {{ round(($item['count'] / $largestMasterCount) * 100, 1) }}%"></span></span>
+                        <a href="{{ route($item['route']) }}" class="master-chart-link">
+                            <span class="master-desktop-stat-icon {{ $item['tone'] }}"><i class="fa-solid {{ $item['icon'] }}"></i></span>
+                            <span>{{ $item['label'] }}</span>
                             <strong>{{ $item['count'] }}</strong>
                             <i class="fa-solid fa-chevron-right"></i>
                         </a>
@@ -1025,64 +1025,6 @@
             }
         }
 
-        @media (min-width: 768px) {
-            body.role-master .sidebar {
-                display: block !important;
-            }
-
-            body.role-master .sidebar-brand {
-                display: none !important;
-            }
-
-            body.role-master .mobile-app-shell {
-                width: 100%;
-                max-width: none;
-                margin: 0;
-                overflow-x: hidden;
-            }
-
-            body.role-master .navbar-sikinerja {
-                top: 0;
-                left: 0;
-                right: 0;
-                width: 100%;
-                max-width: none;
-                margin: 0;
-                transform: none;
-                border-top: 0;
-                background-color: #fff;
-            }
-
-            body.role-master .main-content {
-                width: auto;
-                margin-left: var(--sidebar-width);
-                margin-top: 64px;
-                padding-top: 0;
-                padding-bottom: 2rem;
-            }
-
-            body.role-master.sidebar-collapsed .sidebar {
-                width: 72px;
-                transform: translateX(0);
-            }
-
-            body.role-master.sidebar-collapsed .main-content {
-                margin-left: 72px;
-            }
-
-            body.role-master .sidebar-overlay,
-            body.role-master #sidebarCloseBtn {
-                display: none !important;
-            }
-
-            body.role-master .mobile-bottom-nav {
-                display: none !important;
-            }
-
-            body.role-master .master-mobile-menu {
-                display: none !important;
-            }
-        }
     </style>
 @endpush
 
@@ -1159,4 +1101,65 @@
             }
         }
     </style>
+@endpush
+
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/master/dashboard-unified.css') }}?v={{ filemtime(public_path('css/master/dashboard-unified.css')) }}">
+@endpush
+
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const canvas = document.getElementById('masterOverviewChart');
+            if (!canvas || typeof Chart === 'undefined') return;
+
+            const items = @json($masterOverview);
+            const labels = items.map(item => item.label);
+            const counts = items.map(item => Number(item.count) || 0);
+            const colors = ['#087db5', '#159ec3', '#149b80', '#7972cf', '#e6a23c', '#38a89a'];
+
+            new Chart(canvas, {
+                type: 'bar',
+                data: {
+                    labels,
+                    datasets: [{
+                        label: 'Jumlah data',
+                        data: counts,
+                        backgroundColor: colors,
+                        hoverBackgroundColor: colors,
+                        borderRadius: 8,
+                        borderSkipped: false,
+                        maxBarThickness: 24
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: context => 'Jumlah: ' + context.parsed.x
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            ticks: { precision: 0, color: '#718399' },
+                            grid: { color: '#edf2f7' },
+                            border: { display: false }
+                        },
+                        y: {
+                            ticks: { color: '#334155', font: { family: 'Inter', size: 12, weight: '600' } },
+                            grid: { display: false },
+                            border: { display: false }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 @endpush

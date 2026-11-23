@@ -564,3 +564,219 @@
         transition: none !important;
     }
 }
+
+html body nav.navbar.navbar-sikinerja.sikinerja-capsule-navbar {
+    background: rgba(207, 216, 228, 0.62) !important;
+    background-image: none !important;
+    border: 1px solid rgba(255, 255, 255, 0.9) !important;
+    box-shadow:
+        0 4px 12px rgba(48, 64, 85, 0.09),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(24px) saturate(135%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(135%) !important;
+}
+
+html body nav.navbar.navbar-sikinerja .sikinerja-capsule-brand-text,
+html body nav.navbar.navbar-sikinerja .sikinerja-capsule-brand-text strong {
+    color: #334155 !important;
+    text-shadow: none !important;
+}
+
+html body nav.navbar.navbar-sikinerja .sikinerja-capsule-brand-text small {
+    color: #53657b !important;
+    text-shadow: none !important;
+}
+
+html body nav.navbar.navbar-sikinerja .sikinerja-action-button {
+    color: #334155 !important;
+    background: rgba(255, 255, 255, 0.25) !important;
+    border: 1px solid rgba(255, 255, 255, 0.76) !important;
+    box-shadow:
+        0 2px 5px rgba(49, 65, 86, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+}
+
+html body nav.navbar.navbar-sikinerja .sikinerja-action-button i,
+html body nav.navbar.navbar-sikinerja .sikinerja-action-button svg {
+    color: #334155 !important;
+    opacity: 1 !important;
+}
+
+html body nav.navbar.navbar-sikinerja .sikinerja-action-button:hover {
+    background: rgba(255, 255, 255, 0.5) !important;
+}
+
+html body nav.navbar.navbar-sikinerja .sikinerja-notification-dot {
+    background: #0284c7 !important;
+    border-color: #e4eaf1 !important;
+}
+
+html body nav.navbar.navbar-sikinerja .sikinerja-profile-trigger {
+    box-sizing: border-box !important;
+    background: rgba(255, 255, 255, 0.7) !important;
+    border: 1px solid rgba(255, 255, 255, 0.9) !important;
+    box-shadow:
+        0 2px 6px rgba(45, 62, 83, 0.11),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+}
+
+@media (max-width: 767.98px) {
+    html body nav.navbar.navbar-sikinerja.sikinerja-capsule-navbar,
+    html
+        body.sikinerja-nav-collapsed
+        nav.navbar.navbar-sikinerja.sikinerja-capsule-navbar {
+        position: fixed !important;
+        top: calc(10px + env(safe-area-inset-top, 0px)) !important;
+        left: 12px !important;
+        right: 12px !important;
+        width: calc(100% - 24px) !important;
+        min-width: 0 !important;
+        max-width: calc(100% - 24px) !important;
+        height: 64px !important;
+        min-height: 64px !important;
+        flex: 0 0 auto !important;
+        margin: 0 !important;
+        padding: 7px 10px !important;
+        gap: 6px !important;
+        justify-content: space-between !important;
+        overflow: visible !important;
+        z-index: 1050 !important;
+        transform: translate3d(0, 0, 0);
+        transition:
+            transform 0.28s ease,
+            opacity 0.28s ease !important;
+        will-change: transform;
+    }
+
+    html
+        body
+        nav.navbar.navbar-sikinerja.sikinerja-capsule-navbar.navbar-scroll-hidden {
+        transform: translate3d(
+            0,
+            calc(-100% - 24px - env(safe-area-inset-top, 0px)),
+            0
+        ) !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+    }
+
+    html body nav.navbar.navbar-sikinerja .sikinerja-capsule-start {
+        flex: 1 1 0 !important;
+        width: auto !important;
+        min-width: 0 !important;
+        overflow: hidden;
+        gap: 7px !important;
+    }
+
+    html body nav.navbar.navbar-sikinerja .sikinerja-capsule-brand-text {
+        min-width: 0 !important;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    html body nav.navbar.navbar-sikinerja .sikinerja-capsule-end {
+        flex: 0 0 auto !important;
+        min-width: 0 !important;
+        gap: 7px !important;
+        margin-left: 6px !important;
+        padding: 0 !important;
+    }
+
+    html body nav.navbar.navbar-sikinerja .sikinerja-brand-toggle {
+        width: 42px !important;
+        height: 42px !important;
+        min-width: 42px !important;
+        flex: 0 0 42px !important;
+    }
+
+    html body nav.navbar.navbar-sikinerja .sikinerja-action-button {
+        width: 36px !important;
+        height: 36px !important;
+        flex: 0 0 36px !important;
+    }
+
+    html body nav.navbar.navbar-sikinerja .navbar-user {
+        display: flex;
+        flex: 0 0 38px;
+        width: 38px;
+        min-width: 38px;
+    }
+
+    html body nav.navbar.navbar-sikinerja .sikinerja-profile-trigger {
+        display: grid !important;
+        place-items: center !important;
+        width: 38px !important;
+        min-width: 38px !important;
+        max-width: 38px !important;
+        height: 38px !important;
+        flex: 0 0 38px !important;
+        padding: 3px !important;
+        margin: 0 !important;
+        gap: 0 !important;
+        border-radius: 50% !important;
+        overflow: hidden !important;
+        transform: none !important;
+    }
+
+    html
+        body
+        nav.navbar.navbar-sikinerja
+        .sikinerja-profile-trigger
+        .user-avatar {
+        display: grid !important;
+        place-items: center !important;
+        width: 30px !important;
+        min-width: 30px !important;
+        height: 30px !important;
+        flex: 0 0 30px !important;
+        margin: 0 !important;
+        border-radius: 50% !important;
+        line-height: 1 !important;
+        box-shadow: none !important;
+    }
+
+    html
+        body
+        nav.navbar.navbar-sikinerja
+        .sikinerja-profile-trigger
+        .profile-chevron {
+        display: none !important;
+    }
+
+    html body nav.navbar.navbar-sikinerja .sikinerja-profile-dropdown {
+        right: 0 !important;
+        left: auto !important;
+        max-width: calc(100vw - 24px) !important;
+    }
+}
+
+@media (max-width: 360px) {
+    html body nav.navbar.navbar-sikinerja.sikinerja-capsule-navbar {
+        left: 8px !important;
+        right: 8px !important;
+        width: calc(100% - 16px) !important;
+        max-width: calc(100% - 16px) !important;
+        padding-left: 7px !important;
+        padding-right: 7px !important;
+    }
+
+    html body nav.navbar.navbar-sikinerja .sikinerja-capsule-brand-text strong {
+        font-size: 0.72rem !important;
+    }
+
+    html body nav.navbar.navbar-sikinerja .sikinerja-capsule-brand-text small {
+        font-size: 0.42rem !important;
+        letter-spacing: 0.06em !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html body nav.navbar.navbar-sikinerja.sikinerja-capsule-navbar {
+        transition: none !important;
+    }
+}
+@media (max-width: 767.98px) {
+    .sikinerja-capsule-navbar .navbar-user {
+        transform: translateY(-3px);
+    }
+}

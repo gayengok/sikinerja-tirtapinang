@@ -1,0 +1,521 @@
+/* Master > Template Laporan > Index
+   Override visual agar konsisten dengan Data Divisi / Master KPI.
+   Muat SETELAH @stack('styles') agar mengalahkan CSS inline index.blade.php.
+   Tidak mengubah logika Blade, pagination, atau form. */
+
+@media (min-width: 768px) {
+    body.role-master .master-template-page {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        padding: 1rem clamp(1.25rem, 2.8vw, 3rem) 2rem;
+        box-sizing: border-box;
+    }
+
+    body.role-master .master-template-heading {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1.45rem;
+    }
+    body.role-master .master-template-heading h1 {
+        font-size: 1.65rem;
+        font-weight: 700;
+        line-height: 1.25;
+    }
+    body.role-master .master-template-heading h1 i {
+        color: #078dcc;
+    }
+    body.role-master .master-template-heading p {
+        margin-top: 0.35rem;
+        font-size: 0.875rem;
+    }
+    body.role-master .master-template-add {
+        min-height: 44px;
+        padding: 0.7rem 1rem;
+        border-radius: 10px;
+        font-size: 0.8rem;
+        box-shadow: 0 4px 10px #078dcc20;
+    }
+
+    /* Search full-width; filters in their own row, not beside search. */
+    body.role-master .master-template-tools {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.85rem;
+        padding: 0;
+        margin-bottom: 1.05rem;
+        background: transparent;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+    body.role-master .master-template-search {
+        display: flex;
+        flex: none;
+        width: 100%;
+        min-width: 0;
+        min-height: 55px;
+        padding: 0.8rem 1rem;
+        gap: 0.8rem;
+        background: #fff;
+        border: 1px solid #dfe8f1;
+        border-radius: 13px;
+        box-sizing: border-box;
+    }
+    body.role-master .master-template-search i {
+        color: #93a7c0;
+        font-size: 1.05rem;
+    }
+    body.role-master .master-template-search input {
+        flex: 1;
+        min-width: 0;
+        font-size: 0.875rem;
+    }
+    body.role-master .master-template-tools-footer {
+        display: flex;
+        flex: none;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.8rem;
+        width: 100%;
+        min-height: 42px;
+        padding: 0;
+        margin: 0;
+        border: 0;
+        font-size: 0.78rem;
+    }
+    body.role-master .master-template-section-filters {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.55rem;
+        min-width: 0;
+        overflow: visible;
+    }
+    body.role-master .master-template-section-filters button {
+        min-height: 41px;
+        padding: 0.6rem 1rem;
+        color: #526b8c;
+        background: #fff;
+        border: 1px solid #dfe8f1;
+        border-radius: 999px;
+        font: inherit;
+        font-size: 0.8rem;
+        font-weight: 600;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+    body.role-master .master-template-section-filters button.active {
+        color: #fff;
+        background: #078dcc;
+        border-color: #078dcc;
+    }
+    body.role-master .master-template-total {
+        color: #71829c;
+        font-size: 0.8rem;
+        white-space: nowrap;
+    }
+
+    /* Table: same generous sizing, square blue row numbers, boxed actions. */
+    body.role-master .master-template-table-wrap {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        background: #fff;
+        border: 1px solid #e1eaf3;
+        border-radius: 19px;
+        box-shadow: 0 5px 16px #23345509;
+    }
+    body.role-master .master-template-table {
+        width: 100%;
+        min-width: 1100px;
+        border-collapse: separate;
+        border-spacing: 0;
+        font-size: 0.84rem;
+    }
+    body.role-master .master-template-table th {
+        padding: 1.05rem 0.95rem;
+        color: #6c7f99;
+        background: #f3f7fb;
+        border-bottom: 1px solid #e4ebf3;
+        font-size: 0.76rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+    body.role-master .master-template-table td {
+        padding: 1rem 0.95rem;
+        border-bottom: 1px solid #eaf0f6;
+        vertical-align: middle;
+        line-height: 1.5;
+    }
+    body.role-master .master-template-table-number {
+        display: grid;
+        place-items: center;
+        width: 37px;
+        height: 37px;
+        color: #078dcc;
+        background: #e9f5ff;
+        border-radius: 11px;
+        font-size: 0.84rem;
+        font-weight: 700;
+    }
+    body.role-master .master-template-table-section {
+        max-width: 225px;
+        padding: 0.5rem 0.65rem;
+        color: #62758f;
+        background: #f0f4f8;
+        border-radius: 9px;
+        font-size: 0.78rem;
+        line-height: 1.45;
+    }
+    body.role-master .master-template-table-name {
+        min-width: 200px;
+        max-width: 380px;
+        color: #30435c;
+        font-size: 0.84rem;
+        font-weight: 700;
+        line-height: 1.5;
+    }
+    body.role-master .master-template-table-type {
+        padding: 0.45rem 0.7rem;
+        color: #0875ad;
+        background: #e9f5ff;
+        border-radius: 999px;
+        font-size: 0.76rem;
+        font-weight: 600;
+    }
+    body.role-master .master-template-table-kpi {
+        min-width: 200px;
+        max-width: 360px;
+        padding: 0.55rem 0.7rem;
+        color: #2870aa;
+        background: #f1f8fd;
+        border: 1px solid #e1edf6;
+        border-radius: 9px;
+        font-size: 0.78rem;
+        line-height: 1.45;
+    }
+    body.role-master .master-template-table-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 0.5rem;
+        white-space: nowrap;
+    }
+    body.role-master .master-template-table-actions a,
+    body.role-master .master-template-table-actions button {
+        display: grid;
+        place-items: center;
+        width: 39px;
+        height: 39px;
+        padding: 0;
+        color: #617e9a;
+        background: #f8fafc;
+        border: 1px solid #e2eaf3;
+        border-radius: 11px;
+        font-size: 0.9rem;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    body.role-master .master-template-table-actions a:hover {
+        color: #078dcc;
+        background: #edf8ff;
+        border-color: #c9e9fb;
+    }
+    body.role-master .master-template-table-actions button {
+        color: #e54862;
+    }
+    body.role-master .master-template-table-actions button:hover {
+        background: #fff0f3;
+        border-color: #f6c8d1;
+    }
+    body.role-master .master-template-table-actions form {
+        margin: 0;
+    }
+    body.role-master .master-template-list {
+        display: none !important;
+    }
+    body.role-master .master-template-footer {
+        display: inline-block;
+        margin: 0.9rem 0;
+        font-size: 0.78rem;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1050px) {
+    body.role-master .master-template-tools {
+        flex-direction: column;
+    }
+    body.role-master .master-template-search {
+        flex-basis: auto;
+    }
+    body.role-master .master-template-tools-footer {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 767.98px) {
+    body.role-master .master-template-page {
+        width: 100%;
+        max-width: 560px;
+        margin-inline: auto;
+    }
+    body.role-master .master-template-section-filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+    }
+    body.role-master .master-template-section-filters button {
+        padding: 0.5rem 0.75rem;
+        color: #526b8c;
+        background: #fff;
+        border: 1px solid #dfe8f1;
+        border-radius: 999px;
+        font: inherit;
+        font-size: 0.72rem;
+    }
+    body.role-master .master-template-section-filters button.active {
+        color: #fff;
+        background: #078dcc;
+        border-color: #078dcc;
+    }
+    body.role-master .master-template-tools-footer {
+        flex-wrap: wrap;
+        gap: 0.65rem;
+    }
+    body.role-master .master-template-total {
+        margin-left: auto;
+    }
+}
+
+/* ============================================================
+   CREATE & EDIT — konsisten dengan halaman Master lainnya.
+   Override ini tidak mengubah form maupun JavaScript.
+   ============================================================ */
+body.role-master .master-template-form-page {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+body.role-master .master-template-form-page .master-template-form-heading h1 i {
+    color: #078dcc;
+    margin-right: 0.35rem;
+}
+
+body.role-master .master-template-form-page .master-template-field input:focus,
+body.role-master .master-template-form-page .master-template-field select:focus,
+body.role-master
+    .master-template-form-page
+    .master-template-option
+    input:focus {
+    outline: none;
+    border-color: #078dcc;
+    box-shadow: 0 0 0 3px rgba(7, 141, 204, 0.12);
+}
+
+body.role-master .master-template-form-page .master-template-field .is-invalid {
+    border-color: #e54862;
+}
+
+body.role-master .master-template-form-page .master-template-actions button,
+body.role-master .master-template-form-page .master-template-actions a,
+body.role-master .master-template-form-page .master-template-add-option,
+body.role-master .master-template-form-page .master-template-option button {
+    cursor: pointer;
+    transition:
+        background-color 0.18s ease,
+        border-color 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+body.role-master
+    .master-template-form-page
+    .master-template-actions
+    button:hover {
+    background: #0679af;
+}
+
+@media (min-width: 768px) {
+    body.role-master .master-template-form-page {
+        max-width: none;
+        margin: 0;
+        padding: 1rem clamp(1.25rem, 2.8vw, 3rem) 2rem;
+    }
+
+    body.role-master .master-template-form-heading {
+        margin-bottom: 1.35rem;
+    }
+
+    body.role-master .master-template-form-heading h1 {
+        font-size: 1.65rem;
+        font-weight: 700;
+        line-height: 1.25;
+    }
+
+    body.role-master .master-template-form-heading h1 i {
+        font-size: 1.35rem;
+    }
+
+    body.role-master .master-template-form-heading p {
+        margin-top: 0.35rem;
+        font-size: 0.875rem;
+    }
+
+    body.role-master .master-template-form-card {
+        width: 100%;
+        max-width: 1080px;
+        margin-inline: auto;
+        padding: 0;
+        overflow: hidden;
+        border: 1px solid #dfe8f1;
+        border-radius: 17px;
+        box-shadow: 0 5px 17px rgba(35, 52, 85, 0.045);
+    }
+
+    body.role-master .master-template-form-card-heading {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        padding: 1.2rem 1.5rem;
+        background: #fbfcfe;
+        border-bottom: 1px solid #e8eef5;
+    }
+
+    body.role-master .master-template-form-card-heading > span {
+        width: 44px;
+        height: 44px;
+        flex: 0 0 44px;
+        border-radius: 12px;
+        font-size: 1rem;
+    }
+
+    body.role-master .master-template-form-card-heading h2 {
+        font-size: 1rem;
+        font-weight: 700;
+    }
+
+    body.role-master .master-template-form-card-heading p {
+        margin-top: 0.25rem;
+        font-size: 0.75rem;
+    }
+
+    body.role-master .master-template-form-card-heading > b {
+        padding: 0.4rem 0.65rem;
+        font-size: 0.7rem;
+    }
+
+    body.role-master .master-template-form-card form {
+        padding: 1.6rem;
+    }
+
+    body.role-master .master-template-field {
+        margin-bottom: 1.2rem;
+    }
+
+    body.role-master .master-template-field label {
+        margin-bottom: 0.5rem;
+        font-size: 0.84rem;
+        font-weight: 600;
+    }
+
+    body.role-master .master-template-field label small {
+        font-size: 0.74rem;
+    }
+
+    body.role-master .master-template-field input,
+    body.role-master .master-template-field select {
+        min-height: 48px;
+        padding: 0.7rem 0.9rem;
+        border-radius: 11px;
+        font-size: 0.85rem;
+    }
+
+    body.role-master .master-template-field p {
+        margin-top: 0.45rem;
+        font-size: 0.75rem;
+    }
+
+    body.role-master .master-template-field em {
+        font-size: 0.75rem;
+    }
+
+    body.role-master .master-template-split {
+        gap: 1.15rem;
+    }
+
+    body.role-master .master-template-dropdown-options {
+        margin-bottom: 1.2rem;
+        padding: 1rem;
+        border-radius: 12px;
+    }
+
+    body.role-master .master-template-dropdown-options > label {
+        font-size: 0.84rem;
+    }
+
+    body.role-master .master-template-dropdown-options > p {
+        font-size: 0.75rem;
+    }
+
+    body.role-master .master-template-option input {
+        min-height: 45px;
+        border-radius: 10px;
+        font-size: 0.82rem;
+    }
+
+    body.role-master .master-template-option button {
+        width: 45px;
+        border-radius: 10px;
+    }
+
+    body.role-master .master-template-add-option {
+        padding: 0.6rem 0.85rem;
+        border-radius: 9px;
+        font-size: 0.78rem;
+    }
+
+    body.role-master .master-template-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.75rem;
+        margin-top: 1.5rem;
+        padding-top: 1.2rem;
+    }
+
+    body.role-master .master-template-actions button,
+    body.role-master .master-template-actions a {
+        min-width: 130px;
+        min-height: 44px;
+        padding: 0.7rem 1.15rem;
+        border-radius: 10px;
+        font-size: 0.82rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    body.role-master .master-template-form-page {
+        max-width: 560px;
+        margin-inline: auto;
+    }
+
+    body.role-master .master-template-form-heading h1 {
+        font-size: 1.3rem;
+    }
+
+    body.role-master .master-template-split {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    body.role-master .master-template-form-card {
+        border-radius: 17px;
+    }
+
+    body.role-master .master-template-actions {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+    }
+}

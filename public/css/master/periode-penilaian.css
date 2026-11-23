@@ -1,0 +1,348 @@
+/* SIKINERJA — Master / Periode Penilaian
+   Overrides loaded after each Blade view's @stack('styles'). */
+body.role-master .master-periode-page,
+body.role-master .master-periode-form-page,
+body.role-master .master-periode-detail-page {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin: 0 auto;
+    padding: 18px 14px 30px;
+    box-sizing: border-box;
+    color: #14223d;
+}
+body.role-master .master-periode-page *,
+body.role-master .master-periode-form-page *,
+body.role-master .master-periode-detail-page * {
+    box-sizing: border-box;
+}
+body.role-master .master-periode-heading h1,
+body.role-master .master-periode-form-heading h1,
+body.role-master .master-periode-detail-heading h1 {
+    font-size: clamp(1.2rem, 2vw, 1.65rem);
+    font-weight: 750;
+    line-height: 1.35;
+    letter-spacing: -0.025em;
+}
+body.role-master .master-periode-heading h1 i,
+body.role-master .master-periode-form-heading h1 i,
+body.role-master .master-periode-detail-heading h1 i {
+    color: #087db5;
+    margin-right: 0.35rem;
+}
+body.role-master .master-periode-heading p,
+body.role-master .master-periode-form-heading p,
+body.role-master .master-periode-detail-heading p {
+    font-size: 0.83rem;
+    line-height: 1.6;
+}
+body.role-master .master-periode-card,
+body.role-master .master-periode-form-card,
+body.role-master .master-periode-detail-card,
+body.role-master .master-periode-summary article {
+    border: 1px solid #dce8f2;
+    background: #fff;
+    box-shadow: 0 6px 22px rgba(23, 61, 96, 0.055);
+}
+body.role-master .master-periode-form-field input,
+body.role-master .master-periode-form-field select {
+    width: 100%;
+    border: 1px solid #cbdbea;
+    border-radius: 11px;
+    background: #fff;
+    transition:
+        border-color 0.18s,
+        box-shadow 0.18s;
+}
+body.role-master .master-periode-form-field input:focus,
+body.role-master .master-periode-form-field select:focus {
+    outline: none;
+    border-color: #087db5;
+    box-shadow: 0 0 0 3px rgba(8, 125, 181, 0.13);
+}
+body.role-master .master-periode-form-field .is-invalid {
+    border-color: #dc3545;
+}
+body.role-master .master-periode-form-date,
+body.role-master .master-periode-detail-dates {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+body.role-master .master-periode-form-date > *,
+body.role-master .master-periode-detail-dates > * {
+    min-width: 0;
+}
+body.role-master .master-periode-estimate,
+body.role-master .master-periode-detail-cycle {
+    flex-wrap: wrap;
+}
+body.role-master .master-periode-form-actions button,
+body.role-master .master-periode-detail-primary,
+body.role-master .master-periode-add,
+body.role-master .master-periode-heading > .master-periode-add-desktop {
+    background: #087db5;
+    color: #fff;
+    border-color: #087db5;
+    transition:
+        background 0.18s,
+        transform 0.18s;
+}
+body.role-master .master-periode-form-actions button:hover,
+body.role-master .master-periode-detail-primary:hover,
+body.role-master .master-periode-add:hover,
+body.role-master .master-periode-heading > .master-periode-add-desktop:hover {
+    background: #066995;
+    color: #fff;
+}
+body.role-master .master-periode-search:focus-within {
+    border-color: #087db5;
+    box-shadow: 0 0 0 3px rgba(8, 125, 181, 0.12);
+}
+body.role-master .master-periode-tabs span {
+    cursor: default;
+}
+body.role-master .master-periode-actions form,
+body.role-master .master-periode-actions form button {
+    width: 100%;
+}
+body.role-master .master-periode-table-wrap {
+    scrollbar-width: thin;
+    scrollbar-color: #b6c9db transparent;
+}
+body.role-master .master-periode-pagination {
+    overflow-x: auto;
+}
+
+@media (max-width: 767.98px) {
+    body.role-master .master-periode-page,
+    body.role-master .master-periode-form-page,
+    body.role-master .master-periode-detail-page {
+        padding: 16px 12px 28px;
+    }
+    body.role-master .master-periode-heading,
+    body.role-master .master-periode-form-heading,
+    body.role-master .master-periode-detail-heading {
+        margin-bottom: 1rem;
+    }
+    body.role-master .master-periode-heading h1,
+    body.role-master .master-periode-form-heading h1,
+    body.role-master .master-periode-detail-heading h1 {
+        font-size: 1.22rem;
+    }
+    body.role-master .master-periode-card,
+    body.role-master .master-periode-form-card,
+    body.role-master .master-periode-detail-card {
+        border-radius: 17px;
+    }
+    body.role-master .master-periode-form-card,
+    body.role-master .master-periode-detail-card {
+        padding: 1.1rem;
+    }
+    body.role-master .master-periode-form-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+    body.role-master .master-periode-form-actions button,
+    body.role-master .master-periode-form-actions a {
+        width: 100%;
+    }
+    body.role-master .master-periode-detail-stats {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    body.role-master .master-periode-detail-stats div {
+        min-width: 0;
+    }
+    body.role-master .master-periode-detail-stats span {
+        overflow-wrap: anywhere;
+    }
+    body.role-master .master-periode-active-footer {
+        flex-wrap: wrap;
+    }
+    body.role-master .master-periode-tabs {
+        scrollbar-width: none;
+    }
+    body.role-master .master-periode-tabs::-webkit-scrollbar {
+        display: none;
+    }
+}
+@media (max-width: 390px) {
+    body.role-master .master-periode-form-date,
+    body.role-master .master-periode-detail-dates {
+        grid-template-columns: 1fr;
+    }
+    body.role-master .master-periode-estimate strong {
+        margin-left: 0;
+    }
+    body.role-master .master-periode-detail-stats strong {
+        font-size: 1rem;
+    }
+}
+@media (min-width: 768px) {
+    body.role-master .master-periode-page {
+        max-width: 1320px;
+        padding: 26px 28px 44px;
+    }
+    body.role-master .master-periode-form-page,
+    body.role-master .master-periode-detail-page {
+        max-width: 980px;
+        padding: 26px 28px 44px;
+    }
+    body.role-master .master-periode-heading,
+    body.role-master .master-periode-form-heading,
+    body.role-master .master-periode-detail-heading {
+        margin-bottom: 1.25rem;
+    }
+    body.role-master .master-periode-summary {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+        margin-bottom: 1.1rem;
+    }
+    body.role-master .master-periode-summary article {
+        min-height: 92px;
+        padding: 1rem 1.1rem;
+        border-radius: 14px;
+    }
+    body.role-master .master-periode-summary-icon {
+        width: 44px;
+        height: 44px;
+        flex-basis: 44px;
+        border-radius: 12px;
+        font-size: 1rem;
+    }
+    body.role-master .master-periode-summary strong {
+        font-size: 1.35rem;
+    }
+    body.role-master .master-periode-search {
+        padding: 0.75rem 1rem;
+        border-radius: 12px;
+        margin-bottom: 0.85rem;
+    }
+    body.role-master .master-periode-search input {
+        font-size: 0.85rem;
+    }
+    body.role-master .master-periode-tabs {
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
+    body.role-master .master-periode-tabs span {
+        padding: 0.55rem 0.8rem;
+        font-size: 0.75rem;
+        border-radius: 9px;
+    }
+    body.role-master .master-periode-status-filter {
+        font-size: 0.73rem;
+    }
+    body.role-master .master-periode-status-filter select {
+        min-height: 35px;
+        border-radius: 8px;
+    }
+    body.role-master .master-periode-table-wrap {
+        border-radius: 14px;
+    }
+    body.role-master .master-periode-table {
+        min-width: 950px;
+        font-size: 0.78rem;
+    }
+    body.role-master .master-periode-table th {
+        padding: 0.95rem 0.85rem;
+        font-size: 0.68rem;
+    }
+    body.role-master .master-periode-table td {
+        padding: 0.85rem;
+    }
+    body.role-master .master-periode-table-name {
+        font-size: 0.78rem;
+    }
+    body.role-master .master-periode-table-date,
+    body.role-master .master-periode-table-duration {
+        font-size: 0.72rem;
+    }
+    body.role-master .master-periode-table-status,
+    body.role-master .master-periode-table-archive {
+        font-size: 0.68rem;
+        padding: 0.4rem 0.55rem;
+    }
+    body.role-master .master-periode-table-actions a,
+    body.role-master .master-periode-table-actions button {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+    }
+    body.role-master .master-periode-note {
+        border-radius: 12px;
+        padding: 1rem;
+    }
+    body.role-master .master-periode-note p {
+        font-size: 0.75rem;
+    }
+    body.role-master .master-periode-form-card,
+    body.role-master .master-periode-detail-card {
+        padding: 2rem 2.2rem;
+        border-radius: 18px;
+    }
+    body.role-master .master-periode-form-field label {
+        font-size: 0.85rem;
+    }
+    body.role-master .master-periode-form-field input,
+    body.role-master .master-periode-form-field select {
+        min-height: 48px;
+        font-size: 0.85rem;
+    }
+    body.role-master .master-periode-form-field p,
+    body.role-master .master-periode-info p {
+        font-size: 0.76rem;
+    }
+    body.role-master .master-periode-form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.8rem;
+        margin-top: 1.5rem;
+    }
+    body.role-master .master-periode-form-actions button,
+    body.role-master .master-periode-form-actions a {
+        min-height: 46px;
+        padding: 0.7rem 1.5rem;
+        border-radius: 10px;
+        font-size: 0.83rem;
+    }
+    body.role-master .master-periode-form-actions a {
+        order: -1;
+    }
+    body.role-master .master-periode-detail-name strong {
+        font-size: 1.25rem;
+    }
+    body.role-master .master-periode-detail-dates strong {
+        font-size: 0.95rem;
+    }
+    body.role-master .master-periode-detail-stats {
+        gap: 1rem;
+    }
+    body.role-master .master-periode-detail-stats div {
+        padding: 1.1rem;
+        border-radius: 14px;
+    }
+    body.role-master .master-periode-detail-stats strong {
+        font-size: 1.5rem;
+    }
+    body.role-master .master-periode-detail-stats span {
+        font-size: 0.76rem;
+    }
+    body.role-master .master-periode-detail-primary,
+    body.role-master .master-periode-detail-secondary {
+        display: inline-flex;
+        width: auto;
+        min-height: 46px;
+        padding: 0.7rem 1.5rem;
+        border-radius: 10px;
+        margin-right: 0.65rem;
+    }
+}
+@media (min-width: 1200px) {
+    body.role-master .master-periode-summary {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+body.role-master .master-periode-page .master-periode-tabs span {
+    border-radius: 999px;
+}

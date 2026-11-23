@@ -1,0 +1,435 @@
+/* Master Kompetensi — penyelarasan visual modul Master.
+   Muat SETELAH @stack('styles') lama atau tambahkan @push('styles') baru
+   setelah blok CSS inline setiap view. Tidak mengubah perilaku JS/Blade. */
+
+body.role-master .master-kompetensi-page,
+body.role-master .master-kompetensi-create,
+body.role-master .master-kompetensi-edit,
+body.role-master .master-kompetensi-show {
+    color: #26384e;
+}
+
+@media (min-width: 768px) {
+    body.role-master .master-kompetensi-page,
+    body.role-master .master-kompetensi-create,
+    body.role-master .master-kompetensi-edit,
+    body.role-master .master-kompetensi-show {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        padding: 1rem clamp(1.25rem, 2.8vw, 3rem) 2rem;
+        box-sizing: border-box;
+    }
+
+    /* Index */
+    body.role-master .master-kompetensi-heading {
+        align-items: flex-start;
+        gap: 1rem;
+        margin-bottom: 1.45rem;
+    }
+    body.role-master .master-kompetensi-heading h1 {
+        font-size: 1.65rem;
+        line-height: 1.2;
+        font-weight: 700;
+        color: #1b2938;
+    }
+    body.role-master .master-kompetensi-heading h1 i {
+        color: #0785bd;
+        margin-right: 0.35rem;
+    }
+    body.role-master .master-kompetensi-heading p {
+        margin-top: 0.35rem;
+        font-size: 0.88rem;
+        color: #7a8ba3;
+    }
+    body.role-master .master-kompetensi-heading > a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.55rem;
+        min-height: 44px;
+        padding: 0.7rem 1.05rem;
+        border-radius: 10px;
+        font-size: 0.83rem;
+        font-weight: 600;
+        background: #0785bd;
+        box-shadow: 0 5px 12px #087bb01f;
+    }
+    body.role-master .master-kompetensi-search {
+        min-height: 55px;
+        padding: 0.9rem 1.05rem;
+        margin-bottom: 1rem;
+        border: 1px solid #e1eaf3;
+        border-radius: 14px;
+        box-shadow: none;
+    }
+    body.role-master .master-kompetensi-search input {
+        font-size: 0.88rem;
+    }
+    body.role-master .master-kompetensi-tabs {
+        gap: 0.65rem;
+        margin-bottom: 1.25rem;
+    }
+    body.role-master .master-kompetensi-tabs span {
+        padding: 0.72rem 1rem;
+        border-radius: 999px;
+        font-size: 0.79rem;
+        font-weight: 600;
+        border-color: #e0e9f3;
+    }
+    body.role-master .master-kompetensi-list-head {
+        margin: 0 0.2rem 0.8rem;
+        font-size: 0.74rem;
+        color: #8192aa;
+    }
+    body.role-master .master-kompetensi-table-wrap {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        background: #fff;
+        border: 1px solid #e0eaf3;
+        border-radius: 20px;
+        box-shadow: 0 7px 22px #23345508;
+    }
+    body.role-master .master-kompetensi-table {
+        width: 100%;
+        min-width: 820px;
+        border-collapse: separate;
+        border-spacing: 0;
+        color: #536a86;
+        font-size: 0.88rem;
+    }
+    body.role-master .master-kompetensi-table th {
+        padding: 1.2rem 1.35rem;
+        color: #70829b;
+        background: #f3f7fb;
+        border-bottom: 1px solid #e2eaf3;
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-align: left;
+        text-transform: uppercase;
+        letter-spacing: 0.015em;
+        white-space: nowrap;
+    }
+    body.role-master .master-kompetensi-table td {
+        padding: 1.15rem 1.35rem;
+        height: 75px;
+        border-bottom: 1px solid #eaf0f6;
+        vertical-align: middle;
+    }
+    body.role-master .master-kompetensi-table tbody tr:last-child td {
+        border-bottom: 0;
+    }
+    body.role-master .master-kompetensi-table tbody tr:hover {
+        background: #fbfdff;
+    }
+    body.role-master .master-kompetensi-table-number {
+        display: grid;
+        place-items: center;
+        width: 37px;
+        height: 37px;
+        color: #0785bd;
+        background: #e9f5ff;
+        border-radius: 11px;
+        font-size: 0.88rem;
+        font-weight: 700;
+    }
+    body.role-master .master-kompetensi-table-name {
+        display: block;
+        min-width: 200px;
+        color: #2a3e56;
+        font-size: 0.88rem;
+        font-weight: 700;
+        line-height: 1.5;
+    }
+    body.role-master .master-kompetensi-table-role {
+        display: inline-flex;
+        align-items: center;
+        max-width: 260px;
+        padding: 0.55rem 0.8rem;
+        color: #0785bd;
+        background: #eaf6ff;
+        border-radius: 10px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        white-space: normal;
+    }
+    body.role-master .master-kompetensi-table-order {
+        font-size: 0.85rem;
+        color: #71849c;
+    }
+    body.role-master .master-kompetensi-table-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.55rem 0.85rem;
+        color: #008a60;
+        background: #e4f8ef;
+        border-radius: 999px;
+        font-size: 0.79rem;
+        font-weight: 700;
+    }
+    body.role-master .master-kompetensi-table-status i {
+        font-size: 0.58rem;
+    }
+    body.role-master .master-kompetensi-table-actions-heading {
+        text-align: right !important;
+    }
+    body.role-master .master-kompetensi-table-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 0.5rem;
+        white-space: nowrap;
+    }
+    body.role-master .master-kompetensi-table-actions a,
+    body.role-master .master-kompetensi-table-actions button {
+        display: grid;
+        place-items: center;
+        width: 39px;
+        height: 39px;
+        padding: 0;
+        color: #607e9a;
+        background: #f8fafc;
+        border: 1px solid #e2eaf3;
+        border-radius: 11px;
+        font-size: 0.9rem;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    body.role-master .master-kompetensi-table-actions button {
+        color: #e74667;
+    }
+    body.role-master .master-kompetensi-table-actions a:hover {
+        background: #eaf6ff;
+        color: #0785bd;
+    }
+    body.role-master .master-kompetensi-table-actions button:hover {
+        background: #fff0f3;
+    }
+    body.role-master .master-kompetensi-table-actions form {
+        margin: 0;
+    }
+    body.role-master .master-kompetensi-list {
+        display: none !important;
+    }
+    body.role-master .master-kompetensi-note {
+        margin-top: 1.4rem;
+        padding: 1.1rem 1.2rem;
+        border-radius: 14px;
+    }
+    body.role-master .master-kompetensi-note strong {
+        font-size: 0.86rem;
+    }
+    body.role-master .master-kompetensi-note p {
+        font-size: 0.8rem;
+    }
+    body.role-master .master-kompetensi-pagination .pagination {
+        justify-content: flex-end;
+    }
+
+    /* Create / Edit — formulir tetap mudah dibaca pada desktop */
+    body.role-master .master-kompetensi-create-heading,
+    body.role-master .master-kompetensi-edit-heading {
+        padding: 0.3rem 0 1.4rem;
+    }
+    body.role-master .master-kompetensi-create-heading h1,
+    body.role-master .master-kompetensi-edit-heading h1 {
+        font-size: 1.65rem;
+        font-weight: 700;
+        color: #1b2938;
+    }
+    body.role-master .master-kompetensi-create-heading h1 i,
+    body.role-master .master-kompetensi-edit-heading h1 i {
+        color: #0785bd;
+        margin-right: 0.35rem;
+    }
+    body.role-master .master-kompetensi-create-heading p,
+    body.role-master .master-kompetensi-edit-heading p {
+        font-size: 0.88rem;
+        color: #7a8ba3;
+    }
+    body.role-master .master-kompetensi-create-card,
+    body.role-master .master-kompetensi-edit-card {
+        width: 100%;
+        max-width: 920px;
+        border-radius: 18px;
+    }
+    body.role-master .master-kompetensi-create-title,
+    body.role-master .master-kompetensi-edit-title {
+        padding: 1.2rem 1.5rem;
+    }
+    body.role-master .master-kompetensi-create-title h2,
+    body.role-master .master-kompetensi-edit-title h2 {
+        font-size: 1rem;
+    }
+    body.role-master .master-kompetensi-create-card form,
+    body.role-master .master-kompetensi-edit-card form {
+        padding: 1.6rem 1.5rem;
+    }
+    body.role-master .master-kompetensi-create-field,
+    body.role-master .master-kompetensi-edit-field {
+        margin-bottom: 1.2rem;
+    }
+    body.role-master .master-kompetensi-create-field label,
+    body.role-master .master-kompetensi-edit-field label {
+        font-size: 0.88rem;
+    }
+    body.role-master .master-kompetensi-create-field input,
+    body.role-master .master-kompetensi-create-field select,
+    body.role-master .master-kompetensi-create-field textarea,
+    body.role-master .master-kompetensi-edit-field input,
+    body.role-master .master-kompetensi-edit-field select,
+    body.role-master .master-kompetensi-edit-field textarea {
+        font-size: 0.88rem;
+        border-radius: 11px;
+    }
+    body.role-master .master-kompetensi-create-actions,
+    body.role-master .master-kompetensi-edit-actions {
+        display: flex;
+        align-items: stretch;
+        gap: 0.8rem;
+        margin-top: 1.5rem;
+    }
+    body.role-master .master-kompetensi-create-actions button,
+    body.role-master .master-kompetensi-edit-actions button {
+        flex: 0 1 240px;
+        width: auto;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+    body.role-master .master-kompetensi-create-actions a,
+    body.role-master .master-kompetensi-edit-actions a {
+        flex: 0 0 auto;
+        min-width: 110px;
+        width: auto;
+        border-radius: 10px;
+    }
+    body.role-master .master-kompetensi-create-note {
+        max-width: 920px;
+        border-radius: 14px;
+    }
+
+    /* Detail — lebar dan ukuran mengikuti halaman Master lain */
+    body.role-master .master-kompetensi-show-heading {
+        margin-bottom: 1.5rem;
+    }
+    body.role-master .master-kompetensi-show-heading h1 {
+        font-size: 1.65rem;
+    }
+    body.role-master .master-kompetensi-show-heading h1 i {
+        width: auto;
+        height: auto;
+        display: inline;
+        color: #0785bd;
+        background: none;
+        font-size: 1.3rem;
+    }
+    body.role-master .master-kompetensi-show-heading p {
+        margin: 0.35rem 0 0;
+        font-size: 0.86rem;
+    }
+    body.role-master .master-kompetensi-show-heading a {
+        padding: 0.7rem 1rem;
+        border-radius: 10px;
+        font-size: 0.8rem;
+    }
+    body.role-master .master-kompetensi-detail-card,
+    body.role-master .master-kompetensi-rubric,
+    body.role-master .master-kompetensi-show .master-kompetensi-note {
+        max-width: 1120px;
+        border-radius: 17px;
+        border-color: #e0eaf3;
+        box-shadow: 0 6px 20px #23345508;
+    }
+    body.role-master .master-kompetensi-detail-top {
+        padding: 1.4rem 1.5rem 1.1rem;
+        gap: 1rem;
+    }
+    body.role-master .master-kompetensi-detail-number {
+        width: 54px;
+        height: 54px;
+        flex-basis: 54px;
+        border-radius: 12px;
+        font-size: 1.15rem;
+    }
+    body.role-master .master-kompetensi-detail-top h2 {
+        font-size: 1.1rem;
+    }
+    body.role-master .master-kompetensi-detail-top > b {
+        padding: 0.5rem 0.8rem;
+        border-radius: 999px;
+        font-size: 0.78rem;
+    }
+    body.role-master .master-kompetensi-detail-stats {
+        padding: 0 1.5rem 1.25rem;
+        gap: 1rem;
+    }
+    body.role-master .master-kompetensi-detail-stats > div {
+        padding: 1.05rem;
+        border-radius: 12px;
+    }
+    body.role-master .master-kompetensi-detail-stats small,
+    body.role-master .master-kompetensi-detail-stats span {
+        font-size: 0.76rem;
+    }
+    body.role-master .master-kompetensi-detail-stats strong {
+        font-size: 0.95rem;
+    }
+    body.role-master .master-kompetensi-definition {
+        margin: 0 1.5rem 1.5rem;
+        padding: 1.15rem;
+        border-radius: 12px;
+    }
+    body.role-master .master-kompetensi-definition strong {
+        font-size: 0.83rem;
+    }
+    body.role-master .master-kompetensi-definition blockquote {
+        font-size: 0.88rem;
+    }
+    body.role-master .master-kompetensi-rubric {
+        padding: 1.3rem 1.5rem;
+    }
+    body.role-master .master-kompetensi-rubric h2 {
+        font-size: 1rem;
+    }
+    body.role-master .master-kompetensi-rubric .rubric {
+        padding: 0.85rem 1rem;
+        border-radius: 10px;
+        font-size: 0.82rem;
+    }
+    body.role-master .master-kompetensi-rubric .rubric strong {
+        font-size: 0.82rem;
+    }
+    body.role-master .master-kompetensi-history {
+        padding: 0.8rem 1rem;
+        border-radius: 10px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1050px) {
+    body.role-master .master-kompetensi-table th,
+    body.role-master .master-kompetensi-table td {
+        padding-inline: 0.85rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    body.role-master .master-kompetensi-page,
+    body.role-master .master-kompetensi-create,
+    body.role-master .master-kompetensi-edit,
+    body.role-master .master-kompetensi-show {
+        width: 100%;
+        max-width: 560px;
+        margin-inline: auto;
+    }
+    body.role-master .master-kompetensi-create-heading h1,
+    body.role-master .master-kompetensi-edit-heading h1 {
+        font-size: 1.25rem;
+    }
+    body.role-master .master-kompetensi-create-actions button,
+    body.role-master .master-kompetensi-edit-actions button {
+        cursor: pointer;
+    }
+}

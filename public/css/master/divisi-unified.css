@@ -1,0 +1,884 @@
+body.role-master .master-divisi-page,
+body.role-master .master-divisi-create,
+body.role-master .master-divisi-edit,
+body.role-master .master-divisi-show {
+    --dv-blue: #087db5;
+    --dv-ink: #243447;
+    --dv-muted: #70839a;
+    --dv-border: #e0e9f2;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: clamp(14px, 2vw, 30px);
+    color: var(--dv-ink);
+    box-sizing: border-box;
+    font-size: 14px;
+}
+.master-divisi-heading,
+.master-divisi-create-heading,
+.master-divisi-edit-heading,
+.master-divisi-show-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 0 0 22px;
+    padding: 0;
+}
+.master-divisi-heading h1,
+.master-divisi-create-heading h1,
+.master-divisi-edit-heading h1,
+.master-divisi-show-heading h1 {
+    margin: 0;
+    font-size: clamp(22px, 2vw, 29px);
+    font-weight: 750;
+    letter-spacing: -0.03em;
+    color: #233346;
+}
+.master-divisi-heading h1 i,
+.master-divisi-create-heading h1 i,
+.master-divisi-edit-heading h1 i,
+.master-divisi-show-heading h1 i {
+    color: var(--dv-blue);
+    margin-right: 8px;
+    font-size: 0.78em;
+}
+.master-divisi-heading p,
+.master-divisi-create-heading p,
+.master-divisi-edit-heading p,
+.master-divisi-show-heading p {
+    margin: 7px 0 0;
+    color: var(--dv-muted);
+    font-size: 14px;
+    line-height: 1.5;
+}
+.master-divisi-heading > a,
+.master-divisi-form-actions button,
+.master-divisi-edit-actions button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 12px 19px;
+    color: white;
+    background: linear-gradient(110deg, #086b9e, #0798c5);
+    border: 0;
+    border-radius: 13px;
+    box-shadow: 0 6px 15px #087db51f;
+    font: inherit;
+    font-weight: 650;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.master-divisi-heading > a:hover,
+.master-divisi-form-actions button:hover,
+.master-divisi-edit-actions button:hover {
+    filter: brightness(0.96);
+    color: white;
+}
+.master-divisi-summary {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 18px;
+}
+.master-divisi-summary > div,
+.master-divisi-form-card,
+.master-divisi-edit-card,
+.master-divisi-info-card,
+.master-divisi-jabatan-card,
+.master-divisi-card,
+.master-divisi-table-wrap {
+    background: #fff;
+    border: 1px solid var(--dv-border);
+    border-radius: 21px;
+    box-shadow: 0 7px 25px #30405509;
+}
+.master-divisi-summary > div {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 22px;
+}
+.summary-icon,
+.master-divisi-form-header > span:first-child,
+.master-divisi-edit-header > span:first-child,
+.master-divisi-info-title > span,
+.master-divisi-jabatan-main > span,
+.master-divisi-number {
+    display: grid;
+    place-items: center;
+    flex: 0 0 52px;
+    width: 52px;
+    height: 52px;
+    border-radius: 15px;
+    background: #e6f4ff;
+    color: #087db5;
+    font-size: 20px;
+}
+.summary-icon.purple {
+    background: #efecff;
+    color: #6658d5;
+}
+.summary-icon.blue {
+    background: #e6f4ff;
+    color: #087db5;
+}
+.master-divisi-summary small,
+.master-divisi-summary em {
+    display: block;
+    color: var(--dv-muted);
+    font-size: 12px;
+    font-style: normal;
+}
+.master-divisi-summary strong {
+    display: block;
+    margin: 4px 0;
+    font-size: 30px;
+    line-height: 1.1;
+    color: #203144;
+}
+.master-divisi-search {
+    display: flex;
+    gap: 12px;
+    margin: 0 0 18px;
+}
+.master-divisi-search > div {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+    padding: 0 16px;
+    background: #fff;
+    border: 1px solid var(--dv-border);
+    border-radius: 14px;
+    color: #8a9cb0;
+}
+.master-divisi-search input {
+    width: 100%;
+    min-width: 0;
+    height: 49px;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font: inherit;
+    color: #243447;
+}
+.master-divisi-search button {
+    width: 49px;
+    border: 1px solid var(--dv-border);
+    border-radius: 14px;
+    background: #fff;
+    color: #70839a;
+    cursor: pointer;
+}
+.master-divisi-table-wrap {
+    overflow-x: auto;
+}
+.master-divisi-table {
+    width: 100%;
+    min-width: 850px;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+.master-divisi-table th {
+    padding: 17px 18px;
+    text-align: left;
+    color: #687d95;
+    background: #f6f9fc;
+    border-bottom: 1px solid var(--dv-border);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.master-divisi-table td {
+    padding: 16px 18px;
+    border-bottom: 1px solid #edf2f7;
+    vertical-align: middle;
+}
+.master-divisi-table tr:last-child td {
+    border-bottom: 0;
+}
+.master-divisi-table tbody tr:hover {
+    background: #f8fbfd;
+}
+.master-divisi-table-name {
+    color: #26384d;
+    font-size: 13px;
+}
+.master-divisi-table-number,
+.master-divisi-table-category {
+    display: inline-flex;
+    padding: 7px 10px;
+    border-radius: 9px;
+    background: #eaf5ff;
+    color: #087db5;
+    font-weight: 600;
+}
+.master-divisi-table-category {
+    background: #f0f4f8;
+    color: #586b80;
+    font-weight: 500;
+}
+.master-divisi-table-jabatan,
+.master-divisi-table-updated {
+    color: #667c92;
+    white-space: nowrap;
+}
+.master-divisi-table-jabatan i {
+    font-size: 7px;
+    color: #0c93c3;
+    margin-right: 6px;
+}
+.master-divisi-table-updated i {
+    margin-right: 6px;
+}
+.master-divisi-table-status,
+.master-divisi-show-heading > span,
+.master-divisi-info-title b {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 11px;
+    background: #e7f8ef;
+    color: #07835a;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+.master-divisi-table-status i,
+.master-divisi-show-heading > span i,
+.master-divisi-info-title b i {
+    font-size: 7px;
+}
+.master-divisi-table-actions-heading {
+    text-align: right !important;
+}
+.master-divisi-table-actions,
+.master-divisi-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 7px;
+}
+.master-divisi-table-actions a,
+.master-divisi-table-actions button,
+.master-divisi-actions a,
+.master-divisi-actions button {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 1px solid #e4ebf3;
+    border-radius: 10px;
+    background: #f8fafc;
+    color: #52718d;
+    text-decoration: none;
+    cursor: pointer;
+}
+.master-divisi-table-actions button,
+.master-divisi-actions button {
+    color: #d44b62;
+}
+.master-divisi-table-actions form,
+.master-divisi-actions form {
+    margin: 0;
+}
+.master-divisi-table-empty {
+    text-align: center;
+    color: #7b8ea3;
+    padding: 35px !important;
+}
+.master-divisi-list {
+    display: none;
+}
+.master-divisi-pagination {
+    margin-top: 20px;
+}
+.master-divisi-pagination .pagination {
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+.master-divisi-note,
+.master-divisi-tip,
+.master-divisi-sync {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    margin-top: 20px;
+    padding: 17px 20px;
+    border: 1px solid #cfe7f7;
+    border-radius: 17px;
+    background: #edf8ff;
+    color: #286e97;
+    line-height: 1.6;
+}
+.master-divisi-note i,
+.master-divisi-tip > span,
+.master-divisi-sync > span {
+    color: #087db5;
+}
+.master-divisi-tip strong,
+.master-divisi-sync strong {
+    display: block;
+    color: #195778;
+}
+.master-divisi-tip p,
+.master-divisi-sync p {
+    margin: 4px 0 0;
+}
+.master-divisi-tip a {
+    color: #087db5;
+    font-weight: 700;
+}
+.master-divisi-create-breadcrumb {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-bottom: 14px;
+    font-size: 12px;
+    color: #087db5;
+}
+.master-divisi-create-breadcrumb a {
+    color: #6c8198;
+    text-decoration: none;
+}
+.master-divisi-create-breadcrumb i {
+    font-size: 9px;
+    color: #9caec0;
+}
+.master-divisi-form-card,
+.master-divisi-edit-card {
+    overflow: hidden;
+}
+.master-divisi-form-header,
+.master-divisi-edit-header,
+.master-divisi-info-title {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 22px 26px;
+    background: #f9fbfd;
+    border-bottom: 1px solid var(--dv-border);
+}
+.master-divisi-form-header h2,
+.master-divisi-edit-header h2,
+.master-divisi-info-title h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+}
+.master-divisi-form-header p {
+    margin: 5px 0 0;
+    font-size: 12px;
+    color: var(--dv-muted);
+}
+.master-divisi-form-type,
+.master-divisi-edit-header code {
+    margin-left: auto;
+    padding: 7px 11px;
+    border: 1px solid var(--dv-border);
+    border-radius: 9px;
+    background: white;
+    color: #657b91;
+    font-size: 12px;
+}
+.master-divisi-form-card form,
+.master-divisi-edit-card form {
+    padding: 26px;
+}
+.master-divisi-field label,
+.master-divisi-edit-field label {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+.master-divisi-field label em,
+.master-divisi-edit-field label em {
+    color: #d94862;
+    font-style: normal;
+}
+.master-divisi-edit-field label small {
+    margin-left: auto;
+    color: #8295a9;
+    font-weight: 400;
+}
+.master-divisi-field input,
+.master-divisi-edit-input input {
+    width: 100%;
+    height: 51px;
+    box-sizing: border-box;
+    padding: 0 16px;
+    border: 1px solid #cbd9e7;
+    border-radius: 13px;
+    outline: 0;
+    background: #fff;
+    color: #25384e;
+    font: inherit;
+}
+.master-divisi-field input:focus,
+.master-divisi-edit-input input:focus {
+    border-color: #087db5;
+    box-shadow: 0 0 0 4px #087db51a;
+}
+.master-divisi-field input.invalid,
+.master-divisi-edit-input input.invalid {
+    border-color: #d94862;
+}
+.master-divisi-field > small,
+.master-divisi-edit-field > p {
+    display: block;
+    margin: 9px 0 0;
+    color: #788da3;
+    font-size: 12px;
+}
+.master-divisi-error,
+.master-divisi-edit-field > b {
+    display: block;
+    margin-top: 7px;
+    color: #d94862;
+    font-size: 12px;
+}
+.master-divisi-edit-input {
+    position: relative;
+}
+.master-divisi-edit-input input {
+    padding-right: 48px;
+}
+.master-divisi-edit-input > i {
+    position: absolute;
+    right: 17px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #087db5;
+}
+.master-divisi-form-actions,
+.master-divisi-edit-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 28px;
+    padding-top: 22px;
+    border-top: 1px solid var(--dv-border);
+}
+.master-divisi-form-actions a,
+.master-divisi-edit-actions a,
+.master-divisi-bottom-action a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border: 1px solid #d5e0eb;
+    border-radius: 13px;
+    background: #fff;
+    color: #526480;
+    font-weight: 650;
+    text-decoration: none;
+}
+.master-divisi-form-actions button,
+.master-divisi-edit-actions button {
+    order: 2;
+}
+.master-divisi-form-actions a,
+.master-divisi-edit-actions a {
+    order: 1;
+}
+.master-divisi-info-card {
+    overflow: hidden;
+    margin-bottom: 24px;
+}
+.master-divisi-info-title h2 {
+    flex: 1;
+}
+.master-divisi-info-rows {
+    padding: 7px 26px;
+}
+.master-divisi-info-rows > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 0;
+    border-bottom: 1px solid #edf2f7;
+}
+.master-divisi-info-rows > div:last-child {
+    border-bottom: 0;
+}
+.master-divisi-info-rows span {
+    color: #73869c;
+}
+.master-divisi-info-rows strong {
+    text-align: right;
+    overflow-wrap: anywhere;
+}
+.master-divisi-jabatan-heading {
+    margin: 0 0 16px;
+}
+.master-divisi-jabatan-heading h2 {
+    font-size: 19px;
+    font-weight: 700;
+}
+.master-divisi-jabatan-heading h2 span {
+    display: inline-grid;
+    place-items: center;
+    min-width: 27px;
+    height: 27px;
+    padding: 0 5px;
+    border-radius: 999px;
+    background: #e7f5ff;
+    color: #087db5;
+    font-size: 12px;
+}
+.master-divisi-jabatan-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+.master-divisi-jabatan-card {
+    overflow: hidden;
+}
+.master-divisi-jabatan-main {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px;
+}
+.master-divisi-jabatan-main > div {
+    flex: 1;
+    min-width: 0;
+}
+.master-divisi-jabatan-main h3 {
+    margin: 0;
+    font-size: 15px;
+    overflow-wrap: anywhere;
+}
+.master-divisi-jabatan-main p {
+    margin: 5px 0 0;
+    color: #73869c;
+    font-size: 12px;
+}
+.master-divisi-jabatan-main > b {
+    padding: 7px 9px;
+    background: #eaf1ff;
+    border-radius: 8px;
+    color: #3564b4;
+    font-size: 11px;
+    white-space: nowrap;
+}
+.master-divisi-jabatan-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 16px 20px;
+    border-top: 1px solid var(--dv-border);
+    background: #f9fbfd;
+    color: #70839a;
+}
+.master-divisi-jabatan-footer strong {
+    color: #25384e;
+}
+.master-divisi-empty {
+    padding: 35px;
+    text-align: center;
+    color: #8194a9;
+}
+.master-divisi-empty i {
+    display: block;
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+.master-divisi-all-pegawai {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    padding: 16px;
+    border: 1px solid #cfe7f7;
+    border-radius: 15px;
+    background: #eaf7ff;
+    color: #087db5;
+    font-weight: 650;
+    text-decoration: none;
+}
+.master-divisi-bottom-action {
+    margin-top: 20px;
+}
+.master-divisi-bottom-action a {
+    width: max-content;
+}
+@media (max-width: 767.98px) {
+    body.role-master .master-divisi-page,
+    body.role-master .master-divisi-create,
+    body.role-master .master-divisi-edit,
+    body.role-master .master-divisi-show {
+        padding: 16px 12px 24px;
+    }
+    .master-divisi-heading,
+    .master-divisi-show-heading {
+        align-items: flex-start;
+    }
+    .master-divisi-heading h1,
+    .master-divisi-create-heading h1,
+    .master-divisi-edit-heading h1,
+    .master-divisi-show-heading h1 {
+        font-size: 22px;
+    }
+    .master-divisi-heading > a {
+        padding: 10px 13px;
+        font-size: 12px;
+    }
+    .master-divisi-summary {
+        gap: 10px;
+    }
+    .master-divisi-summary > div {
+        padding: 14px 11px;
+        gap: 9px;
+    }
+    .summary-icon {
+        width: 42px;
+        height: 42px;
+        flex-basis: 42px;
+        font-size: 16px;
+    }
+    .master-divisi-summary strong {
+        font-size: 23px;
+    }
+    .master-divisi-summary small,
+    .master-divisi-summary em {
+        font-size: 10px;
+    }
+    .master-divisi-table-wrap {
+        display: none;
+    }
+    .master-divisi-list {
+        display: grid;
+        gap: 12px;
+    }
+    .master-divisi-card {
+        overflow: hidden;
+    }
+    .master-divisi-card-main {
+        display: flex;
+        gap: 13px;
+        padding: 18px;
+    }
+    .master-divisi-number {
+        width: 39px;
+        height: 39px;
+        flex-basis: 39px;
+        font-size: 13px;
+    }
+    .master-divisi-card-content {
+        min-width: 0;
+    }
+    .master-divisi-card h2 {
+        margin: 0;
+        font-size: 15px;
+        overflow-wrap: anywhere;
+    }
+    .master-divisi-meta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+        margin-top: 9px;
+        color: #72869a;
+        font-size: 12px;
+    }
+    .master-divisi-meta span {
+        padding: 6px 9px;
+        background: #f0f5f9;
+        border-radius: 8px;
+    }
+    .master-divisi-meta span i {
+        font-size: 6px;
+        margin-right: 4px;
+    }
+    .master-divisi-meta em {
+        font-style: normal;
+    }
+    .master-divisi-card-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 9px;
+        padding: 12px 18px;
+        border-top: 1px solid var(--dv-border);
+        color: #8395a8;
+        font-size: 11px;
+    }
+    .master-divisi-pagination .pagination {
+        justify-content: center;
+    }
+    .master-divisi-form-header,
+    .master-divisi-edit-header,
+    .master-divisi-info-title {
+        padding: 17px;
+    }
+    .master-divisi-form-card form,
+    .master-divisi-edit-card form {
+        padding: 18px;
+    }
+    .master-divisi-form-header h2,
+    .master-divisi-edit-header h2,
+    .master-divisi-info-title h2 {
+        font-size: 15px;
+    }
+    .master-divisi-form-type {
+        display: none;
+    }
+    .master-divisi-form-actions,
+    .master-divisi-edit-actions {
+        flex-direction: column;
+    }
+    .master-divisi-form-actions button,
+    .master-divisi-edit-actions button,
+    .master-divisi-form-actions a,
+    .master-divisi-edit-actions a {
+        width: 100%;
+        order: initial;
+    }
+    .master-divisi-info-rows {
+        padding: 4px 17px;
+    }
+    .master-divisi-jabatan-list {
+        grid-template-columns: 1fr;
+    }
+    .master-divisi-jabatan-main {
+        padding: 15px;
+    }
+    .master-divisi-jabatan-footer {
+        padding: 13px 15px;
+    }
+    .master-divisi-show-heading {
+        flex-wrap: wrap;
+    }
+    .master-divisi-note {
+        display: none;
+    }
+}
+@media (max-width: 380px) {
+    .master-divisi-summary > div {
+        padding: 10px 8px;
+    }
+    .summary-icon {
+        width: 36px;
+        height: 36px;
+        flex-basis: 36px;
+    }
+    .master-divisi-summary strong {
+        font-size: 20px;
+    }
+    .master-divisi-heading h1 {
+        font-size: 20px;
+    }
+    .master-divisi-heading p {
+        font-size: 12px;
+    }
+    .master-divisi-show-heading > span {
+        font-size: 10px;
+    }
+}
+.master-divisi-page [data-divisi-name][hidden] {
+    display: none !important;
+}
+
+@media (min-width: 768px) {
+    body.role-master .master-divisi-page {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        padding: 24px 28px 40px;
+    }
+
+    body.role-master .master-divisi-page .master-divisi-list {
+        display: none !important;
+    }
+
+    body.role-master .master-divisi-page .master-divisi-table-wrap {
+        display: block !important;
+        width: 100%;
+        overflow-x: auto;
+        background: #ffffff;
+        border: 1px solid #e0e8f1;
+        border-radius: 20px;
+        box-shadow: 0 6px 22px rgba(35, 52, 85, 0.04);
+    }
+
+    body.role-master .master-divisi-page .master-divisi-table {
+        width: 100%;
+        min-width: 900px;
+        border-collapse: collapse;
+    }
+
+    body.role-master .master-divisi-page .master-divisi-table th {
+        padding: 18px 20px;
+        background: #f5f8fc;
+        color: #64748b;
+        font-size: 12px;
+        font-weight: 700;
+        text-align: left;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    body.role-master .master-divisi-page .master-divisi-table td {
+        padding: 18px 20px;
+        color: #334155;
+        font-size: 13px;
+        border-bottom: 1px solid #edf2f7;
+        vertical-align: middle;
+    }
+
+    body.role-master
+        .master-divisi-page
+        .master-divisi-table
+        tbody
+        tr:last-child
+        td {
+        border-bottom: none;
+    }
+
+    body.role-master .master-divisi-page .master-divisi-table tbody tr:hover {
+        background: #f8fbff;
+    }
+
+    body.role-master .master-divisi-page .master-divisi-table-actions {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 8px;
+    }
+
+    body.role-master .master-divisi-page .master-divisi-table-actions a,
+    body.role-master .master-divisi-page .master-divisi-table-actions button {
+        display: grid;
+        place-items: center;
+        width: 36px;
+        height: 36px;
+        border: 1px solid #e2e8f0;
+        border-radius: 11px;
+        background: #f8fafc;
+        cursor: pointer;
+    }
+
+    body.role-master .master-divisi-page .master-divisi-note {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 20px;
+        padding: 16px 20px;
+        border: 1px solid #d5eaf7;
+        border-radius: 16px;
+        background: #eff8fd;
+    }
+}

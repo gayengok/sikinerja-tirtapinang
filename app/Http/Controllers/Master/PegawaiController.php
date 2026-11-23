@@ -14,20 +14,64 @@ use Illuminate\Validation\Rule;
 
 class PegawaiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $pegawais = Pegawai::with(['user', 'jabatan.divisi', 'atasan'])
-            ->orderBy('nama')
-            ->paginate(10);
+        $search = trim((string) $request->query('search', ''));
+        $role = (string) $request->query('role', 'semua');
+        $sort = (string) $request->query('sort', 'nama_asc');
+
+        if (! in_array($role, ['semua', 'atasan', 'kepala_bagian', 'direktur', 'pegawai'], true)) {
+            $role = 'semua';
+        }
+
+        if (! in_array($sort, ['nama_asc', 'nama_desc', 'terbaru', 'terlama'], true)) {
+            $sort = 'nama_asc';
+        }
+
+        $query = Pegawai::with(['user', 'jabatan.divisi', 'atasan']);
+
+        if ($search !== '') {
+            $query->where(function ($q) use ($search) {
+                $q->where('nama', 'like', "%{$search}%")
+                    ->orWhere('nip', 'like', "%{$search}%")
+                    ->orWhereHas('user', fn($u) => $u->where('email', 'like', "%{$search}%"))
+                    ->orWhereHas('jabatan', function ($j) use ($search) {
+                        $j->where('nama_jabatan', 'like', "%{$search}%")
+                            ->orWhereHas('divisi', fn($d) => $d->where('nama_divisi', 'like', "%{$search}%"));
+                    });
+            });
+        }
+
+        if ($role !== 'semua') {
+            $query->whereHas('user', fn($u) => $u->where('role', $role));
+        }
+
+        match ($sort) {
+            'nama_desc' => $query->orderByDesc('nama'),
+            'terbaru' => $query->orderByDesc('id'),
+            'terlama' => $query->orderBy('id'),
+            default => $query->orderBy('nama'),
+        };
+
+        $pegawais = $query->orderBy('id')->paginate(10)->withQueryString();
 
         $roleCounts = [
-            'atasan' => Pegawai::whereHas('user', fn ($query) => $query->where('role', 'atasan'))->count(),
-            'kepalaBagian' => Pegawai::whereHas('user', fn ($query) => $query->where('role', 'kepala_bagian'))->count(),
-            'direktur' => Pegawai::whereHas('user', fn ($query) => $query->where('role', 'direktur'))->count(),
-            'pegawai' => Pegawai::whereHas('user', fn ($query) => $query->where('role', 'pegawai'))->count(),
+            'atasan' => Pegawai::whereHas('user', fn($q) => $q->where('role', 'atasan'))->count(),
+            'kepalaBagian' => Pegawai::whereHas('user', fn($q) => $q->where('role', 'kepala_bagian'))->count(),
+            'direktur' => Pegawai::whereHas('user', fn($q) => $q->where('role', 'direktur'))->count(),
+            'pegawai' => Pegawai::whereHas('user', fn($q) => $q->where('role', 'pegawai'))->count(),
         ];
 
-        return view('master.pegawai.index', compact('pegawais', 'roleCounts'));
+        $totalPegawai = array_sum($roleCounts);
+
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('master.pegawai.partials.results', compact('pegawais'))->render(),
+                'total' => $pegawais->total(),
+            ]);
+        }
+
+        return view('master.pegawai.index', compact('pegawais', 'roleCounts', 'totalPegawai', 'search', 'role', 'sort'));
     }
 
     public function create()
@@ -207,8 +251,10 @@ class PegawaiController extends Controller
                         return;
                     }
 
-                    if ($targetRole !== 'direktur'
-                        && (! $atasan->jabatan || $atasan->jabatan->divisi_id !== $jabatan->divisi_id)) {
+                    if (
+                        $targetRole !== 'direktur'
+                        && (! $atasan->jabatan || $atasan->jabatan->divisi_id !== $jabatan->divisi_id)
+                    ) {
                         $fail('Atasan langsung harus berasal dari divisi yang sama.');
                     }
                 },

@@ -45,59 +45,62 @@
                 <span>{{ $items->first()->jabatan->nama_jabatan }}</span>
             @endforeach
         </div>
-        <div class="master-kpi-list">
-            @forelse($kpiGroups as $items)
-                @php
-                    $jabatan = $items->first()->jabatan;
-                    $totalBobot = $items->sum('bobot');
-                @endphp
-                <section class="master-kpi-group">
-                    <header>
-                        <div class="master-kpi-group-heading"><i class="fa-solid fa-circle"></i>
-                            <h2>{{ $jabatan->nama_jabatan ?? '-' }}</h2>
-                            <p>{{ $jabatan->divisi->nama_divisi ?? '-' }}</p>
-                        </div><b class="{{ $totalBobot <= 60 ? 'valid' : 'invalid' }}"><i
-                                class="fa-solid {{ $totalBobot <= 60 ? 'fa-check' : 'fa-triangle-exclamation' }}"></i>
-                            {{ $totalBobot <= 60 ? $totalBobot . '% Valid' : $totalBobot . '% Melebihi 60%' }}</b>
-                    </header>
-                    @foreach ($items as $kpi)
-                        <article class="master-kpi-item"><span>{{ $kpi->urutan }}</span>
-                            <div class="master-kpi-item-content">
-                                <h3>{{ $kpi->indikator }}</h3>
-                                <p>Target:
-                                    <strong>{{ $kpi->target_default !== null ? number_format($kpi->target_default, 2) : '-' }}</strong><i></i>
-                                    Realisasi:
-                                    <strong>{{ $kpi->realisasi !== null ? number_format($kpi->realisasi, 2) : '-' }}</strong><i></i>
-                                    Capaian:
-                                    <strong>{{ $kpi->persen_capaian !== null ? number_format($kpi->persen_capaian, 2) . '%' : '-' }}</strong>
-                                </p>
-                                <p>Skor: <strong>{{ $kpi->skor ?? '-' }}</strong><i></i>
-                                    Bobot: <strong>{{ number_format($kpi->bobot, 2) }}%</strong>
-                                    @if ($kpi->keterangan)
-                                        <i></i> Keterangan: <strong>{{ $kpi->keterangan }}</strong>
-                                    @endif
-                                </p>
-                            </div><em
-                                class="{{ $kpi->arah_capaian === 'minimal' ? 'minimal' : '' }}">{{ ucfirst($kpi->arah_capaian) }}</em>
-                            <div class="master-kpi-item-actions">
-                                <a class="detail" href="{{ route('master.master-kpi.show', $kpi) }}">
-                                    <i class="fa-regular fa-eye"></i><span>Detail</span>
-                                </a>
-                                <a class="edit" href="{{ route('master.master-kpi.edit', $kpi) }}">
-                                    <i class="fa-solid fa-pen-to-square"></i><span>Edit</span>
-                                </a>
-                                <form action="{{ route('master.master-kpi.destroy', $kpi) }}" method="POST"
-                                    class="form-delete" data-confirm-message="Yakin ingin menghapus KPI ini?">@csrf
-                                    @method('DELETE')<button type="submit" aria-label="Hapus"><i
-                                            class="fa-regular fa-trash-can"></i><span>Hapus</span></button></form>
-                            </div>
-                        </article>
-                    @endforeach
-                </section>
-            @empty
-                <div class="master-kpi-empty"><i class="fa-regular fa-folder-open"></i><strong>Belum ada data KPI.</strong>
-                </div>
-            @endforelse
+        {{-- Tabel Master KPI: tampilan desktop mengikuti Data Divisi; mobile dapat digeser horizontal --}}
+        <div class="master-kpi-table-wrap">
+            <table class="master-kpi-table">
+                <thead>
+                    <tr>
+                        <th scope="col">NO</th>
+                        <th scope="col">INDIKATOR KPI</th>
+                        <th scope="col">JABATAN / DIVISI</th>
+                        <th scope="col">TARGET / REALISASI</th>
+                        <th scope="col">CAPAIAN / SKOR</th>
+                        <th scope="col">BOBOT</th>
+                        <th scope="col">ARAH CAPAIAN</th>
+                        <th scope="col" class="master-kpi-table-actions-head">AKSI</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($masterKpis as $kpi)
+                        <tr>
+                            <td><span class="master-kpi-table-number">{{ $kpi->urutan ?? $loop->iteration }}</span></td>
+                            <td>
+                                <strong class="master-kpi-table-indicator">{{ $kpi->indikator }}</strong>
+                                @if ($kpi->keterangan)
+                                    <small class="master-kpi-table-note">{{ $kpi->keterangan }}</small>
+                                @endif
+                            </td>
+                            <td>
+                                <strong class="master-kpi-table-job">{{ $kpi->jabatan->nama_jabatan ?? '-' }}</strong>
+                                <small class="master-kpi-table-note">{{ $kpi->jabatan->divisi->nama_divisi ?? '-' }}</small>
+                            </td>
+                            <td>
+                                <span class="master-kpi-table-metric">Target: <b>{{ $kpi->target_default !== null ? number_format($kpi->target_default, 2) : '-' }}</b></span>
+                                <span class="master-kpi-table-metric">Realisasi: <b>{{ $kpi->realisasi !== null ? number_format($kpi->realisasi, 2) : '-' }}</b></span>
+                            </td>
+                            <td>
+                                <span class="master-kpi-table-metric">{{ $kpi->persen_capaian !== null ? number_format($kpi->persen_capaian, 2) . '%' : '-' }}</span>
+                                <small class="master-kpi-table-note">Skor: {{ $kpi->skor ?? '-' }}</small>
+                            </td>
+                            <td><span class="master-kpi-table-weight">{{ number_format($kpi->bobot, 2) }}%</span></td>
+                            <td><span class="master-kpi-table-badge {{ $kpi->arah_capaian === 'minimal' ? 'is-minimal' : '' }}">{{ ucfirst($kpi->arah_capaian) }}</span></td>
+                            <td>
+                                <div class="master-kpi-table-actions">
+                                    <a href="{{ route('master.master-kpi.show', $kpi) }}" title="Detail" aria-label="Detail KPI"><i class="fa-regular fa-eye"></i></a>
+                                    <a href="{{ route('master.master-kpi.edit', $kpi) }}" title="Edit" aria-label="Edit KPI"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <form action="{{ route('master.master-kpi.destroy', $kpi) }}" method="POST" class="form-delete" data-confirm-message="Yakin ingin menghapus KPI ini?">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" title="Hapus" aria-label="Hapus KPI"><i class="fa-regular fa-trash-can"></i></button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr><td colspan="8" class="master-kpi-table-empty">Belum ada data KPI.</td></tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
         <div class="master-kpi-pagination">{{ $masterKpis->links('pagination::bootstrap-5') }}</div>
     </div>

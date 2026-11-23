@@ -1,0 +1,379 @@
+body.role-master {
+    --master-blue: #087db5;
+    --master-blue-dark: #075c88;
+    --master-ink: #243447;
+    --master-muted: #718399;
+    --master-border: #e1eaf2;
+    --master-shadow: 0 7px 24px rgba(38, 67, 96, 0.055);
+}
+
+body.role-master .master-dashboard-desktop,
+body.role-master .master-dashboard-mobile {
+    color: var(--master-ink);
+}
+
+body.role-master .master-desktop-heading h1,
+body.role-master .master-desktop-panel-heading h2,
+body.role-master .master-section-heading h2 {
+    color: var(--master-ink);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+}
+
+body.role-master .master-desktop-eyebrow {
+    color: var(--master-blue);
+}
+
+body.role-master .master-desktop-primary,
+body.role-master .master-period-link,
+body.role-master .master-section-heading a {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    background: var(--master-blue);
+    color: #fff;
+    box-shadow: 0 5px 12px rgba(8, 125, 181, 0.13);
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+body.role-master .master-desktop-primary:hover,
+body.role-master .master-period-link:hover,
+body.role-master .master-section-heading a:hover {
+    background: var(--master-blue-dark);
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+body.role-master .master-desktop-greeting,
+body.role-master .master-welcome {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 24px;
+    background: linear-gradient(115deg, #086a9f 0%, #087db5 57%, #0797c4 100%);
+    color: #fff;
+    box-shadow: 0 14px 30px rgba(8, 117, 173, 0.13);
+}
+
+body.role-master .master-desktop-greeting {
+    min-height: 150px;
+    padding: 28px 32px;
+}
+
+body.role-master .master-desktop-greeting span,
+body.role-master .master-desktop-greeting h2,
+body.role-master .master-desktop-greeting p,
+body.role-master .master-greeting-date,
+body.role-master .master-welcome > span,
+body.role-master .master-welcome h1,
+body.role-master .master-welcome p {
+    color: #fff;
+}
+
+body.role-master .master-desktop-greeting h2 {
+    margin: 8px 0;
+    font-size: clamp(20px, 2vw, 28px);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+}
+
+body.role-master .master-desktop-greeting p,
+body.role-master .master-greeting-date,
+body.role-master .master-welcome p {
+    color: rgba(255, 255, 255, 0.83);
+}
+
+body.role-master .master-greeting-date {
+    padding: 11px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.23);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+body.role-master .master-desktop-stat,
+body.role-master .master-desktop-panel,
+body.role-master .master-desktop-modules,
+body.role-master .master-stat-grid > div,
+body.role-master .master-period-card,
+body.role-master .master-menu-grid a {
+    border: 1px solid var(--master-border);
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: var(--master-shadow);
+}
+
+body.role-master .master-desktop-stat {
+    min-height: 130px;
+    padding: 20px;
+}
+
+body.role-master .master-desktop-stat-icon,
+body.role-master .master-stat-icon,
+body.role-master .master-menu-grid a > span,
+body.role-master .master-desktop-module-grid a > span {
+    border-radius: 13px;
+}
+
+body.role-master .master-desktop-stat-icon {
+    width: 46px;
+    height: 46px;
+    flex-basis: 46px;
+}
+
+body.role-master .master-desktop-stat strong {
+    font-size: 28px;
+    font-weight: 800;
+}
+
+body.role-master .master-desktop-panel,
+body.role-master .master-desktop-modules {
+    padding: 22px;
+}
+
+body.role-master .master-desktop-panel-heading h2 {
+    font-size: 16px;
+}
+
+body.role-master .master-data-row {
+    min-height: 49px;
+    border-radius: 11px;
+    transition: background-color 0.2s ease;
+}
+
+body.role-master .master-data-row:hover {
+    background: #f0f7fb;
+}
+
+body.role-master .master-data-track {
+    height: 9px;
+    border-radius: 999px;
+    background: #e8eff5;
+}
+
+body.role-master .master-data-track > span {
+    border-radius: 999px;
+    background: linear-gradient(90deg, #087db5, #16a0cc);
+}
+
+body.role-master .master-period-status {
+    border-radius: 999px;
+    padding: 7px 11px;
+}
+
+body.role-master .master-desktop-module-grid > a {
+    min-height: 85px;
+    padding: 14px;
+    border: 1px solid var(--master-border);
+    border-radius: 15px;
+    background: #fff;
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+body.role-master .master-desktop-module-grid > a:hover,
+body.role-master .master-menu-grid a:hover {
+    border-color: #b9dceb;
+    background: #f5faff;
+    transform: translateY(-2px);
+}
+
+body.role-master .master-desktop-module-grid strong {
+    font-size: 13px;
+}
+
+body.role-master .master-desktop-module-grid small {
+    font-size: 11px;
+}
+
+body.role-master .master-welcome {
+    padding: 22px;
+}
+
+body.role-master .master-welcome > span {
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+body.role-master .master-welcome h1 {
+    font-size: clamp(18px, 4.5vw, 24px);
+    font-weight: 800;
+}
+
+body.role-master .master-stat-grid > div {
+    min-height: 92px;
+    padding: 13px;
+}
+
+body.role-master .master-stat-grid strong {
+    color: var(--master-ink);
+    font-weight: 800;
+}
+
+body.role-master .master-period-card {
+    padding: 20px;
+}
+
+body.role-master .master-card-heading {
+    color: var(--master-blue);
+}
+
+body.role-master .master-card-heading b {
+    border-radius: 999px;
+}
+
+body.role-master .master-search {
+    border: 1px solid var(--master-border);
+    border-radius: 14px;
+    box-shadow: var(--master-shadow);
+}
+
+body.role-master .master-menu-grid a {
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+body.role-master .master-dashboard-note {
+    border-radius: 15px;
+    color: var(--master-blue-dark);
+    background: #eaf6fc;
+    border-color: #cce8f5;
+}
+
+@media (min-width: 768px) {
+    body.role-master .master-dashboard-desktop {
+        padding-top: 16px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    body.role-master .master-dashboard-page {
+        padding-bottom: calc(112px + env(safe-area-inset-bottom, 0px));
+    }
+
+    body.role-master .master-welcome {
+        border-radius: 22px;
+    }
+
+    body.role-master .master-stat-grid > div,
+    body.role-master .master-period-card,
+    body.role-master .master-menu-grid a {
+        border-radius: 17px;
+    }
+}
+
+@media (max-width: 380px) {
+    body.role-master .master-dashboard-page {
+        padding-bottom: calc(112px + env(safe-area-inset-bottom, 0px));
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.role-master .master-desktop-primary,
+    body.role-master .master-period-link,
+    body.role-master .master-section-heading a,
+    body.role-master .master-desktop-module-grid > a,
+    body.role-master .master-menu-grid a {
+        transition: none;
+    }
+}
+
+body.role-master .master-chart-container {
+    position: relative;
+    width: 100%;
+    height: 315px;
+    margin-top: 10px;
+}
+body.role-master .master-chart-links {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 16px;
+}
+body.role-master .master-chart-link {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    min-width: 0;
+    padding: 8px;
+    border: 1px solid #e5edf4;
+    border-radius: 12px;
+    color: #475569;
+    text-decoration: none;
+    font-size: 11px;
+}
+body.role-master .master-chart-link:hover {
+    background: #f2f8fc;
+    color: #087db5;
+}
+body.role-master .master-chart-link .master-desktop-stat-icon {
+    width: 28px;
+    height: 28px;
+    flex: 0 0 28px;
+    border-radius: 9px;
+    font-size: 12px;
+}
+body.role-master .master-chart-link > span:nth-child(2) {
+    flex: 1;
+    min-width: 0;
+}
+body.role-master .master-chart-link strong {
+    color: #243447;
+}
+body.role-master .master-chart-link > i {
+    color: #94a3b8;
+    font-size: 10px;
+}
+@media (min-width: 768px) {
+    body.role-master nav.navbar.navbar-sikinerja.sikinerja-capsule-navbar {
+        position: fixed !important;
+        top: 16px !important;
+        left: 16px !important;
+        right: 16px !important;
+        bottom: auto !important;
+        width: calc(100% - 32px) !important;
+        max-width: none !important;
+        margin: 0 !important;
+        border: 1px solid rgba(255, 255, 255, 0.9) !important;
+        border-radius: 999px !important;
+        background: rgba(207, 216, 228, 0.62) !important;
+        background-image: none !important;
+        box-shadow:
+            0 4px 12px rgba(48, 64, 85, 0.09),
+            inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+        backdrop-filter: blur(24px) saturate(135%) !important;
+        -webkit-backdrop-filter: blur(24px) saturate(135%) !important;
+    }
+    body.role-master .sidebar {
+        top: 100px !important;
+        bottom: 16px !important;
+        left: 16px !important;
+        height: calc(100dvh - 116px) !important;
+        border-radius: 22px !important;
+        overflow-y: auto;
+    }
+    body.role-master .main-content {
+        margin-top: 0 !important;
+        padding-top: 110px !important;
+    }
+    body.role-master .master-mobile-menu {
+        display: none !important;
+    }
+}
+@media (max-width: 1100px) {
+    body.role-master .master-chart-links {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+@media (max-width: 767.98px) {
+    body.role-master .master-chart-container {
+        height: 290px;
+    }
+    body.role-master .master-chart-links {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}

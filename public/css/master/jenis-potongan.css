@@ -1,0 +1,708 @@
+/* SIKINERJA — Master / Jenis Potongan
+   Override responsif untuk index, create, edit, dan show.
+   Muat setelah @stack('styles') agar aturan ini mengungguli CSS inline view.
+*/
+
+body.role-master .master-potongan-page,
+body.role-master .master-potongan-create-page,
+body.role-master .master-potongan-edit-page,
+body.role-master .master-potongan-show-page {
+    min-width: 0;
+}
+
+.master-potongan-page *,
+.master-potongan-create-page *,
+.master-potongan-edit-page *,
+.master-potongan-show-page * {
+    box-sizing: border-box;
+}
+
+.master-potongan-heading h1,
+.master-potongan-create-heading h1,
+.master-potongan-edit-heading h1,
+.master-potongan-show-heading h1 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    line-height: 1.3;
+}
+
+.master-potongan-heading h1 i,
+.master-potongan-create-heading h1 i,
+.master-potongan-edit-heading h1 i,
+.master-potongan-show-heading h1 i {
+    color: #078dcc;
+}
+
+.master-potongan-add,
+.master-potongan-add-desktop,
+.master-potongan-create-actions button,
+.master-potongan-edit-actions button,
+.master-potongan-show-primary {
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.master-potongan-add:hover,
+.master-potongan-add-desktop:hover,
+.master-potongan-create-actions button:hover,
+.master-potongan-edit-actions button:hover,
+.master-potongan-show-primary:hover {
+    background-color: #0678af;
+    color: #fff;
+}
+
+.master-potongan-page a:focus-visible,
+.master-potongan-page button:focus-visible,
+.master-potongan-create-page a:focus-visible,
+.master-potongan-create-page button:focus-visible,
+.master-potongan-edit-page a:focus-visible,
+.master-potongan-edit-page button:focus-visible,
+.master-potongan-show-page a:focus-visible {
+    outline: 3px solid #65c5f0;
+    outline-offset: 2px;
+}
+
+.master-potongan-create-range > *,
+.master-potongan-edit-range > *,
+.master-potongan-show-grid > *,
+.master-potongan-create-unit input,
+.master-potongan-edit-percent input {
+    min-width: 0;
+}
+
+.master-potongan-create-unit:focus-within,
+.master-potongan-edit-percent:focus-within {
+    border-color: #078dcc;
+    box-shadow: 0 0 0 3px #078dcc1a;
+}
+
+.master-potongan-create-unit input:focus,
+.master-potongan-edit-percent input:focus {
+    box-shadow: none;
+}
+
+.master-potongan-show-name strong,
+.master-potongan-show-description p,
+.master-potongan-show-grid strong,
+.master-potongan-table-description {
+    overflow-wrap: anywhere;
+}
+
+.master-potongan-create-field label,
+.master-potongan-edit-field label {
+    gap: 0.3rem;
+}
+
+.master-potongan-create-actions button,
+.master-potongan-edit-actions button {
+    cursor: pointer;
+}
+
+@media (max-width: 575.98px) {
+    .master-potongan-heading h1,
+    .master-potongan-create-heading h1,
+    .master-potongan-edit-heading h1,
+    .master-potongan-show-heading h1 {
+        font-size: clamp(1rem, 4.4vw, 1.25rem);
+    }
+
+    .master-potongan-summary-main {
+        flex-wrap: wrap;
+    }
+    .master-potongan-summary-main > b {
+        margin-left: auto;
+    }
+
+    .master-potongan-card-head {
+        min-width: 0;
+    }
+    .master-potongan-rate {
+        flex: 0 0 auto;
+    }
+    .master-potongan-range {
+        align-items: flex-start;
+    }
+    .master-potongan-range strong {
+        overflow-wrap: anywhere;
+    }
+
+    .master-potongan-create-field input,
+    .master-potongan-create-field select,
+    .master-potongan-create-field textarea,
+    .master-potongan-edit-field input,
+    .master-potongan-edit-field select,
+    .master-potongan-edit-field textarea {
+        font-size: 16px;
+    }
+
+    .master-potongan-create-card-header,
+    .master-potongan-edit-card-title,
+    .master-potongan-show-card-title {
+        min-width: 0;
+    }
+
+    .master-potongan-show-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.65rem;
+        margin-top: 1rem;
+    }
+    .master-potongan-show-actions a {
+        margin-top: 0;
+    }
+}
+
+@media (max-width: 380px) {
+    .master-potongan-create-range,
+    .master-potongan-edit-range {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0;
+    }
+
+    .master-potongan-create-field label,
+    .master-potongan-edit-field label {
+        flex-wrap: wrap;
+    }
+
+    .master-potongan-show-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    .master-potongan-show-type {
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+    .master-potongan-edit-actions {
+        grid-template-columns: minmax(0, 1fr) minmax(80px, 0.45fr);
+    }
+    .master-potongan-create-standard > span,
+    .master-potongan-edit-standard > span {
+        position: static;
+        display: inline-block;
+        margin-top: 0.55rem;
+    }
+}
+
+@media (min-width: 768px) {
+    /* Index: lepaskan batas mobile 560px yang tidak dioverride di view. */
+    body.role-master .master-potongan-page {
+        max-width: none;
+        margin: 0;
+        padding: 1rem clamp(1.25rem, 2.4vw, 2.5rem) 2rem;
+    }
+
+    .master-potongan-heading h1,
+    .master-potongan-create-heading h1,
+    .master-potongan-edit-heading h1,
+    .master-potongan-show-heading h1 {
+        font-size: 1.4rem;
+    }
+
+    .master-potongan-heading p,
+    .master-potongan-create-heading p,
+    .master-potongan-edit-heading p,
+    .master-potongan-show-heading p {
+        font-size: 0.8rem;
+        line-height: 1.55;
+    }
+
+    .master-potongan-summary {
+        padding: 1.05rem 1.2rem 0.9rem;
+    }
+    .master-potongan-summary-main > strong {
+        font-size: 1.8rem;
+    }
+    .master-potongan-summary-main > span {
+        font-size: 0.8rem;
+    }
+
+    .master-potongan-search input {
+        font-size: 0.8rem;
+    }
+    .master-potongan-table {
+        font-size: 0.76rem;
+    }
+    .master-potongan-table th {
+        font-size: 0.67rem;
+    }
+    .master-potongan-table td {
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+    }
+    .master-potongan-table-name {
+        font-size: 0.77rem;
+    }
+    .master-potongan-table-description {
+        font-size: 0.72rem;
+    }
+    .master-potongan-table-range {
+        font-size: 0.71rem;
+    }
+    .master-potongan-table-rate {
+        font-size: 0.76rem;
+    }
+
+    /* Form tetap menggunakan kartu maksimal 1120px seperti desain asli. */
+    .master-potongan-create-card form,
+    .master-potongan-edit-card form {
+        padding: 1.25rem 1.4rem;
+    }
+
+    .master-potongan-create-field,
+    .master-potongan-edit-field {
+        margin-bottom: 1rem;
+    }
+
+    .master-potongan-create-field label,
+    .master-potongan-edit-field label {
+        font-size: 0.79rem;
+    }
+
+    .master-potongan-create-field label small,
+    .master-potongan-create-field label em,
+    .master-potongan-edit-field label small,
+    .master-potongan-edit-field label a {
+        font-size: 0.7rem;
+    }
+
+    .master-potongan-create-field input,
+    .master-potongan-create-field select,
+    .master-potongan-create-field textarea,
+    .master-potongan-edit-field input,
+    .master-potongan-edit-field select,
+    .master-potongan-edit-field textarea {
+        min-height: 42px;
+        padding: 0.6rem 0.75rem;
+        font-size: 0.8rem;
+    }
+
+    .master-potongan-create-field textarea,
+    .master-potongan-edit-field textarea {
+        min-height: 88px;
+    }
+
+    .master-potongan-create-unit input,
+    .master-potongan-edit-percent input {
+        border: 0;
+        border-radius: 0;
+    }
+
+    .master-potongan-create-help,
+    .master-potongan-create-error,
+    .master-potongan-edit-help,
+    .master-potongan-edit-error {
+        font-size: 0.7rem;
+    }
+
+    .master-potongan-create-section-title {
+        font-size: 0.77rem;
+    }
+    .master-potongan-create-info p,
+    .master-potongan-edit-note p,
+    .master-potongan-show-note p {
+        font-size: 0.75rem;
+    }
+
+    .master-potongan-create-actions button,
+    .master-potongan-create-actions a,
+    .master-potongan-edit-actions button,
+    .master-potongan-edit-actions a,
+    .master-potongan-show-primary,
+    .master-potongan-show-secondary {
+        min-height: 42px;
+        font-size: 0.77rem;
+    }
+
+    .master-potongan-show-name label,
+    .master-potongan-show-type label,
+    .master-potongan-show-grid label,
+    .master-potongan-show-description label {
+        font-size: 0.75rem;
+    }
+
+    .master-potongan-show-type strong,
+    .master-potongan-show-grid strong {
+        font-size: 0.85rem;
+    }
+    .master-potongan-show-description p {
+        font-size: 0.8rem;
+    }
+}
+
+/* =========================================
+   HEADER MASTER JENIS POTONGAN - DESKTOP
+========================================= */
+@media (min-width: 768px) {
+    body.role-master .master-potongan-page {
+        max-width: none;
+        width: 100%;
+        margin: 0;
+        padding: 1rem clamp(1.25rem, 2.4vw, 2.5rem) 2rem;
+    }
+
+    body.role-master .master-potongan-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+        min-height: 185px;
+        margin-bottom: 1.5rem;
+        padding: 2.5rem 3rem;
+        background: linear-gradient(110deg, #096b9e 0%, #0799c5 100%);
+        border-radius: 30px;
+        box-sizing: border-box;
+    }
+
+    body.role-master .master-potongan-heading h1 {
+        margin: 0;
+        color: #fff;
+        font-size: clamp(1.6rem, 2.2vw, 2.5rem);
+        font-weight: 800;
+        line-height: 1.2;
+    }
+
+    body.role-master .master-potongan-heading h1 i {
+        color: #fff;
+        margin-right: 0.5rem;
+    }
+
+    body.role-master .master-potongan-heading p {
+        max-width: none;
+        margin-top: 0.8rem;
+        color: #d1eafa;
+        font-size: 0.95rem;
+    }
+
+    body.role-master .master-potongan-heading .master-potongan-add-desktop {
+        padding: 0.9rem 1.2rem;
+        color: #fff;
+        background: #ffffff24;
+        border: 1px solid #ffffff35;
+        border-radius: 16px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    body.role-master
+        .master-potongan-heading
+        .master-potongan-add-desktop:hover {
+        background: #ffffff38;
+    }
+}
+/* =========================================
+   JENIS POTONGAN - DESKTOP
+   Header normal, summary gradasi biru
+========================================= */
+@media (min-width: 768px) {
+    /* Kembalikan header judul seperti semula */
+    body.role-master .master-potongan-heading {
+        min-height: auto;
+        padding: 0;
+        background: transparent;
+        border-radius: 0;
+        margin-bottom: 1rem;
+    }
+
+    body.role-master .master-potongan-heading h1 {
+        color: #1b2938;
+        font-size: 1.4rem;
+        font-weight: 700;
+    }
+
+    body.role-master .master-potongan-heading h1 i {
+        color: #078dcc;
+    }
+
+    body.role-master .master-potongan-heading p {
+        margin-top: 0.3rem;
+        color: #71829c;
+        font-size: 0.78rem;
+    }
+
+    /* Kembalikan tombol tambah */
+    body.role-master .master-potongan-heading .master-potongan-add-desktop {
+        padding: 0.65rem 0.85rem;
+        color: #fff;
+        background: #078dcc;
+        border: 0;
+        border-radius: 6px;
+        font-size: 0.72rem;
+    }
+
+    /* Ubah TOTAL KONFIGURASI menjadi header biru */
+    body.role-master .master-potongan-summary {
+        min-height: 190px;
+        padding: 2rem 3rem;
+        margin-bottom: 1.3rem;
+        color: #fff;
+        background: linear-gradient(110deg, #096b9e 0%, #0799c5 100%);
+        border: 0;
+        border-radius: 30px;
+        box-shadow: none;
+        box-sizing: border-box;
+    }
+
+    body.role-master .master-potongan-summary-label {
+        color: #fff;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+    }
+
+    body.role-master .master-potongan-summary-main {
+        gap: 0.75rem;
+        padding: 0.8rem 0 1rem;
+        border-bottom: 1px solid #ffffff35;
+    }
+
+    body.role-master .master-potongan-summary-main > strong {
+        color: #fff;
+        font-size: 2.4rem;
+        font-weight: 800;
+    }
+
+    body.role-master .master-potongan-summary-main > span {
+        color: #e1f2fb;
+        font-size: 1rem;
+    }
+
+    body.role-master .master-potongan-summary-main > b {
+        padding: 0.65rem 1rem;
+        color: #fff;
+        background: #ffffff24;
+        border: 1px solid #ffffff35;
+        border-radius: 16px;
+        font-size: 0.8rem;
+    }
+
+    body.role-master .master-potongan-summary-main > b i {
+        color: #79f5cb;
+    }
+
+    body.role-master .master-potongan-summary-footer {
+        padding-top: 0.9rem;
+        color: #d1eafa;
+        font-size: 0.8rem;
+    }
+
+    body.role-master .master-potongan-summary-footer strong {
+        color: #fff;
+        font-weight: 600;
+    }
+}
+
+/* ==========================================
+   JENIS POTONGAN - TABEL DESKTOP
+   Mengikuti tampilan Master Jam Kerja
+========================================== */
+@media (min-width: 768px) {
+    /* Container tabel */
+    body.role-master .master-potongan-table-wrap {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        background: #ffffff;
+        border: 1px solid #e1eaf3;
+        border-radius: 22px;
+        box-shadow: 0 4px 16px rgba(30, 58, 95, 0.025);
+    }
+
+    /* Struktur tabel */
+    body.role-master .master-potongan-table {
+        width: 100%;
+        min-width: 1020px;
+        border-collapse: separate;
+        border-spacing: 0;
+        color: #334155;
+        font-size: 0.85rem;
+    }
+
+    /* Header kolom */
+    body.role-master .master-potongan-table thead th {
+        padding: 1.15rem 1.25rem;
+        color: #71849e;
+        background: #f1f6fa;
+        border-bottom: 1px solid #dfe8f1;
+        font-size: 0.76rem;
+        font-weight: 700;
+        text-align: left;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+
+    /* Baris data */
+    body.role-master .master-potongan-table tbody td {
+        padding: 1.2rem 1.25rem;
+        border-bottom: 1px solid #eaf0f6;
+        vertical-align: middle;
+    }
+
+    body.role-master .master-potongan-table tbody tr:last-child td {
+        border-bottom: 0;
+    }
+
+    body.role-master .master-potongan-table tbody tr:hover {
+        background: #f9fcff;
+    }
+
+    /* Nomor urut */
+    body.role-master .master-potongan-table-number {
+        display: grid;
+        place-items: center;
+        width: 43px;
+        height: 43px;
+        color: #078dcc;
+        background: #e7f5ff;
+        border-radius: 12px;
+        font-size: 0.9rem;
+        font-weight: 700;
+    }
+
+    /* Semua nomor memakai warna biru seperti Jam Kerja */
+    body.role-master .master-potongan-table-number.is-alpa,
+    body.role-master .master-potongan-table-number.is-absen {
+        color: #078dcc;
+        background: #e7f5ff;
+    }
+
+    /* Nama dan kategori */
+    body.role-master .master-potongan-table-name {
+        display: block;
+        min-width: 175px;
+        color: #283b52;
+        font-size: 0.9rem;
+        font-weight: 700;
+        line-height: 1.5;
+    }
+
+    body.role-master .master-potongan-table-category {
+        display: inline-block;
+        margin-top: 0.4rem;
+        padding: 0.35rem 0.55rem;
+        border-radius: 6px;
+        font-size: 0.72rem;
+        line-height: 1.3;
+    }
+
+    /* Deskripsi */
+    body.role-master .master-potongan-table-description {
+        display: block;
+        min-width: 210px;
+        max-width: 390px;
+        color: #8494a9;
+        font-size: 0.82rem;
+        line-height: 1.55;
+    }
+
+    /* Rentang waktu */
+    body.role-master .master-potongan-table-range {
+        color: #526783;
+        font-size: 0.82rem;
+        line-height: 1.5;
+        white-space: nowrap;
+    }
+
+    /* Persentase potongan */
+    body.role-master .master-potongan-table-rate {
+        display: inline-block;
+        padding: 0.45rem 0.65rem;
+        border-radius: 9px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    body.role-master .master-potongan-table-rate-label {
+        display: block;
+        margin-top: 0.3rem;
+        color: #91a1b8;
+        font-size: 0.7rem;
+    }
+
+    /* Status aktif */
+    body.role-master .master-potongan-table-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.5rem 0.8rem;
+        color: #07845a;
+        background: #e5f7ee;
+        border-radius: 999px;
+        font-size: 0.8rem;
+        white-space: nowrap;
+    }
+
+    body.role-master .master-potongan-table-status i {
+        font-size: 0.5rem;
+    }
+
+    /* Tombol edit dan hapus */
+    body.role-master .master-potongan-table-actions {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.65rem;
+        white-space: nowrap;
+    }
+
+    body.role-master .master-potongan-table-actions a,
+    body.role-master .master-potongan-table-actions button {
+        display: grid;
+        place-items: center;
+        width: 43px;
+        height: 43px;
+        padding: 0;
+        background: #f8fbfe;
+        border: 1px solid #e1eaf3;
+        border-radius: 12px;
+        font-size: 1rem;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    body.role-master .master-potongan-table-actions a {
+        color: #71849e;
+    }
+
+    body.role-master .master-potongan-table-actions a:hover {
+        color: #078dcc;
+        background: #eaf7ff;
+        border-color: #bce7ff;
+    }
+
+    body.role-master .master-potongan-table-actions button {
+        color: #f03d5c;
+    }
+
+    body.role-master .master-potongan-table-actions button:hover {
+        background: #fff0f3;
+        border-color: #ffc4d0;
+    }
+
+    body.role-master .master-potongan-table-actions form {
+        margin: 0;
+    }
+
+    /* Baris kosong */
+    body.role-master .master-potongan-table-empty {
+        height: 120px;
+        color: #8494a9;
+        font-size: 0.85rem;
+        text-align: center;
+    }
+
+    /* Catatan di bawah tabel */
+    body.role-master .master-potongan-note {
+        gap: 0.8rem;
+        margin-top: 1.25rem;
+        padding: 1.15rem 1.4rem;
+        border-radius: 12px;
+    }
+
+    body.role-master .master-potongan-note p {
+        font-size: 0.82rem;
+        line-height: 1.6;
+    }
+}

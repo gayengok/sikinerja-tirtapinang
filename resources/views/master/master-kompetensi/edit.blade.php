@@ -412,3 +412,8 @@
         })();
     </script>
 @endpush
+
+@push('styles')
+    <link rel="stylesheet"
+        href="{{ asset('css/master/master-kompetensi.css') }}?v={{ filemtime(public_path('css/master/master-kompetensi.css')) }}">
+@endpush

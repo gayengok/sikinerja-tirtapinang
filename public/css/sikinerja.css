@@ -4419,7 +4419,8 @@ body.role-pegawai .navbar-sikinerja .brand-badge-icon {
         border-radius: 6px;
     }
 
-    body.role-master.sidebar-collapsed .sidebar-link span {
+    body.role-master.sidebar-collapsed .sidebar-link-text,
+    body.role-master.sidebar-collapsed .sidebar-active-indicator {
         position: absolute;
         width: 1px;
         height: 1px;
@@ -4635,7 +4636,8 @@ body.role-pegawai .navbar-sikinerja .brand-badge-icon {
         border-radius: 6px;
     }
 
-    body.role-atasan.sidebar-collapsed .sidebar-link span {
+    body.role-atasan.sidebar-collapsed .sidebar-link-text,
+    body.role-atasan.sidebar-collapsed .sidebar-active-indicator {
         position: absolute;
         width: 1px;
         height: 1px;
@@ -5431,7 +5433,8 @@ body.role-atasan .navbar-sikinerja .notification-empty i {
         justify-content: center !important;
         padding: 12px 8px !important;
     }
-    body.role-atasan.sidebar-collapsed .sidebar .sidebar-link span,
+    body.role-atasan.sidebar-collapsed .sidebar .sidebar-link-text,
+    body.role-atasan.sidebar-collapsed .sidebar .sidebar-active-indicator,
     body.role-atasan.sidebar-collapsed .sidebar .sidebar-brand-text,
     body.role-atasan.sidebar-collapsed .sidebar .sidebar-section-title {
         display: none !important;
@@ -6012,8 +6015,10 @@ html body .sidebar .btn-close {
 
     html body.role-atasan.sidebar-collapsed .sidebar .sidebar-brand-text,
     html body.role-master.sidebar-collapsed .sidebar .sidebar-brand-text,
-    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-link span,
-    html body.role-master.sidebar-collapsed .sidebar .sidebar-link span {
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-link-text,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-link-text,
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-active-indicator,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-active-indicator {
         display: none !important;
         visibility: hidden !important;
         width: 0 !important;
@@ -6130,8 +6135,10 @@ html body .sidebar .btn-close {
     html body.role-master.sidebar-collapsed .sidebar .sidebar-menu-title,
     html body.role-atasan.sidebar-collapsed .sidebar .sidebar-nav-title,
     html body.role-master.sidebar-collapsed .sidebar .sidebar-nav-title,
-    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-link > span,
-    html body.role-master.sidebar-collapsed .sidebar .sidebar-link > span {
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-link-text,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-link-text,
+    html body.role-atasan.sidebar-collapsed .sidebar .sidebar-active-indicator,
+    html body.role-master.sidebar-collapsed .sidebar .sidebar-active-indicator {
         display: none !important;
         visibility: hidden !important;
         width: 0 !important;
@@ -6197,8 +6204,8 @@ html body .sidebar .btn-close {
         font-size: 17px !important;
         line-height: 1 !important;
         text-align: center !important;
-        color: #ffffff !important;
-        -webkit-text-fill-color: #ffffff !important;
+        color: #334155 !important;
+        -webkit-text-fill-color: #334155 !important;
         opacity: 1 !important;
         visibility: visible !important;
     }
@@ -6208,8 +6215,8 @@ html body .sidebar .btn-close {
         display: inline-block !important;
         font-family: "Font Awesome 6 Free" !important;
         font-weight: 900 !important;
-        color: #ffffff !important;
-        -webkit-text-fill-color: #ffffff !important;
+        color: #334155 !important;
+        -webkit-text-fill-color: #334155 !important;
         opacity: 1 !important;
         visibility: visible !important;
     }
@@ -6388,8 +6395,8 @@ html body .sidebar .btn-close {
         font-size: 18px !important;
         line-height: 1 !important;
         text-align: center !important;
-        color: #ffffff !important;
-        -webkit-text-fill-color: #ffffff !important;
+        color: #334155 !important;
+        -webkit-text-fill-color: #334155 !important;
         opacity: 1 !important;
         visibility: visible !important;
     }
@@ -6408,8 +6415,8 @@ html body .sidebar .btn-close {
         display: inline-block !important;
         font-family: "Font Awesome 6 Free" !important;
         font-weight: 900 !important;
-        color: #ffffff !important;
-        -webkit-text-fill-color: #ffffff !important;
+        color: #334155 !important;
+        -webkit-text-fill-color: #334155 !important;
         opacity: 1 !important;
         visibility: visible !important;
     }

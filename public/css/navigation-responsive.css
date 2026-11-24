@@ -285,8 +285,10 @@
         border-left: 0;
         border-radius: 9px;
     }
-    body.role-atasan.sidebar-collapsed .sidebar-link span,
-    body.role-master.sidebar-collapsed .sidebar-link span,
+    body.role-atasan.sidebar-collapsed .sidebar-link-text,
+    body.role-master.sidebar-collapsed .sidebar-link-text,
+    body.role-atasan.sidebar-collapsed .sidebar-active-indicator,
+    body.role-master.sidebar-collapsed .sidebar-active-indicator,
     body.role-atasan.sidebar-collapsed .sidebar-section-title,
     body.role-master.sidebar-collapsed .sidebar-section-title {
         display: none !important;

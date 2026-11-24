@@ -18,9 +18,11 @@
         default => 'atasan.dashboard',
     };
 
-    $routeKembali = \Illuminate\Support\Facades\Route::has($indexRoute)
-        ? route($indexRoute, ['periode_id' => $periode->id])
-        : route($dashboardRoute);
+    $routeKembali = $assessmentRoutePrefix === 'atasan.kompetensi'
+        ? route('atasan.pegawai.index', ['periode_id' => $periode->id])
+        : (\Illuminate\Support\Facades\Route::has($indexRoute)
+            ? route($indexRoute, ['periode_id' => $periode->id])
+            : route($dashboardRoute));
 
     $namaPegawai = $pegawai->nama ?? 'Pegawai';
     $inisialPegawai = mb_strtoupper(mb_substr($namaPegawai, 0, 2));

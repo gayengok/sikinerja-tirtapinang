@@ -26,6 +26,7 @@ use App\Http\Controllers\Master\PegawaiController;
 use App\Http\Controllers\Master\PeriodePenilaianController;
 use App\Http\Controllers\Master\TemplateLaporanController;
 use App\Http\Controllers\Pegawai\AbsensiController;
+use App\Http\Controllers\Pegawai\CutiController;
 use App\Http\Controllers\Pegawai\DashboardPegawaiController;
 use App\Http\Controllers\Pegawai\LaporanHarianController;
 use App\Http\Controllers\Pegawai\PegawaiNotificationController;
@@ -232,6 +233,14 @@ Route::middleware(['auth', 'role:pegawai'])
 
         Route::get('notifikasi/{notification}', [PegawaiNotificationController::class, 'open'])
             ->name('notifikasi.open');
+
+        Route::prefix('cuti')
+            ->name('cuti.')
+            ->group(function () {
+
+                Route::get('/', [CutiController::class, 'index'])
+                    ->name('index');
+            });
 
         Route::prefix('laporan-harian')
             ->name('laporan-harian.')

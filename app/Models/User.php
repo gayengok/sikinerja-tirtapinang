@@ -64,4 +64,62 @@ class User extends Authenticatable
     {
         return $this->role === 'pegawai';
     }
+
+    public function mutasiKuotaCutis()
+    {
+        return $this->hasMany(
+            MutasiKuotaCuti::class,
+            'user_id'
+        )->terbaru();
+    }
+
+    public function tandaTangans()
+    {
+        return $this->hasMany(
+            TandaTanganPengguna::class,
+            'user_id'
+        )->terbaru();
+    }
+
+    public function tandaTanganAktif()
+    {
+        return $this->hasOne(
+            TandaTanganPengguna::class,
+            'user_id'
+        )->aktif();
+    }
+
+    public function tandaTanganNonaktif()
+    {
+        return $this->tandaTangans()->nonaktif();
+    }
+
+    public function memilikiTandaTanganAktif(): bool
+    {
+        return $this->tandaTanganAktif()->exists();
+    }
+
+    public function templateSuratCutis()
+    {
+        return $this->hasMany(
+            TemplateSuratCuti::class,
+            'dibuat_oleh'
+        )->terbaru();
+    }
+
+    public function suratPermohonanCutis()
+    {
+        return $this->hasMany(
+            SuratPermohonanCuti::class,
+            'dibuat_oleh'
+        )->orderByDesc('id');
+    }
+
+    public function skCutisDiunggah()
+    {
+        return $this->hasMany(
+            SkCuti::class,
+            'diunggah_oleh'
+        )->terbaru();
+    }
 }

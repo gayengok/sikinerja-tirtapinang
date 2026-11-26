@@ -85,16 +85,21 @@
             }
         }
 
+        $cutiUrl = \Illuminate\Support\Facades\Route::has('pegawai.cuti.index')
+    ? route('pegawai.cuti.index')
+    : null;
+
         $logoutUrl = \Illuminate\Support\Facades\Route::has('logout')
             ? route('logout')
             : null;
 
-        $profileActive = request()->routeIs(
-            'pegawai.profil.*',
-            'pegawai.profile.*',
-            'pegawai.profil',
-            'profile.*'
-        );
+       $profileActive = request()->routeIs(
+    'pegawai.profil.*',
+    'pegawai.profile.*',
+    'pegawai.profil',
+    'pegawai.cuti.*',
+    'profile.*'
+);
     @endphp
 
     <body class="pegawai-app-body {{ request()->routeIs('pegawai.laporan-harian.create') ? 'role-pegawai' : '' }}">
@@ -180,6 +185,17 @@
                                     <span>Lihat Profil</span>
                                 </span>
                             @endif
+
+                            @if ($cutiUrl)
+    <a href="{{ $cutiUrl }}"
+        class="pegawai-profile-dropdown-item"
+        @if (request()->routeIs('pegawai.cuti.*')) aria-current="page" @endif
+    >
+        <i class="fa-regular fa-calendar-days"></i>
+        <span>Cuti Saya</span>
+        <i class="fa-solid fa-chevron-right"></i>
+    </a>
+@endif
 
                             @if ($logoutUrl)
                                 <form method="POST" action="{{ $logoutUrl }}">

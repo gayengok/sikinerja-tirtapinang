@@ -82,6 +82,53 @@ class Pegawai extends Model
         return $this->hasMany(HasilPenilaian::class);
     }
 
+    public function kuotaCutis()
+    {
+        return $this->hasMany(KuotaCuti::class, 'pegawai_id');
+    }
+
+    public function pengajuanCutis()
+    {
+        return $this->hasMany(
+            PengajuanCuti::class,
+            'pegawai_id'
+        );
+    }
+
+    public function pengajuanCutiMenungguPersetujuan()
+    {
+        return $this->hasMany(
+            PengajuanCuti::class,
+            'current_approver_id'
+        )->pending();
+    }
+
+    public function detailCutiDitolak()
+    {
+        return $this->hasMany(
+            DetailPengajuanCuti::class,
+            'ditolak_oleh'
+        );
+    }
+
+    public function persetujuanCutis()
+    {
+        return $this->hasMany(
+            PersetujuanCuti::class,
+            'approver_id'
+        );
+    }
+
+    public function persetujuanCutiPending()
+    {
+        return $this->persetujuanCutis()->pending();
+    }
+
+    public function persetujuanCutiSelesai()
+    {
+        return $this->persetujuanCutis()->sudahDiproses();
+    }
+
     public function scopeAktif($query)
     {
         return $query->where('status', 'aktif');

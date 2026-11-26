@@ -41,19 +41,14 @@
                         <th scope="col">No</th>
                         <th scope="col">Hari / Jadwal</th>
                         <th scope="col">Target Jabatan</th>
-                        <th scope="col">Jam Masuk</th>
-                        <th scope="col">Jam Pulang</th>
-                        <th scope="col">Toleransi</th>
+                        <th scope="col">Rentang Absen Masuk</th>
+                        <th scope="col">Rentang Absen Pulang</th>
                         <th scope="col">Status</th>
                         <th scope="col" class="master-jam-kerja-table-actions-heading">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($jamKerjas as $jam)
-                        @php
-                            $jamMasuk = \Carbon\Carbon::parse($jam->jam_masuk)->format('H:i');
-                            $jamPulang = \Carbon\Carbon::parse($jam->jam_pulang)->format('H:i');
-                        @endphp
                         <tr>
                             <td><span
                                     class="master-jam-kerja-table-number">{{ $loop->iteration + ($jamKerjas->currentPage() - 1) * $jamKerjas->perPage() }}</span>
@@ -66,11 +61,8 @@
                             <td><span
                                     class="master-jam-kerja-table-role">{{ $jam->jabatan->nama_jabatan ?? 'Semua Jabatan' }}</span>
                             </td>
-                            <td><span class="master-jam-kerja-table-time"><i class="fa-regular fa-clock"></i>
-                                    {{ $jamMasuk }}</span></td>
-                            <td><span class="master-jam-kerja-table-time"><i class="fa-regular fa-clock"></i>
-                                    {{ $jamPulang }}</span></td>
-                            <td><span class="master-jam-kerja-table-tolerance">{{ $jam->toleransi_menit }} mnt</span></td>
+                            <td>@include('master.jam-kerja.partials.window-display', ['jamKerja' => $jam, 'jenisJadwal' => 'masuk'])</td>
+                            <td>@include('master.jam-kerja.partials.window-display', ['jamKerja' => $jam, 'jenisJadwal' => 'pulang'])</td>
                             <td><span class="master-jam-kerja-table-status"><i class="fa-solid fa-circle"></i> Aktif</span>
                             </td>
                             <td>
@@ -90,7 +82,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td class="master-jam-kerja-table-empty" colspan="8">Belum ada data jam kerja.</td>
+                            <td class="master-jam-kerja-table-empty" colspan="7">Belum ada data jam kerja.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -99,10 +91,6 @@
 
         <div class="master-jam-kerja-list">
             @forelse ($jamKerjas as $jam)
-                @php
-                    $jamMasuk = \Carbon\Carbon::parse($jam->jam_masuk)->format('H:i');
-                    $jamPulang = \Carbon\Carbon::parse($jam->jam_pulang)->format('H:i');
-                @endphp
                 <article class="master-jam-kerja-card">
                     <div class="master-jam-kerja-card-body">
                         <div class="master-jam-kerja-card-top">
@@ -117,19 +105,9 @@
                             </span>
                         </div>
 
-                        <div class="master-jam-kerja-times">
-                            <div>
-                                <span>Jam Masuk</span>
-                                <strong>{{ $jamMasuk }}</strong>
-                            </div>
-                            <div>
-                                <span>Jam Pulang</span>
-                                <strong>{{ $jamPulang }}</strong>
-                            </div>
-                            <div>
-                                <span>Toleransi</span>
-                                <strong>{{ $jam->toleransi_menit }} mnt</strong>
-                            </div>
+                        <div class="master-jam-kerja-windows">
+                            @include('master.jam-kerja.partials.window-display', ['jamKerja' => $jam, 'jenisJadwal' => 'masuk'])
+                            @include('master.jam-kerja.partials.window-display', ['jamKerja' => $jam, 'jenisJadwal' => 'pulang'])
                         </div>
 
                         <div class="master-jam-kerja-actions">
@@ -160,8 +138,8 @@
             <span><i class="fa-solid fa-circle-info"></i></span>
             <div>
                 <strong>Ketentuan Jam &amp; Presensi Kerja</strong>
-                <p>Toleransi keterlambatan maksimal <b>15 menit</b>. Keterlambatan di atas toleransi akan tercatat pada log
-                    absensi dan berdampak pada kalkulasi pemotongan Tukin bulanan.</p>
+                <p>Jam buka dan batas absen masuk serta jam buka dan tutup absen pulang diatur manual pada form
+                    jadwal. Toleransi keterlambatan tetap digunakan terpisah. Presensi di luar rentang akan ditolak.</p>
             </div>
         </aside>
 

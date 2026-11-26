@@ -86,6 +86,10 @@ class JamKerjaController extends Controller
             'jam_masuk' => ['required', 'date_format:H:i'],
             'jam_pulang' => ['required', 'date_format:H:i', 'after:jam_masuk'],
             'toleransi_menit' => ['required', 'integer', 'min:0'],
+            'jam_buka_absen_masuk' => ['required', 'date_format:H:i'],
+            'batas_absen_masuk' => ['required', 'date_format:H:i', 'after_or_equal:jam_buka_absen_masuk'],
+            'jam_buka_absen_pulang' => ['required', 'date_format:H:i'],
+            'jam_tutup_absen_pulang' => ['required', 'date_format:H:i', 'after_or_equal:jam_buka_absen_pulang'],
         ], [
             'jabatan_id.exists' => 'Jabatan yang dipilih tidak valid.',
             'hari.required' => 'Hari wajib dipilih.',
@@ -95,6 +99,12 @@ class JamKerjaController extends Controller
             'jam_pulang.after' => 'Jam pulang harus setelah jam masuk.',
             'toleransi_menit.required' => 'Toleransi menit wajib diisi.',
             'toleransi_menit.integer' => 'Toleransi menit harus berupa angka bulat.',
+            'jam_buka_absen_masuk.required' => 'Jam buka absen masuk wajib diisi.',
+            'batas_absen_masuk.required' => 'Batas absen masuk wajib diisi.',
+            'batas_absen_masuk.after_or_equal' => 'Batas absen masuk harus sama dengan atau setelah jam bukanya.',
+            'jam_buka_absen_pulang.required' => 'Jam buka absen pulang wajib diisi.',
+            'jam_tutup_absen_pulang.required' => 'Jam tutup absen pulang wajib diisi.',
+            'jam_tutup_absen_pulang.after_or_equal' => 'Jam tutup absen pulang harus sama dengan atau setelah jam bukanya.',
         ]);
     }
 }

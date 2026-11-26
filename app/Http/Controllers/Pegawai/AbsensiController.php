@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Pegawai;
 
 use App\Http\Controllers\Controller;
 use App\Models\Absensi;
+use App\Models\MasterJamKerja;
+use App\Models\Pegawai;
 use App\Support\HariLibur;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -17,9 +20,10 @@ class AbsensiController extends Controller
     public function index(Request $request)
     {
         $pegawai = $this->pegawaiLogin($request);
+        $waktuSekarang = $this->waktuJakarta();
         $query = $pegawai->absensis()->orderByDesc('tanggal');
-        $bulan = $request->query('bulan', now()->month);
-        $tahun = $request->query('tahun', now()->year);
+        $bulan = $request->query('bulan', $waktuSekarang->month);
+        $tahun = $request->query('tahun', $waktuSekarang->year);
 
         if ($request->filled('bulan') || $request->filled('tahun')) {
             $query->whereMonth('tanggal', $bulan)
@@ -45,7 +49,7 @@ class AbsensiController extends Controller
             'dinas_luar' => (clone $ringkasanQuery)->where('status', 'dinas_luar')->count(),
         ];
 
-        $tanggal = now()->toDateString();
+        $tanggal = $waktuSekarang->toDateString();
 
         $cutiHariIni = $pegawai->absensis()
             ->whereDate('tanggal', $tanggal)
@@ -57,7 +61,20 @@ class AbsensiController extends Controller
             ->first();
 
         $hariLiburHariIni = HariLibur::detail($tanggal);
-        $attendanceCalendarMonth = now()->copy()->startOfMonth();
+        $jadwalKerjaHariIni = $this->jadwalKerjaUntukTanggal($pegawai, $waktuSekarang);
+        $rentangAbsenMasuk = $jadwalKerjaHariIni?->rentangAbsenMasuk();
+        $rentangAbsenPulang = $jadwalKerjaHariIni?->rentangAbsenPulang();
+        $absensiMasukHariIni = filled($absensiHariIni?->jam_masuk);
+        $absensiPulangHariIni = filled($absensiHariIni?->jam_pulang);
+        $rentangAbsenMasukAktif = $rentangAbsenMasuk !== null
+            && $this->waktuDalamRentang($waktuSekarang, $rentangAbsenMasuk);
+        $rentangAbsenPulangAktif = $rentangAbsenPulang !== null
+            && $this->waktuDalamRentang($waktuSekarang, $rentangAbsenPulang);
+        $bisaAbsenMasuk = $rentangAbsenMasukAktif && ! $absensiMasukHariIni;
+        $bisaAbsenPulang = $rentangAbsenPulangAktif
+            && $absensiMasukHariIni
+            && ! $absensiPulangHariIni;
+        $attendanceCalendarMonth = $waktuSekarang->copy()->startOfMonth();
 
         $attendanceCalendar = in_array($request->user()->role, ['atasan', 'kepala_bagian'], true)
             ? $pegawai->absensis()
@@ -77,8 +94,16 @@ class AbsensiController extends Controller
             'tahun' => $tahun,
             'cutiHariIni' => $cutiHariIni,
             'hariLiburHariIni' => $hariLiburHariIni,
-            'absensiMasukHariIni' => filled($absensiHariIni?->jam_masuk),
-            'absensiPulangHariIni' => filled($absensiHariIni?->jam_pulang),
+            'absensiMasukHariIni' => $absensiMasukHariIni,
+            'absensiPulangHariIni' => $absensiPulangHariIni,
+            'jadwalKerjaHariIni' => $jadwalKerjaHariIni,
+            'waktuSekarang' => $waktuSekarang,
+            'rentangAbsenMasuk' => $rentangAbsenMasuk,
+            'rentangAbsenPulang' => $rentangAbsenPulang,
+            'rentangAbsenMasukAktif' => $rentangAbsenMasukAktif,
+            'rentangAbsenPulangAktif' => $rentangAbsenPulangAktif,
+            'bisaAbsenMasuk' => $bisaAbsenMasuk,
+            'bisaAbsenPulang' => $bisaAbsenPulang,
             'attendanceCalendarMonth' => $attendanceCalendarMonth,
             'attendanceCalendar' => $attendanceCalendar,
             'attendanceRoute' => $this->attendanceRoute($request),
@@ -91,16 +116,33 @@ class AbsensiController extends Controller
     public function store(Request $request)
     {
         $pegawai = $this->pegawaiLogin($request);
-        $hariLiburHariIni = HariLibur::detail(now()->toDateString());
+        $hariLiburHariIni = HariLibur::detail($this->waktuJakarta()->toDateString());
 
         if ($hariLiburHariIni) {
             return to_route($this->attendanceRoute($request) . '.index')
                 ->with('error', "Presensi tidak tersedia pada {$hariLiburHariIni['label']}.");
         }
 
+        $jenisPresensi = $request->validate([
+            'jenis_presensi' => ['required', 'in:masuk,pulang'],
+        ])['jenis_presensi'];
+        $waktuSekarang = $this->waktuJakarta();
+        $jadwalKerja = $this->jadwalKerjaUntukTanggal($pegawai, $waktuSekarang);
+
+        if (! $jadwalKerja) {
+            return back()->with('error', 'Jadwal jam kerja hari ini belum diatur. Silakan hubungi admin.');
+        }
+
+        $rentangPresensi = $jenisPresensi === 'masuk'
+            ? $jadwalKerja->rentangAbsenMasuk()
+            : $jadwalKerja->rentangAbsenPulang();
+
+        if (! $this->waktuDalamRentang($waktuSekarang, $rentangPresensi)) {
+            return back()->with('error', $this->pesanDiLuarRentang($jenisPresensi, $rentangPresensi, $waktuSekarang));
+        }
+
         $validated = $request->validate([
             'status' => ['required', 'in:hadir,izin,alpa'],
-            'jenis_presensi' => ['required', 'in:masuk,pulang'],
             'keterangan' => ['nullable', 'string', 'max:1000'],
             'latitude' => ['required', 'numeric', 'between:-90,90'],
             'longitude' => ['required', 'numeric', 'between:-180,180'],
@@ -121,6 +163,9 @@ class AbsensiController extends Controller
             'latitude.required' => 'Lokasi GPS belum tersedia.',
             'longitude.required' => 'Lokasi GPS belum tersedia.',
             'foto.required' => 'Foto presensi wajib diambil.',
+            'foto.image' => 'Foto presensi harus berupa gambar yang valid.',
+            'foto.mimes' => 'Format foto harus JPG, JPEG, PNG, atau WebP.',
+            'foto.max' => 'Ukuran foto maksimal 5 MB.',
         ]);
 
         $latitude = (float) $validated['latitude'];
@@ -140,13 +185,11 @@ class AbsensiController extends Controller
             106.101327
         );
 
-        $tanggal = now()->toDateString();
-        $jenisPresensi = $validated['jenis_presensi'];
         $kolomWaktu = $jenisPresensi === 'masuk' ? 'jam_masuk' : 'jam_pulang';
 
         $result = DB::transaction(function () use (
             $pegawai,
-            $tanggal,
+            $jadwalKerja,
             $jenisPresensi,
             $kolomWaktu,
             $validated,
@@ -158,6 +201,8 @@ class AbsensiController extends Controller
                 ->lockForUpdate()
                 ->firstOrFail();
 
+                $waktuSekarang = $this->waktuJakarta();
+                $tanggal = $waktuSekarang->toDateString();
             $absensiHariIni = $pegawai->absensis()
                 ->whereDate('tanggal', $tanggal)
                 ->lockForUpdate()
@@ -181,15 +226,24 @@ class AbsensiController extends Controller
                 ];
             }
 
+            $rentangPresensi = $jenisPresensi === 'masuk'
+                ? $jadwalKerja->rentangAbsenMasuk()
+                : $jadwalKerja->rentangAbsenPulang();
+            if (! $this->waktuDalamRentang($waktuSekarang, $rentangPresensi)) {
+                return [
+                    'error' => $this->pesanDiLuarRentang($jenisPresensi, $rentangPresensi, $waktuSekarang),
+                ];
+            }
+
             $fotoPath = $request->file('foto')->store('absensi', 'public');
 
             $dataAbsensi = [
                 'jenis_presensi' => $jenisPresensi,
                 'jam_masuk' => $jenisPresensi === 'masuk'
-                    ? now()->format('H:i:s')
+                    ? $waktuSekarang->format('H:i:s')
                     : $absensiHariIni?->jam_masuk,
                 'jam_pulang' => $jenisPresensi === 'pulang'
-                    ? now()->format('H:i:s')
+                    ? $waktuSekarang->format('H:i:s')
                     : $absensiHariIni?->jam_pulang,
                 'status' => $validated['status'],
                 'sumber' => 'manual',
@@ -293,6 +347,58 @@ class AbsensiController extends Controller
         );
 
         return $pegawai;
+    }
+
+    private function jadwalKerjaUntukTanggal(Pegawai $pegawai, Carbon $tanggal): ?MasterJamKerja
+    {
+        $namaHari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+        $jadwals = MasterJamKerja::query()
+            ->where(function ($query) use ($pegawai) {
+                $query->whereNull('jabatan_id')
+                    ->orWhere('jabatan_id', $pegawai->jabatan_id);
+            })
+            ->whereIn('hari', [$namaHari[$tanggal->dayOfWeek], 'Kerja'])
+            ->get()
+            ->groupBy('hari');
+
+        $pilihJadwal = function (string $hari) use ($jadwals, $pegawai): ?MasterJamKerja {
+            $jadwalHari = $jadwals->get($hari, collect());
+
+            return $jadwalHari->firstWhere('jabatan_id', $pegawai->jabatan_id)
+                ?? $jadwalHari->firstWhere('jabatan_id', null);
+        };
+
+        return $pilihJadwal($namaHari[$tanggal->dayOfWeek])
+            ?? $pilihJadwal('Kerja');
+    }
+
+    private function waktuDalamRentang(Carbon $waktuSekarang, array $rentang): bool
+    {
+        [$waktuBuka, $waktuTutup] = $rentang;
+        $batasBuka = $waktuSekarang->copy()->setTimeFromTimeString($waktuBuka->format('H:i:s'));
+        $batasTutup = $waktuSekarang->copy()->setTimeFromTimeString($waktuTutup->format('H:i:s'));
+
+        return $waktuSekarang->greaterThanOrEqualTo($batasBuka)
+            && $waktuSekarang->lessThanOrEqualTo($batasTutup);
+    }
+
+    private function waktuJakarta(): Carbon
+    {
+        return Carbon::now('Asia/Jakarta');
+    }
+
+    private function pesanDiLuarRentang(string $jenisPresensi, array $rentang, Carbon $waktuSekarang): string
+    {
+        [$waktuBuka, $waktuTutup] = $rentang;
+        $labelJenis = $jenisPresensi === 'masuk' ? 'masuk' : 'pulang';
+        $labelBuka = $waktuBuka->format('H:i');
+        $labelTutup = $waktuTutup->format('H:i');
+
+        if ($waktuSekarang->format('H:i:s') < $waktuBuka->format('H:i:s')) {
+            return "Absen {$labelJenis} baru dibuka pukul {$labelBuka}.";
+        }
+
+        return "Batas absen {$labelJenis} pukul {$labelTutup} sudah lewat.";
     }
 
     private function loadGeofence(): array

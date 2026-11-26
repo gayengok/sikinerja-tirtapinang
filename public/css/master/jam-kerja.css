@@ -34,6 +34,166 @@ body.role-master .master-jam-kerja-page .master-jam-kerja-table-actions button {
         color 0.15s,
         border-color 0.15s;
 }
+body.role-master .master-jam-kerja-table {
+    min-width: 1080px;
+}
+body.role-master .master-jam-kerja-windows {
+    display: grid;
+    gap: 0.65rem;
+    margin-top: 1rem;
+}
+body.role-master .master-jam-window {
+    display: grid;
+    gap: 0.3rem;
+    min-width: 180px;
+    color: #526480;
+    font-size: 0.7rem;
+}
+body.role-master .master-jam-window-schedule {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    width: fit-content;
+    padding: 0.28rem 0.45rem;
+    border-radius: 6px;
+    background: #f0f5f9;
+    color: #14223d;
+    white-space: nowrap;
+}
+body.role-master .master-jam-window-schedule i {
+    color: #8290a0;
+}
+body.role-master .master-jam-window-schedule strong {
+    font-variant-numeric: tabular-nums;
+}
+body.role-master .master-jam-window-range {
+    color: #526480;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+body.role-master .master-jam-window small {
+    color: #8290a0;
+    font-size: 0.63rem;
+    white-space: nowrap;
+}
+body.role-master .master-jam-window-preview {
+    padding: 0.9rem;
+    margin: 0.5rem 0 1rem;
+    border: 1px solid #dcecf4;
+    border-radius: 12px;
+    background: #f7fbfd;
+}
+body.role-master .master-jam-window-preview-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.7rem;
+    color: #25364a;
+    font-size: 0.76rem;
+    font-weight: 700;
+}
+body.role-master .master-jam-window-preview-heading > i {
+    color: #078dcc;
+}
+body.role-master .master-jam-window-preview-heading > span {
+    margin-left: auto;
+    color: #8290a0;
+    font-size: 0.64rem;
+    font-weight: 400;
+}
+body.role-master .master-jam-window-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem;
+}
+body.role-master .master-jam-window-preview-item {
+    display: grid;
+    gap: 0.35rem;
+    min-width: 0;
+    padding: 0.7rem;
+    border: 1px solid #e6edf3;
+    border-radius: 9px;
+    background: #fff;
+    color: #526480;
+    font-size: 0.68rem;
+}
+body.role-master .master-jam-window-preview-item strong {
+    color: #25364a;
+    font-size: 0.72rem;
+}
+body.role-master .master-jam-window-preview-item span {
+    font-variant-numeric: tabular-nums;
+}
+body.role-master .master-jam-window-preview-item small {
+    color: #8290a0;
+    font-size: 0.62rem;
+}
+body.role-master .master-jam-window-settings {
+    padding: 1rem;
+    margin: 0.5rem 0 1rem;
+    border: 1px solid #e2e8ef;
+    border-radius: 12px;
+    background: #fff;
+}
+body.role-master .master-jam-window-settings > header {
+    margin-bottom: 0.8rem;
+}
+body.role-master .master-jam-window-settings h2 {
+    margin: 0;
+    color: #25364a;
+    font-size: 0.86rem;
+    font-weight: 700;
+}
+body.role-master .master-jam-window-settings > header p {
+    margin: 0.25rem 0 0;
+    color: #8290a0;
+    font-size: 0.68rem;
+}
+body.role-master .master-jam-window-settings-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem;
+}
+body.role-master .master-jam-window-settings-field {
+    display: grid;
+    align-content: start;
+    gap: 0.3rem;
+    min-width: 0;
+}
+body.role-master .master-jam-window-settings-field label {
+    color: #34445e;
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+body.role-master .master-jam-window-settings-field input {
+    width: 100%;
+    min-height: 42px;
+    padding: 0.55rem 0.7rem;
+    border: 1px solid #c9d6e5;
+    border-radius: 8px;
+    color: #14223d;
+    font: inherit;
+    font-size: 0.78rem;
+}
+body.role-master .master-jam-window-settings-field input:focus {
+    border-color: #078dcc;
+    outline: 0;
+    box-shadow: 0 0 0 3px #078dcc1a;
+}
+body.role-master .master-jam-window-settings-field input.is-invalid {
+    border-color: #dc3545;
+}
+body.role-master .master-jam-window-settings-field > small {
+    color: #8290a0;
+    font-size: 0.62rem;
+}
+body.role-master .master-jam-window-settings-error {
+    color: #dc3545;
+    font-size: 0.66rem;
+}
+body.role-master .master-jam-create-form .master-jam-window-preview {
+    clear: both;
+}
 
 /* CREATE - existing Blade uses Bootstrap card and grid */
 body.role-master .master-jam-create-heading {
@@ -132,7 +292,34 @@ body.role-master .master-jam-show-duration {
     line-height: 1.6;
 }
 
+@media (min-width: 768px) {
+    body.role-master .master-jam-kerja-page {
+        max-width: 1280px;
+        padding: 1.25rem clamp(1.25rem, 2.4vw, 2.5rem) 2rem;
+    }
+}
+
 @media (max-width: 767.98px) {
+    body.role-master .master-jam-window-preview-heading {
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+    body.role-master .master-jam-window-preview-heading > span {
+        width: 100%;
+        margin-left: 1.25rem;
+    }
+    body.role-master .master-jam-window-preview-grid {
+        grid-template-columns: 1fr;
+    }
+    body.role-master .master-jam-window-settings-grid {
+        grid-template-columns: 1fr;
+    }
+    body.role-master .master-jam-window {
+        min-width: 0;
+    }
+    body.role-master .master-jam-window small {
+        white-space: normal;
+    }
     body.role-master .master-jam-kerja-page,
     body.role-master .master-jam-edit-page,
     body.role-master .master-jam-show-page {

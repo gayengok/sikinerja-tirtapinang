@@ -19,7 +19,7 @@
                     <i class="fa-solid fa-pen-to-square"></i>
                     Edit Jam Kerja
                 </h1>
-                <p>Perbarui pengaturan jam masuk, pulang, dan batas toleransi keterlambatan presensi.</p>
+                <p>Perbarui jam kerja dan lihat pratinjau rentang absen untuk jadwal ini.</p>
             </div>
         </header>
 
@@ -33,7 +33,7 @@
             </div>
             <div class="master-jam-edit-divider"></div>
 
-            <form action="{{ route('master.jam-kerja.update', $jamKerja) }}" method="POST">
+            <form id="masterJamKerjaForm" action="{{ route('master.jam-kerja.update', $jamKerja) }}" method="POST">
                 @csrf
                 @method('PUT')
 
@@ -71,7 +71,7 @@
 
                 <div class="master-jam-edit-time-grid">
                     <div class="master-jam-edit-field">
-                        <label for="jam_masuk">Jam Masuk</label>
+                        <label for="jam_masuk">Jam Masuk Kerja</label>
                         <input type="time" name="jam_masuk" id="jam_masuk"
                             class="@error('jam_masuk') is-invalid @enderror"
                             value="{{ old('jam_masuk', \Carbon\Carbon::parse($jamKerja->jam_masuk)->format('H:i')) }}">
@@ -80,7 +80,7 @@
                         @enderror
                     </div>
                     <div class="master-jam-edit-field">
-                        <label for="jam_pulang">Jam Pulang</label>
+                        <label for="jam_pulang">Jam Pulang Kerja</label>
                         <input type="time" name="jam_pulang" id="jam_pulang"
                             class="@error('jam_pulang') is-invalid @enderror"
                             value="{{ old('jam_pulang', \Carbon\Carbon::parse($jamKerja->jam_pulang)->format('H:i')) }}">
@@ -91,18 +91,21 @@
                 </div>
 
                 <div class="master-jam-edit-field">
-                    <label for="toleransi_menit">Toleransi (menit) <a href="#">Batas Maksimal</a></label>
+                    <label for="toleransi_menit">Toleransi Keterlambatan (menit)</label>
                     <div class="master-jam-edit-number">
                         <input type="number" min="0" name="toleransi_menit" id="toleransi_menit"
                             class="@error('toleransi_menit') is-invalid @enderror"
                             value="{{ old('toleransi_menit', $jamKerja->toleransi_menit) }}">
                         <span>Menit</span>
                     </div>
-                    <p class="master-jam-edit-help">Toleransi jeda sebelum sistem memotong poin disiplin.</p>
+                    <p class="master-jam-edit-help">Digunakan untuk perhitungan keterlambatan; batas absen masuk diatur terpisah.</p>
                     @error('toleransi_menit')
                         <div class="master-jam-edit-error">{{ $message }}</div>
                     @enderror
                 </div>
+
+                @include('master.jam-kerja.partials.window-fields')
+                @include('master.jam-kerja.partials.window-preview')
 
                 <div class="master-jam-edit-submit">
                     <button type="submit"><i class="fa-solid fa-download"></i> Update</button>
@@ -113,10 +116,9 @@
 
         <aside class="master-jam-edit-note">
             <i class="fa-solid fa-circle-info"></i>
-            <p><strong>Catatan Sinkronisasi Presensi:</strong> Perubahan jam kerja ini akan otomatis diterapkan pada
-                validasi absensi GPS/biometrik pegawai pada hari <b>{{ $jamKerja->hari }}</b>. Keterlambatan melebihi
-                toleransi <b>{{ $jamKerja->toleransi_menit }} menit</b> akan tercatat sebagai keterlambatan pemotongan
-                Tukin.</p>
+            <p><strong>Catatan Rentang Presensi:</strong> Jam buka dan batas absen masuk serta jam buka dan tutup absen
+                pulang dapat diatur mandiri untuk jadwal <b>{{ $jamKerja->hari }}</b>. Presensi di luar rentang akan
+                ditolak.</p>
         </aside>
     </div>
 @endsection

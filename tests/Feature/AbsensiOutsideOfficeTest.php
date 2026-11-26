@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Absensi;
 use App\Models\Divisi;
 use App\Models\Jabatan;
+use App\Models\MasterJamKerja;
 use App\Models\Pegawai;
 use App\Models\User;
 use Carbon\Carbon;
@@ -16,6 +17,134 @@ use Tests\TestCase;
 class AbsensiOutsideOfficeTest extends TestCase
 {
     use RefreshDatabase;
+
+    public function test_absen_masuk_is_rejected_after_the_configured_limit(): void
+    {
+        Storage::fake('public');
+        [$user, $pegawai] = $this->createPegawai();
+        $this->setAttendanceWindows([
+            'jam_buka_absen_masuk' => '06:30:00',
+            'batas_absen_masuk' => '07:45:00',
+        ]);
+        Carbon::setTestNow('2026-09-28 07:46:00');
+
+        try {
+            $this->actingAs($user)
+                ->from(route('pegawai.absensi.index'))
+                ->post(route('pegawai.absensi.store'), $this->attendancePayload('masuk'))
+                ->assertRedirect(route('pegawai.absensi.index'))
+                ->assertSessionHas('error', 'Batas absen masuk pukul 07:45 sudah lewat.');
+
+            $this->assertDatabaseMissing('absensis', ['pegawai_id' => $pegawai->id]);
+            $this->assertSame([], Storage::disk('public')->allFiles('absensi'));
+        } finally {
+            Carbon::setTestNow();
+        }
+    }
+
+    public function test_absen_masuk_uses_wib_when_php_timezone_is_utc(): void
+    {
+        Storage::fake('public');
+        [$user, $pegawai] = $this->createPegawai();
+        $this->setAttendanceWindows([
+            'jam_buka_absen_masuk' => '06:30:00',
+            'batas_absen_masuk' => '15:00:00',
+        ]);
+        $originalTimezone = date_default_timezone_get();
+        date_default_timezone_set('UTC');
+        Carbon::setTestNow(Carbon::create(2026, 9, 28, 8, 0, 34, 'UTC'));
+
+        try {
+            $this->actingAs($user)
+                ->from(route('pegawai.absensi.index'))
+                ->post(route('pegawai.absensi.store'), $this->attendancePayload('masuk'))
+                ->assertRedirect(route('pegawai.absensi.index'))
+                ->assertSessionHas('error', 'Batas absen masuk pukul 15:00 sudah lewat.');
+
+            $this->assertDatabaseMissing('absensis', ['pegawai_id' => $pegawai->id]);
+        } finally {
+            Carbon::setTestNow();
+            date_default_timezone_set($originalTimezone);
+        }
+    }
+
+    public function test_absen_masuk_is_rejected_before_the_configured_opening_time(): void
+    {
+        [$user, $pegawai] = $this->createPegawai();
+        $this->setAttendanceWindows([
+            'jam_buka_absen_masuk' => '06:30:00',
+            'batas_absen_masuk' => '07:45:00',
+        ]);
+        Carbon::setTestNow('2026-09-28 06:29:00');
+
+        try {
+            $this->actingAs($user)
+                ->from(route('pegawai.absensi.index'))
+                ->post(route('pegawai.absensi.store'), $this->attendancePayload('masuk'))
+                ->assertRedirect(route('pegawai.absensi.index'))
+                ->assertSessionHas('error', 'Absen masuk baru dibuka pukul 06:30.');
+
+            $this->assertDatabaseMissing('absensis', ['pegawai_id' => $pegawai->id]);
+        } finally {
+            Carbon::setTestNow();
+        }
+    }
+
+    public function test_absen_pulang_is_rejected_after_the_configured_close_time(): void
+    {
+        [$user, $pegawai] = $this->createPegawai();
+        $this->setAttendanceWindows([
+            'jam_buka_absen_pulang' => '16:00:00',
+            'jam_tutup_absen_pulang' => '18:00:00',
+        ]);
+        Absensi::create([
+            'pegawai_id' => $pegawai->id,
+            'tanggal' => '2026-09-28',
+            'status' => 'hadir',
+            'jam_masuk' => '07:30:00',
+        ]);
+        Carbon::setTestNow('2026-09-28 18:01:00');
+
+        try {
+            $this->actingAs($user)
+                ->from(route('pegawai.absensi.index'))
+                ->post(route('pegawai.absensi.store'), $this->attendancePayload('pulang'))
+                ->assertRedirect(route('pegawai.absensi.index'))
+                ->assertSessionHas('error', 'Batas absen pulang pukul 18:00 sudah lewat.');
+
+            $this->assertDatabaseMissing('absensis', [
+                'pegawai_id' => $pegawai->id,
+                'jam_pulang' => '18:01:00',
+            ]);
+        } finally {
+            Carbon::setTestNow();
+        }
+    }
+
+    public function test_absen_masuk_is_allowed_at_the_configured_limit(): void
+    {
+        Storage::fake('public');
+        [$user, $pegawai] = $this->createPegawai();
+        $this->setAttendanceWindows([
+            'jam_buka_absen_masuk' => '06:30:00',
+            'batas_absen_masuk' => '07:45:00',
+        ]);
+        Carbon::setTestNow('2026-09-28 07:45:00');
+
+        try {
+            $this->actingAs($user)
+                ->post(route('pegawai.absensi.store'), $this->attendancePayload('masuk'))
+                ->assertRedirect(route('pegawai.absensi.index'))
+                ->assertSessionHas('success', 'Presensi berhasil disimpan.');
+
+            $this->assertDatabaseHas('absensis', [
+                'pegawai_id' => $pegawai->id,
+                'jam_masuk' => '07:45:00',
+            ]);
+        } finally {
+            Carbon::setTestNow();
+        }
+    }
 
     public function test_pegawai_can_submit_attendance_from_outside_office_and_location_is_flagged(): void
     {
@@ -282,6 +411,7 @@ class AbsensiOutsideOfficeTest extends TestCase
             'tanggal_masuk' => '2021-01-01',
             'status' => 'aktif',
         ]);
+        $this->createAttendanceSchedule();
 
         return [$user, $pegawai];
     }
@@ -308,7 +438,27 @@ class AbsensiOutsideOfficeTest extends TestCase
             'tanggal_masuk' => '2020-01-01',
             'status' => 'aktif',
         ]);
+        $this->createAttendanceSchedule();
 
         return [$user, $pegawai];
+    }
+
+    private function createAttendanceSchedule(): void
+    {
+        MasterJamKerja::create([
+            'hari' => 'Kerja',
+            'jam_masuk' => '07:30:00',
+            'jam_pulang' => '16:00:00',
+            'toleransi_menit' => 15,
+            'jam_buka_absen_masuk' => '00:00:00',
+            'batas_absen_masuk' => '23:59:00',
+            'jam_buka_absen_pulang' => '00:00:00',
+            'jam_tutup_absen_pulang' => '23:59:00',
+        ]);
+    }
+
+    private function setAttendanceWindows(array $values): void
+    {
+        MasterJamKerja::where('hari', 'Kerja')->update($values);
     }
 }

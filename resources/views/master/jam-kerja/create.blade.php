@@ -13,7 +13,7 @@
                 <span>Tambah</span>
             </nav>
             <h1><i class="fa-regular fa-clock" aria-hidden="true"></i> Tambah Jam Kerja</h1>
-            <p class="master-jam-create-subtitle">Atur jadwal jam masuk, pulang, dan batas toleransi keterlambatan presensi.
+            <p class="master-jam-create-subtitle">Atur jam kerja dan lihat pratinjau rentang absen untuk jadwal ini.
             </p>
         </div>
     </header>
@@ -25,7 +25,7 @@
             <b>Mode Tambah</b>
         </div>
         <div class="card-body">
-            <form action="{{ route('master.jam-kerja.store') }}" method="POST" class="master-jam-create-form">
+            <form id="masterJamKerjaForm" action="{{ route('master.jam-kerja.store') }}" method="POST" class="master-jam-create-form">
                 @csrf
 
                 <div class="mb-3">
@@ -59,7 +59,7 @@
 
                 <div class="row">
                     <div class="col-md-4 mb-3">
-                        <label for="jam_masuk" class="form-label">Jam Masuk</label>
+                        <label for="jam_masuk" class="form-label">Jam Masuk Kerja</label>
                         <input type="time" name="jam_masuk" id="jam_masuk"
                             class="form-control @error('jam_masuk') is-invalid @enderror" value="{{ old('jam_masuk') }}">
                         @error('jam_masuk')
@@ -67,7 +67,7 @@
                         @enderror
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label for="jam_pulang" class="form-label">Jam Pulang</label>
+                        <label for="jam_pulang" class="form-label">Jam Pulang Kerja</label>
                         <input type="time" name="jam_pulang" id="jam_pulang"
                             class="form-control @error('jam_pulang') is-invalid @enderror" value="{{ old('jam_pulang') }}">
                         @error('jam_pulang')
@@ -75,15 +75,19 @@
                         @enderror
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label for="toleransi_menit" class="form-label">Toleransi (menit)</label>
+                        <label for="toleransi_menit" class="form-label">Toleransi Keterlambatan (menit)</label>
                         <input type="number" min="0" name="toleransi_menit" id="toleransi_menit"
                             class="form-control @error('toleransi_menit') is-invalid @enderror"
                             value="{{ old('toleransi_menit', 15) }}">
                         @error('toleransi_menit')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
+                        <div class="form-text">Digunakan untuk perhitungan keterlambatan; batas absen masuk diatur terpisah.</div>
                     </div>
                 </div>
+
+                @include('master.jam-kerja.partials.window-fields')
+                @include('master.jam-kerja.partials.window-preview')
 
                 <button type="submit" class="btn btn-primary">
                     <i class="fa-solid fa-floppy-disk me-1"></i> Simpan

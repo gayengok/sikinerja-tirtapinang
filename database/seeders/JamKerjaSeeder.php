@@ -10,23 +10,47 @@ class JamKerjaSeeder extends Seeder
     public function run(): void
     {
         $data = [
-            ['hari' => 'Senin', 'jam_masuk' => '07:30:00', 'jam_pulang' => '16:00:00'],
-            ['hari' => 'Selasa', 'jam_masuk' => '07:30:00', 'jam_pulang' => '16:00:00'],
-            ['hari' => 'Rabu', 'jam_masuk' => '07:30:00', 'jam_pulang' => '16:00:00'],
-            ['hari' => 'Kamis', 'jam_masuk' => '07:30:00', 'jam_pulang' => '16:00:00'],
-            ['hari' => 'Jumat', 'jam_masuk' => '07:30:00', 'jam_pulang' => '16:30:00'],
+            'Senin' => [
+                'jam_pulang' => '16:00:00',
+                'jam_buka_absen_pulang' => '16:00:00',
+                'jam_tutup_absen_pulang' => '18:00:00',
+            ],
+            'Selasa' => [
+                'jam_pulang' => '16:00:00',
+                'jam_buka_absen_pulang' => '16:00:00',
+                'jam_tutup_absen_pulang' => '18:00:00',
+            ],
+            'Rabu' => [
+                'jam_pulang' => '16:00:00',
+                'jam_buka_absen_pulang' => '16:00:00',
+                'jam_tutup_absen_pulang' => '18:00:00',
+            ],
+            'Kamis' => [
+                'jam_pulang' => '16:00:00',
+                'jam_buka_absen_pulang' => '16:00:00',
+                'jam_tutup_absen_pulang' => '18:00:00',
+            ],
+            'Jumat' => [
+                'jam_pulang' => '16:30:00',
+                'jam_buka_absen_pulang' => '16:30:00',
+                'jam_tutup_absen_pulang' => '18:30:00',
+            ],
         ];
 
-        foreach ($data as $item) {
-            MasterJamKerja::updateOrCreate(
+        foreach ($data as $hari => $item) {
+            MasterJamKerja::firstOrCreate(
                 [
                     'jabatan_id' => null,
-                    'hari' => $item['hari'],
+                    'hari' => $hari,
                 ],
                 [
-                    'jam_masuk' => $item['jam_masuk'],
+                    'jam_masuk' => '07:30:00',
                     'jam_pulang' => $item['jam_pulang'],
                     'toleransi_menit' => 15,
+                    'jam_buka_absen_masuk' => '06:30:00',
+                    'batas_absen_masuk' => '07:45:00',
+                    'jam_buka_absen_pulang' => $item['jam_buka_absen_pulang'],
+                    'jam_tutup_absen_pulang' => $item['jam_tutup_absen_pulang'],
                 ]
             );
         }

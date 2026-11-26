@@ -21,11 +21,11 @@
                 <p>Rekam kehadiran dengan verifikasi GPS dan Foto</p>
             </div>
             <div class="attendance-header-clock" id="attendanceClock"
-                data-server-timestamp="{{ now()->timestamp }}">
+                data-server-timestamp="{{ $waktuSekarang->timestamp }}">
                 <span class="attendance-header-clock-icon"><i class="fa-regular fa-clock"></i></span>
                 <div class="attendance-header-clock-text">
-                    <small id="attendanceClockDate">{{ now()->translatedFormat('l, d F Y') }}</small>
-                    <strong><span id="attendanceClockTime">{{ now()->format('H:i:s') }}</span> <em>WIB</em></strong>
+                    <small id="attendanceClockDate">{{ $waktuSekarang->translatedFormat('l, d F Y') }}</small>
+                    <strong><span id="attendanceClockTime">{{ $waktuSekarang->format('H:i:s') }}</span> <em>WIB</em></strong>
                 </div>
             </div>
         </header>
@@ -66,7 +66,25 @@
                 </div>
             </div>
 
-
+            @if ($jadwalKerjaHariIni)
+                <div class="manual-card manual-banner manual-banner-info">
+                    <i class="fa-regular fa-clock"></i>
+                    <div>
+                        <strong>Rentang presensi hari ini</strong>
+                        Masuk: {{ $rentangAbsenMasuk[0]->format('H:i') }}–{{ $rentangAbsenMasuk[1]->format('H:i') }}.
+                        Pulang: {{ $rentangAbsenPulang[0]->format('H:i') }}–{{ $rentangAbsenPulang[1]->format('H:i') }}.
+                        Presensi hanya dapat dikirim dalam rentang tersebut.
+                    </div>
+                </div>
+            @else
+                <div class="manual-card manual-banner manual-banner-warning" role="alert">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <div>
+                        <strong>Jadwal presensi belum tersedia</strong>
+                        Hubungi admin untuk mengatur jam operasional hari ini.
+                    </div>
+                </div>
+            @endif
 
             @if ($cutiHariIni)
                 <div class="manual-card manual-banner manual-banner-warning">
@@ -257,22 +275,32 @@
                                     <button type="button"
                                         class="{{ $jenisPresensiAwal === 'masuk' ? 'selected' : '' }}"
                                         data-presensi="masuk"
-                                        data-completed="{{ $absensiMasukHariIni ? 'true' : 'false' }}">
+                                        data-completed="{{ $absensiMasukHariIni ? 'true' : 'false' }}"
+                                        data-available="{{ $rentangAbsenMasukAktif ? 'true' : 'false' }}"
+                                        @disabled(!$rentangAbsenMasukAktif && !$absensiMasukHariIni)>
                                         <i class="fa-solid fa-arrow-right-to-bracket"></i>
                                         Masuk
                                         @if ($absensiMasukHariIni)
                                             <small>Sudah tercatat</small>
+                                        @elseif (!$bisaAbsenMasuk)
+                                            <small>Di luar rentang</small>
                                         @endif
                                     </button>
 
                                     <button type="button"
                                         class="{{ $jenisPresensiAwal === 'pulang' ? 'selected' : '' }}"
                                         data-presensi="pulang"
-                                        data-completed="{{ $absensiPulangHariIni ? 'true' : 'false' }}">
+                                        data-completed="{{ $absensiPulangHariIni ? 'true' : 'false' }}"
+                                        data-available="{{ $rentangAbsenPulangAktif && $absensiMasukHariIni ? 'true' : 'false' }}"
+                                        @disabled((!$rentangAbsenPulangAktif || !$absensiMasukHariIni) && !$absensiPulangHariIni)>
                                         <i class="fa-solid fa-arrow-right-from-bracket"></i>
                                         Pulang
                                         @if ($absensiPulangHariIni)
                                             <small>Sudah tercatat</small>
+                                        @elseif (!$absensiMasukHariIni)
+                                            <small>Absen masuk dahulu</small>
+                                        @elseif (!$bisaAbsenPulang)
+                                            <small>Di luar rentang</small>
                                         @endif
                                     </button>
                                 </div>
@@ -292,7 +320,8 @@
                                 </select>
 
                                 <button type="submit" form="attendanceForm"
-                                    class="manual-submit" id="submitAttendanceButton">
+                                    class="manual-submit" id="submitAttendanceButton"
+                                    @disabled($jenisPresensiAwal === 'masuk' ? !$bisaAbsenMasuk : !$bisaAbsenPulang)>
                                     <i class="fa-solid fa-user-check"></i>
                                     Kirim Presensi
                                 </button>
@@ -400,9 +429,20 @@
         (() => {
             const typeInput = document.getElementById('jenisPresensi');
             const typeButtons = document.querySelectorAll('[data-presensi]');
+            const submitButton = document.getElementById('submitAttendanceButton');
+
+            function updateSubmitAvailability() {
+                const selectedButton = document.querySelector(`[data-presensi="${typeInput.value}"]`);
+                submitButton.disabled = selectedButton?.dataset.available !== 'true'
+                    || selectedButton?.dataset.completed === 'true';
+            }
 
             typeButtons.forEach((button) => {
                 button.addEventListener('click', () => {
+                    if (button.dataset.available !== 'true') {
+                        return;
+                    }
+
                     if (button.dataset.completed === 'true') {
                         const dialog = document.getElementById('attendanceWarningDialog');
                         const message = document.querySelector('#attendanceWarningDialog p');
@@ -426,8 +466,11 @@
                     typeButtons.forEach((item) => item.classList.remove('selected'));
                     button.classList.add('selected');
                     typeInput.value = button.dataset.presensi;
+                    updateSubmitAvailability();
                 });
             });
+
+            updateSubmitAvailability();
         })();
 
         (() => {

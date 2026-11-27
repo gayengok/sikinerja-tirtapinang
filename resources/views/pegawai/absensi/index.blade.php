@@ -315,15 +315,17 @@
                                     <option value="dinas_luar" @selected($statusAbsensiAwal === 'dinas_luar')>
                                         Hadir (Bekerja Di Luar)
                                     </option>
-                                    <option value="shift_1" @selected($statusAbsensiAwal === 'shift_1')>
-                                        Shift 1 (Operator)
-                                    </option>
-                                    <option value="shift_2" @selected($statusAbsensiAwal === 'shift_2')>
-                                        Shift 2 (Operator)
-                                    </option>
-                                    <option value="shift_3" @selected($statusAbsensiAwal === 'shift_3')>
-                                        Shift 3 (Operator)
-                                    </option>
+                                    @if (request()->user()->role === 'pegawai')
+                                        <option value="shift_1" @selected($statusAbsensiAwal === 'shift_1')>
+                                            Shift 1 (Operator)
+                                        </option>
+                                        <option value="shift_2" @selected($statusAbsensiAwal === 'shift_2')>
+                                            Shift 2 (Operator)
+                                        </option>
+                                        <option value="shift_3" @selected($statusAbsensiAwal === 'shift_3')>
+                                            Shift 3 (Operator)
+                                        </option>
+                                    @endif
                                     <option value="izin" @selected($statusAbsensiAwal === 'izin')>
                                         Izin
                                     </option>
@@ -345,8 +347,8 @@
                                 <div class="manual-note">
                                     <i class="fa-solid fa-shield-halved"></i>
                                     <span>
-                                        Koordinat GPS dan foto dicatat untuk verifikasi.
-                                        Lokasi di luar area tidak dapat melakukan presensi.
+                                        Pilih Hadir (Bekerja Di Luar) untuk presensi di luar area kantor.
+                                        Koordinat GPS dan foto tetap dicatat untuk verifikasi.
                                     </span>
                                 </div>
                             </section>
@@ -659,6 +661,7 @@
         (() => {
             const form = document.getElementById('attendanceForm');
             const typeInput = document.getElementById('jenisPresensi');
+            const statusInput = document.getElementById('status');
             const refreshButton = document.getElementById('refreshGpsButton');
             const latitudeInput = document.getElementById('latitude');
             const longitudeInput = document.getElementById('longitude');
@@ -672,6 +675,7 @@
 
             if (
                 !form || !typeInput || !refreshButton ||
+                !statusInput ||
                 !latitudeInput || !longitudeInput || !accuracyInput ||
                 !locationTitle || !coordinates || !status || !mapElement
             ) {
@@ -686,6 +690,7 @@
             const GPS_TIMEOUT = 30000;
 
             let lastPosition = null;
+            let latestPosition = null;
             let watchId = null;
             let userMarker = null;
             let accuracyCircle = null;
@@ -800,6 +805,8 @@
                 if (!isFresh(position)) return false;
 
                 const { latitude, longitude, accuracy } = position.coords;
+                const inside = insideGeofence(latitude, longitude);
+                const outsideAllowed = statusInput.value === 'dinas_luar';
 
                 return (
                     Number.isFinite(latitude) &&
@@ -807,7 +814,7 @@
                     Number.isFinite(accuracy) &&
                     accuracy >= 0 &&
                     accuracy <= MAX_ACCURACY &&
-                    insideGeofence(latitude, longitude)
+                    (inside || outsideAllowed)
                 );
             };
 
@@ -853,7 +860,8 @@
                 const inside = insideGeofence(latitude, longitude);
                 const accurate = accuracy <= MAX_ACCURACY;
                 const fresh = isFresh(position);
-                const valid = inside && accurate && fresh;
+                const outsideAllowed = statusInput.value === 'dinas_luar';
+                const valid = (inside || outsideAllowed) && accurate && fresh;
 
                 coordinates.textContent =
                     `${latitude.toFixed(7)}, ${longitude.toFixed(7)}`;
@@ -865,7 +873,9 @@
                 } else if (!accurate) {
                     locationTitle.textContent = 'AKURASI GPS BELUM CUKUP';
                 } else if (!inside) {
-                    locationTitle.textContent = 'LOKASI DI LUAR AREA KANTOR';
+                    locationTitle.textContent = outsideAllowed
+                        ? 'LOKASI LUAR VALID UNTUK DINAS LUAR'
+                        : 'LOKASI DI LUAR AREA KANTOR';
                 } else {
                     locationTitle.textContent = 'LOKASI VALID DI DALAM AREA KANTOR';
                 }
@@ -879,13 +889,15 @@
                     accuracyInput.value = accuracy.toFixed(2);
 
                     setGpsStatus(
-                        `${accuracyText} Lokasi valid dan diperbarui otomatis.`,
+                        `${accuracyText} ${inside
+                            ? 'Lokasi valid dan diperbarui otomatis.'
+                            : 'Lokasi luar diizinkan untuk status Bekerja Di Luar dan dicatat untuk verifikasi.'}`,
                         true
                     );
                 } else {
                     clearLocation();
 
-                    const locationIssue = !inside
+                    const locationIssue = !inside && !outsideAllowed
                         ? 'Titik di luar area kantor. Periksa Layanan lokasi Windows dan Wi-Fi di laptop, lalu klik Cari Ulang.'
                         : !accurate
                             ? 'Akurasi lebih dari 25 meter. Periksa izin lokasi Windows/browser dan Wi-Fi.'
@@ -919,6 +931,7 @@
 
                 stopGps();
                 clearLocation();
+                latestPosition = null;
 
                 gpsStartedAt = Date.now();
                 locationTitle.textContent = 'MEMBACA GPS SECARA REAL-TIME';
@@ -939,6 +952,7 @@
                             return;
                         }
 
+                        latestPosition = position;
                         displayPosition(position);
                     },
                     (error) => {
@@ -972,6 +986,11 @@
             };
 
             refreshButton.addEventListener('click', startGps);
+            statusInput.addEventListener('change', () => {
+                if (latestPosition) {
+                    displayPosition(latestPosition);
+                }
+            });
 
             window.setInterval(() => {
                 if (submitting) return;
@@ -1025,7 +1044,9 @@
 
                     setGpsStatus(
                         'Presensi belum dapat dikirim. ' +
-                        'Tunggu GPS akurat dan berada di dalam polygon.'
+                        (statusInput.value === 'dinas_luar'
+                            ? 'Tunggu GPS akurat dan diperbarui.'
+                            : 'Tunggu GPS akurat dan berada di dalam area kantor.')
                     );
                     return;
                 }

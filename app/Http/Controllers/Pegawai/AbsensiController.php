@@ -213,7 +213,9 @@ class AbsensiController extends Controller
         $latitude = (float) $validated['latitude'];
         $longitude = (float) $validated['longitude'];
 
-        if (!$this->isInsideGeofence($latitude, $longitude)) {
+        $diLuarKantor = ! $this->isInsideGeofence($latitude, $longitude);
+
+        if ($diLuarKantor && $status !== 'dinas_luar') {
             return back()->with(
                 'error',
                 'Presensi ditolak. Lokasi berada di luar area kantor. Jika menggunakan laptop, periksa Layanan lokasi Windows dan Wi-Fi; jangan kirim presensi sampai titik lokasi valid.'
@@ -237,15 +239,16 @@ class AbsensiController extends Controller
             $validated,
             $distance,
             $request,
-            $tanggalAbsensi
+            $tanggalAbsensi,
+            $diLuarKantor
         ): array {
             $pegawai->newQuery()
                 ->whereKey($pegawai->getKey())
                 ->lockForUpdate()
                 ->firstOrFail();
 
-                $waktuSekarang = $this->waktuJakarta();
-                $tanggal = $tanggalAbsensi;
+            $waktuSekarang = $this->waktuJakarta();
+            $tanggal = $tanggalAbsensi;
             $absensiHariIni = $pegawai->absensis()
                 ->whereDate('tanggal', $tanggal)
                 ->lockForUpdate()
@@ -295,7 +298,7 @@ class AbsensiController extends Controller
                 'latitude' => $validated['latitude'],
                 'longitude' => $validated['longitude'],
                 'jarak_lokasi' => round($distance, 2),
-                'di_luar_kantor' => false,
+                'di_luar_kantor' => $diLuarKantor,
                 'akurasi_gps' => round((float) $validated['accuracy'], 2),
                 'status_verifikasi' => null,
                 'catatan_verifikasi' => null,
@@ -334,7 +337,12 @@ class AbsensiController extends Controller
         }
 
         return to_route($this->attendanceRoute($request) . '.index')
-            ->with('success', 'Presensi berhasil disimpan.');
+            ->with(
+                'success',
+                $diLuarKantor
+                    ? 'Data absensi berhasil disimpan. Lokasi terdeteksi di luar kantor dan telah dicatat untuk verifikasi.'
+                    : 'Presensi berhasil disimpan.'
+            );
     }
 
     public function show(Request $request, Absensi $absensi)
@@ -396,8 +404,7 @@ class AbsensiController extends Controller
         Pegawai $pegawai,
         Carbon $tanggal,
         string $status = 'hadir'
-    ): ?MasterJamKerja
-    {
+    ): ?MasterJamKerja {
         return MasterJamKerja::untukPegawaiPadaTanggal($pegawai, $tanggal, $status);
     }
 
@@ -420,8 +427,8 @@ class AbsensiController extends Controller
         return $jadwal
             && $jadwal->isOvernight()
             && $this->waktuDalamRentang($waktuSekarang, $jadwal->rentangAbsenPulang())
-                ? $absensi
-                : null;
+            ? $absensi
+            : null;
     }
 
     private function attendanceScheduleOptions(
@@ -443,10 +450,10 @@ class AbsensiController extends Controller
                 'jam_masuk' => $jadwal ? substr((string) $jadwal->jam_masuk, 0, 5) : null,
                 'jam_pulang' => $jadwal ? substr((string) $jadwal->jam_pulang, 0, 5) : null,
                 'rentang_masuk' => $rentangMasuk
-                    ? array_map(fn (Carbon $waktu) => $waktu->format('H:i'), $rentangMasuk)
+                    ? array_map(fn(Carbon $waktu) => $waktu->format('H:i'), $rentangMasuk)
                     : null,
                 'rentang_pulang' => $rentangPulang
-                    ? array_map(fn (Carbon $waktu) => $waktu->format('H:i'), $rentangPulang)
+                    ? array_map(fn(Carbon $waktu) => $waktu->format('H:i'), $rentangPulang)
                     : null,
                 'bisa_masuk' => $rentangMasuk !== null
                     && $this->waktuDalamRentang($waktuSekarang, $rentangMasuk)

@@ -153,7 +153,7 @@ class AbsensiOutsideOfficeTest extends TestCase
         [$user, $pegawai] = $this->createPegawai();
 
         $response = $this->actingAs($user)->post(route('pegawai.absensi.store'), [
-            'status' => 'hadir',
+            'status' => 'dinas_luar',
             'jenis_presensi' => 'masuk',
             'latitude' => -2.1500000,
             'longitude' => 106.1013270,
@@ -165,8 +165,27 @@ class AbsensiOutsideOfficeTest extends TestCase
         $response->assertSessionHas('success', 'Data absensi berhasil disimpan. Lokasi terdeteksi di luar kantor dan telah dicatat untuk verifikasi.');
         $this->assertDatabaseHas('absensis', [
             'pegawai_id' => $pegawai->id,
-            'status' => 'hadir',
+            'status' => 'dinas_luar',
             'di_luar_kantor' => true,
+        ]);
+    }
+
+    public function test_regular_attendance_is_rejected_outside_office(): void
+    {
+        Storage::fake('public');
+        [$user, $pegawai] = $this->createPegawai();
+
+        $this->actingAs($user)
+            ->from(route('pegawai.absensi.index'))
+            ->post(route('pegawai.absensi.store'), array_merge($this->attendancePayload('masuk'), [
+                'latitude' => -2.1500000,
+                'status' => 'hadir',
+            ]))
+            ->assertRedirect(route('pegawai.absensi.index'))
+            ->assertSessionHas('error', 'Presensi ditolak. Lokasi berada di luar area kantor. Jika menggunakan laptop, periksa Layanan lokasi Windows dan Wi-Fi; jangan kirim presensi sampai titik lokasi valid.');
+
+        $this->assertDatabaseMissing('absensis', [
+            'pegawai_id' => $pegawai->id,
         ]);
     }
 
@@ -487,6 +506,58 @@ class AbsensiOutsideOfficeTest extends TestCase
             ->assertDontSee('id="pegawaiProfileTrigger"', false)
             ->assertDontSee('id="pegawaiNotificationTrigger"', false)
             ->assertDontSee('manual-calendar-card', false);
+    }
+
+    public function test_atasan_attendance_does_not_show_operator_shift_options(): void
+    {
+        [$user] = $this->createAtasan();
+
+        $this->actingAs($user)
+            ->get(route('atasan.absensi-saya.index'))
+            ->assertOk()
+            ->assertSee('Hadir (Bekerja Normal)')
+            ->assertDontSee('Shift 1 (Operator)')
+            ->assertDontSee('Shift 2 (Operator)')
+            ->assertDontSee('Shift 3 (Operator)')
+            ->assertDontSee('value="shift_1"', false)
+            ->assertDontSee('value="shift_2"', false)
+            ->assertDontSee('value="shift_3"', false);
+    }
+
+    public function test_kepala_bagian_attendance_does_not_show_operator_shift_options(): void
+    {
+        $divisi = Divisi::create(['nama_divisi' => 'Divisi Kepala Bagian']);
+        $jabatan = Jabatan::create([
+            'divisi_id' => $divisi->id,
+            'nama_jabatan' => 'Kepala Bagian Uji',
+            'grade' => 'Grade 2',
+            'base_tukin' => 2500000,
+        ]);
+        $user = User::create([
+            'name' => 'Kepala Bagian Uji',
+            'email' => 'kepala.bagian.absensi@contoh.test',
+            'password' => bcrypt('password'),
+            'role' => 'kepala_bagian',
+        ]);
+        Pegawai::create([
+            'user_id' => $user->id,
+            'nama' => 'Kepala Bagian Uji',
+            'jabatan_id' => $jabatan->id,
+            'tanggal_masuk' => '2020-01-01',
+            'status' => 'aktif',
+        ]);
+        $this->createAttendanceSchedule();
+
+        $this->actingAs($user)
+            ->get(route('kepala_bagian.absensi-saya.index'))
+            ->assertOk()
+            ->assertSee('Hadir (Bekerja Normal)')
+            ->assertDontSee('Shift 1 (Operator)')
+            ->assertDontSee('Shift 2 (Operator)')
+            ->assertDontSee('Shift 3 (Operator)')
+            ->assertDontSee('value="shift_1"', false)
+            ->assertDontSee('value="shift_2"', false)
+            ->assertDontSee('value="shift_3"', false);
     }
 
     public function test_atasan_dashboard_marks_both_attendance_records_with_red_state(): void

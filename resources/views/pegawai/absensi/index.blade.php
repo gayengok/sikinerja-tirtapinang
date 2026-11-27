@@ -66,25 +66,24 @@
                 </div>
             </div>
 
-            @if ($jadwalKerjaHariIni)
-                <div class="manual-card manual-banner manual-banner-info">
-                    <i class="fa-regular fa-clock"></i>
-                    <div>
-                        <strong>Rentang presensi hari ini</strong>
-                        Masuk: {{ $rentangAbsenMasuk[0]->format('H:i') }}–{{ $rentangAbsenMasuk[1]->format('H:i') }}.
-                        Pulang: {{ $rentangAbsenPulang[0]->format('H:i') }}–{{ $rentangAbsenPulang[1]->format('H:i') }}.
-                        Presensi hanya dapat dikirim dalam rentang tersebut.
-                    </div>
+            <div
+                class="manual-card manual-banner {{ $jadwalKerjaHariIni ? 'manual-banner-info' : 'manual-banner-warning' }}"
+                id="attendanceScheduleBanner"
+                role="status">
+                <i class="{{ $jadwalKerjaHariIni ? 'fa-regular fa-clock' : 'fa-solid fa-triangle-exclamation' }}"></i>
+                <div>
+                    <strong id="attendanceScheduleMessage">{{ $jadwalKerjaHariIni ? 'Rentang presensi hari ini' : 'Jadwal presensi belum tersedia' }}</strong>
+                    <span id="attendanceScheduleHelp">
+                        @if ($jadwalKerjaHariIni)
+                            Presensi hanya dapat dikirim dalam rentang jadwal yang dipilih.
+                        @else
+                            Hubungi admin untuk mengatur jam operasional hari ini.
+                        @endif
+                    </span>
+                    Masuk: <span id="attendanceEntryRange">{{ $rentangAbsenMasuk ? $rentangAbsenMasuk[0]->format('H:i') . '–' . $rentangAbsenMasuk[1]->format('H:i') : 'belum diatur' }}</span>.
+                    Pulang: <span id="attendanceExitRange">{{ $rentangAbsenPulang ? $rentangAbsenPulang[0]->format('H:i') . '–' . $rentangAbsenPulang[1]->format('H:i') : 'belum diatur' }}</span>.
                 </div>
-            @else
-                <div class="manual-card manual-banner manual-banner-warning" role="alert">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                    <div>
-                        <strong>Jadwal presensi belum tersedia</strong>
-                        Hubungi admin untuk mengatur jam operasional hari ini.
-                    </div>
-                </div>
-            @endif
+            </div>
 
             @if ($cutiHariIni)
                 <div class="manual-card manual-banner manual-banner-warning">
@@ -307,17 +306,34 @@
 
                                 <label class="manual-label" for="status">Status Absensi</label>
 
-                                <select class="manual-select manual-field" id="status" name="status" required>
-                                    <option value="hadir" @selected(old('status', 'hadir') === 'hadir')>
+                                <select class="manual-select manual-field" id="status" name="status" required
+                                    data-attendance-schedule-options='@json($attendanceScheduleOptions)'
+                                    @disabled($absensiMasukHariIni)>
+                                    <option value="hadir" @selected($statusAbsensiAwal === 'hadir')>
                                         Hadir (Bekerja Normal)
                                     </option>
-                                    <option value="izin" @selected(old('status') === 'izin')>
+                                    <option value="dinas_luar" @selected($statusAbsensiAwal === 'dinas_luar')>
+                                        Hadir (Bekerja Di Luar)
+                                    </option>
+                                    <option value="shift_1" @selected($statusAbsensiAwal === 'shift_1')>
+                                        Shift 1 (Operator)
+                                    </option>
+                                    <option value="shift_2" @selected($statusAbsensiAwal === 'shift_2')>
+                                        Shift 2 (Operator)
+                                    </option>
+                                    <option value="shift_3" @selected($statusAbsensiAwal === 'shift_3')>
+                                        Shift 3 (Operator)
+                                    </option>
+                                    <option value="izin" @selected($statusAbsensiAwal === 'izin')>
                                         Izin
                                     </option>
-                                    <option value="alpa" @selected(old('status') === 'alpa')>
+                                    <option value="alpa" @selected($statusAbsensiAwal === 'alpa')>
                                         Alpa
                                     </option>
                                 </select>
+                                @if ($absensiMasukHariIni)
+                                    <input type="hidden" name="status" value="{{ $statusAbsensiAwal }}">
+                                @endif
 
                                 <button type="submit" form="attendanceForm"
                                     class="manual-submit" id="submitAttendanceButton"
@@ -347,6 +363,68 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <script>
+        (() => {
+            const statusInput = document.getElementById('status');
+            const typeInput = document.getElementById('jenisPresensi');
+            const typeButtons = document.querySelectorAll('[data-presensi]');
+            const submitButton = document.getElementById('submitAttendanceButton');
+
+            if (!statusInput || !typeInput || !submitButton) return;
+
+            const schedules = JSON.parse(statusInput.dataset.attendanceScheduleOptions || '{}');
+            const entryRange = document.getElementById('attendanceEntryRange');
+            const exitRange = document.getElementById('attendanceExitRange');
+            const scheduleMessage = document.getElementById('attendanceScheduleMessage');
+            const scheduleHelp = document.getElementById('attendanceScheduleHelp');
+            const scheduleBanner = document.getElementById('attendanceScheduleBanner');
+            const scheduleIcon = scheduleBanner?.querySelector(':scope > i');
+
+            function updateSchedule() {
+                const schedule = schedules[statusInput.value];
+                const hasSchedule = schedule?.tersedia === true;
+
+                entryRange.textContent = schedule?.rentang_masuk
+                    ? schedule.rentang_masuk.join('–')
+                    : 'belum diatur';
+                exitRange.textContent = schedule?.rentang_pulang
+                    ? schedule.rentang_pulang.join('–')
+                    : 'belum diatur';
+
+                if (scheduleMessage && scheduleHelp) {
+                    scheduleMessage.textContent = hasSchedule
+                        ? 'Jadwal presensi hari ini'
+                        : 'Jadwal presensi belum tersedia';
+                    scheduleHelp.textContent = hasSchedule
+                        ? 'Jam presensi mengikuti status yang dipilih.'
+                        : 'Hubungi admin untuk mengatur jadwal status ini.';
+                }
+
+                scheduleBanner?.classList.toggle('manual-banner-info', hasSchedule);
+                scheduleBanner?.classList.toggle('manual-banner-warning', !hasSchedule);
+                if (scheduleIcon) {
+                    scheduleIcon.className = hasSchedule
+                        ? 'fa-regular fa-clock'
+                        : 'fa-solid fa-triangle-exclamation';
+                }
+
+                typeButtons.forEach((button) => {
+                    button.dataset.available = hasSchedule
+                        && schedule['bisa_' + button.dataset.presensi]
+                        ? 'true'
+                        : 'false';
+                });
+
+                const selectedButton = document.querySelector(
+                    `[data-presensi="${typeInput.value}"]`
+                );
+                submitButton.disabled = selectedButton?.dataset.available !== 'true'
+                    || selectedButton?.dataset.completed === 'true';
+            }
+
+            statusInput.addEventListener('change', updateSchedule);
+            updateSchedule();
+        })();
+
         (() => {
             const clock = document.getElementById('attendanceClock');
             const dateElement = document.getElementById('attendanceClockDate');

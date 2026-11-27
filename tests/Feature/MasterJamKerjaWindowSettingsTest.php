@@ -30,14 +30,51 @@ class MasterJamKerjaWindowSettingsTest extends TestCase
             'jam_buka_absen_pulang' => '16:30:00',
             'jam_tutup_absen_pulang' => '18:30:00',
         ]);
+        $this->assertDatabaseCount('master_jam_kerjas', 8);
+        $this->assertDatabaseHas('master_jam_kerjas', [
+            'hari' => 'Kerja',
+            'jenis_jadwal' => 'shift',
+            'nomor_shift' => 1,
+            'jam_masuk' => '07:00:00',
+            'jam_pulang' => '15:00:00',
+            'jam_buka_absen_masuk' => '06:00:00',
+            'batas_absen_masuk' => '07:15:00',
+            'jam_buka_absen_pulang' => '15:00:00',
+            'jam_tutup_absen_pulang' => '17:00:00',
+        ]);
+        $this->assertDatabaseHas('master_jam_kerjas', [
+            'hari' => 'Kerja',
+            'jenis_jadwal' => 'shift',
+            'nomor_shift' => 2,
+            'jam_masuk' => '15:00:00',
+            'jam_pulang' => '23:00:00',
+            'jam_tutup_absen_pulang' => '23:59:00',
+        ]);
+        $this->assertDatabaseHas('master_jam_kerjas', [
+            'hari' => 'Kerja',
+            'jenis_jadwal' => 'shift',
+            'nomor_shift' => 3,
+            'jam_masuk' => '23:00:00',
+            'jam_pulang' => '07:00:00',
+            'jam_buka_absen_pulang' => '07:00:00',
+            'jam_tutup_absen_pulang' => '09:00:00',
+        ]);
 
         MasterJamKerja::where('hari', 'Senin')
             ->update(['jam_buka_absen_masuk' => '06:10:00']);
+        MasterJamKerja::where('jenis_jadwal', 'shift')
+            ->where('nomor_shift', 1)
+            ->update(['jam_buka_absen_masuk' => '05:45:00']);
         $this->seed(JamKerjaSeeder::class);
 
         $this->assertDatabaseHas('master_jam_kerjas', [
             'hari' => 'Senin',
             'jam_buka_absen_masuk' => '06:10:00',
+        ]);
+        $this->assertDatabaseHas('master_jam_kerjas', [
+            'jenis_jadwal' => 'shift',
+            'nomor_shift' => 1,
+            'jam_buka_absen_masuk' => '05:45:00',
         ]);
     }
 
@@ -124,6 +161,50 @@ class MasterJamKerjaWindowSettingsTest extends TestCase
             ]);
 
         $this->assertDatabaseCount('master_jam_kerjas', 0);
+    }
+
+    public function test_master_can_create_a_shift_three_schedule_that_ends_the_next_day(): void
+    {
+        $master = User::create([
+            'name' => 'Admin',
+            'email' => 'admin@example.test',
+            'password' => 'password-admin',
+            'role' => 'master',
+        ]);
+
+        $this->actingAs($master)
+            ->get(route('master.jam-kerja.index', ['jenis_jadwal' => 'shift']))
+            ->assertOk()
+            ->assertSee('Jam Shift');
+
+        $this->actingAs($master)
+            ->get(route('master.jam-kerja.create', ['jenis_jadwal' => 'shift']))
+            ->assertOk()
+            ->assertSee('name="jenis_jadwal" value="shift"', false)
+            ->assertSee('name="nomor_shift"', false)
+            ->assertSee('Shift 1 (Operator)')
+            ->assertSee('Shift 2 (Operator)')
+            ->assertSee('Shift 3 (Operator)');
+
+        $this->actingAs($master)
+            ->post(route('master.jam-kerja.store'), $this->jadwalData([
+                'jenis_jadwal' => 'shift',
+                'nomor_shift' => 3,
+                'jam_masuk' => '23:00',
+                'jam_pulang' => '07:00',
+                'jam_buka_absen_masuk' => '22:00',
+                'batas_absen_masuk' => '23:30',
+                'jam_buka_absen_pulang' => '06:30',
+                'jam_tutup_absen_pulang' => '08:00',
+            ]))
+            ->assertRedirect(route('master.jam-kerja.index', ['jenis_jadwal' => 'shift']));
+
+        $this->assertDatabaseHas('master_jam_kerjas', [
+            'jenis_jadwal' => 'shift',
+            'nomor_shift' => 3,
+            'jam_masuk' => '23:00',
+            'jam_pulang' => '07:00',
+        ]);
     }
 
     private function jadwalData(array $overrides = []): array

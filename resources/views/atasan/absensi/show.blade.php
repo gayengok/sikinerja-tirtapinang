@@ -15,6 +15,9 @@
             'tidak_hadir' => ['Tidak Hadir', 'is-absent'],
             'cuti' => ['Cuti', 'is-leave'],
             'dinas_luar' => ['Dinas Luar', 'is-duty'],
+            'shift_1' => ['Shift 1 (Operator)', 'is-present'],
+            'shift_2' => ['Shift 2 (Operator)', 'is-present'],
+            'shift_3' => ['Shift 3 (Operator)', 'is-present'],
         ];
 
         [$labelStatus, $statusClass] = $statusMap[$absensi->status]

@@ -295,6 +295,50 @@ body {
     font-weight: 500;
 }
 
+.sidebar-schedule-menu {
+    width: 100%;
+}
+
+.sidebar-schedule-menu > summary {
+    list-style: none;
+    cursor: pointer;
+}
+
+.sidebar-schedule-menu > summary::-webkit-details-marker {
+    display: none;
+}
+
+.sidebar-schedule-chevron {
+    margin-left: auto;
+    font-size: 0.65rem;
+    transition: transform 0.18s ease;
+}
+
+.sidebar-schedule-menu[open] .sidebar-schedule-chevron {
+    transform: rotate(180deg);
+}
+
+.sidebar-schedule-submenu {
+    display: grid;
+    gap: 3px;
+    margin: 0 12px 6px 48px;
+}
+
+.sidebar-schedule-sublink {
+    display: block;
+    padding: 8px 12px;
+    color: inherit;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    text-decoration: none;
+}
+
+.sidebar-schedule-sublink:hover,
+.sidebar-schedule-sublink.active {
+    color: #174a6d;
+    background: rgba(255, 255, 255, 0.58);
+}
+
 .main-content {
     margin-left: var(--sidebar-width);
     margin-top: 64px;

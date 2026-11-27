@@ -16,6 +16,9 @@
         'alpa' => 'Alpa',
         'cuti' => 'Cuti',
         'dinas_luar' => 'Dinas Luar',
+        'shift_1' => 'Shift 1 (Operator)',
+        'shift_2' => 'Shift 2 (Operator)',
+        'shift_3' => 'Shift 3 (Operator)',
         default => 'Belum Absen',
     };
 
@@ -88,7 +91,7 @@
             <span class="hero-status-label">Absensi Hari Ini:</span>
 
             <span class="hero-status-pill">
-                @if ($statusAbsensi === 'hadir')
+                @if (in_array($statusAbsensi, ['hadir', 'shift_1', 'shift_2', 'shift_3'], true))
                     <i class="fa-solid fa-circle-check"></i>
                 @else
                     <i class="fa-regular fa-clock"></i>
@@ -96,7 +99,7 @@
 
                 <span>{{ $labelAbsen }}</span>
 
-                @if ($statusAbsensi === 'hadir' && $waktuAbsensi)
+                @if (in_array($statusAbsensi, ['hadir', 'shift_1', 'shift_2', 'shift_3'], true) && $waktuAbsensi)
                     <span class="hero-timer">({{ $waktuAbsensi }})</span>
                 @endif
             </span>

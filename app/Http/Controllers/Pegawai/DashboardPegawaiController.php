@@ -41,7 +41,7 @@ class DashboardPegawaiController extends Controller
         $jumlahKehadiranBulanIni = $pegawai->absensis()
             ->whereMonth('tanggal', $bulanIni)
             ->whereYear('tanggal', $tahunIni)
-            ->where('status', 'hadir')
+            ->whereIn('status', ['hadir', 'shift_1', 'shift_2', 'shift_3'])
             ->count();
 
         $absensiHariIni = $pegawai->absensis()

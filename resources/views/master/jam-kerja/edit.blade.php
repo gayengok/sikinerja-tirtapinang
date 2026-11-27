@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Jam Kerja')
+@section('title', 'Edit Jam ' . ($jenisJadwal === 'shift' ? 'Shift' : 'Normal'))
 
 @section('content')
     <div class="master-jam-edit-page">
@@ -11,13 +11,13 @@
                 <nav class="master-jam-edit-breadcrumb" aria-label="Breadcrumb">
                     <a href="{{ route('master.dashboard') }}">Beranda</a>
                     <i class="fa-solid fa-chevron-right"></i>
-                    <a href="{{ route('master.jam-kerja.index') }}">Jam Kerja</a>
+                    <a href="{{ route('master.jam-kerja.index', ['jenis_jadwal' => $jenisJadwal]) }}">Jam Kerja</a>
                     <i class="fa-solid fa-chevron-right"></i>
                     <span>Edit</span>
                 </nav>
                 <h1>
                     <i class="fa-solid fa-pen-to-square"></i>
-                    Edit Jam Kerja
+                    Edit Jam {{ $jenisJadwal === 'shift' ? 'Shift' : 'Normal' }}
                 </h1>
                 <p>Perbarui jam kerja dan lihat pratinjau rentang absen untuk jadwal ini.</p>
             </div>
@@ -36,6 +36,24 @@
             <form id="masterJamKerjaForm" action="{{ route('master.jam-kerja.update', $jamKerja) }}" method="POST">
                 @csrf
                 @method('PUT')
+                <input type="hidden" name="jenis_jadwal" value="{{ $jenisJadwal }}">
+
+                @if ($jenisJadwal === 'shift')
+                    <div class="master-jam-edit-field">
+                        <label for="nomor_shift">Shift</label>
+                        <select name="nomor_shift" id="nomor_shift" class="@error('nomor_shift') is-invalid @enderror" required>
+                            @foreach ($shiftOptions as $nomorShift)
+                                <option value="{{ $nomorShift }}"
+                                    @selected((int) old('nomor_shift', $jamKerja->nomor_shift) === $nomorShift)>
+                                    Shift {{ $nomorShift }} (Operator)
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('nomor_shift')
+                            <div class="master-jam-edit-error">{{ $message }}</div>
+                        @enderror
+                    </div>
+                @endif
 
                 <div class="master-jam-edit-field">
                     <label for="jabatan_id">Jabatan <small>(Opsional)</small></label>
@@ -109,7 +127,7 @@
 
                 <div class="master-jam-edit-submit">
                     <button type="submit"><i class="fa-solid fa-download"></i> Update</button>
-                    <a href="{{ route('master.jam-kerja.index') }}">Batal</a>
+                    <a href="{{ route('master.jam-kerja.index', ['jenis_jadwal' => $jenisJadwal]) }}">Batal</a>
                 </div>
             </form>
         </section>
@@ -118,7 +136,7 @@
             <i class="fa-solid fa-circle-info"></i>
             <p><strong>Catatan Rentang Presensi:</strong> Jam buka dan batas absen masuk serta jam buka dan tutup absen
                 pulang dapat diatur mandiri untuk jadwal <b>{{ $jamKerja->hari }}</b>. Presensi di luar rentang akan
-                ditolak.</p>
+                ditolak. @if ($jenisJadwal === 'shift') Jam pulang sebelum jam masuk berarti jadwal melewati tengah malam. @endif</p>
         </aside>
     </div>
 @endsection

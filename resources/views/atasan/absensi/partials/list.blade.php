@@ -5,6 +5,9 @@
         'sakit' => ['label' => 'Sakit', 'class' => 'is-sick'],
         'cuti' => ['label' => 'Cuti', 'class' => 'is-leave'],
         'dinas_luar' => ['label' => 'Dinas Luar', 'class' => 'is-duty'],
+        'shift_1' => ['label' => 'Shift 1 (Operator)', 'class' => 'is-present'],
+        'shift_2' => ['label' => 'Shift 2 (Operator)', 'class' => 'is-present'],
+        'shift_3' => ['label' => 'Shift 3 (Operator)', 'class' => 'is-present'],
         'alpa' => ['label' => 'Alpa', 'class' => 'is-absent'],
         'tidak_hadir' => ['label' => 'Tidak Hadir', 'class' => 'is-absent'],
     ];

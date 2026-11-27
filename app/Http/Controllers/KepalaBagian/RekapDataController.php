@@ -62,7 +62,7 @@ class RekapDataController extends Controller
                 $query->whereBetween('tanggal', [
                     $tanggalMulai->toDateString(),
                     $tanggalSelesai->toDateString(),
-                ])->where('status', 'hadir');
+                ])->whereIn('status', ['hadir', 'shift_1', 'shift_2', 'shift_3']);
             }])
             ->orderBy('nama')
             ->get()

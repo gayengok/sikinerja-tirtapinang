@@ -139,7 +139,7 @@
                     <label><span>Status</span>
                         <select name="status" id="attendanceStatusInput">
                             <option value="">Semua Status</option>
-                            @foreach (['hadir'=>'Hadir','izin'=>'Izin','sakit'=>'Sakit','alpa'=>'Alpa','tidak_hadir'=>'Tidak Hadir','cuti'=>'Cuti','dinas_luar'=>'Dinas Luar'] as $statusValue => $statusLabel)
+                            @foreach (['hadir'=>'Hadir','shift_1'=>'Shift 1 (Operator)','shift_2'=>'Shift 2 (Operator)','shift_3'=>'Shift 3 (Operator)','izin'=>'Izin','sakit'=>'Sakit','alpa'=>'Alpa','tidak_hadir'=>'Tidak Hadir','cuti'=>'Cuti','dinas_luar'=>'Dinas Luar'] as $statusValue => $statusLabel)
                                 <option value="{{ $statusValue }}" @selected($status === $statusValue)>{{ $statusLabel }}</option>
                             @endforeach
                         </select>

@@ -230,7 +230,10 @@
                 Kompetensi</a>
             <a href="{{ route('master.template-laporan.index') }}"><i class="fa-solid fa-file-lines"></i> Template
                 Laporan</a>
-            <a href="{{ route('master.jam-kerja.index') }}"><i class="fa-regular fa-clock"></i> Jam Kerja</a>
+            <a href="{{ route('master.jam-kerja.index', ['jenis_jadwal' => 'normal']) }}"><i
+                    class="fa-regular fa-clock"></i> Jam Normal</a>
+            <a href="{{ route('master.jam-kerja.index', ['jenis_jadwal' => 'shift']) }}"><i
+                    class="fa-solid fa-clock"></i> Jam Shift</a>
             <a href="{{ route('master.jenis-potongan.index') }}"><i class="fa-solid fa-scissors"></i> Jenis
                 Potongan</a>
             <a href="#">

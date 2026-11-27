@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Atasan;
 
 use App\Http\Controllers\Controller;
 use App\Models\Absensi;
+use App\Models\MasterJamKerja;
 use App\Models\Pegawai;
 use App\Services\PegawaiNotificationService;
 use App\Services\TeamVisibilityService;
@@ -39,6 +40,9 @@ class AbsensiAtasanController extends Controller
                     'tidak_hadir',
                     'cuti',
                     'dinas_luar',
+                    'shift_1',
+                    'shift_2',
+                    'shift_3',
                 ]),
             ],
             'search' => ['nullable', 'string', 'max:150'],
@@ -165,8 +169,10 @@ class AbsensiAtasanController extends Controller
             ];
         }
 
+        $jadwalUmum = MasterJamKerja::whereNull('jabatan_id')->get();
+
         foreach ($pegawaiRingkasan as $pegawai) {
-            $jamKerjas = $pegawai->jabatan?->jamKerjas ?? collect();
+            $jamKerjas = ($pegawai->jabatan?->jamKerjas ?? collect())->concat($jadwalUmum);
 
             foreach ($pegawai->absensis as $absensi) {
                 $ringkasan['total']++;
@@ -178,7 +184,7 @@ class AbsensiAtasanController extends Controller
                     continue;
                 }
 
-                if ($absensi->status !== 'hadir') {
+                if (! in_array($absensi->status, ['hadir', 'shift_1', 'shift_2', 'shift_3'], true)) {
                     if (array_key_exists($absensi->status, $ringkasan)) {
                         $ringkasan[$absensi->status]++;
                         if (array_key_exists($absensi->status, $grafikHarian[$hariAbsensi]['counts'])) {
@@ -191,10 +197,12 @@ class AbsensiAtasanController extends Controller
 
                 $tanggalAbsensi = Carbon::parse($absensi->tanggal);
 
-                $jadwal = $jamKerjas->firstWhere(
-                    'hari',
-                    $namaHari[$tanggalAbsensi->dayOfWeek]
-                ) ?? $jamKerjas->firstWhere('hari', 'Kerja');
+                $jadwal = MasterJamKerja::pilihUntukPegawai(
+                    $jamKerjas,
+                    $pegawai,
+                    $namaHari[$tanggalAbsensi->dayOfWeek],
+                    $absensi->status
+                );
 
                 $terlambat = false;
 

@@ -15,10 +15,13 @@
             'alpa', 'tidak_hadir' => 'Tidak Hadir',
             'cuti' => 'Cuti',
             'dinas_luar' => 'Dinas Luar',
+            'shift_1' => 'Shift 1 (Operator)',
+            'shift_2' => 'Shift 2 (Operator)',
+            'shift_3' => 'Shift 3 (Operator)',
             default => ucfirst($absensi->status),
         };
         $badgeStatus = match ($absensi->status) {
-            'hadir' => 'bg-success',
+            'hadir', 'shift_1', 'shift_2', 'shift_3' => 'bg-success',
             'izin' => 'bg-info',
             'sakit' => 'bg-warning text-dark',
             'alpa', 'tidak_hadir' => 'bg-danger',
@@ -27,7 +30,7 @@
             default => 'bg-light text-dark border',
         };
         $statusTone = match ($absensi->status) {
-            'hadir' => 'success',
+            'hadir', 'shift_1', 'shift_2', 'shift_3' => 'success',
             'izin', 'dinas_luar' => 'info',
             'sakit' => 'warning',
             'alpa', 'tidak_hadir' => 'danger',

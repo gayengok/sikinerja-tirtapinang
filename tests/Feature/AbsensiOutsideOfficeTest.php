@@ -202,11 +202,143 @@ class AbsensiOutsideOfficeTest extends TestCase
             $this->actingAs($user)
                 ->get(route('pegawai.absensi.index'))
                 ->assertOk()
+                ->assertSee('Hadir (Bekerja Di Luar)')
+                ->assertSee('value="dinas_luar"', false)
+                ->assertSee('Shift 1 (Operator)')
+                ->assertSee('Shift 2 (Operator)')
+                ->assertSee('Shift 3 (Operator)')
+                ->assertSee('value="shift_1"', false)
+                ->assertSee('value="shift_2"', false)
+                ->assertSee('value="shift_3"', false)
                 ->assertDontSee('id="holidayDialog"', false)
                 ->assertDontSee('<fieldset class="manual-disabled"', false)
                 ->assertDontSee('class="manual-page manual-atasan-page"', false)
                 ->assertDontSee('manual-calendar-card', false)
                 ->assertSee('data-show-on-load="false"', false);
+        } finally {
+            Carbon::setTestNow();
+        }
+    }
+
+    public function test_pegawai_can_submit_attendance_as_working_outside_office(): void
+    {
+        Storage::fake('public');
+        [$user, $pegawai] = $this->createPegawai();
+        Carbon::setTestNow('2026-09-28 08:00:00');
+
+        try {
+            $payload = array_merge($this->attendancePayload('masuk'), [
+                'status' => 'dinas_luar',
+            ]);
+
+            $this->actingAs($user)
+                ->post(route('pegawai.absensi.store'), $payload)
+                ->assertRedirect(route('pegawai.absensi.index'))
+                ->assertSessionHas('success', 'Presensi berhasil disimpan.');
+
+            $this->assertDatabaseHas('absensis', [
+                'pegawai_id' => $pegawai->id,
+                'status' => 'dinas_luar',
+            ]);
+        } finally {
+            Carbon::setTestNow();
+        }
+    }
+
+    public function test_pegawai_can_submit_attendance_with_a_selected_shift(): void
+    {
+        Storage::fake('public');
+        [$user, $pegawai] = $this->createPegawai();
+        MasterJamKerja::create([
+            'hari' => 'Kerja',
+            'jenis_jadwal' => 'shift',
+            'nomor_shift' => 1,
+            'jam_masuk' => '07:30:00',
+            'jam_pulang' => '16:00:00',
+            'toleransi_menit' => 15,
+            'jam_buka_absen_masuk' => '00:00:00',
+            'batas_absen_masuk' => '23:59:00',
+            'jam_buka_absen_pulang' => '00:00:00',
+            'jam_tutup_absen_pulang' => '23:59:00',
+        ]);
+        Carbon::setTestNow('2026-09-28 08:00:00');
+
+        try {
+            $payload = array_merge($this->attendancePayload('masuk'), [
+                'status' => 'shift_1',
+            ]);
+
+            $this->actingAs($user)
+                ->post(route('pegawai.absensi.store'), $payload)
+                ->assertRedirect(route('pegawai.absensi.index'))
+                ->assertSessionHas('success', 'Presensi berhasil disimpan.');
+
+            $this->assertDatabaseHas('absensis', [
+                'pegawai_id' => $pegawai->id,
+                'status' => 'shift_1',
+            ]);
+        } finally {
+            Carbon::setTestNow();
+        }
+    }
+
+    public function test_shift_three_attendance_can_be_completed_after_midnight(): void
+    {
+        Storage::fake('public');
+        [$user, $pegawai] = $this->createPegawai();
+        MasterJamKerja::create([
+            'hari' => 'Senin',
+            'jenis_jadwal' => 'shift',
+            'nomor_shift' => 3,
+            'jam_masuk' => '23:00:00',
+            'jam_pulang' => '07:00:00',
+            'toleransi_menit' => 15,
+            'jam_buka_absen_masuk' => '22:00:00',
+            'batas_absen_masuk' => '23:30:00',
+            'jam_buka_absen_pulang' => '06:30:00',
+            'jam_tutup_absen_pulang' => '08:00:00',
+        ]);
+        Carbon::setTestNow('2026-09-28 23:10:00');
+
+        try {
+            $payloadMasuk = array_merge($this->attendancePayload('masuk'), [
+                'status' => 'shift_3',
+            ]);
+
+            $this->actingAs($user)
+                ->post(route('pegawai.absensi.store'), $payloadMasuk)
+                ->assertRedirect(route('pegawai.absensi.index'))
+                ->assertSessionHas('success', 'Presensi berhasil disimpan.');
+
+            $this->assertTrue(Absensi::query()
+                ->where('pegawai_id', $pegawai->id)
+                ->whereDate('tanggal', '2026-09-28')
+                ->where('status', 'shift_3')
+                ->where('jam_masuk', '23:10:00')
+                ->exists());
+
+            Carbon::setTestNow('2026-09-29 07:00:00');
+            $this->actingAs($user)
+                ->get(route('pegawai.absensi.index'))
+                ->assertOk()
+                ->assertSee('name="status" value="shift_3"', false)
+                ->assertSee('Pulang');
+
+            $payloadPulang = array_merge($this->attendancePayload('pulang'), [
+                'status' => 'shift_3',
+            ]);
+
+            $this->actingAs($user)
+                ->post(route('pegawai.absensi.store'), $payloadPulang)
+                ->assertRedirect(route('pegawai.absensi.index'))
+                ->assertSessionHas('success', 'Presensi berhasil disimpan.');
+
+            $this->assertTrue(Absensi::query()
+                ->where('pegawai_id', $pegawai->id)
+                ->whereDate('tanggal', '2026-09-28')
+                ->where('status', 'shift_3')
+                ->where('jam_pulang', '07:00:00')
+                ->exists());
         } finally {
             Carbon::setTestNow();
         }

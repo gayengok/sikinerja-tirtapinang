@@ -156,7 +156,7 @@ class PegawaiAtasanController extends Controller
             ->count();
 
         $jumlahKehadiran = $pegawaiBawahan->absensis()
-            ->where('status', 'hadir')
+            ->whereIn('status', ['hadir', 'shift_1', 'shift_2', 'shift_3'])
             ->count();
 
         $hasilTerakhir = HasilPenilaian::query()

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Jam Kerja')
+@section('title', $jenisJadwal === 'shift' ? 'Jam Shift' : 'Jam Normal')
 
 @section('content')
     <div class="master-jam-kerja-page">
@@ -10,18 +10,18 @@
             <div>
                 <h1>
                     <i class="fa-solid fa-clock"></i>
-                    Jam Kerja
+                    {{ $jenisJadwal === 'shift' ? 'Jam Shift' : 'Jam Normal' }}
                 </h1>
-                <p>Kelola jadwal jam masuk, pulang, dan batas toleransi keterlambatan.</p>
+                <p>{{ $jenisJadwal === 'shift' ? 'Kelola jadwal Shift 1–3 untuk Operator.' : 'Kelola jadwal jam kerja normal.' }}</p>
             </div>
-            <a href="{{ route('master.jam-kerja.create') }}" class="master-jam-kerja-add-desktop">
-                <i class="fa-solid fa-plus"></i> Tambah Jam Kerja
+            <a href="{{ route('master.jam-kerja.create', ['jenis_jadwal' => $jenisJadwal]) }}" class="master-jam-kerja-add-desktop">
+                <i class="fa-solid fa-plus"></i> Tambah Jadwal
             </a>
         </header>
 
-        <a href="{{ route('master.jam-kerja.create') }}" class="master-jam-kerja-add">
+        <a href="{{ route('master.jam-kerja.create', ['jenis_jadwal' => $jenisJadwal]) }}" class="master-jam-kerja-add">
             <i class="fa-solid fa-plus"></i>
-            <span>Tambah Jam Kerja</span>
+            <span>Tambah Jadwal</span>
         </a>
         <div class="master-jam-kerja-filters" aria-label="Filter hari">
             @foreach (['Semua Hari', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'] as $hari)
@@ -56,7 +56,7 @@
                             <td>
                                 <span class="master-jam-kerja-table-day">{{ $jam->hari }}</span>
                                 <small
-                                    class="master-jam-kerja-table-day-note">{{ $jam->hari === 'Jumat' ? 'Jadwal Khusus Hari Jumat' : 'Hari Kerja Reguler' }}</small>
+                                    class="master-jam-kerja-table-day-note">{{ $jenisJadwal === 'shift' ? 'Shift ' . $jam->nomor_shift . ' (Operator)' : ($jam->hari === 'Jumat' ? 'Jadwal Khusus Hari Jumat' : 'Hari Kerja Reguler') }}</small>
                             </td>
                             <td><span
                                     class="master-jam-kerja-table-role">{{ $jam->jabatan->nama_jabatan ?? 'Semua Jabatan' }}</span>
@@ -67,10 +67,10 @@
                             </td>
                             <td>
                                 <div class="master-jam-kerja-table-actions">
-                                    <a href="{{ route('master.jam-kerja.edit', $jam) }}"
+                                    <a href="{{ route('master.jam-kerja.edit', ['jamKerja' => $jam, 'jenis_jadwal' => $jenisJadwal]) }}"
                                         aria-label="Ubah jadwal {{ $jam->hari }}" title="Ubah"><i
                                             class="fa-regular fa-pen-to-square"></i></a>
-                                    <form action="{{ route('master.jam-kerja.destroy', $jam) }}" method="POST"
+                                    <form action="{{ route('master.jam-kerja.destroy', ['jamKerja' => $jam, 'jenis_jadwal' => $jenisJadwal]) }}" method="POST"
                                         class="form-delete" data-confirm-message="Yakin ingin menghapus jam kerja ini?">
                                         @csrf
                                         @method('DELETE')
@@ -98,7 +98,7 @@
                                 class="master-jam-kerja-number">{{ $loop->iteration + ($jamKerjas->currentPage() - 1) * $jamKerjas->perPage() }}</span>
                             <div class="master-jam-kerja-day">
                                 <h2>{{ $jam->hari }}</h2>
-                                <p>{{ $jam->hari === 'Jumat' ? 'Jadwal Khusus Hari Jumat' : 'Hari Kerja Reguler' }}</p>
+                                <p>{{ $jenisJadwal === 'shift' ? 'Shift ' . $jam->nomor_shift . ' (Operator)' : ($jam->hari === 'Jumat' ? 'Jadwal Khusus Hari Jumat' : 'Hari Kerja Reguler') }}</p>
                             </div>
                             <span class="master-jam-kerja-role">
                                 {{ $jam->jabatan->nama_jabatan ?? 'Semua Jabatan' }}
@@ -111,10 +111,10 @@
                         </div>
 
                         <div class="master-jam-kerja-actions">
-                            <a href="{{ route('master.jam-kerja.edit', $jam) }}" class="edit">
+                            <a href="{{ route('master.jam-kerja.edit', ['jamKerja' => $jam, 'jenis_jadwal' => $jenisJadwal]) }}" class="edit">
                                 <i class="fa-solid fa-pen-to-square"></i> Ubah
                             </a>
-                            <form action="{{ route('master.jam-kerja.destroy', $jam) }}" method="POST" class="form-delete"
+                            <form action="{{ route('master.jam-kerja.destroy', ['jamKerja' => $jam, 'jenis_jadwal' => $jenisJadwal]) }}" method="POST" class="form-delete"
                                 data-confirm-message="Yakin ingin menghapus jam kerja ini?">
                                 @csrf
                                 @method('DELETE')

@@ -97,11 +97,24 @@
                 <span class="sidebar-link-text">Template Laporan</span>
             </a>
 
-            <a href="{{ route('master.jam-kerja.index') }}"
-                class="sidebar-link {{ request()->routeIs('master.jam-kerja.*') ? 'active' : '' }}">
-                <span class="sidebar-link-icon"><i class="fa-solid fa-clock"></i></span>
-                <span class="sidebar-link-text">Jam Kerja</span>
-            </a>
+            <details class="sidebar-schedule-menu"
+                @if (request()->routeIs('master.jam-kerja.*')) open @endif>
+                <summary class="sidebar-link {{ request()->routeIs('master.jam-kerja.*') ? 'active' : '' }}">
+                    <span class="sidebar-link-icon"><i class="fa-solid fa-clock"></i></span>
+                    <span class="sidebar-link-text">Jam Kerja</span>
+                    <i class="fa-solid fa-chevron-down sidebar-schedule-chevron" aria-hidden="true"></i>
+                </summary>
+                <div class="sidebar-schedule-submenu">
+                    <a href="{{ route('master.jam-kerja.index', ['jenis_jadwal' => 'normal']) }}"
+                        class="sidebar-schedule-sublink {{ request()->query('jenis_jadwal', 'normal') === 'normal' ? 'active' : '' }}">
+                        Jam Normal
+                    </a>
+                    <a href="{{ route('master.jam-kerja.index', ['jenis_jadwal' => 'shift']) }}"
+                        class="sidebar-schedule-sublink {{ request()->query('jenis_jadwal') === 'shift' ? 'active' : '' }}">
+                        Jam Shift
+                    </a>
+                </div>
+            </details>
 
             <a href="{{ route('master.jenis-potongan.index') }}"
                 class="sidebar-link {{ request()->routeIs('master.jenis-potongan.*') ? 'active' : '' }}">

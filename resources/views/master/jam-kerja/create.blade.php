@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Tambah Jam Kerja')
+@section('title', 'Tambah Jam ' . ($jenisJadwal === 'shift' ? 'Shift' : 'Normal'))
 
 @section('content')
     <header class="master-jam-create-heading">
@@ -12,7 +12,7 @@
                 <i class="fa-solid fa-chevron-right"></i>
                 <span>Tambah</span>
             </nav>
-            <h1><i class="fa-regular fa-clock" aria-hidden="true"></i> Tambah Jam Kerja</h1>
+            <h1><i class="fa-regular fa-clock" aria-hidden="true"></i> Tambah Jam {{ $jenisJadwal === 'shift' ? 'Shift' : 'Normal' }}</h1>
             <p class="master-jam-create-subtitle">Atur jam kerja dan lihat pratinjau rentang absen untuk jadwal ini.
             </p>
         </div>
@@ -27,6 +27,24 @@
         <div class="card-body">
             <form id="masterJamKerjaForm" action="{{ route('master.jam-kerja.store') }}" method="POST" class="master-jam-create-form">
                 @csrf
+                <input type="hidden" name="jenis_jadwal" value="{{ $jenisJadwal }}">
+
+                @if ($jenisJadwal === 'shift')
+                    <div class="mb-3">
+                        <label for="nomor_shift" class="form-label">Shift</label>
+                        <select name="nomor_shift" id="nomor_shift" class="form-select @error('nomor_shift') is-invalid @enderror" required>
+                            <option value="">-- Pilih Shift --</option>
+                            @foreach ($shiftOptions as $nomorShift)
+                                <option value="{{ $nomorShift }}" @selected((int) old('nomor_shift') === $nomorShift)>
+                                    Shift {{ $nomorShift }} (Operator)
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('nomor_shift')
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                        @enderror
+                    </div>
+                @endif
 
                 <div class="mb-3">
                     <label for="jabatan_id" class="form-label">Jabatan (Opsional)</label>
@@ -89,10 +107,14 @@
                 @include('master.jam-kerja.partials.window-fields')
                 @include('master.jam-kerja.partials.window-preview')
 
+                @if ($jenisJadwal === 'shift')
+                    <p class="form-text">Jadwal shift dapat melewati tengah malam, misalnya masuk pukul 23.00 dan pulang pukul 07.00.</p>
+                @endif
+
                 <button type="submit" class="btn btn-primary">
                     <i class="fa-solid fa-floppy-disk me-1"></i> Simpan
                 </button>
-                <a href="{{ route('master.jam-kerja.index') }}" class="btn btn-outline-secondary">Batal</a>
+                <a href="{{ route('master.jam-kerja.index', ['jenis_jadwal' => $jenisJadwal]) }}" class="btn btn-outline-secondary">Batal</a>
             </form>
         </div>
     </div>

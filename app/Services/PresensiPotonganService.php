@@ -26,6 +26,7 @@ class PresensiPotonganService
     ];
 
     private const EXEMPT_STATUSES = ['izin', 'sakit', 'cuti', 'dinas_luar'];
+    private const PRESENT_STATUSES = ['hadir', 'shift_1', 'shift_2', 'shift_3'];
 
     public function syncForPegawai(Pegawai $pegawai, PeriodePenilaian $periode): void
     {
@@ -44,10 +45,7 @@ class PresensiPotonganService
         $jadwalKerja = MasterJamKerja::where(function ($query) use ($pegawai) {
             $query->whereNull('jabatan_id')
                 ->orWhere('jabatan_id', $pegawai->jabatan_id);
-        })->get()->groupBy('hari')->map(function (Collection $jadwals) use ($pegawai) {
-            return $jadwals->firstWhere('jabatan_id', $pegawai->jabatan_id)
-                ?? $jadwals->firstWhere('jabatan_id', null);
-        });
+        })->get();
         $absensis = $pegawai->absensis()
             ->whereDate('tanggal', '>=', $tanggalMulai->toDateString())
             ->whereDate('tanggal', '<=', $tanggalAkhir->toDateString())
@@ -57,17 +55,26 @@ class PresensiPotonganService
         $events = [];
 
         for ($tanggal = $tanggalMulai->copy(); $tanggal->lte($tanggalAkhir); $tanggal->addDay()) {
-            $jadwal = $this->jadwalUntukTanggal($jadwalKerja, $tanggal);
+            $absensi = $absensis->get($tanggal->toDateString());
+            $jadwal = $this->jadwalUntukTanggal(
+                $jadwalKerja,
+                $pegawai,
+                $tanggal,
+                $absensi?->status ?? 'hadir'
+            );
 
             if (! $this->hariKerja($jadwal, $tanggal)) {
                 continue;
             }
 
-            if ($tanggal->isToday() && (! $jadwal || now()->lt($this->waktuJadwal($tanggal, $jadwal->jam_pulang)))) {
+            if ($tanggal->isToday() && ! $jadwal) {
                 continue;
             }
 
-            $absensi = $absensis->get($tanggal->toDateString());
+            if ($jadwal && now()->lt($this->waktuJadwal($tanggal, $jadwal->jam_pulang, $jadwal->isOvernight()))) {
+                continue;
+            }
+
             if (! $absensi) {
                 $this->catatKejadian($events, $rules, 'unexcused');
 
@@ -84,7 +91,7 @@ class PresensiPotonganService
                 continue;
             }
 
-            if ($absensi->status !== 'hadir') {
+            if (! in_array($absensi->status, self::PRESENT_STATUSES, true)) {
                 continue;
             }
 
@@ -109,8 +116,8 @@ class PresensiPotonganService
                 $this->catatKejadian($events, $rules, 'missing_punch');
             } elseif ($jadwal) {
                 $menitPulangAwal = $this->menitSelisih(
-                    $this->waktuJadwal($tanggal, $absensi->jam_pulang),
-                    $this->waktuJadwal($tanggal, $jadwal->jam_pulang)
+                    $this->waktuJadwal($tanggal, $absensi->jam_pulang, $jadwal->isOvernight()),
+                    $this->waktuJadwal($tanggal, $jadwal->jam_pulang, $jadwal->isOvernight())
                 );
 
                 if ($menitPulangAwal > 0) {
@@ -122,12 +129,21 @@ class PresensiPotonganService
         $this->replacePenalties($pegawai, $periode, $events);
     }
 
-    private function jadwalUntukTanggal(Collection $jadwalKerja, Carbon $tanggal): mixed
+    private function jadwalUntukTanggal(
+        Collection $jadwalKerja,
+        Pegawai $pegawai,
+        Carbon $tanggal,
+        string $status
+    ): ?MasterJamKerja
     {
         $namaHari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
 
-        return $jadwalKerja->get($namaHari[$tanggal->dayOfWeek])
-            ?? $jadwalKerja->get('Kerja');
+        return MasterJamKerja::pilihUntukPegawai(
+            $jadwalKerja,
+            $pegawai,
+            $namaHari[$tanggal->dayOfWeek],
+            $status
+        );
     }
 
     private function hariKerja(mixed $jadwal, Carbon $tanggal): bool
@@ -143,9 +159,11 @@ class PresensiPotonganService
         return $tanggal->isWeekday();
     }
 
-    private function waktuJadwal(Carbon $tanggal, string $waktu): Carbon
+    private function waktuJadwal(Carbon $tanggal, string $waktu, bool $hariBerikutnya = false): Carbon
     {
-        return Carbon::parse($tanggal->toDateString() . ' ' . $waktu);
+        $waktuJadwal = Carbon::parse($tanggal->toDateString() . ' ' . $waktu);
+
+        return $hariBerikutnya ? $waktuJadwal->addDay() : $waktuJadwal;
     }
 
     private function menitSelisih(Carbon $batas, Carbon $aktual): int

@@ -41,7 +41,9 @@ class AbsensiController extends Controller
             ->whereYear('tanggal', $tahun);
 
         $ringkasan = [
-            'hadir' => (clone $ringkasanQuery)->where('status', 'hadir')->count(),
+            'hadir' => (clone $ringkasanQuery)
+                ->whereIn('status', ['hadir', 'shift_1', 'shift_2', 'shift_3'])
+                ->count(),
             'izin' => (clone $ringkasanQuery)->where('status', 'izin')->count(),
             'sakit' => (clone $ringkasanQuery)->where('status', 'sakit')->count(),
             'alpa' => (clone $ringkasanQuery)->where('status', 'alpa')->count(),
@@ -49,19 +51,29 @@ class AbsensiController extends Controller
             'dinas_luar' => (clone $ringkasanQuery)->where('status', 'dinas_luar')->count(),
         ];
 
-        $tanggal = $waktuSekarang->toDateString();
-
-        $cutiHariIni = $pegawai->absensis()
-            ->whereDate('tanggal', $tanggal)
-            ->where('status', 'cuti')
-            ->exists();
-
+        $tanggalHariIni = $waktuSekarang->toDateString();
         $absensiHariIni = $pegawai->absensis()
-            ->whereDate('tanggal', $tanggal)
+            ->whereDate('tanggal', $tanggalHariIni)
             ->first();
 
-        $hariLiburHariIni = HariLibur::detail($tanggal);
-        $jadwalKerjaHariIni = $this->jadwalKerjaUntukTanggal($pegawai, $waktuSekarang);
+        if (! $absensiHariIni) {
+            $absensiHariIni = $this->absensiShiftMalamYangBisaPulang($pegawai, $waktuSekarang);
+        }
+
+        $tanggalPresensi = $absensiHariIni
+            ? Carbon::parse($absensiHariIni->tanggal)
+            : $waktuSekarang;
+        $cutiHariIni = $pegawai->absensis()
+            ->whereDate('tanggal', $tanggalPresensi->toDateString())
+            ->where('status', 'cuti')
+            ->exists();
+        $statusAbsensiAwal = old('status', $absensiHariIni?->status ?? 'hadir');
+        $hariLiburHariIni = HariLibur::detail($tanggalPresensi->toDateString());
+        $jadwalKerjaHariIni = $this->jadwalKerjaUntukTanggal(
+            $pegawai,
+            $tanggalPresensi,
+            $statusAbsensiAwal
+        );
         $rentangAbsenMasuk = $jadwalKerjaHariIni?->rentangAbsenMasuk();
         $rentangAbsenPulang = $jadwalKerjaHariIni?->rentangAbsenPulang();
         $absensiMasukHariIni = filled($absensiHariIni?->jam_masuk);
@@ -74,6 +86,13 @@ class AbsensiController extends Controller
         $bisaAbsenPulang = $rentangAbsenPulangAktif
             && $absensiMasukHariIni
             && ! $absensiPulangHariIni;
+        $attendanceScheduleOptions = $this->attendanceScheduleOptions(
+            $pegawai,
+            $tanggalPresensi,
+            $waktuSekarang,
+            $absensiMasukHariIni,
+            $absensiPulangHariIni
+        );
         $attendanceCalendarMonth = $waktuSekarang->copy()->startOfMonth();
 
         $attendanceCalendar = in_array($request->user()->role, ['atasan', 'kepala_bagian'], true)
@@ -93,6 +112,8 @@ class AbsensiController extends Controller
             'bulan' => $bulan,
             'tahun' => $tahun,
             'cutiHariIni' => $cutiHariIni,
+            'statusAbsensiAwal' => $statusAbsensiAwal,
+            'attendanceScheduleOptions' => $attendanceScheduleOptions,
             'hariLiburHariIni' => $hariLiburHariIni,
             'absensiMasukHariIni' => $absensiMasukHariIni,
             'absensiPulangHariIni' => $absensiPulangHariIni,
@@ -116,21 +137,42 @@ class AbsensiController extends Controller
     public function store(Request $request)
     {
         $pegawai = $this->pegawaiLogin($request);
-        $hariLiburHariIni = HariLibur::detail($this->waktuJakarta()->toDateString());
+        $jenisPresensi = $request->validate([
+            'jenis_presensi' => ['required', 'in:masuk,pulang'],
+        ])['jenis_presensi'];
+        $waktuSekarang = $this->waktuJakarta();
+        $status = $request->validate([
+            'status' => ['required', 'in:hadir,dinas_luar,shift_1,shift_2,shift_3,izin,alpa'],
+        ])['status'];
+        $tanggalAbsensi = $waktuSekarang->toDateString();
+
+        if ($jenisPresensi === 'pulang' && $status === 'shift_3') {
+            $absensiShiftMalam = $this->absensiShiftMalamYangBisaPulang($pegawai, $waktuSekarang);
+
+            if ($absensiShiftMalam) {
+                $tanggalAbsensi = Carbon::parse($absensiShiftMalam->tanggal)->toDateString();
+            }
+        }
+
+        $hariLiburHariIni = HariLibur::detail($tanggalAbsensi);
 
         if ($hariLiburHariIni) {
             return to_route($this->attendanceRoute($request) . '.index')
                 ->with('error', "Presensi tidak tersedia pada {$hariLiburHariIni['label']}.");
         }
 
-        $jenisPresensi = $request->validate([
-            'jenis_presensi' => ['required', 'in:masuk,pulang'],
-        ])['jenis_presensi'];
-        $waktuSekarang = $this->waktuJakarta();
-        $jadwalKerja = $this->jadwalKerjaUntukTanggal($pegawai, $waktuSekarang);
+        $jadwalKerja = $this->jadwalKerjaUntukTanggal(
+            $pegawai,
+            Carbon::parse($tanggalAbsensi),
+            $status
+        );
 
         if (! $jadwalKerja) {
-            return back()->with('error', 'Jadwal jam kerja hari ini belum diatur. Silakan hubungi admin.');
+            $jenisJadwal = str_starts_with($status, 'shift_')
+                ? 'Shift ' . substr($status, 6)
+                : 'jam kerja normal';
+
+            return back()->with('error', "Jadwal {$jenisJadwal} hari ini belum diatur. Silakan hubungi admin.");
         }
 
         $rentangPresensi = $jenisPresensi === 'masuk'
@@ -142,7 +184,6 @@ class AbsensiController extends Controller
         }
 
         $validated = $request->validate([
-            'status' => ['required', 'in:hadir,izin,alpa'],
             'keterangan' => ['nullable', 'string', 'max:1000'],
             'latitude' => ['required', 'numeric', 'between:-90,90'],
             'longitude' => ['required', 'numeric', 'between:-180,180'],
@@ -167,6 +208,7 @@ class AbsensiController extends Controller
             'foto.mimes' => 'Format foto harus JPG, JPEG, PNG, atau WebP.',
             'foto.max' => 'Ukuran foto maksimal 5 MB.',
         ]);
+        $validated['status'] = $status;
 
         $latitude = (float) $validated['latitude'];
         $longitude = (float) $validated['longitude'];
@@ -194,7 +236,8 @@ class AbsensiController extends Controller
             $kolomWaktu,
             $validated,
             $distance,
-            $request
+            $request,
+            $tanggalAbsensi
         ): array {
             $pegawai->newQuery()
                 ->whereKey($pegawai->getKey())
@@ -202,7 +245,7 @@ class AbsensiController extends Controller
                 ->firstOrFail();
 
                 $waktuSekarang = $this->waktuJakarta();
-                $tanggal = $waktuSekarang->toDateString();
+                $tanggal = $tanggalAbsensi;
             $absensiHariIni = $pegawai->absensis()
                 ->whereDate('tanggal', $tanggal)
                 ->lockForUpdate()
@@ -349,27 +392,73 @@ class AbsensiController extends Controller
         return $pegawai;
     }
 
-    private function jadwalKerjaUntukTanggal(Pegawai $pegawai, Carbon $tanggal): ?MasterJamKerja
+    private function jadwalKerjaUntukTanggal(
+        Pegawai $pegawai,
+        Carbon $tanggal,
+        string $status = 'hadir'
+    ): ?MasterJamKerja
     {
-        $namaHari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-        $jadwals = MasterJamKerja::query()
-            ->where(function ($query) use ($pegawai) {
-                $query->whereNull('jabatan_id')
-                    ->orWhere('jabatan_id', $pegawai->jabatan_id);
-            })
-            ->whereIn('hari', [$namaHari[$tanggal->dayOfWeek], 'Kerja'])
-            ->get()
-            ->groupBy('hari');
+        return MasterJamKerja::untukPegawaiPadaTanggal($pegawai, $tanggal, $status);
+    }
 
-        $pilihJadwal = function (string $hari) use ($jadwals, $pegawai): ?MasterJamKerja {
-            $jadwalHari = $jadwals->get($hari, collect());
+    private function absensiShiftMalamYangBisaPulang(Pegawai $pegawai, Carbon $waktuSekarang): ?Absensi
+    {
+        $tanggalKemarin = $waktuSekarang->copy()->subDay();
+        $absensi = $pegawai->absensis()
+            ->whereDate('tanggal', $tanggalKemarin->toDateString())
+            ->where('status', 'shift_3')
+            ->whereNotNull('jam_masuk')
+            ->whereNull('jam_pulang')
+            ->first();
 
-            return $jadwalHari->firstWhere('jabatan_id', $pegawai->jabatan_id)
-                ?? $jadwalHari->firstWhere('jabatan_id', null);
-        };
+        if (! $absensi) {
+            return null;
+        }
 
-        return $pilihJadwal($namaHari[$tanggal->dayOfWeek])
-            ?? $pilihJadwal('Kerja');
+        $jadwal = $this->jadwalKerjaUntukTanggal($pegawai, $tanggalKemarin, 'shift_3');
+
+        return $jadwal
+            && $jadwal->isOvernight()
+            && $this->waktuDalamRentang($waktuSekarang, $jadwal->rentangAbsenPulang())
+                ? $absensi
+                : null;
+    }
+
+    private function attendanceScheduleOptions(
+        Pegawai $pegawai,
+        Carbon $tanggal,
+        Carbon $waktuSekarang,
+        bool $absensiMasukHariIni,
+        bool $absensiPulangHariIni
+    ): array {
+        $options = [];
+
+        foreach (['hadir', 'dinas_luar', 'izin', 'alpa', 'shift_1', 'shift_2', 'shift_3'] as $status) {
+            $jadwal = $this->jadwalKerjaUntukTanggal($pegawai, $tanggal, $status);
+            $rentangMasuk = $jadwal?->rentangAbsenMasuk();
+            $rentangPulang = $jadwal?->rentangAbsenPulang();
+
+            $options[$status] = [
+                'tersedia' => $jadwal !== null,
+                'jam_masuk' => $jadwal ? substr((string) $jadwal->jam_masuk, 0, 5) : null,
+                'jam_pulang' => $jadwal ? substr((string) $jadwal->jam_pulang, 0, 5) : null,
+                'rentang_masuk' => $rentangMasuk
+                    ? array_map(fn (Carbon $waktu) => $waktu->format('H:i'), $rentangMasuk)
+                    : null,
+                'rentang_pulang' => $rentangPulang
+                    ? array_map(fn (Carbon $waktu) => $waktu->format('H:i'), $rentangPulang)
+                    : null,
+                'bisa_masuk' => $rentangMasuk !== null
+                    && $this->waktuDalamRentang($waktuSekarang, $rentangMasuk)
+                    && ! $absensiMasukHariIni,
+                'bisa_pulang' => $rentangPulang !== null
+                    && $this->waktuDalamRentang($waktuSekarang, $rentangPulang)
+                    && $absensiMasukHariIni
+                    && ! $absensiPulangHariIni,
+            ];
+        }
+
+        return $options;
     }
 
     private function waktuDalamRentang(Carbon $waktuSekarang, array $rentang): bool
@@ -377,6 +466,14 @@ class AbsensiController extends Controller
         [$waktuBuka, $waktuTutup] = $rentang;
         $batasBuka = $waktuSekarang->copy()->setTimeFromTimeString($waktuBuka->format('H:i:s'));
         $batasTutup = $waktuSekarang->copy()->setTimeFromTimeString($waktuTutup->format('H:i:s'));
+
+        if ($batasTutup->lt($batasBuka)) {
+            if ($waktuSekarang->lte($batasTutup)) {
+                $batasBuka->subDay();
+            } else {
+                $batasTutup->addDay();
+            }
+        }
 
         return $waktuSekarang->greaterThanOrEqualTo($batasBuka)
             && $waktuSekarang->lessThanOrEqualTo($batasTutup);

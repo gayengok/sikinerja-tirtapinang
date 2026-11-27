@@ -1,1 +1,29 @@
-{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"name":"Geofencing Custom 6 Titik","description":"Area geofencing berdasarkan 6 titik batas","center_lat":-2.1466270903126414,"center_lng":106.10118835389181,"total_points":6},"geometry":{"type":"Polygon","coordinates":[[[106.100845,-2.146743],[106.101331,-2.146986],[106.101711,-2.146284],[106.101297,-2.14629],[106.101184,-2.146444],[106.101035,-2.146376],[106.100845,-2.146743]]]}}]}
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Geofencing Custom 6 Titik",
+                "description": "Area geofencing berdasarkan 6 titik batas",
+                "center_lat": -2.1466270903126414,
+                "center_lng": 106.10118835389181,
+                "total_points": 6
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [106.100845, -2.146743],
+                        [106.101331, -2.146986],
+                        [106.101711, -2.146284],
+                        [106.101297, -2.14629],
+                        [106.101184, -2.146444],
+                        [106.101035, -2.146376],
+                        [106.100845, -2.146743]
+                    ]
+                ]
+            }
+        }
+    ]
+}

@@ -9,6 +9,8 @@ use App\Models\Pegawai;
 use App\Models\PengajuanCuti;
 use App\Models\DetailPengajuanCuti;
 use App\Models\PersetujuanCuti;
+use App\Models\SkCuti;
+use App\Models\User;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
@@ -952,5 +954,343 @@ class KuotaCutiService
             }
             return $this->pelepasanReservasiPengajuan($pengajuanId, $ids, $persetujuanId, $userId);
         }, 3);
+    }
+
+    public function penggunaanKuotaPengajuan(int $pengajuanId, int $persetujuanId, int $skId, int $userId): array
+    {
+        if (DB::transactionLevel() === 0) {
+            throw new LogicException('Penggunaan kuota wajib berada dalam transaksi finalisasi cuti.');
+        }
+
+        return DB::transaction(function () use ($pengajuanId, $persetujuanId, $skId, $userId) {
+            $pengajuan = PengajuanCuti::query()->lockForUpdate()->findOrFail($pengajuanId);
+            $persetujuan = PersetujuanCuti::query()->lockForUpdate()->findOrFail($persetujuanId);
+            $sk = SkCuti::query()->lockForUpdate()->findOrFail($skId);
+            $aktor = User::query()->findOrFail($userId);
+
+            if (
+                $aktor->role !== 'direktur' || $persetujuan->role_approver !== 'direktur'
+                || !$persetujuan->isDisetujui() || (int) $persetujuan->pengajuan_cuti_id !== $pengajuanId
+                || (int) $persetujuan->approver->user_id !== $userId
+                || (int) $sk->pengajuan_cuti_id !== $pengajuanId
+                || (int) $sk->persetujuan_cuti_id !== $persetujuanId
+                || (int) $sk->diunggah_oleh !== $userId || !$sk->metadataLengkap() || !$sk->sudahDiterbitkan()
+            ) {
+                throw new LogicException('Persetujuan Direktur atau SK tidak valid.');
+            }
+
+            $surat = $sk->suratPermohonan()->lockForUpdate()->firstOrFail();
+            if ((int) $surat->pengajuan_cuti_id !== $pengajuanId || !$surat->isFinal() || !$surat->isLatest()) {
+                throw new LogicException('Surat permohonan final tidak sesuai.');
+            }
+
+            $tanggal = $persetujuan->tanggal_disetujui ?? [];
+            $tanggalSk = $sk->tanggal_disetujui_snapshot ?? [];
+            sort($tanggal);
+            sort($tanggalSk);
+            if (
+                !$tanggal || $tanggal !== $tanggalSk || count(array_unique($tanggal)) !== count($tanggal)
+                || count($tanggal) !== (int) $persetujuan->jumlah_hari_disetujui
+                || count($tanggal) !== (int) $sk->jumlah_hari_disetujui
+                || $tanggal[0] !== $sk->tanggal_mulai_cuti->toDateString()
+                || end($tanggal) !== $sk->tanggal_selesai_cuti->toDateString()
+            ) {
+                throw new LogicException('Tanggal persetujuan dan SK tidak sesuai.');
+            }
+
+            $details = DetailPengajuanCuti::query()->where('pengajuan_cuti_id', $pengajuanId)
+                ->orderBy('id')->lockForUpdate()->get();
+            $dipilih = $details->filter(fn($d) => in_array($d->tanggal->toDateString(), $tanggal, true));
+            if ($dipilih->count() !== count($tanggal) || $dipilih->contains(fn($d) => !$d->dihitung_kuota || $d->kuota_cuti_id === null)) {
+                throw new LogicException('Detail tanggal disetujui tidak lengkap.');
+            }
+            foreach ($details as $detail) {
+                if (!$dipilih->contains('id', $detail->id) && !$detail->isRejected() && !$detail->isExcluded()) {
+                    throw new LogicException('Masih terdapat tanggal yang belum diselesaikan.');
+                }
+            }
+
+            $hasil = [];
+            foreach ($dipilih->groupBy('kuota_cuti_id')->sortKeys() as $kuotaId => $daftar) {
+                $kuota = KuotaCuti::query()->lockForUpdate()->findOrFail($kuotaId);
+                $this->validasiKepemilikanKuota($kuota, $pengajuan);
+                $hari = $daftar->map(fn($d) => $d->tanggal->toDateString())->sort()->values()->all();
+                $ids = $daftar->pluck('id')->map(fn($id) => (int) $id)->sort()->values()->all();
+                $jumlah = count($ids);
+                $kode = $this->mutasiService->buatKodeMutasi(MutasiKuotaCuti::JENIS_PENGGUNAAN, $kuota->id, 'pengajuan-' . $pengajuanId);
+                $existing = MutasiKuotaCuti::query()->where('kode_mutasi', $kode)->lockForUpdate()->first();
+                if ($existing) {
+                    if (
+                        (int) $existing->pengajuan_cuti_id !== $pengajuanId || (int) $existing->persetujuan_cuti_id !== $persetujuanId
+                        || (int) $existing->jumlah_hari !== $jumlah || (int) ($existing->metadata['sk_id'] ?? 0) !== $skId
+                        || ($existing->metadata['tanggal'] ?? []) !== $hari || ($existing->metadata['detail_ids'] ?? []) !== $ids
+                        || $daftar->contains(fn($d) => !$d->isApproved()) || $this->jumlahReservasiPengajuan($kuota->id, $pengajuanId) !== 0
+                    ) {
+                        throw new LogicException('Riwayat penggunaan kuota tidak konsisten.');
+                    }
+                    $hasil[] = ['kuota_id' => $kuota->id, 'jumlah_hari' => $jumlah, 'sudah_tercatat' => true, 'saldo' => $kuota->snapshotSaldo()];
+                    continue;
+                }
+                if (
+                    $pengajuan->status !== PengajuanCuti::STATUS_PENDING_DIREKTUR
+                    || (int) $pengajuan->current_approver_id !== (int) $persetujuan->approver_id
+                    || $this->jumlahReservasiPengajuan($kuota->id, $pengajuanId) !== $jumlah
+                ) {
+                    throw new LogicException('Pengajuan atau saldo reservasi belum siap difinalisasi.');
+                }
+                $this->validasiPelepasanReservasi($kuota, $pengajuan, $daftar, $persetujuan);
+                $saldo = $kuota->snapshotSaldo();
+                $kuota->kuota_direservasi -= $jumlah;
+                $kuota->kuota_terpakai += $jumlah;
+                $kuota->save();
+                $this->mutasiService->catat(
+                    kuota: $kuota,
+                    jenisMutasi: MutasiKuotaCuti::JENIS_PENGGUNAAN,
+                    jumlahHari: $jumlah,
+                    saldoSebelum: $saldo,
+                    kodeMutasi: $kode,
+                    keterangan: "Penggunaan kuota pengajuan #{$pengajuanId}.",
+                    userId: $userId,
+                    pengajuanId: $pengajuanId,
+                    persetujuanId: $persetujuanId,
+                    metadata: ['sk_id' => $skId, 'detail_ids' => $ids, 'tanggal' => $hari, 'kode_periode' => $kuota->kode_periode]
+                );
+                foreach ($daftar as $detail) {
+                    $detail->update(['status' => DetailPengajuanCuti::STATUS_APPROVED, 'disetujui_pada' => now()]);
+                }
+                $hasil[] = ['kuota_id' => $kuota->id, 'jumlah_hari' => $jumlah, 'sudah_tercatat' => false, 'saldo' => $kuota->snapshotSaldo()];
+            }
+            $mutasis = MutasiKuotaCuti::query()->where('pengajuan_cuti_id', $pengajuanId)
+                ->where('jenis_mutasi', MutasiKuotaCuti::JENIS_RESERVASI)->orderBy('kuota_cuti_id')->lockForUpdate()->get();
+            foreach ($mutasis as $mutasi) {
+                if ($this->jumlahReservasiPengajuan($mutasi->kuota_cuti_id, $pengajuanId) !== 0) {
+                    throw new LogicException('Masih terdapat reservasi yang belum diselesaikan.');
+                }
+            }
+            return $hasil;
+        });
+    }
+
+    public function penambahanKuota(
+        int $kuotaId,
+        int $jumlahHari,
+        string $alasan,
+        string $referensi,
+        int $userId
+    ): array {
+        $alasan = trim($alasan);
+        $referensi = strtolower(trim($referensi));
+
+        if ($jumlahHari <= 0 || $jumlahHari > 2147483647) {
+            throw new InvalidArgumentException('Jumlah penambahan harus berupa bilangan bulat positif dalam batas penyimpanan.');
+        }
+        if ($alasan === '' || strlen($alasan) > 65535) {
+            throw new InvalidArgumentException('Alasan penambahan wajib diisi dan tidak boleh melebihi kapasitas penyimpanan.');
+        }
+        if (!Str::isUuid($referensi)) {
+            throw new InvalidArgumentException('Referensi transaksi harus berupa UUID yang valid.');
+        }
+
+        return DB::transaction(function () use ($kuotaId, $jumlahHari, $alasan, $referensi, $userId) {
+            $kuota = KuotaCuti::query()->lockForUpdate()->findOrFail($kuotaId);
+            $aktor = User::query()->lockForUpdate()->findOrFail($userId);
+            if ($aktor->role !== 'master') {
+                throw new LogicException('Penambahan kuota hanya dapat dilakukan oleh Master.');
+            }
+
+            $jenis = MutasiKuotaCuti::JENIS_PENYESUAIAN_TAMBAH;
+            $kode = $this->mutasiService->buatKodeMutasi($jenis, $kuotaId, $referensi);
+            $existing = MutasiKuotaCuti::query()->where('kode_mutasi', $kode)->lockForUpdate()->first();
+            $saldo = $kuota->snapshotSaldo();
+            $this->mutasiService->validasiSnapshot($saldo);
+
+            if ($existing) {
+                if (
+                    (int) $existing->kuota_cuti_id !== $kuotaId
+                    || $existing->jenis_mutasi !== $jenis
+                    || (int) $existing->jumlah_hari !== $jumlahHari
+                    || (int) $existing->user_id !== $userId
+                    || $existing->keterangan !== $alasan
+                    || ($existing->metadata['referensi'] ?? null) !== $referensi
+                ) {
+                    throw new LogicException('Referensi transaksi telah digunakan dengan data berbeda.');
+                }
+                return ['kuota_id' => $kuotaId, 'mutasi_id' => $existing->id, 'jumlah_hari' => $jumlahHari, 'sudah_tercatat' => true, 'saldo' => $saldo];
+            }
+
+            if (
+                !$kuota->is_active || $kuota->tanggal_mulai_periode->greaterThan(today())
+                || ($kuota->tanggal_akhir_periode !== null && $kuota->tanggal_akhir_periode->lessThan(today()))
+            ) {
+                throw new LogicException('Periode kuota tidak aktif atau tidak berlaku.');
+            }
+            if ($kuota->tanpa_batas) {
+                throw new LogicException('Kuota tanpa batas tidak dapat ditambah.');
+            }
+            if ($saldo['kuota_penyesuaian'] + $jumlahHari > 2147483647) {
+                throw new InvalidArgumentException('Kuota penyesuaian melebihi batas penyimpanan.');
+            }
+
+            $kuota->kuota_penyesuaian += $jumlahHari;
+            $kuota->save();
+            $mutasi = $this->mutasiService->catat(
+                kuota: $kuota,
+                jenisMutasi: $jenis,
+                jumlahHari: $jumlahHari,
+                saldoSebelum: $saldo,
+                kodeMutasi: $kode,
+                keterangan: $alasan,
+                userId: $userId,
+                metadata: ['referensi' => $referensi, 'kode_periode' => $kuota->kode_periode]
+            );
+
+            return ['kuota_id' => $kuotaId, 'mutasi_id' => $mutasi->id, 'jumlah_hari' => $jumlahHari, 'sudah_tercatat' => false, 'saldo' => $kuota->snapshotSaldo()];
+        }, 3);
+    }
+
+    public function penguranganKuota(
+        int $kuotaId,
+        int $jumlahHari,
+        string $alasan,
+        string $referensi,
+        int $userId
+    ): array {
+        $alasan = trim($alasan);
+        $referensi = strtolower(trim($referensi));
+
+        if ($jumlahHari <= 0 || $jumlahHari > 2147483647) {
+            throw new InvalidArgumentException('Jumlah pengurangan harus berupa bilangan bulat positif dalam batas penyimpanan.');
+        }
+        if ($alasan === '' || strlen($alasan) > 65535) {
+            throw new InvalidArgumentException('Alasan pengurangan wajib diisi dan tidak boleh melebihi kapasitas penyimpanan.');
+        }
+        if (!Str::isUuid($referensi)) {
+            throw new InvalidArgumentException('Referensi transaksi harus berupa UUID yang valid.');
+        }
+
+        return DB::transaction(function () use ($kuotaId, $jumlahHari, $alasan, $referensi, $userId) {
+            $kuota = KuotaCuti::query()->lockForUpdate()->findOrFail($kuotaId);
+            $aktor = User::query()->lockForUpdate()->findOrFail($userId);
+            if ($aktor->role !== 'master') {
+                throw new LogicException('Pengurangan kuota hanya dapat dilakukan oleh Master.');
+            }
+
+            $jenis = MutasiKuotaCuti::JENIS_PENYESUAIAN_KURANG;
+            $kode = $this->mutasiService->buatKodeMutasi($jenis, $kuotaId, $referensi);
+            $existing = MutasiKuotaCuti::query()->where('kode_mutasi', $kode)->lockForUpdate()->first();
+            $saldo = $kuota->snapshotSaldo();
+            $this->mutasiService->validasiSnapshot($saldo);
+
+            if ($existing) {
+                if (
+                    (int) $existing->kuota_cuti_id !== $kuotaId
+                    || $existing->jenis_mutasi !== $jenis
+                    || (int) $existing->jumlah_hari !== $jumlahHari
+                    || (int) $existing->user_id !== $userId
+                    || $existing->keterangan !== $alasan
+                    || ($existing->metadata['referensi'] ?? null) !== $referensi
+                ) {
+                    throw new LogicException('Referensi transaksi telah digunakan dengan data berbeda.');
+                }
+                return ['kuota_id' => $kuotaId, 'mutasi_id' => $existing->id, 'jumlah_hari' => $jumlahHari, 'sudah_tercatat' => true, 'saldo' => $saldo];
+            }
+
+            if (
+                !$kuota->is_active || $kuota->tanggal_mulai_periode->greaterThan(today())
+                || ($kuota->tanggal_akhir_periode !== null && $kuota->tanggal_akhir_periode->lessThan(today()))
+            ) {
+                throw new LogicException('Periode kuota tidak aktif atau tidak berlaku.');
+            }
+            if ($kuota->tanpa_batas) {
+                throw new LogicException('Kuota tanpa batas tidak dapat dikurangi.');
+            }
+            if ($jumlahHari > $saldo['sisa_kuota']) {
+                throw new LogicException('Jumlah pengurangan melebihi sisa kuota cuti.');
+            }
+            if ($saldo['kuota_penyesuaian'] - $jumlahHari < -2147483648) {
+                throw new InvalidArgumentException('Kuota penyesuaian melebihi batas penyimpanan.');
+            }
+
+            $kuota->kuota_penyesuaian -= $jumlahHari;
+            $kuota->save();
+            $mutasi = $this->mutasiService->catat(
+                kuota: $kuota,
+                jenisMutasi: $jenis,
+                jumlahHari: $jumlahHari,
+                saldoSebelum: $saldo,
+                kodeMutasi: $kode,
+                keterangan: $alasan,
+                userId: $userId,
+                metadata: ['referensi' => $referensi, 'kode_periode' => $kuota->kode_periode]
+            );
+
+            return ['kuota_id' => $kuotaId, 'mutasi_id' => $mutasi->id, 'jumlah_hari' => $jumlahHari, 'sudah_tercatat' => false, 'saldo' => $kuota->snapshotSaldo()];
+        }, 3);
+    }
+
+    public function tutupPeriodeKuota(int $kuotaId): array
+    {
+        return DB::transaction(function () use ($kuotaId) {
+            $kuota = KuotaCuti::query()->lockForUpdate()->findOrFail($kuotaId);
+            if ($kuota->tanpa_batas || $kuota->tanggal_akhir_periode === null || !$kuota->tanggal_akhir_periode->lessThan(today())) {
+                throw new LogicException('Periode kuota belum dapat ditutup.');
+            }
+            $saldo = $kuota->snapshotSaldo();
+            $this->mutasiService->validasiSnapshot($saldo);
+            if ($saldo['kuota_direservasi'] !== 0) {
+                throw new LogicException('Masih terdapat reservasi pada periode kuota.');
+            }
+            $jenis = MutasiKuotaCuti::JENIS_KEDALUWARSA;
+            $kode = $this->mutasiService->buatKodeMutasi($jenis, $kuotaId, 'penutupan-periode');
+            $existing = MutasiKuotaCuti::query()->where('kode_mutasi', $kode)->lockForUpdate()->first();
+            if ($existing && ($saldo['sisa_kuota'] !== 0 || $kuota->is_active)) {
+                throw new LogicException('Riwayat penutupan kuota tidak konsisten.');
+            }
+            $jumlah = $saldo['sisa_kuota'];
+            $sudah = !$kuota->is_active && $jumlah === 0;
+            if ($jumlah > 2147483648 || $saldo['kuota_hangus'] + $jumlah > 4294967295) {
+                throw new InvalidArgumentException('Kuota hangus melebihi batas penyimpanan.');
+            }
+            $mutasi = $existing;
+            if (!$sudah) {
+                $kuota->kuota_hangus += $jumlah;
+                $kuota->is_active = false;
+                $kuota->save();
+                if ($jumlah > 0) {
+                    $mutasi = $this->mutasiService->catat(
+                        kuota: $kuota,
+                        jenisMutasi: $jenis,
+                        jumlahHari: $jumlah,
+                        saldoSebelum: $saldo,
+                        kodeMutasi: $kode,
+                        keterangan: 'Penutupan periode kuota cuti.',
+                        metadata: ['kode_periode' => $kuota->kode_periode, 'tanggal_akhir_periode' => $kuota->tanggal_akhir_periode->toDateString()]
+                    );
+                }
+            }
+            return ['kuota_id' => $kuotaId, 'mutasi_id' => $mutasi?->id, 'jumlah_hari' => $mutasi?->jumlah_hari ?? 0, 'sudah_tercatat' => $sudah, 'saldo' => $kuota->snapshotSaldo()];
+        }, 3);
+    }
+
+    public function tutupKuotaKedaluwarsa(): array
+    {
+        $hasil = ['ditutup' => [], 'ditunda' => [], 'gagal' => []];
+        KuotaCuti::query()->whereNotNull('kuota_dasar')
+            ->whereDate('tanggal_akhir_periode', '<', today()->toDateString())
+            ->where(function ($query) {
+                $query->where('is_active', true)->orWhereRaw('CAST(kuota_dasar AS SIGNED) + CAST(kuota_akumulasi AS SIGNED) + kuota_penyesuaian > CAST(kuota_terpakai AS SIGNED) + CAST(kuota_direservasi AS SIGNED) + CAST(kuota_hangus AS SIGNED)')->orWhere('kuota_direservasi', '>', 0);
+            })->chunkById(100, function ($daftar) use (&$hasil) {
+                foreach ($daftar as $kuota) {
+                    try {
+                        $hasil['ditutup'][] = $this->tutupPeriodeKuota($kuota->id);
+                    } catch (LogicException $e) {
+                        $key = $e->getMessage() === 'Masih terdapat reservasi pada periode kuota.' ? 'ditunda' : 'gagal';
+                        $hasil[$key][] = ['kuota_id' => $kuota->id, 'alasan' => $e->getMessage()];
+                    } catch (\Exception $e) {
+                        $hasil['gagal'][] = ['kuota_id' => $kuota->id, 'alasan' => $e->getMessage()];
+                    }
+                }
+            });
+        return $hasil;
     }
 }
